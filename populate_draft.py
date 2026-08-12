@@ -57,11 +57,34 @@ def populate_draft(draft_path: str, slots: Dict[str, str], output_path: str):
     else:
         print(f"✓ Zero unfilled slots")
 
-    # Verify that only slots changed
-    original_no_slots = slot_pattern.sub("", original_content)
-    modified_no_slots = slot_pattern.sub("", content)
+    # Verify that only slots changed: walk the matches left-to-right and
+    # confirm every non-slot byte-span is identical between original and
+    # modified, and every slot span became exactly its substituted value
+    # (a plain regex-strip comparison is NOT sufficient here, since it
+    # compares "original with placeholders removed" against "modified with
+    # values already inserted" — two structurally different strings that
+    # can never match).
+    only_slots_changed = True
+    pos_orig = 0
+    pos_mod = 0
+    for match in slot_pattern.finditer(original_content):
+        before = original_content[pos_orig:match.start()]
+        if content[pos_mod:pos_mod + len(before)] != before:
+            only_slots_changed = False
+            break
+        pos_mod += len(before)
+        key = match.group(1).strip()
+        value = slots.get(key, match.group(0))
+        if content[pos_mod:pos_mod + len(value)] != value:
+            only_slots_changed = False
+            break
+        pos_mod += len(value)
+        pos_orig = match.end()
+    else:
+        tail = original_content[pos_orig:]
+        only_slots_changed = content[pos_mod:] == tail
 
-    if original_no_slots == modified_no_slots:
+    if only_slots_changed:
         print(f"✓ Diff shows only slot substitutions")
     else:
         print(f"⚠ Diff shows additional changes beyond slots")

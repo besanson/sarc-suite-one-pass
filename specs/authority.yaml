@@ -1,21 +1,39 @@
-# SARC Governance Specification for Retail Replenishment Demo
-# Apache License 2.0
+# Copyright 2026 SARC Suite Contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SARC governance spec, authored in the real sarc_governance YAML schema
+# (id / class / verif / response / predicate / description — see
+# sarc_governance.specs.load_spec). Predicate names below are registered in
+# composition.py via sarc_governance.predicates.register() BEFORE this file
+# is loaded; role/cap thresholds are per-decision data read out of
+# ctx["args"] at evaluation time, not baked into the spec.
 
 constraints:
   - id: role_authorised
-    description: "Acting role must be in allowlist"
-    predicates:
-      - name: allowed_role
-        args:
-          role: ${role}
-          allowed_roles: ${allowed_roles}
+    class: hard
+    verif: PAG
     response: block
+    predicate: role_unauthorised
+    description: >-
+      Block when the acting role is not in the per-decision allowed-roles
+      set (ctx.args.allowed_roles).
 
   - id: order_value_cap
-    description: "Order value must not exceed per-day cap"
-    predicates:
-      - name: value_within_cap
-        args:
-          value: ${order_value}
-          cap: ${order_value_cap}
+    class: escalation
+    verif: PAG
     response: escalate
+    predicate: order_value_over_cap
+    description: >-
+      Escalate when order_value exceeds the per-decision cap
+      (ctx.args.order_value_cap).

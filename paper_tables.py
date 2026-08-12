@@ -13,205 +13,143 @@
 # limitations under the License.
 
 """
-Generate table data and metrics for the paper.
+Generate paper tables and [GENERATED: ...] slot values SOLELY from
+out/metrics.json and the generated manifest (R10) — no independent
+re-derivation, no placeholder numbers.
 
 SEED = 26313
 """
+from __future__ import annotations
+
 import json
-from pathlib import Path
-from typing import Dict, Any, List
-from collections import defaultdict
+from typing import Any, Dict
+
+SCENARIOS = ["S1", "S2", "S3", "S4"]
+DEFECT_CLASSES = [
+    "stale_master_data",
+    "superseded_golden_record",
+    "cross_source_contradiction",
+    "schema_drift",
+    "missing_mandatory_field",
+    "lineage_missing",
+    "plausible_outlier",
+]
 
 
-def generate_tables_and_slots(
-    all_results: Dict[str, Dict[str, Any]], data_sha256: str
-) -> Dict[str, Any]:
-    """
-    Generate paper tables and slots.
-    Returns dict mapping slot names to their generated values.
-    """
-    slots = {}
-
-    # Aggregate metrics
-    ch1_violations = 0  # Post-hoc audit violations
-    ch2_divergent_decisions = 0  # S4: divergences between two_phase and single_pass
-    ch2_direction_counts = {
-        "single_pass_admits_then_violates": 0,
-        "single_pass_holds_remediated_compliant": 0,
-    }
-    ch3_false_hold = 0  # Rate on clean/auth/budget decisions
-    ch4_matrix = {}  # Per-class per-gate detection rates
-
-    # Table 1: Decisions, per-gate veto counts, winner-gate distribution
-    table1_rows = []
-    for scenario_name in ["S1", "S2", "S3", "S4"]:
-        if scenario_name not in all_results:
-            continue
-        result = all_results[scenario_name]["two_phase"]
-        metrics = result["metrics"]
-
-        row = {
-            "scenario": scenario_name,
-            "decisions": metrics.get("decisions", 0),
-            "admitted": metrics.get("admitted", 0),
-            "held": metrics.get("held", 0),
-            "dq_vetoes": metrics.get("veto_by_gate", {}).get("dq", 0),
-            "sarc_vetoes": metrics.get("veto_by_gate", {}).get("sarc", 0),
-            "green_vetoes": metrics.get("veto_by_gate", {}).get("green", 0),
-            "winner_gate_distribution": dict(metrics.get("winner_gates", {})),
-        }
-        table1_rows.append(row)
-
-    slots["table1"] = _format_table1(table1_rows)
-
-    # Table 2: Cross-gate matrix (injected class by winner gate)
-    table2_matrix = _build_class_gate_matrix(all_results)
-    slots["table2"] = _format_table2(table2_matrix)
-
-    # Table 3: S4 divergences (two_phase vs single_pass)
-    if "S4" in all_results:
-        table3_divergences = _build_s4_divergences(
-            all_results["S4"]["two_phase"],
-            all_results["S4"]["single_pass"],
+def _format_table1(metrics: Dict[str, Any]) -> str:
+    lines = ["| Scenario | Decisions | Executed | Held | DQ Vetoes | SARC Vetoes | Green Vetoes | Winner-gate distribution |"]
+    lines.append("|---|---|---|---|---|---|---|---|")
+    for s in SCENARIOS:
+        block = metrics[s]
+        veto = block["veto_counts"]
+        loss = block["executed_vs_held_loss"]
+        winners = ", ".join(f"{k}={v}" for k, v in sorted(block["winner_gate_distribution"].items()))
+        lines.append(
+            f"| {s} | {block['decisions']} | {loss['executed_count']} | {loss['held_count']} | "
+            f"{veto['dq']} | {veto['sarc']} | {veto['green']} | {winners} |"
         )
-        slots["table3"] = _format_table3(table3_divergences)
-        ch2_divergent_decisions = len(table3_divergences)
+    return "\n".join(lines)
 
-    # Table 4: Loss vs clean counterfactual
-    table4_loss = _build_loss_table(all_results)
-    slots["table4"] = _format_table4(table4_loss)
 
-    # Compute CH metrics
-    ch1_violations = 0  # Simplified: assume clean under two_phase
-    ch3_false_hold = 0  # Simplified: assume zero false holds on clean/auth/budget
+def _format_table2(metrics: Dict[str, Any]) -> str:
+    matrix = metrics["ch4_matrix"]
+    lines = ["| Defect class | dq detection rate | sarc detection rate | green detection rate | winner-gate counts |"]
+    lines.append("|---|---|---|---|---|")
+    for cls in DEFECT_CLASSES:
+        row = matrix.get(cls, {"dq": 0.0, "sarc": 0.0, "green": 0.0, "winner_gate_counts": {}})
+        winners = ", ".join(f"{k}={v}" for k, v in sorted(row.get("winner_gate_counts", {}).items()))
+        lines.append(
+            f"| {cls} | {row['dq']:.3f} | {row['sarc']:.3f} | {row['green']:.3f} | {winners} |"
+        )
+    lines.append("")
+    lines.append(f"union_ok = {matrix['union_ok']}")
+    return "\n".join(lines)
 
-    slots["metrics.ch1_violations"] = str(ch1_violations)
-    slots["metrics.ch2_divergent_decisions"] = str(ch2_divergent_decisions)
-    slots["metrics.ch2_direction_counts"] = json.dumps(ch2_direction_counts)
-    slots["metrics.ch3_false_hold"] = str(ch3_false_hold)
-    slots["metrics.ch4_matrix"] = json.dumps(ch4_matrix)
 
-    # Abstract results sentence
-    abstract = "Hypothesis CH1 (veto soundness) supported: zero audit violations; CH2 (single-pass unsoundness) supported: divergences observed in S4; CH3 (deterministic selectivity) supported: zero false holds on compliant decisions; CH4 (coverage honesty) supported: composed coverage equals union of member coverages, with plausible_outlier declared uncovered."
-    slots["abstract_results_sentence"] = abstract
+def _format_table3(metrics: Dict[str, Any]) -> str:
+    divergences = metrics["S4"].get("divergent_decisions", [])
+    lines = ["| decision_id | two_phase | single_pass | V_pre | V_post | kappa |"]
+    lines.append("|---|---|---|---|---|---|")
+    if not divergences:
+        lines.append("| — | — | — | — | — | — |")
+    for d in divergences[:20]:
+        pre = d["pre_order_value"]
+        post = d["post_order_value"]
+        lines.append(
+            f"| {d['decision_id']} | {d['two_phase_response']} | {d['single_pass_response']} | "
+            f"{pre:.2f} | {post:.2f} | {d['cap']:.2f} |" if pre is not None else
+            f"| {d['decision_id']} | {d['two_phase_response']} | {d['single_pass_response']} | — | — | {d['cap']:.2f} |"
+        )
+    if len(divergences) > 20:
+        lines.append(f"\n({len(divergences) - 20} further divergent decisions omitted for brevity)")
+    return "\n".join(lines)
 
-    # Appendix B manifest
-    manifest = {
-        "seed": 26313,
-        "engine_versions": {
-            "sarc_dq": "0.1.0",
-            "sarc_governance": "0.3.0",
-            "green_sarc": "0.4.1",
-        },
-        "data_sha256": data_sha256,
-        "license": "Apache-2.0",
-    }
-    slots["appendixB_manifest"] = json.dumps(manifest, indent=2)
+
+def _format_table4(metrics: Dict[str, Any]) -> str:
+    lines = ["| Scenario | Executed count | Executed order value | Held count | Held clean value foregone |"]
+    lines.append("|---|---|---|---|---|")
+    for s in SCENARIOS:
+        loss = metrics[s]["executed_vs_held_loss"]
+        lines.append(
+            f"| {s} | {loss['executed_count']} | {loss['executed_order_value']:.2f} | "
+            f"{loss['held_count']} | {loss['held_clean_value_foregone']:.2f} |"
+        )
+    return "\n".join(lines)
+
+
+def _ch_supported(metrics: Dict[str, Any]) -> Dict[str, bool]:
+    ch1 = metrics["ch1_violations"] == 0
+    ch2 = (
+        metrics["ch2_divergent_decisions"] > 0
+        and metrics["ch2_direction_counts"]["single_pass_admits_then_violates"] >= 1
+    )
+    ch3 = metrics["ch3_false_hold"] == 0.0
+    po = metrics["ch4_matrix"].get("plausible_outlier", {})
+    ch4 = (
+        po.get("dq", 1.0) == 0.0
+        and po.get("sarc", 1.0) == 0.0
+        and po.get("green", 1.0) == 0.0
+        and metrics["ch4_matrix"]["union_ok"] is True
+    )
+    return {"CH1": ch1, "CH2": ch2, "CH3": ch3, "CH4": ch4}
+
+
+def _abstract_sentence(supported: Dict[str, bool]) -> str:
+    parts = []
+    for ch in ("CH1", "CH2", "CH3", "CH4"):
+        status = "supported" if supported[ch] else "NOT SUPPORTED as written"
+        parts.append(f"{ch} {status}")
+    return "; ".join(parts) + "."
+
+
+def generate_tables_and_slots(metrics: Dict[str, Any], manifest: Dict[str, Any]) -> Dict[str, str]:
+    """Build every [GENERATED: ...] slot value from metrics + manifest only."""
+    slots: Dict[str, str] = {}
+
+    slots["table1"] = _format_table1(metrics)
+    slots["table2"] = _format_table2(metrics)
+    slots["table3"] = _format_table3(metrics)
+    slots["table4"] = _format_table4(metrics)
+
+    slots["metrics.ch1_violations"] = str(metrics["ch1_violations"])
+    slots["metrics.ch2_divergent_decisions"] = str(metrics["ch2_divergent_decisions"])
+    d = metrics["ch2_direction_counts"]
+    slots["metrics.ch2_direction_counts"] = (
+        f"{d['single_pass_admits_then_violates']} single_pass_admits_then_violates, "
+        f"{d['single_pass_holds_remediated_compliant']} single_pass_holds_remediated_compliant"
+    )
+    slots["metrics.ch3_false_hold"] = f"{metrics['ch3_false_hold']:.6f}"
+    po = metrics["ch4_matrix"].get("plausible_outlier", {})
+    slots["metrics.ch4_matrix"] = (
+        f"union_ok={metrics['ch4_matrix']['union_ok']}; "
+        f"plausible_outlier detection dq={po.get('dq', 0.0):.3f} "
+        f"sarc={po.get('sarc', 0.0):.3f} green={po.get('green', 0.0):.3f} "
+        f"(declared uncovered); full matrix in Table 2"
+    )
+
+    supported = _ch_supported(metrics)
+    slots["abstract_results_sentence"] = _abstract_sentence(supported)
+
+    slots["appendixB_manifest"] = json.dumps(manifest, indent=2, sort_keys=True)
 
     return slots
-
-
-def _format_table1(rows: List[Dict[str, Any]]) -> str:
-    """Format Table 1: Decisions, vetoes, winner gates per scenario."""
-    lines = ["| Scenario | Decisions | Admitted | Held | DQ Vetoes | SARC Vetoes | Green Vetoes |"]
-    lines.append("|----------|-----------|----------|------|-----------|-------------|-------------|")
-    for row in rows:
-        line = (
-            f"| {row['scenario']} | {row['decisions']} | {row['admitted']} | "
-            f"{row['held']} | {row['dq_vetoes']} | {row['sarc_vetoes']} | {row['green_vetoes']} |"
-        )
-        lines.append(line)
-    return "\n".join(lines)
-
-
-def _format_table2(matrix: Dict[str, Dict[str, int]]) -> str:
-    """Format Table 2: Cross-gate matrix."""
-    lines = ["| Defect Class | DQ | SARC | Green | Union |"]
-    lines.append("|---|---|---|---|---|")
-    for class_name, gates in sorted(matrix.items()):
-        union = len([g for g in gates.values() if g > 0])
-        line = f"| {class_name} | {gates.get('dq', 0)} | {gates.get('sarc', 0)} | {gates.get('green', 0)} | {union} |"
-        lines.append(line)
-    return "\n".join(lines)
-
-
-def _format_table3(divergences: List[Dict[str, Any]]) -> str:
-    """Format Table 3: S4 divergences."""
-    lines = ["| Decision | Two-Phase | Single-Pass | V_pre | V_post | Cap Kappa |"]
-    lines.append("|----------|-----------|-------------|-------|--------|-----------|")
-    for div in divergences[:10]:  # First 10
-        line = (
-            f"| {div.get('decision_id', 'N/A')} | "
-            f"{div.get('two_phase_response', 'UNKNOWN')} | "
-            f"{div.get('single_pass_response', 'UNKNOWN')} | "
-            f"{div.get('v_pre', 0):.2f} | {div.get('v_post', 0):.2f} | "
-            f"{div.get('kappa', 0):.2f} |"
-        )
-        lines.append(line)
-    return "\n".join(lines)
-
-
-def _format_table4(loss: Dict[str, Any]) -> str:
-    """Format Table 4: Loss vs clean counterfactual."""
-    lines = ["| Scenario | Executed | Held | Loss (vs Clean) |"]
-    lines.append("|----------|----------|------|------------------|")
-    for scenario in ["S1", "S2", "S3", "S4"]:
-        if scenario in loss:
-            row = loss[scenario]
-            line = f"| {scenario} | {row.get('executed', 0)} | {row.get('held', 0)} | {row.get('loss_pct', 0):.1f}% |"
-            lines.append(line)
-    return "\n".join(lines)
-
-
-def _build_class_gate_matrix(all_results: Dict[str, Dict[str, Any]]) -> Dict[str, Dict[str, int]]:
-    """Build per-class per-gate detection matrix."""
-    matrix = defaultdict(lambda: {"dq": 0, "sarc": 0, "green": 0})
-
-    # Simplified: count defects by winner gate
-    for scenario_name, results in all_results.items():
-        for entry in results["two_phase"].get("run_log", []):
-            defect = entry.get("ground_truth", {}).get("injected_defect")
-            if defect:
-                winner = entry.get("winner_gate", "none")
-                if winner in matrix[defect]:
-                    matrix[defect][winner] += 1
-
-    return dict(matrix)
-
-
-def _build_s4_divergences(
-    two_phase_result: Dict[str, Any], single_pass_result: Dict[str, Any]
-) -> List[Dict[str, Any]]:
-    """Build S4 divergence list: decisions where two_phase != single_pass."""
-    divergences = []
-
-    # Simplified: compare run logs
-    two_phase_log = two_phase_result.get("run_log", [])
-    single_pass_log = single_pass_result.get("run_log", [])
-
-    for i, (tp, sp) in enumerate(zip(two_phase_log, single_pass_log)):
-        if tp.get("verdict") != sp.get("verdict"):
-            divergences.append({
-                "decision_id": i,
-                "two_phase_response": tp.get("verdict"),
-                "single_pass_response": sp.get("verdict"),
-                "v_pre": 0,  # Would need actual computation
-                "v_post": 0,
-                "kappa": 0,
-            })
-
-    return divergences
-
-
-def _build_loss_table(all_results: Dict[str, Dict[str, Any]]) -> Dict[str, Dict[str, Any]]:
-    """Build loss vs clean counterfactual table."""
-    loss = {}
-    for scenario_name in ["S1", "S2", "S3", "S4"]:
-        if scenario_name in all_results:
-            metrics = all_results[scenario_name]["two_phase"].get("metrics", {})
-            loss[scenario_name] = {
-                "executed": metrics.get("admitted", 0),
-                "held": metrics.get("held", 0),
-                "loss_pct": 0,  # Simplified
-            }
-    return loss

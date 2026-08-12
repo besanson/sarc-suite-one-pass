@@ -18,36 +18,66 @@ The composition demonstrates:
 3. **Unified Evidence Set** per decision preserving cross-gate lineage
 4. **Declared-uncovered coverage**: plausible_outlier is injected and remains uncovered
 
+## Architecture: real engines, not a simulation of them
+
+This artifact does not reimplement gate logic. It imports and calls the
+three published packages directly:
+
+- **Evidence gate**: `sarc_dq.gate.PreActionGate` + `sarc_dq.dq_spec.load_spec()`
+  (the packaged default `dq_predicates.yaml`) evaluate real
+  `sarc_dq.records.EvidenceRecord` / `RecordMetadata` objects. Freshness,
+  schema, completeness, cross-source, and golden-record checks are the
+  engine's own predicates — this repo contains none of that logic.
+- **Authority gate**: a `sarc_governance.ConstraintSpec` loaded from
+  `specs/authority.yaml` via `sarc_governance.load_spec`, with two custom
+  predicates (`role_unauthorised`, `order_value_over_cap`) registered into
+  the engine's own predicate registry. Evaluation walks
+  `ConstraintSpec.at(EnforcementPoint.PAG)` and calls each
+  `Constraint.predicate(ctx)` — the same loop
+  `GovernanceToolset.call_tool` runs internally at PAG.
+- **Resource gate**: `green_sarc.PreActionGate` + `ColdStartEstimator`
+  against a per-SKU `TableCostModel` / `TableCarbonModel`, so predicted
+  cost and carbon are computed by the engine's own
+  `carbon_for_tokens()` pipeline, not by this repo.
+
+See `ADR-001-composition.md` for the exact field mappings and the
+rationale for every place this repo had to adapt to the engines' real
+APIs (declared explicitly — nothing here silently reimplements a gate).
+
 ## Running the Demo
 
 ### Prerequisites
+
+Clone the three engines as siblings of this repo (see Step 0), then:
 ```bash
-python3 --version              # need 3.11+
-pip install -e ./dqSarc[gate]
-pip install -e ./sarc-governance
-pip install -e ./Greensarc
+python3 --version                      # need 3.11+
+pip install -e "../dqSarc[gate]"
+pip install -e ../sarc-governance
+pip install -e ../Greensarc
 pip install pytest
 ```
 
 ### Build and Test
 ```bash
-make test      # Run 11-test suite (all must pass)
-make suite     # Run all four scenarios S1-S4 in both modes (~20 seconds)
+make test      # Run the test suite (all must pass)
+make suite     # Run all four scenarios S1-S4 in both modes (~15-20 seconds)
 make paper     # Generate paper draft v0.2 with filled slots
 make clean     # Remove outputs
 ```
 
 ## Files
 
-- **suite_sim.py**: Main simulation engine (decision stream, defect injection)
-- **composition.py**: Three-gate orchestration (two-phase and single-pass protocols)
-- **runner.py**: Scenario runner (S1-S4 configurations)
-- **paper_tables.py**: Generate table data for paper
-- **populate_draft.py**: Fill paper draft template with generated numbers
-- **specs/authority.yaml**: SARC governance specification
-- **test_suite_sim.py**: Comprehensive test suite
+- **suite_sim.py**: decision stream, economics, and the declared per-class defect injector (builds real `EvidenceRecord`/`RecordMetadata` objects)
+- **composition.py**: three-gate orchestration composing the real engines (two-phase and single-pass protocols); no gate-internal defect logic
+- **runner.py**: scenario runner (S1-S4 configurations), post-hoc audit, `out/` writer
+- **metrics.py**: aggregates CH1-CH4 from the actual recorded gate decisions
+- **manifest.py**: generated artifact manifest (`importlib.metadata` + `git rev-parse` + data sha256 + licences — nothing hard-coded)
+- **paper_tables.py**: builds every `[GENERATED: ...]` slot solely from `out/metrics.json` + the manifest
+- **populate_draft.py**: fills the paper draft template, verifying only slot spans changed
+- **specs/authority.yaml**: sarc-governance constraint spec (real YAML schema: id/class/verif/response/predicate)
+- **test_suite_sim.py**: test suite, including the anti-mock tripwires
 - **data/**: UCI Online Retail dataset (CC BY 4.0)
-- **out/**: Output artifacts (evidence sets, metrics, paper)
+- **out/**: output artifacts (evidence sets, run logs, metrics, paper)
 
 ## Data
 
@@ -106,18 +136,19 @@ make clean     # Remove outputs
 
 ## Definition of Done
 
-✓ `make test` green (all 11 tests)
-✓ `make suite` completes <20s, prints scenario summaries
-✓ `make paper` produces v0.2 with zero unfilled slots
-✓ Honesty banners verbatim in README, readouts, populated draft
-✓ ADR-001-composition.md written
-✓ Apache-2.0 headers on all new files
-✓ Three repos untouched (`git status --porcelain` empty)
+✓ `make test` green
+✓ `make suite` completes in under about 20s, prints scenario summaries and the CH1-CH4 line
+✓ `make paper` produces v0.2 with zero unfilled slots, sourced solely from `out/metrics.json` and the generated manifest
+✓ Honesty banners verbatim in README, readouts, and the populated draft's Appendix B
+✓ ADR-001-composition.md written, including the Repair section
+✓ Apache-2.0 headers on all new files; LICENSE at repo root
+✓ Three engine repos untouched (`git -C <repo> status --porcelain` empty)
+✓ `composition.py` contains no gate-internal defect logic (verified by test)
 ✓ Final console lists all artifact paths
 
 ## License
 
-Apache License 2.0
+Apache License 2.0 — see LICENSE.
 
 All new files: Apache-2.0 headers present
 Data: CC BY 4.0 (UCI Online Retail)

@@ -1,46 +1,4 @@
-# Copyright 2026 SARC Suite Contributors
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-"""
-SARC Suite One-Pass Demo: paper generation (`make paper`).
-
-Reads out/metrics.json — written by `make suite` (runner.py) — as the sole
-source of generated numbers, per R10. Writes the v0.1 draft verbatim from
-the embedded PART 2 text, then populates v0.2 from metrics.json + the
-generated manifest only. Never edits the draft's prose.
-
-SEED = 26313
-"""
-from __future__ import annotations
-
-import json
-from pathlib import Path
-
-from manifest import build_manifest
-from paper_tables import generate_tables_and_slots
-from populate_draft import populate_draft
-
-HONESTY_BANNER = (
-    "Mechanism demonstration on open payload data with a declared synthetic "
-    "metadata layer. Not a live GIGO-Bench release; live cells come only from "
-    "the official harness. Not the proprietary Suite: no connectors, evidence "
-    "vault, identity, or hosting. plausible_outlier is injected and not "
-    "caught, by design: declared uncovered. S4 is a constructed "
-    "counterexample scenario, declared as such."
-)
-
-PAPER_DRAFT_TEXT = """# One Gate Is Not Enough: Non-Compensatory Composition of Pre-Action Controls for Agentic AI
+# One Gate Is Not Enough: Non-Compensatory Composition of Pre-Action Controls for Agentic AI
 
 Gaston Besanson (sole author at draft time; co-author or credited independent reviewer slot open)
 
@@ -48,7 +6,7 @@ Companion artifact: suite-demo (open data, deterministic, Apache 2.0).
 
 ## Abstract
 
-Agentic AI systems take consequential actions governed by more than one concern at once: is the agent permitted to act, can the organisation afford the action, and is the evidence behind it valid. Prior work treats these as separate pre-action gates: SARC for obligations and permissions (arXiv 2605.07728), Green SARC for predictive cost and carbon budgets (arXiv 2606.15954), and SARC-DQ for metadata-borne evidence validity (arXiv 2607.26313). This paper studies what none of them answers: the semantics of all three judging the same action at the same instant. We show that (i) any strictly compensatory aggregation of gate outcomes admits actions a member gate vetoed, so sound composition must be non-compensatory; (ii) naive single-pass composition is unsound under remediation, because evidence-gate substitution changes the very action the authority and resource gates judged, and a two-phase protocol restores soundness and terminates after one remediation by idempotence; (iii) the composed plane can emit one unified Evidence Set per action preserving full lineage across gates; and (iv) composition adds no coverage: classes no member gate covers remain uncovered, reported as a feature. Empirically, on a deterministic open-data artifact composing the three published engines unmodified: [GENERATED: abstract_results_sentence]
+Agentic AI systems take consequential actions governed by more than one concern at once: is the agent permitted to act, can the organisation afford the action, and is the evidence behind it valid. Prior work treats these as separate pre-action gates: SARC for obligations and permissions (arXiv 2605.07728), Green SARC for predictive cost and carbon budgets (arXiv 2606.15954), and SARC-DQ for metadata-borne evidence validity (arXiv 2607.26313). This paper studies what none of them answers: the semantics of all three judging the same action at the same instant. We show that (i) any strictly compensatory aggregation of gate outcomes admits actions a member gate vetoed, so sound composition must be non-compensatory; (ii) naive single-pass composition is unsound under remediation, because evidence-gate substitution changes the very action the authority and resource gates judged, and a two-phase protocol restores soundness and terminates after one remediation by idempotence; (iii) the composed plane can emit one unified Evidence Set per action preserving full lineage across gates; and (iv) composition adds no coverage: classes no member gate covers remain uncovered, reported as a feature. Empirically, on a deterministic open-data artifact composing the three published engines unmodified: CH1 supported; CH2 supported; CH3 supported; CH4 supported.
 
 ## 1. Introduction
 
@@ -108,18 +66,61 @@ Artifact: suite-demo composes the three published engines, installed unmodified 
 
 Hypotheses, stated before the artifact ran:
 
-- CH1 (veto soundness). Post-hoc audit finds zero executed actions violating any gate at execution time under the two-phase protocol. Result: [GENERATED: metrics.ch1_violations]
-- CH2 (single-pass unsoundness is real). In S4, single-pass and two-phase verdicts differ on at least one decision, in the predicted direction. Result: [GENERATED: metrics.ch2_divergent_decisions] divergences; directions [GENERATED: metrics.ch2_direction_counts]
-- CH3 (deterministic selectivity). False-hold rate on clean, authorised, in-budget decisions is exactly zero. Result: [GENERATED: metrics.ch3_false_hold]
-- CH4 (coverage honesty). plausible_outlier detection is zero at every gate and in composition; covered-class detection equals the union of member coverages. Result: [GENERATED: metrics.ch4_matrix]
+- CH1 (veto soundness). Post-hoc audit finds zero executed actions violating any gate at execution time under the two-phase protocol. Result: 0
+- CH2 (single-pass unsoundness is real). In S4, single-pass and two-phase verdicts differ on at least one decision, in the predicted direction. Result: 383 divergences; directions 214 single_pass_admits_then_violates, 0 single_pass_holds_remediated_compliant
+- CH3 (deterministic selectivity). False-hold rate on clean, authorised, in-budget decisions is exactly zero. Result: 0.000000
+- CH4 (coverage honesty). plausible_outlier detection is zero at every gate and in composition; covered-class detection equals the union of member coverages. Result: union_ok=True; plausible_outlier detection dq=0.000 sarc=0.000 green=0.000 (declared uncovered); full matrix in Table 2
 
-Table 1. Decisions, per-gate veto counts, winner-gate distribution, by scenario. [GENERATED: table1]
+Table 1. Decisions, per-gate veto counts, winner-gate distribution, by scenario. | Scenario | Decisions | Executed | Held | DQ Vetoes | SARC Vetoes | Green Vetoes | Winner-gate distribution |
+|---|---|---|---|---|---|---|---|
+| S1 | 10164 | 9601 | 563 | 563 | 0 | 0 | dq=563, none=9601 |
+| S2 | 10164 | 3464 | 6700 | 563 | 0 | 6477 | dq=432, green=6268, none=3464 |
+| S3 | 10164 | 4527 | 5637 | 561 | 5366 | 0 | dq=551, none=4527, sarc=5086 |
+| S4 | 10164 | 9387 | 777 | 563 | 214 | 0 | dq=563, none=9387, sarc=214 |
 
-Table 2. Cross-gate matrix: injected class by winner gate. [GENERATED: table2]
+Table 2. Cross-gate matrix: injected class by winner gate. | Defect class | dq detection rate | sarc detection rate | green detection rate | winner-gate counts |
+|---|---|---|---|---|
+| stale_master_data | 1.000 | 0.000 | 0.000 | none=212 |
+| superseded_golden_record | 1.000 | 0.000 | 0.000 | none=171 |
+| cross_source_contradiction | 1.000 | 0.000 | 0.000 | dq=213 |
+| schema_drift | 1.000 | 0.000 | 0.000 | dq=195 |
+| missing_mandatory_field | 1.000 | 0.000 | 0.000 | dq=155 |
+| lineage_missing | 0.000 | 0.000 | 0.000 | none=184 |
+| plausible_outlier | 0.000 | 0.000 | 0.000 | none=181 |
 
-Table 3. Two-phase versus single-pass divergences in S4, with pre and post order values and the cap. [GENERATED: table3]
+union_ok = True
 
-Table 4. Loss versus clean counterfactual, executed versus held split. [GENERATED: table4]
+Table 3. Two-phase versus single-pass divergences in S4, with pre and post order values and the cap. | decision_id | two_phase | single_pass | V_pre | V_post | kappa |
+|---|---|---|---|---|---|
+| 52 | admit | substitute | 30.09 | 30.09 | 30.09 |
+| 75 | admit | substitute | 53.55 | 53.55 | 53.55 |
+| 83 | admit | substitute | 41.31 | 41.31 | 41.31 |
+| 90 | admit | substitute | 70.80 | 70.80 | 70.80 |
+| 121 | escalate | substitute | 62.61 | 72.00 | 67.31 |
+| 154 | escalate | substitute | 28.45 | 33.75 | 31.10 |
+| 209 | escalate | substitute | 18.39 | 28.32 | 23.36 |
+| 218 | admit | substitute | 124.80 | 124.80 | 124.80 |
+| 221 | escalate | substitute | 13.03 | 21.42 | 17.23 |
+| 262 | admit | substitute | 53.55 | 53.55 | 53.55 |
+| 282 | admit | substitute | 41.58 | 41.58 | 41.58 |
+| 307 | admit | substitute | 70.80 | 70.80 | 70.80 |
+| 310 | admit | substitute | 31.86 | 31.86 | 31.86 |
+| 325 | admit | substitute | 5.70 | 5.70 | 5.70 |
+| 350 | admit | substitute | 51.00 | 51.00 | 51.00 |
+| 370 | admit | substitute | 6.63 | 6.63 | 6.63 |
+| 409 | admit | substitute | 51.17 | 51.17 | 51.17 |
+| 421 | admit | substitute | 30.09 | 30.09 | 30.09 |
+| 465 | escalate | substitute | 124.53 | 148.50 | 136.51 |
+| 481 | admit | substitute | 62.40 | 62.40 | 62.40 |
+
+(363 further divergent decisions omitted for brevity)
+
+Table 4. Loss versus clean counterfactual, executed versus held split. | Scenario | Executed count | Executed order value | Held count | Held clean value foregone |
+|---|---|---|---|---|
+| S1 | 9601 | 741037.49 | 563 | 41294.83 |
+| S2 | 3464 | 106310.03 | 6700 | 654041.33 |
+| S3 | 4527 | 143573.71 | 5637 | 616921.57 |
+| S4 | 9387 | 724181.64 | 777 | 57617.29 |
 
 Negative-results commitment. Any CH not supported as written is reported as NOT SUPPORTED as written, following the practice of the prior papers.
 
@@ -152,68 +153,25 @@ Synthetic metadata layer over open payloads; declared injection rates; no preval
 
 ## Appendix A. Proofs. [TODO: full versions of Propositions 1, 3, 4.]
 
-## Appendix B. Artifact manifest. [GENERATED: appendixB_manifest]
-"""
-
-
-def main():
-    print("=" * 70)
-    print("SARC SUITE ONE-PASS DEMO: paper generation")
-    print("=" * 70)
-
-    metrics_path = Path("out/metrics.json")
-    if not metrics_path.exists():
-        raise SystemExit("out/metrics.json not found — run `make suite` first.")
-    metrics = json.loads(metrics_path.read_text())
-
-    manifest = build_manifest(
-        data_sha256=hashlib_sha256("data/open_retail_daily.csv"),
-        seed=26313,
-    )
-
-    slots = generate_tables_and_slots(metrics, manifest)
-
-    print("\n[1] Writing v0.1 draft verbatim from PART 2...")
-    draft_path = Path("paper4-composition-draft-v0.1.md")
-    draft_path.write_text(PAPER_DRAFT_TEXT)
-    print(f"  wrote {draft_path}")
-
-    print("\n[2] Writing paper tables...")
-    paper_dir = Path("out/paper")
-    paper_dir.mkdir(parents=True, exist_ok=True)
-    for key in ("table1", "table2", "table3", "table4"):
-        table_file = paper_dir / f"{key}.md"
-        table_file.write_text(slots[key])
-        print(f"  wrote {table_file}")
-    slots_file = paper_dir / "slots.json"
-    slots_file.write_text(json.dumps(slots, indent=2))
-    print(f"  wrote {slots_file}")
-
-    print("\n[3] Populating v0.2 draft...")
-    output_draft = Path("paper4-composition-draft-v0.2-populated.md")
-    unfilled = populate_draft(str(draft_path), slots, str(output_draft))
-
-    print("\n" + "=" * 70)
-    print("HONESTY BANNER")
-    print("=" * 70)
-    print(HONESTY_BANNER)
-
-    print("\n" + "=" * 70)
-    print("ARTIFACT PATHS")
-    print("=" * 70)
-    for p in (draft_path, output_draft, metrics_path, slots_file):
-        print(f"  {p}")
-
-    if unfilled:
-        raise SystemExit(f"paper generation FAILED: unfilled slots {unfilled}")
-    print("\nmake paper: zero unfilled slots.")
-
-
-def hashlib_sha256(path: str) -> str:
-    import hashlib
-    with open(path, "rb") as f:
-        return hashlib.sha256(f.read()).hexdigest()
-
-
-if __name__ == "__main__":
-    main()
+## Appendix B. Artifact manifest. {
+  "artifact_license": "Apache-2.0",
+  "data_sha256": "4f637bc36ba5cffb56c31cd2b8273a135f89cc65448b28929ee71e73ded8f1d9",
+  "engines": {
+    "green-sarc": {
+      "commit": "8482226b461ccbf91971f90ea6de42cd7a931e5c",
+      "license": "Apache-2.0",
+      "version": "0.4.1"
+    },
+    "sarc-dq": {
+      "commit": "db6c396128a4df7fe12d13be163b1e7d32087177",
+      "license": "Apache-2.0",
+      "version": "0.1.0"
+    },
+    "sarc-governance": {
+      "commit": "74df5de29a305a76bf3cc97a185ece2f11b1b833",
+      "license": "Apache-2.0",
+      "version": "0.3.0"
+    }
+  },
+  "seed": 26313
+}

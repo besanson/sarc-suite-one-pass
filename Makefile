@@ -22,9 +22,9 @@ clean:
 	@echo "Cleaning up outputs..."
 	rm -rf out/
 	rm -f paper4-composition-draft-v*.md
+	rm -rf .pytest_cache
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
 	find . -type f -name "*.pyc" -delete
-	find . -type f -name ".pytest_cache" -delete
 
 help:
 	@echo "SARC Suite One-Pass Demo"
@@ -32,7 +32,7 @@ help:
 	@echo "Targets:"
 	@echo "  make suite     Run all scenarios (S1-S4) in both modes"
 	@echo "  make paper     Generate paper tables and populate draft"
-	@echo "  make test      Run 11-test suite"
+	@echo "  make test      Run the test suite"
 	@echo "  make clean     Remove all outputs"
 	@echo "  make all       suite + paper + test (default)"
 	@echo ""
