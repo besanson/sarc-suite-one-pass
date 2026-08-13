@@ -79,6 +79,14 @@ def test_cite_needed_placeholders_are_counted_not_fabricated(tmp_path):
     assert result["cite_needed_placeholder_count"] == 2
 
 
+def test_verified_citations_file_has_url_title_author_year():
+    from citation_check import verify_whitelist_schema
+
+    result = verify_whitelist_schema()
+    assert result["clean"] is True
+    assert result["total"] == 4
+
+
 def test_clean_paper_with_no_citations_at_all(tmp_path):
     paper = tmp_path / "p.md"
     paper.write_text("No citations here at all.")

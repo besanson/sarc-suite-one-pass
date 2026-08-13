@@ -1,0 +1,41 @@
+{
+  "_schema_note": "V4 gate (task spec): a citation may enter the paper only after it is verified by fetching its source page and recording url, title, first_author, year here. arxiv_id/doi are the machine-checkable tokens citation_check.py matches against paper text; verified_via records how/when the fetch was done.",
+  "citations": [
+    {
+      "id": "sarc",
+      "arxiv_id": "2605.07728",
+      "url": "https://arxiv.org/abs/2605.07728",
+      "title": "SARC: A Governance-by-Architecture Framework for Agentic AI Systems",
+      "first_author": "Gaston Besanson",
+      "year": 2026,
+      "verified_via": "WebFetch of https://arxiv.org/abs/2605.07728, 2026-08-13"
+    },
+    {
+      "id": "green-sarc",
+      "arxiv_id": "2606.15954",
+      "url": "https://arxiv.org/abs/2606.15954",
+      "title": "Green SARC: Predictive Cost and Carbon Governance for Agentic AI Systems",
+      "first_author": "Gaston Besanson",
+      "year": 2026,
+      "verified_via": "WebFetch of https://arxiv.org/abs/2606.15954, 2026-08-13"
+    },
+    {
+      "id": "sarc-dq",
+      "arxiv_id": "2607.26313",
+      "url": "https://arxiv.org/abs/2607.26313",
+      "title": "SARC-DQ: Runtime Data-Quality Gating for Agentic AI: Silent Evidence Defects, the Incompetence Shield, and Downstream-Only Remediation",
+      "first_author": "Gaston Besanson",
+      "year": 2026,
+      "verified_via": "WebFetch of https://arxiv.org/abs/2607.26313, 2026-08-13"
+    },
+    {
+      "id": "uci-online-retail",
+      "doi": "10.24432/C5BW33",
+      "url": "https://archive.ics.uci.edu/dataset/352/online+retail",
+      "title": "Online Retail",
+      "first_author": "Daqing Chen",
+      "year": 2015,
+      "verified_via": "WebFetch of https://archive.ics.uci.edu/dataset/352/online+retail, 2026-08-13"
+    }
+  ]
+}

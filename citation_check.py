@@ -15,13 +15,20 @@
 """
 V4 gate: citation verification.
 
-Every citation-shaped token (an arXiv ID or a DOI) appearing in a paper
-draft must already be in the verified whitelist (citations.json) -- this
-pipeline never fabricates a citation to fill a gap. A literature claim
-this artifact cannot yet back with a verified source stays an honest
-`[CITE: ...]` placeholder (Section 9's stubs, unchanged from v0.1) and is
+Per the task spec: "a citation may enter the paper only after it is
+verified by fetching its source page and recording url, title, first
+author, year into verified-citations.json." verified-citations.json
+holds exactly that record for each of this artifact's four citations
+(fetched live via WebFetch against arxiv.org / archive.ics.uci.edu, see
+each entry's verified_via field) -- this pipeline never fabricates a
+citation to fill a gap. A literature claim this artifact cannot yet back
+with a verified source stays an honest `[CITE: ...]` placeholder
+(Section 10's stubs, unchanged in spirit from v0.1's Section 9) and is
 counted, not invented -- the count is one of the numbers Phase 6 prints
 in the human release checklist.
+
+Every citation-shaped token (an arXiv ID or a DOI) appearing in a paper
+draft must match an entry's arxiv_id/doi here.
 
 SEED = 26313 (not applicable -- this is a static text check)
 """
@@ -32,15 +39,31 @@ import re
 from pathlib import Path
 from typing import Any, Dict
 
-CITATIONS_PATH = "citations.json"
+CITATIONS_PATH = "verified-citations.json"
 
 ARXIV_PATTERN = re.compile(r"arXiv[:\s]+(\d{4}\.\d{5})", re.IGNORECASE)
 DOI_PATTERN = re.compile(r"\bdoi[:\s]+(10\.\d{4,9}/[^\s,)\]]+)", re.IGNORECASE)
 CITE_PLACEHOLDER_PATTERN = re.compile(r"\[CITE[-:][^\]]*\]")
 
 
+REQUIRED_FIELDS = ("url", "title", "first_author", "year")
+
+
 def load_whitelist(path: str = CITATIONS_PATH) -> Dict[str, Any]:
     return json.loads(Path(path).read_text())
+
+
+def verify_whitelist_schema(path: str = CITATIONS_PATH) -> Dict[str, Any]:
+    """Every entry must carry what the task spec requires a verified
+    citation to record: url, title, first_author, year -- not just the
+    machine-matchable arxiv_id/doi token."""
+    whitelist = load_whitelist(path)
+    incomplete = []
+    for citation in whitelist["citations"]:
+        missing = [f for f in REQUIRED_FIELDS if f not in citation]
+        if missing:
+            incomplete.append({"id": citation.get("id"), "missing": missing})
+    return {"total": len(whitelist["citations"]), "incomplete": incomplete, "clean": not incomplete}
 
 
 def check(paper_path: str, whitelist_path: str = CITATIONS_PATH) -> Dict[str, Any]:

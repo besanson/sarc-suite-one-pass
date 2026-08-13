@@ -90,7 +90,7 @@ study, the `remediate_regate` rename, Evidence Set schema v1) lives under
 - **checkers/**: Phase 4 (V2 gate) exhaustive finite-model checkers — `lattice_check.py` (join-semilattice laws), `compensation_check.py` (Proposition 1 / CH5 over the full discrete verdict grid), `remediator_check.py` (CH7's order-dependence decision rule), `proof_status_lint.py` (enforces every `PROOF-STATUS` tag is `machine-checked` or `pending-human-review` — never `proven`, which is human-only)
 - **appendix-a-proofs.md**: full proofs for every numbered claim, each tagged `PROOF-STATUS`
 - **paper_v3.py** / **paper_tables_v3.py**: Phase 5 — writes and populates `paper4-composition-draft-v0.3.md`, extending `paper_tables.py`'s CH1-CH4 slots with CH5-CH8 numbers from the sweep and the checkers
-- **citation_check.py** / **citations.json**: V4 gate — every arXiv ID/DOI in a paper draft must be in the verified whitelist; `[CITE: ...]` gaps are counted, never fabricated
+- **citation_check.py** / **verified-citations.json**: V4 gate — every arXiv ID/DOI in a paper draft must match an entry fetched live (url, title, first author, year) via WebFetch; `[CITE: ...]` gaps are counted, never fabricated
 - **test_suite_sim.py**: test suite, including the anti-mock tripwires
 - **data/**: UCI Online Retail dataset (CC BY 4.0)
 - **out/**: output artifacts (evidence sets, run logs, metrics, paper, sweep results)
@@ -188,7 +188,7 @@ poisoning, the exhaustive CH5 grid, and 30-seed CIs; populated to
 way v0.1 -> v0.2 works, from `out/metrics.json` +
 `out/results/sweep_summary.json` + `out/checkers/*.json` +
 `appendix-a-proofs.md` — no independent re-derivation. `citation_check.py`
-(V4 gate) verifies every citation against `citations.json`'s whitelist
+(V4 gate) verifies every citation against `verified-citations.json`
 before the run is considered clean.
 
 ## Determinism & Reproducibility

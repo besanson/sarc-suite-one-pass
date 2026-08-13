@@ -33,6 +33,7 @@ from pathlib import Path
 
 from checkers import compensation_check, lattice_check, proof_status_lint, remediator_check
 from citation_check import check as check_citations
+from citation_check import verify_whitelist_schema
 from manifest import build_manifest
 from paper_tables_v3 import generate_v3_slots
 from populate_draft import populate_draft
@@ -261,6 +262,9 @@ def main():
     unfilled = populate_draft(str(draft_path), slots, str(output_draft))
 
     print("\n[5] V4 gate: citation verification...")
+    schema_result = verify_whitelist_schema()
+    if not schema_result["clean"]:
+        raise SystemExit(f"verified-citations.json is missing required fields: {schema_result}")
     citation_result = check_citations(str(output_draft))
     print(json.dumps({k: v for k, v in citation_result.items()}, indent=2))
     if not citation_result["clean"]:
