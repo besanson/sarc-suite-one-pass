@@ -1,0 +1,9 @@
+# Pinned engine commits for bootstrap.sh.
+# Format: <sibling-dir-name> <clone-url> <commit-sha>
+#
+# Regenerate by reading the current sibling clones' HEADs; do not hand-edit
+# the shas without re-verifying V0 (baseline reproduction) afterward.
+
+dqSarc https://github.com/besanson/dqSarc db6c396128a4df7fe12d13be163b1e7d32087177
+sarc-governance https://github.com/besanson/sarc-governance 74df5de29a305a76bf3cc97a185ece2f11b1b833
+Greensarc https://github.com/besanson/Greensarc 8482226b461ccbf91971f90ea6de42cd7a931e5c

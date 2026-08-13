@@ -1,10 +1,17 @@
-.PHONY: suite paper test clean all
+.PHONY: suite paper test clean all bootstrap ci-local
 
 # SARC Suite One-Pass Demo Makefile
 # Apache License 2.0
 # SEED = 26313
 
 all: suite paper test
+
+bootstrap:
+	@echo "Bootstrapping pinned engines + toolchain..."
+	bash bootstrap.sh
+
+ci-local: bootstrap test suite
+	@echo "ci-local: bootstrap + test + suite all green."
 
 suite:
 	@echo "Running SARC Suite: all four scenarios in two composition modes..."
@@ -30,6 +37,8 @@ help:
 	@echo "SARC Suite One-Pass Demo"
 	@echo ""
 	@echo "Targets:"
+	@echo "  make bootstrap Clone pinned engines (engines.lock) + install toolchain"
+	@echo "  make ci-local  bootstrap + test + suite (local acceptance for ci.yml)"
 	@echo "  make suite     Run all scenarios (S1-S4) in both modes"
 	@echo "  make paper     Generate paper tables and populate draft"
 	@echo "  make test      Run the test suite"

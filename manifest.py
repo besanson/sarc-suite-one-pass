@@ -26,14 +26,16 @@ import os
 import subprocess
 from typing import Dict, List, Optional
 
-# Candidate local clone directories per Step 0's `git clone` instructions,
-# tried in order (a fresh Step-0 follower gets the first entry; our own
-# session used an alternate name for the sarc-governance clone to avoid a
-# collision with this repo's own directory, hence the second candidate).
+# Candidate local clone directories, tried in order. bootstrap.sh clones the
+# three engines as siblings of this repo (../dqSarc, ../sarc-governance,
+# ../Greensarc), so those are tried first; ./<name> is also tried (9.5-review
+# finding: some environments vendor or nest the engine clones inside this
+# repo's own directory instead of beside it), plus the legacy alternate name
+# an earlier session used for the sarc-governance clone.
 ENGINE_REPO_CANDIDATES: Dict[str, List[str]] = {
-    "sarc-dq": ["../dqSarc"],
-    "sarc-governance": ["../sarc-governance", "../sarc-governance-engine"],
-    "green-sarc": ["../Greensarc"],
+    "sarc-dq": ["../dqSarc", "./dqSarc"],
+    "sarc-governance": ["../sarc-governance", "./sarc-governance", "../sarc-governance-engine"],
+    "green-sarc": ["../Greensarc", "./Greensarc"],
 }
 
 

@@ -1,3 +1,20 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+.hypothesis/
+
+# Regenerable build output. A single `make suite` run over the 4 scenarios
+# is already ~90MB of per-decision JSONL; the 30-seed x 2-workflow x
+# multi-scenario Phase 3 sweep would be orders of magnitude more. Everything
+# under out/ is reproducible from the pinned engine commits (engines.lock)
+# + the frozen seed list (prereg/seeds.json) + this repo's code, so raw
+# per-decision evidence sets and run logs are not committed. Small
+# aggregated summaries that later steps read directly (out/metrics.json,
+# out/quality.json, out/results/*.json, out/paper/) ARE committed as an
+# exception — see the negated patterns below.
+out/*
+!out/metrics.json
+!out/quality.json
+!out/results/
+!out/paper/
+!out/checkers/
