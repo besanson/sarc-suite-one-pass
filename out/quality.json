@@ -37,18 +37,18 @@
     }
   },
   "mutation": {
-    "kill_score": 0.8756,
-    "killed": 908,
+    "kill_score": 0.8804,
+    "killed": 1038,
     "no_tests": 0,
     "passed": true,
     "source_paths": [
       "composition.py",
       "metrics.py"
     ],
-    "survived": 129,
+    "survived": 139,
     "survivors_justified_in": "ADR-002-mutation-testing.md",
     "threshold": 0.85,
-    "timeout": 1,
-    "total_mutants": 1038
+    "timeout": 2,
+    "total_mutants": 1179
   }
 }

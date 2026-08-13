@@ -1,10 +1,11 @@
 {
   "ch1_violations": 0,
-  "ch2_divergent_decisions": 383,
+  "ch2_divergent_decisions": 239,
   "ch2_direction_counts": {
-    "single_pass_admits_then_violates": 214,
+    "single_pass_admits_then_violates": 239,
     "single_pass_holds_remediated_compliant": 0
   },
+  "label_only_differences": 200,
   "ch3_false_hold": 0.0,
   "ch4_matrix": {
     "stale_master_data": {
@@ -12,7 +13,7 @@
       "sarc": 0.0,
       "green": 0.0,
       "winner_gate_counts": {
-        "none": 212
+        "none": 227
       }
     },
     "superseded_golden_record": {
@@ -20,7 +21,7 @@
       "sarc": 0.0,
       "green": 0.0,
       "winner_gate_counts": {
-        "none": 171
+        "none": 212
       }
     },
     "cross_source_contradiction": {
@@ -28,7 +29,7 @@
       "sarc": 0.0,
       "green": 0.0,
       "winner_gate_counts": {
-        "dq": 213
+        "dq": 211
       }
     },
     "schema_drift": {
@@ -36,7 +37,7 @@
       "sarc": 0.0,
       "green": 0.0,
       "winner_gate_counts": {
-        "dq": 195
+        "dq": 183
       }
     },
     "missing_mandatory_field": {
@@ -44,7 +45,7 @@
       "sarc": 0.0,
       "green": 0.0,
       "winner_gate_counts": {
-        "dq": 155
+        "dq": 178
       }
     },
     "lineage_missing": {
@@ -52,7 +53,7 @@
       "sarc": 0.0,
       "green": 0.0,
       "winner_gate_counts": {
-        "none": 184
+        "none": 185
       }
     },
     "plausible_outlier": {
@@ -60,7 +61,15 @@
       "sarc": 0.0,
       "green": 0.0,
       "winner_gate_counts": {
-        "none": 181
+        "none": 152
+      }
+    },
+    "plausible_outlier_high": {
+      "dq": 0.0,
+      "sarc": 0.0,
+      "green": 0.0,
+      "winner_gate_counts": {
+        "none": 177
       }
     },
     "union_ok": true,
@@ -69,277 +78,261 @@
   "S1": {
     "decisions": 10164,
     "veto_counts": {
-      "dq": 563,
+      "dq": 572,
       "sarc": 0,
       "green": 0
     },
     "winner_gate_distribution": {
-      "none": 9601,
-      "dq": 563
+      "none": 9592,
+      "dq": 572
     },
     "executed_vs_held_loss": {
-      "executed_count": 9601,
-      "executed_order_value": 741037.4910000057,
-      "held_count": 563,
-      "held_clean_value_foregone": 41294.831999999995
+      "executed_count": 9592,
+      "executed_order_value": 759883.8720000035,
+      "held_count": 572,
+      "held_clean_value_foregone": 42015.0
     }
   },
   "S2": {
     "decisions": 10164,
     "veto_counts": {
-      "dq": 563,
+      "dq": 572,
       "sarc": 0,
-      "green": 6477
+      "green": 6531
     },
     "winner_gate_distribution": {
-      "none": 3464,
-      "dq": 432,
-      "green": 6268
+      "none": 3417,
+      "dq": 445,
+      "green": 6302
     },
     "executed_vs_held_loss": {
-      "executed_count": 3464,
-      "executed_order_value": 106310.02800000021,
-      "held_count": 6700,
-      "held_clean_value_foregone": 654041.3340000045
+      "executed_count": 3417,
+      "executed_order_value": 104496.60000000022,
+      "held_count": 6747,
+      "held_clean_value_foregone": 655889.682000005
     }
   },
   "S3": {
     "decisions": 10164,
     "veto_counts": {
-      "dq": 561,
-      "sarc": 5366,
+      "dq": 573,
+      "sarc": 5368,
       "green": 0
     },
     "winner_gate_distribution": {
-      "none": 4527,
-      "dq": 551,
-      "sarc": 5086
+      "none": 4501,
+      "dq": 563,
+      "sarc": 5100
     },
     "executed_vs_held_loss": {
-      "executed_count": 4527,
-      "executed_order_value": 143573.7059999999,
-      "held_count": 5637,
-      "held_clean_value_foregone": 616921.5660000031
+      "executed_count": 4501,
+      "executed_order_value": 142929.09599999987,
+      "held_count": 5663,
+      "held_clean_value_foregone": 617891.4360000031
     }
   },
   "S4": {
     "decisions": 10164,
     "veto_counts": {
-      "dq": 563,
-      "sarc": 214,
+      "dq": 572,
+      "sarc": 239,
       "green": 0
     },
     "winner_gate_distribution": {
-      "none": 9387,
-      "dq": 563,
-      "sarc": 214
+      "none": 9353,
+      "dq": 572,
+      "sarc": 239
     },
     "executed_vs_held_loss": {
-      "executed_count": 9387,
-      "executed_order_value": 724181.6430000064,
-      "held_count": 777,
-      "held_clean_value_foregone": 57617.28599999994
+      "executed_count": 9353,
+      "executed_order_value": 739224.7410000038,
+      "held_count": 811,
+      "held_clean_value_foregone": 60347.60399999999
     },
     "divergent_decisions": [
       {
-        "decision_id": 52,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 30.09,
-        "post_order_value": 30.09,
-        "cap": 30.09
-      },
-      {
-        "decision_id": 75,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 53.55,
-        "post_order_value": 53.55,
-        "cap": 53.55
-      },
-      {
-        "decision_id": 83,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 41.31,
-        "post_order_value": 41.31,
-        "cap": 41.31
-      },
-      {
-        "decision_id": 90,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 70.8,
-        "post_order_value": 70.8,
-        "cap": 70.8
-      },
-      {
-        "decision_id": 121,
+        "decision_id": 56,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 62.610337222849694,
-        "post_order_value": 72.0,
-        "cap": 67.30516861142485
+        "pre_order_value": 31.06321470383632,
+        "post_order_value": 40.02,
+        "cap": 35.54160735191816
       },
       {
-        "decision_id": 154,
-        "remediate_regate_response": "escalate",
+        "decision_id": 76,
+        "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 28.453872270106014,
-        "post_order_value": 33.75,
-        "cap": 31.10193613505301
+        "pre_order_value": 12.75,
+        "post_order_value": 12.75,
+        "cap": 12.75
       },
       {
-        "decision_id": 209,
+        "decision_id": 162,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 18.39348686643975,
+        "pre_order_value": 29.070140960254832,
+        "post_order_value": 52.53,
+        "cap": 40.80007048012742
+      },
+      {
+        "decision_id": 236,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 20.131077193385064,
+        "post_order_value": 31.679999999999996,
+        "cap": 25.90553859669253
+      },
+      {
+        "decision_id": 266,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 26.52,
+        "post_order_value": 26.52,
+        "cap": 26.52
+      },
+      {
+        "decision_id": 279,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 64.896,
+        "post_order_value": 64.896,
+        "cap": 64.896
+      },
+      {
+        "decision_id": 286,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 28.32,
         "post_order_value": 28.32,
-        "cap": 23.356743433219876
+        "cap": 28.32
       },
       {
-        "decision_id": 218,
+        "decision_id": 287,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 124.8,
-        "post_order_value": 124.8,
-        "cap": 124.8
+        "pre_order_value": 6.27,
+        "post_order_value": 6.27,
+        "cap": 6.27
       },
       {
-        "decision_id": 221,
+        "decision_id": 291,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 13.030562351513874,
-        "post_order_value": 21.42,
-        "cap": 17.225281175756937
+        "pre_order_value": 24.34469201177777,
+        "post_order_value": 33.75,
+        "cap": 29.047346005888883
       },
       {
-        "decision_id": 262,
+        "decision_id": 316,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 53.55,
-        "post_order_value": 53.55,
-        "cap": 53.55
+        "pre_order_value": 54.0,
+        "post_order_value": 54.0,
+        "cap": 54.0
       },
       {
-        "decision_id": 282,
-        "remediate_regate_response": "admit",
+        "decision_id": 334,
+        "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 41.58,
-        "post_order_value": 41.58,
-        "cap": 41.58
+        "pre_order_value": 7.75420192674341,
+        "post_order_value": 10.56,
+        "cap": 9.157100963371706
       },
       {
-        "decision_id": 307,
+        "decision_id": 352,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 70.8,
-        "post_order_value": 70.8,
-        "cap": 70.8
+        "pre_order_value": 68.31,
+        "post_order_value": 68.31,
+        "cap": 68.31
       },
       {
-        "decision_id": 310,
-        "remediate_regate_response": "admit",
+        "decision_id": 356,
+        "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 31.86,
-        "post_order_value": 31.86,
-        "cap": 31.86
+        "pre_order_value": 98.96088979555975,
+        "post_order_value": 124.8,
+        "cap": 111.88044489777988
       },
       {
-        "decision_id": 325,
+        "decision_id": 359,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 5.699999999999999,
-        "post_order_value": 5.699999999999999,
-        "cap": 5.699999999999999
+        "pre_order_value": 20.4,
+        "post_order_value": 20.4,
+        "cap": 20.4
       },
       {
-        "decision_id": 350,
+        "decision_id": 384,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 51.0,
-        "post_order_value": 51.0,
-        "cap": 51.0
+        "pre_order_value": 23.01,
+        "post_order_value": 23.01,
+        "cap": 23.01
       },
       {
-        "decision_id": 370,
+        "decision_id": 404,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 6.63,
-        "post_order_value": 6.63,
-        "cap": 6.63
+        "pre_order_value": 41.910000000000004,
+        "post_order_value": 41.910000000000004,
+        "cap": 41.910000000000004
       },
       {
-        "decision_id": 409,
+        "decision_id": 435,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 51.168,
-        "post_order_value": 51.168,
-        "cap": 51.168
-      },
-      {
-        "decision_id": 421,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 30.09,
-        "post_order_value": 30.09,
-        "cap": 30.09
+        "pre_order_value": 98.99999999999999,
+        "post_order_value": 98.99999999999999,
+        "cap": 98.99999999999999
       },
       {
         "decision_id": 465,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 124.52618243033515,
+        "pre_order_value": 95.56601818891693,
         "post_order_value": 148.5,
-        "cap": 136.51309121516758
+        "cap": 122.03300909445846
       },
       {
-        "decision_id": 481,
+        "decision_id": 492,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 62.4,
-        "post_order_value": 62.4,
-        "cap": 62.4
+        "pre_order_value": 36.72,
+        "post_order_value": 36.72,
+        "cap": 36.72
       },
       {
-        "decision_id": 486,
+        "decision_id": 499,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 26.55,
-        "post_order_value": 26.55,
-        "cap": 26.55
+        "pre_order_value": 22.769999999999996,
+        "post_order_value": 22.769999999999996,
+        "cap": 22.769999999999996
       },
       {
-        "decision_id": 518,
+        "decision_id": 548,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 41.184,
-        "post_order_value": 41.184,
-        "cap": 41.184
+        "pre_order_value": 19.89,
+        "post_order_value": 19.89,
+        "cap": 19.89
       },
       {
-        "decision_id": 561,
+        "decision_id": 628,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 29.061205136588555,
-        "post_order_value": 33.63,
-        "cap": 31.34560256829428
+        "pre_order_value": 25.196201267307774,
+        "post_order_value": 39.936,
+        "cap": 32.56610063365389
       },
       {
-        "decision_id": 596,
-        "remediate_regate_response": "admit",
+        "decision_id": 643,
+        "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 30.09,
-        "post_order_value": 30.09,
-        "cap": 30.09
-      },
-      {
-        "decision_id": 609,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 21.779999999999998,
-        "post_order_value": 21.779999999999998,
-        "cap": 21.779999999999998
+        "pre_order_value": 191.30114591596126,
+        "post_order_value": 217.71,
+        "cap": 204.50557295798063
       },
       {
         "decision_id": 647,
@@ -350,111 +343,95 @@
         "cap": 23.759999999999998
       },
       {
-        "decision_id": 726,
+        "decision_id": 659,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 21.779999999999998,
-        "post_order_value": 21.779999999999998,
-        "cap": 21.779999999999998
+        "pre_order_value": 19.89,
+        "post_order_value": 19.89,
+        "cap": 19.89
+      },
+      {
+        "decision_id": 677,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 29.99275196859118,
+        "post_order_value": 36.72,
+        "cap": 33.35637598429559
+      },
+      {
+        "decision_id": 679,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 60.0,
+        "post_order_value": 60.0,
+        "cap": 60.0
+      },
+      {
+        "decision_id": 720,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 15.961884327231324,
+        "post_order_value": 19.89,
+        "cap": 17.925942163615662
       },
       {
         "decision_id": 731,
-        "remediate_regate_response": "admit",
+        "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
         "pre_order_value": 30.09,
-        "post_order_value": 30.09,
-        "cap": 30.09
+        "post_order_value": 75.225,
+        "cap": 52.6575
       },
       {
-        "decision_id": 737,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 31.579693236761205,
-        "post_order_value": 56.43000000000001,
-        "cap": 44.004846618380604
-      },
-      {
-        "decision_id": 743,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 168.02633736663742,
-        "post_order_value": 217.71,
-        "cap": 192.86816868331871
-      },
-      {
-        "decision_id": 773,
+        "decision_id": 772,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 31.5,
-        "post_order_value": 31.5,
-        "cap": 31.5
+        "pre_order_value": 38.94,
+        "post_order_value": 38.94,
+        "cap": 38.94
       },
       {
         "decision_id": 798,
-        "remediate_regate_response": "escalate",
+        "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 57.780576750158644,
+        "pre_order_value": 72.0,
         "post_order_value": 72.0,
-        "cap": 64.89028837507932
+        "cap": 72.0
       },
       {
-        "decision_id": 847,
+        "decision_id": 879,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 40.71,
-        "post_order_value": 40.71,
-        "cap": 40.71
+        "pre_order_value": 29.699999999999996,
+        "post_order_value": 29.699999999999996,
+        "cap": 29.699999999999996
       },
       {
-        "decision_id": 855,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 48.89506023227625,
-        "post_order_value": 63.0,
-        "cap": 55.947530116138125
-      },
-      {
-        "decision_id": 860,
+        "decision_id": 889,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 41.58,
-        "post_order_value": 41.58,
-        "cap": 41.58
-      },
-      {
-        "decision_id": 912,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 35.21673456183033,
-        "post_order_value": 39.936,
-        "cap": 37.576367280915164
-      },
-      {
-        "decision_id": 914,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 55.51399207147401,
-        "post_order_value": 67.26,
-        "cap": 61.386996035737006
-      },
-      {
-        "decision_id": 975,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 40.5,
-        "post_order_value": 40.5,
-        "cap": 40.5
-      },
-      {
-        "decision_id": 990,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 36.518119397616864,
+        "pre_order_value": 45.24,
         "post_order_value": 45.24,
-        "cap": 40.87905969880843
+        "cap": 45.24
       },
       {
-        "decision_id": 1048,
+        "decision_id": 891,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 85.176,
+        "post_order_value": 85.176,
+        "cap": 85.176
+      },
+      {
+        "decision_id": 913,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 206.7892268935647,
+        "post_order_value": 267.75,
+        "cap": 237.26961344678233
+      },
+      {
+        "decision_id": 934,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
         "pre_order_value": 38.688,
@@ -462,767 +439,23 @@
         "cap": 38.688
       },
       {
-        "decision_id": 1082,
+        "decision_id": 951,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 16.32,
-        "post_order_value": 16.32,
-        "cap": 16.32
-      },
-      {
-        "decision_id": 1098,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 37.44,
-        "post_order_value": 37.44,
-        "cap": 37.44
-      },
-      {
-        "decision_id": 1107,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 128.1911056758055,
-        "post_order_value": 157.41,
-        "cap": 142.80055283790273
-      },
-      {
-        "decision_id": 1113,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 217.71,
-        "post_order_value": 217.71,
-        "cap": 217.71
-      },
-      {
-        "decision_id": 1115,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 31.304652965971673,
-        "post_order_value": 41.58,
-        "cap": 36.442326482985834
-      },
-      {
-        "decision_id": 1129,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 42.32620752046619,
-        "post_order_value": 47.94,
-        "cap": 45.1331037602331
-      },
-      {
-        "decision_id": 1176,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 26.949501644583723,
-        "post_order_value": 42.63,
-        "cap": 34.789750822291865
-      },
-      {
-        "decision_id": 1222,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 17.090141525947978,
-        "post_order_value": 29.699999999999996,
-        "cap": 23.395070762973987
-      },
-      {
-        "decision_id": 1227,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 26.009999999999998,
-        "post_order_value": 26.009999999999998,
-        "cap": 26.009999999999998
-      },
-      {
-        "decision_id": 1277,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 11.657483899031465,
-        "post_order_value": 19.799999999999997,
-        "cap": 15.728741949515731
-      },
-      {
-        "decision_id": 1287,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 29.25,
-        "post_order_value": 29.25,
-        "cap": 29.25
-      },
-      {
-        "decision_id": 1322,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 23.586373799910675,
-        "post_order_value": 40.71,
-        "cap": 32.148186899955334
-      },
-      {
-        "decision_id": 1359,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 56.64,
-        "post_order_value": 56.64,
-        "cap": 56.64
-      },
-      {
-        "decision_id": 1364,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 30.599999999999994,
-        "post_order_value": 30.599999999999994,
-        "cap": 30.599999999999994
-      },
-      {
-        "decision_id": 1433,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 25.618293178678254,
-        "post_order_value": 93.60000000000001,
-        "cap": 59.60914658933913
-      },
-      {
-        "decision_id": 1442,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 160.38000000000002,
-        "post_order_value": 160.38000000000002,
-        "cap": 160.38000000000002
-      },
-      {
-        "decision_id": 1447,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 37.44,
-        "post_order_value": 37.44,
-        "cap": 37.44
-      },
-      {
-        "decision_id": 1477,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 22.501102643914734,
-        "post_order_value": 29.25,
-        "cap": 25.875551321957367
-      },
-      {
-        "decision_id": 1505,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 51.0,
-        "post_order_value": 51.0,
-        "cap": 51.0
-      },
-      {
-        "decision_id": 1510,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 37.44,
-        "post_order_value": 37.44,
-        "cap": 37.44
-      },
-      {
-        "decision_id": 1518,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 29.620897705644456,
+        "pre_order_value": 45.24,
         "post_order_value": 45.24,
-        "cap": 37.43044885282223
+        "cap": 45.24
       },
       {
-        "decision_id": 1543,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 38.43943223796066,
-        "post_order_value": 51.0,
-        "cap": 44.71971611898033
-      },
-      {
-        "decision_id": 1559,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 18.382343136707615,
-        "post_order_value": 31.2,
-        "cap": 24.791171568353807
-      },
-      {
-        "decision_id": 1575,
+        "decision_id": 979,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 48.45,
-        "post_order_value": 48.45,
-        "cap": 48.45
+        "pre_order_value": 40.589999999999996,
+        "post_order_value": 40.589999999999996,
+        "cap": 40.589999999999996
       },
       {
-        "decision_id": 1618,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 72.55488599454375,
-        "post_order_value": 96.89999999999999,
-        "cap": 84.72744299727188
-      },
-      {
-        "decision_id": 1643,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 29.71794472758934,
-        "post_order_value": 46.5,
-        "cap": 38.10897236379467
-      },
-      {
-        "decision_id": 1657,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 67.90613807571938,
-        "post_order_value": 96.89999999999999,
-        "cap": 82.4030690378597
-      },
-      {
-        "decision_id": 1703,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 21.784487673093796,
-        "post_order_value": 30.689999999999998,
-        "cap": 26.237243836546895
-      },
-      {
-        "decision_id": 1709,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 22.529337450787406,
-        "post_order_value": 33.0,
-        "cap": 27.764668725393705
-      },
-      {
-        "decision_id": 1801,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 374.84999999999997,
-        "post_order_value": 374.84999999999997,
-        "cap": 374.84999999999997
-      },
-      {
-        "decision_id": 1811,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 97.344,
-        "post_order_value": 97.344,
-        "cap": 97.344
-      },
-      {
-        "decision_id": 1813,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 165.84093725927784,
-        "post_order_value": 198.432,
-        "cap": 182.1364686296389
-      },
-      {
-        "decision_id": 1817,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 34.65,
-        "post_order_value": 34.65,
-        "cap": 34.65
-      },
-      {
-        "decision_id": 1819,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 39.599999999999994,
-        "post_order_value": 39.599999999999994,
-        "cap": 39.599999999999994
-      },
-      {
-        "decision_id": 1823,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 48.96,
-        "post_order_value": 48.96,
-        "cap": 48.96
-      },
-      {
-        "decision_id": 1824,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 21.548078976721722,
-        "post_order_value": 38.24999999999999,
-        "cap": 29.899039488360856
-      },
-      {
-        "decision_id": 1833,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 66.97592286052718,
-        "post_order_value": 95.25,
-        "cap": 81.1129614302636
-      },
-      {
-        "decision_id": 1836,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 23.759999999999998,
-        "post_order_value": 23.759999999999998,
-        "cap": 23.759999999999998
-      },
-      {
-        "decision_id": 1869,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 40.757975505788515,
-        "post_order_value": 124.80000000000001,
-        "cap": 82.77898775289427
-      },
-      {
-        "decision_id": 1928,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 22.45179565305151,
-        "post_order_value": 36.72,
-        "cap": 29.585897826525752
-      },
-      {
-        "decision_id": 1938,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 18.96588697596923,
-        "post_order_value": 33.63,
-        "cap": 26.297943487984618
-      },
-      {
-        "decision_id": 1959,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 35.34765892739588,
-        "post_order_value": 63.72,
-        "cap": 49.53382946369794
-      },
-      {
-        "decision_id": 1962,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 31.86,
-        "post_order_value": 31.86,
-        "cap": 31.86
-      },
-      {
-        "decision_id": 1971,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 33.433837509172044,
-        "post_order_value": 38.688,
-        "cap": 36.06091875458603
-      },
-      {
-        "decision_id": 2024,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 30.689999999999998,
-        "post_order_value": 30.689999999999998,
-        "cap": 30.689999999999998
-      },
-      {
-        "decision_id": 2065,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 38.74954726340059,
-        "post_order_value": 47.79,
-        "cap": 43.269773631700296
-      },
-      {
-        "decision_id": 2075,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 29.061637275989824,
-        "post_order_value": 38.688,
-        "cap": 33.87481863799491
-      },
-      {
-        "decision_id": 2100,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 156.0,
-        "post_order_value": 156.0,
-        "cap": 156.0
-      },
-      {
-        "decision_id": 2132,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 19.27565257616337,
-        "post_order_value": 26.400000000000002,
-        "cap": 22.837826288081686
-      },
-      {
-        "decision_id": 2139,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 26.112204358960824,
-        "post_order_value": 39.599999999999994,
-        "cap": 32.85610217948041
-      },
-      {
-        "decision_id": 2175,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 40.53672954335923,
-        "post_order_value": 127.49999999999999,
-        "cap": 84.01836477167961
-      },
-      {
-        "decision_id": 2191,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 52.019999999999996,
-        "post_order_value": 52.019999999999996,
-        "cap": 52.019999999999996
-      },
-      {
-        "decision_id": 2199,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 41.58,
-        "post_order_value": 41.58,
-        "cap": 41.58
-      },
-      {
-        "decision_id": 2215,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 53.04,
-        "post_order_value": 132.6,
-        "cap": 92.82
-      },
-      {
-        "decision_id": 2223,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 39.939526667649844,
-        "post_order_value": 63.72,
-        "cap": 51.82976333382492
-      },
-      {
-        "decision_id": 2254,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 334.98453719834265,
-        "post_order_value": 436.04999999999995,
-        "cap": 385.5172685991713
-      },
-      {
-        "decision_id": 2299,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 43.78960520555331,
-        "post_order_value": 58.13999999999999,
-        "cap": 50.96480260277665
-      },
-      {
-        "decision_id": 2311,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 2.3976952704996966,
-        "post_order_value": 2.8499999999999996,
-        "cap": 2.623847635249848
-      },
-      {
-        "decision_id": 2398,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 26.084855487669596,
-        "post_order_value": 33.66,
-        "cap": 29.8724277438348
-      },
-      {
-        "decision_id": 2400,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 35.63999999999999,
-        "post_order_value": 35.63999999999999,
-        "cap": 35.63999999999999
-      },
-      {
-        "decision_id": 2441,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 30.887182088656818,
-        "post_order_value": 49.92,
-        "cap": 40.40359104432841
-      },
-      {
-        "decision_id": 2465,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 39.779999999999994,
-        "post_order_value": 39.779999999999994,
-        "cap": 39.779999999999994
-      },
-      {
-        "decision_id": 2512,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 32.669999999999995,
-        "post_order_value": 32.669999999999995,
-        "cap": 32.669999999999995
-      },
-      {
-        "decision_id": 2544,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 41.184,
-        "post_order_value": 41.184,
-        "cap": 41.184
-      },
-      {
-        "decision_id": 2568,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 30.843472116949158,
-        "post_order_value": 54.912,
-        "cap": 42.87773605847458
-      },
-      {
-        "decision_id": 2653,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 30.840252841306988,
-        "post_order_value": 53.46,
-        "cap": 42.15012642065349
-      },
-      {
-        "decision_id": 2682,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 108.44978377184447,
-        "post_order_value": 153.99,
-        "cap": 131.21989188592224
-      },
-      {
-        "decision_id": 2739,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 32.831633329279676,
-        "post_order_value": 38.60999999999999,
-        "cap": 35.720816664639834
-      },
-      {
-        "decision_id": 2754,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 317.8812579181196,
-        "post_order_value": 380.64,
-        "cap": 349.2606289590598
-      },
-      {
-        "decision_id": 2757,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 29.580000000000002,
-        "post_order_value": 29.580000000000002,
-        "cap": 29.580000000000002
-      },
-      {
-        "decision_id": 2819,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 33.06634235720918,
-        "post_order_value": 39.599999999999994,
-        "cap": 36.33317117860459
-      },
-      {
-        "decision_id": 2858,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 38.99491171018306,
-        "post_order_value": 67.392,
-        "cap": 53.19345585509153
-      },
-      {
-        "decision_id": 2896,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 53.42172008475322,
-        "post_order_value": 71.136,
-        "cap": 62.27886004237661
-      },
-      {
-        "decision_id": 2901,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 47.21390924493416,
-        "post_order_value": 61.95,
-        "cap": 54.58195462246708
-      },
-      {
-        "decision_id": 2908,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 39.70970866139691,
-        "post_order_value": 59.25,
-        "cap": 49.47985433069846
-      },
-      {
-        "decision_id": 2930,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 57.120000000000005,
-        "post_order_value": 57.120000000000005,
-        "cap": 57.120000000000005
-      },
-      {
-        "decision_id": 2954,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 41.11822824969838,
-        "post_order_value": 46.529999999999994,
-        "cap": 43.82411412484919
-      },
-      {
-        "decision_id": 2960,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 31.860169551790626,
-        "post_order_value": 52.800000000000004,
-        "cap": 42.330084775895315
-      },
-      {
-        "decision_id": 3001,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 61.2,
-        "post_order_value": 61.2,
-        "cap": 61.2
-      },
-      {
-        "decision_id": 3060,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 38.037486902648524,
-        "post_order_value": 54.87,
-        "cap": 46.45374345132426
-      },
-      {
-        "decision_id": 3093,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 48.94816863659119,
-        "post_order_value": 74.24999999999999,
-        "cap": 61.59908431829559
-      },
-      {
-        "decision_id": 3164,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 61.19999999999999,
-        "post_order_value": 61.19999999999999,
-        "cap": 61.19999999999999
-      },
-      {
-        "decision_id": 3188,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 47.94,
-        "post_order_value": 47.94,
-        "cap": 47.94
-      },
-      {
-        "decision_id": 3210,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 20.162882907465317,
-        "post_order_value": 23.759999999999998,
-        "cap": 21.961441453732657
-      },
-      {
-        "decision_id": 3250,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 23.759999999999998,
-        "post_order_value": 23.759999999999998,
-        "cap": 23.759999999999998
-      },
-      {
-        "decision_id": 3269,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 23.19759149854108,
-        "post_order_value": 30.689999999999998,
-        "cap": 26.94379574927054
-      },
-      {
-        "decision_id": 3288,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 74.24999999999999,
-        "post_order_value": 74.24999999999999,
-        "cap": 74.24999999999999
-      },
-      {
-        "decision_id": 3345,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 41.82,
-        "post_order_value": 41.82,
-        "cap": 41.82
-      },
-      {
-        "decision_id": 3380,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 77.65130864387406,
-        "post_order_value": 115.5,
-        "cap": 96.57565432193704
-      },
-      {
-        "decision_id": 3390,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 44.25,
-        "post_order_value": 44.25,
-        "cap": 44.25
-      },
-      {
-        "decision_id": 3484,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 10.101602977007031,
-        "post_order_value": 18.36,
-        "cap": 14.230801488503516
-      },
-      {
-        "decision_id": 3490,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 33.59072027628656,
-        "post_order_value": 42.84,
-        "cap": 38.21536013814328
-      },
-      {
-        "decision_id": 3504,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 20.88,
-        "post_order_value": 20.88,
-        "cap": 20.88
-      },
-      {
-        "decision_id": 3505,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 360.5683370341816,
-        "post_order_value": 469.26000000000005,
-        "cap": 414.91416851709084
-      },
-      {
-        "decision_id": 3518,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 1.8930583296999675,
-        "post_order_value": 3.42,
-        "cap": 2.656529164849984
-      },
-      {
-        "decision_id": 3537,
+        "decision_id": 984,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
         "pre_order_value": 67.26,
@@ -1230,119 +463,71 @@
         "cap": 67.26
       },
       {
-        "decision_id": 3582,
+        "decision_id": 993,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 385.349271910541,
-        "post_order_value": 469.26000000000005,
-        "cap": 427.30463595527056
+        "pre_order_value": 58.89971288856918,
+        "post_order_value": 85.176,
+        "cap": 72.03785644428459
       },
       {
-        "decision_id": 3592,
+        "decision_id": 1000,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 15.608107068690458,
+        "post_order_value": 20.79,
+        "cap": 18.19905353434523
+      },
+      {
+        "decision_id": 1001,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 59.39999999999999,
-        "post_order_value": 59.39999999999999,
-        "cap": 59.39999999999999
+        "pre_order_value": 31.679999999999996,
+        "post_order_value": 31.679999999999996,
+        "cap": 31.679999999999996
       },
       {
-        "decision_id": 3594,
+        "decision_id": 1002,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 32.91519452043982,
-        "post_order_value": 51.33,
-        "cap": 42.122597260219905
+        "pre_order_value": 24.993234439936916,
+        "post_order_value": 30.689999999999998,
+        "cap": 27.841617219968455
       },
       {
-        "decision_id": 3605,
+        "decision_id": 1022,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 34.38011098971535,
+        "post_order_value": 97.35,
+        "cap": 65.86505549485767
+      },
+      {
+        "decision_id": 1177,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 32.76,
-        "post_order_value": 32.76,
-        "cap": 32.76
+        "pre_order_value": 157.41,
+        "post_order_value": 157.41,
+        "cap": 157.41
       },
       {
-        "decision_id": 3618,
+        "decision_id": 1212,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 52.84081856311346,
-        "post_order_value": 67.26,
-        "cap": 60.05040928155673
+        "pre_order_value": 50.94804193065996,
+        "post_order_value": 63.74999999999999,
+        "cap": 57.34902096532998
       },
       {
-        "decision_id": 3624,
+        "decision_id": 1233,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 117.27814835083126,
-        "post_order_value": 178.464,
-        "cap": 147.87107417541563
+        "pre_order_value": 23.255734745700963,
+        "post_order_value": 29.37,
+        "cap": 26.312867372850484
       },
       {
-        "decision_id": 3648,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 22.50875673452777,
-        "post_order_value": 40.8,
-        "cap": 31.65437836726388
-      },
-      {
-        "decision_id": 3658,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 49.587010111070796,
-        "post_order_value": 67.26,
-        "cap": 58.4235050555354
-      },
-      {
-        "decision_id": 3690,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 69.71125525404076,
-        "post_order_value": 78.624,
-        "cap": 74.16762762702038
-      },
-      {
-        "decision_id": 3759,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 44.30318681880882,
-        "post_order_value": 62.4,
-        "cap": 53.35159340940441
-      },
-      {
-        "decision_id": 3774,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 53.79206327483915,
-        "post_order_value": 67.26,
-        "cap": 60.52603163741958
-      },
-      {
-        "decision_id": 3775,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 31.271674350997014,
-        "post_order_value": 40.5,
-        "cap": 35.88583717549851
-      },
-      {
-        "decision_id": 3795,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 9.99548021449835,
-        "post_order_value": 12.75,
-        "cap": 11.372740107249175
-      },
-      {
-        "decision_id": 3839,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 30.0129923101187,
-        "post_order_value": 33.660000000000004,
-        "cap": 31.83649615505935
-      },
-      {
-        "decision_id": 3856,
+        "decision_id": 1274,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
         "pre_order_value": 81.0,
@@ -1350,631 +535,119 @@
         "cap": 81.0
       },
       {
-        "decision_id": 3885,
+        "decision_id": 1296,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 35.00377658932629,
-        "post_order_value": 53.55,
-        "cap": 44.276888294663145
+        "pre_order_value": 116.26763827246285,
+        "post_order_value": 169.92000000000002,
+        "cap": 143.09381913623145
       },
       {
-        "decision_id": 3967,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 82.33123965828644,
-        "post_order_value": 137.904,
-        "cap": 110.11761982914322
-      },
-      {
-        "decision_id": 3979,
+        "decision_id": 1304,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 58.13999999999999,
-        "post_order_value": 58.13999999999999,
-        "cap": 58.13999999999999
+        "pre_order_value": 33.0,
+        "post_order_value": 33.0,
+        "cap": 33.0
       },
       {
-        "decision_id": 3999,
+        "decision_id": 1359,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 47.808534548527916,
-        "post_order_value": 53.55,
-        "cap": 50.67926727426396
+        "pre_order_value": 35.08552223053864,
+        "post_order_value": 56.64,
+        "cap": 45.86276111526932
       },
       {
-        "decision_id": 4008,
+        "decision_id": 1381,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 13.171662285236783,
-        "post_order_value": 20.91,
-        "cap": 17.04083114261839
+        "pre_order_value": 51.580965601082454,
+        "post_order_value": 71.39999999999999,
+        "cap": 61.49048280054122
       },
       {
-        "decision_id": 4044,
+        "decision_id": 1392,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 12.56429745181207,
+        "post_order_value": 22.769999999999996,
+        "cap": 17.66714872590603
+      },
+      {
+        "decision_id": 1407,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 167.11281712741263,
+        "post_order_value": 198.432,
+        "cap": 182.7724085637063
+      },
+      {
+        "decision_id": 1408,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 22.05881176404914,
+        "post_order_value": 37.44,
+        "cap": 29.74940588202457
+      },
+      {
+        "decision_id": 1423,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 36.06381339841988,
+        "post_order_value": 41.184,
+        "cap": 38.62390669920994
+      },
+      {
+        "decision_id": 1425,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 20.91,
-        "post_order_value": 20.91,
-        "cap": 20.91
+        "pre_order_value": 20.130000000000003,
+        "post_order_value": 20.130000000000003,
+        "cap": 20.130000000000003
       },
       {
-        "decision_id": 4058,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 15.167429160539319,
-        "post_order_value": 17.82,
-        "cap": 16.49371458026966
-      },
-      {
-        "decision_id": 4069,
+        "decision_id": 1431,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 54.87,
-        "post_order_value": 54.87,
-        "cap": 54.87
-      },
-      {
-        "decision_id": 4101,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 43.79206287607727,
-        "post_order_value": 68.30999999999999,
-        "cap": 56.05103143803863
-      },
-      {
-        "decision_id": 4171,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 57.12,
-        "post_order_value": 57.12,
-        "cap": 57.12
-      },
-      {
-        "decision_id": 4182,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 38.674173063981286,
-        "post_order_value": 50.489999999999995,
-        "cap": 44.58208653199064
-      },
-      {
-        "decision_id": 4188,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 45.7499207784782,
-        "post_order_value": 61.95,
-        "cap": 53.8499603892391
-      },
-      {
-        "decision_id": 4233,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 537.57,
-        "post_order_value": 537.57,
-        "cap": 537.57
-      },
-      {
-        "decision_id": 4274,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 43.54067600168035,
-        "post_order_value": 73.44,
-        "cap": 58.490338000840175
-      },
-      {
-        "decision_id": 4281,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 80.37267309181165,
-        "post_order_value": 97.01999999999998,
-        "cap": 88.69633654590581
-      },
-      {
-        "decision_id": 4298,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 58.65,
-        "post_order_value": 58.65,
-        "cap": 58.65
-      },
-      {
-        "decision_id": 4320,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 3.9899999999999998,
-        "post_order_value": 3.9899999999999998,
-        "cap": 3.9899999999999998
-      },
-      {
-        "decision_id": 4327,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 79.05648103979573,
-        "post_order_value": 129.792,
-        "cap": 104.42424051989786
-      },
-      {
-        "decision_id": 4352,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 26.32655418554606,
+        "pre_order_value": 29.699999999999996,
         "post_order_value": 29.699999999999996,
-        "cap": 28.013277092773027
+        "cap": 29.699999999999996
       },
       {
-        "decision_id": 4388,
+        "decision_id": 1436,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 173.7692878790435,
-        "post_order_value": 254.88,
-        "cap": 214.32464393952176
+        "pre_order_value": 25.851674892942565,
+        "post_order_value": 40.71,
+        "cap": 33.28083744647128
       },
       {
-        "decision_id": 4416,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 43.5300763222887,
-        "post_order_value": 54.87,
-        "cap": 49.20003816114435
-      },
-      {
-        "decision_id": 4418,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 21.784830257244767,
-        "post_order_value": 27.0,
-        "cap": 24.392415128622382
-      },
-      {
-        "decision_id": 4430,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 16.85880279107907,
-        "post_order_value": 28.709999999999997,
-        "cap": 22.784401395539533
-      },
-      {
-        "decision_id": 4453,
+        "decision_id": 1515,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 390.15,
-        "post_order_value": 390.15,
-        "cap": 390.15
-      },
-      {
-        "decision_id": 4464,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 74.97839140713182,
-        "post_order_value": 87.0,
-        "cap": 80.98919570356591
-      },
-      {
-        "decision_id": 4465,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 265.824,
-        "post_order_value": 265.824,
-        "cap": 265.824
-      },
-      {
-        "decision_id": 4569,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 73.35673697816596,
-        "post_order_value": 87.0,
-        "cap": 80.17836848908297
-      },
-      {
-        "decision_id": 4602,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 24.211297560579663,
-        "post_order_value": 31.32,
-        "cap": 27.76564878028983
-      },
-      {
-        "decision_id": 4641,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 44.685789861713594,
-        "post_order_value": 62.72999999999999,
-        "cap": 53.707894930856796
-      },
-      {
-        "decision_id": 4655,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 32.34,
-        "post_order_value": 32.34,
-        "cap": 32.34
-      },
-      {
-        "decision_id": 4681,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 56.21688370826056,
-        "post_order_value": 81.0,
-        "cap": 68.60844185413028
-      },
-      {
-        "decision_id": 4694,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 22.5,
-        "post_order_value": 22.5,
-        "cap": 22.5
-      },
-      {
-        "decision_id": 4717,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 33.15836391621425,
-        "post_order_value": 42.432,
-        "cap": 37.79518195810712
-      },
-      {
-        "decision_id": 4755,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 30.175037352202697,
-        "post_order_value": 40.589999999999996,
-        "cap": 35.38251867610135
-      },
-      {
-        "decision_id": 4766,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 15.84,
-        "post_order_value": 15.84,
-        "cap": 15.84
-      },
-      {
-        "decision_id": 4786,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 147.29441170565556,
-        "post_order_value": 202.176,
-        "cap": 174.7352058528278
-      },
-      {
-        "decision_id": 4818,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 35.699999999999996,
-        "post_order_value": 35.699999999999996,
-        "cap": 35.699999999999996
-      },
-      {
-        "decision_id": 4869,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 2.514813703906394,
-        "post_order_value": 3.9899999999999998,
-        "cap": 3.2524068519531966
-      },
-      {
-        "decision_id": 4895,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 219.22794475146648,
-        "post_order_value": 305.91,
-        "cap": 262.56897237573327
-      },
-      {
-        "decision_id": 4944,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 5.699999999999999,
-        "post_order_value": 5.699999999999999,
-        "cap": 5.699999999999999
-      },
-      {
-        "decision_id": 5047,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 21.211726564583387,
-        "post_order_value": 37.44,
-        "cap": 29.325863282291692
-      },
-      {
-        "decision_id": 5073,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 130.96631813149423,
-        "post_order_value": 237.14999999999998,
-        "cap": 184.0581590657471
-      },
-      {
-        "decision_id": 5108,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 24.79175276098704,
-        "post_order_value": 39.599999999999994,
-        "cap": 32.195876380493516
-      },
-      {
-        "decision_id": 5110,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 148.512,
-        "post_order_value": 148.512,
-        "cap": 148.512
-      },
-      {
-        "decision_id": 5164,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 27.54,
-        "post_order_value": 27.54,
-        "cap": 27.54
-      },
-      {
-        "decision_id": 5169,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 25.31408706883347,
-        "post_order_value": 33.63,
-        "cap": 29.472043534416734
-      },
-      {
-        "decision_id": 5183,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 27.9886942247584,
-        "post_order_value": 42.56999999999999,
-        "cap": 35.2793471123792
-      },
-      {
-        "decision_id": 5231,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 36.54,
-        "post_order_value": 36.54,
-        "cap": 36.54
-      },
-      {
-        "decision_id": 5257,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 48.46085789895031,
-        "post_order_value": 56.1,
-        "cap": 52.28042894947515
-      },
-      {
-        "decision_id": 5296,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 49.5,
-        "post_order_value": 49.5,
-        "cap": 49.5
-      },
-      {
-        "decision_id": 5313,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 39.779999999999994,
-        "post_order_value": 39.779999999999994,
-        "cap": 39.779999999999994
-      },
-      {
-        "decision_id": 5324,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 3.7548827673769014,
-        "post_order_value": 4.56,
-        "cap": 4.15744138368845
-      },
-      {
-        "decision_id": 5328,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 15.158435435113006,
-        "post_order_value": 17.25,
-        "cap": 16.204217717556503
-      },
-      {
-        "decision_id": 5349,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 20.95119736142088,
-        "post_order_value": 36.54,
-        "cap": 28.74559868071044
-      },
-      {
-        "decision_id": 5369,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 29.951999999999998,
-        "post_order_value": 29.951999999999998,
-        "cap": 29.951999999999998
-      },
-      {
-        "decision_id": 5373,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 43.932605243693,
-        "post_order_value": 56.1,
-        "cap": 50.0163026218465
-      },
-      {
-        "decision_id": 5415,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 146.016,
-        "post_order_value": 146.016,
-        "cap": 146.016
-      },
-      {
-        "decision_id": 5424,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 273.4208613218813,
-        "post_order_value": 305.91,
-        "cap": 289.6654306609407
-      },
-      {
-        "decision_id": 5436,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 36.48521941953265,
-        "post_order_value": 47.79,
-        "cap": 42.13760970976632
-      },
-      {
-        "decision_id": 5448,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 41.658743050475024,
-        "post_order_value": 47.25,
-        "cap": 44.45437152523751
-      },
-      {
-        "decision_id": 5506,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 181.54381650122397,
-        "post_order_value": 280.8,
-        "cap": 231.17190825061198
-      },
-      {
-        "decision_id": 5548,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 49.49999999999999,
-        "post_order_value": 49.49999999999999,
-        "cap": 49.49999999999999
-      },
-      {
-        "decision_id": 5554,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 15.3,
-        "post_order_value": 15.3,
-        "cap": 15.3
-      },
-      {
-        "decision_id": 5562,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 28.459990859884254,
-        "post_order_value": 37.44,
-        "cap": 32.94999542994213
-      },
-      {
-        "decision_id": 5564,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 38.81000031808725,
-        "post_order_value": 43.35,
-        "cap": 41.08000015904362
-      },
-      {
-        "decision_id": 5582,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 166.95723224528834,
-        "post_order_value": 283.296,
-        "cap": 225.12661612264418
-      },
-      {
-        "decision_id": 5585,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 17.23194790432979,
-        "post_order_value": 24.990000000000002,
-        "cap": 21.110973952164898
-      },
-      {
-        "decision_id": 5596,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 24.48,
-        "post_order_value": 24.48,
-        "cap": 24.48
-      },
-      {
-        "decision_id": 5610,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 35.4,
-        "post_order_value": 35.4,
-        "cap": 35.4
-      },
-      {
-        "decision_id": 5615,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 32.19,
-        "post_order_value": 32.19,
-        "cap": 32.19
-      },
-      {
-        "decision_id": 5675,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 18.054314110803272,
-        "post_order_value": 31.2,
-        "cap": 24.627157055401636
-      },
-      {
-        "decision_id": 5687,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 151.1937254015551,
-        "post_order_value": 252.45,
-        "cap": 201.82186270077756
-      },
-      {
-        "decision_id": 5691,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 53.1,
-        "post_order_value": 53.1,
-        "cap": 53.1
-      },
-      {
-        "decision_id": 5727,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 252.45,
-        "post_order_value": 252.45,
-        "cap": 252.45
-      },
-      {
-        "decision_id": 5901,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 24.99,
-        "post_order_value": 24.99,
-        "cap": 24.99
-      },
-      {
-        "decision_id": 5953,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 328.95,
-        "post_order_value": 328.95,
-        "cap": 328.95
-      },
-      {
-        "decision_id": 5956,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 33.53343382785842,
-        "post_order_value": 47.79,
-        "cap": 40.66171691392921
-      },
-      {
-        "decision_id": 5973,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 31.160854170849415,
+        "pre_order_value": 46.02,
         "post_order_value": 46.02,
-        "cap": 38.59042708542471
+        "cap": 46.02
       },
       {
-        "decision_id": 5987,
+        "decision_id": 1516,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 21.913965990182607,
+        "post_order_value": 29.25,
+        "cap": 25.581982995091302
+      },
+      {
+        "decision_id": 1535,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 39.75,
+        "post_order_value": 99.375,
+        "cap": 69.5625
+      },
+      {
+        "decision_id": 1563,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
         "pre_order_value": 38.60999999999999,
@@ -1982,207 +655,1183 @@
         "cap": 38.60999999999999
       },
       {
-        "decision_id": 5999,
+        "decision_id": 1580,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 17.584010212559566,
-        "post_order_value": 29.58,
-        "cap": 23.58200510627978
+        "pre_order_value": 30.46490650788872,
+        "post_order_value": 38.94,
+        "cap": 34.702453253944356
       },
       {
-        "decision_id": 6086,
+        "decision_id": 1586,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 58.40999999999999,
-        "post_order_value": 58.40999999999999,
-        "cap": 58.40999999999999
+        "pre_order_value": 31.2,
+        "post_order_value": 31.2,
+        "cap": 31.2
       },
       {
-        "decision_id": 6087,
-        "remediate_regate_response": "escalate",
+        "decision_id": 1596,
+        "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 32.48891755696405,
-        "post_order_value": 43.559999999999995,
-        "cap": 38.02445877848202
+        "pre_order_value": 26.009999999999998,
+        "post_order_value": 26.009999999999998,
+        "cap": 26.009999999999998
       },
       {
-        "decision_id": 6156,
-        "remediate_regate_response": "escalate",
+        "decision_id": 1628,
+        "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 41.549413491003456,
-        "post_order_value": 47.79,
-        "cap": 44.66970674550173
+        "pre_order_value": 34.65,
+        "post_order_value": 34.65,
+        "cap": 34.65
       },
       {
-        "decision_id": 6157,
+        "decision_id": 1643,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 2.93402110173727,
+        "pre_order_value": 41.580864002562954,
+        "post_order_value": 46.5,
+        "cap": 44.040432001281474
+      },
+      {
+        "decision_id": 1644,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 54.06,
+        "post_order_value": 54.06,
+        "cap": 54.06
+      },
+      {
+        "decision_id": 1646,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 19.799999999999997,
+        "post_order_value": 19.799999999999997,
+        "cap": 19.799999999999997
+      },
+      {
+        "decision_id": 1650,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 34.944,
+        "post_order_value": 34.944,
+        "cap": 34.944
+      },
+      {
+        "decision_id": 1655,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 30.024982736798457,
+        "post_order_value": 46.02,
+        "cap": 38.02249136839923
+      },
+      {
+        "decision_id": 1708,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 22.661536287486786,
+        "post_order_value": 27.539999999999996,
+        "cap": 25.10076814374339
+      },
+      {
+        "decision_id": 1720,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 11.485782636955978,
+        "post_order_value": 19.799999999999997,
+        "cap": 15.642891318477988
+      },
+      {
+        "decision_id": 1748,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 22.642700179577428,
+        "post_order_value": 33.0,
+        "cap": 27.821350089788716
+      },
+      {
+        "decision_id": 1776,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 113.89188683477892,
+        "post_order_value": 198.432,
+        "cap": 156.16194341738947
+      },
+      {
+        "decision_id": 1781,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 38.60999999999999,
+        "post_order_value": 38.60999999999999,
+        "cap": 38.60999999999999
+      },
+      {
+        "decision_id": 1821,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 17.608472874635304,
+        "post_order_value": 26.55,
+        "cap": 22.079236437317654
+      },
+      {
+        "decision_id": 1868,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 9.924554478008437,
+        "post_order_value": 12.24,
+        "cap": 11.082277239004219
+      },
+      {
+        "decision_id": 1873,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 108.0,
+        "post_order_value": 108.0,
+        "cap": 108.0
+      },
+      {
+        "decision_id": 1874,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 33.552662787412025,
+        "post_order_value": 51.51,
+        "cap": 42.53133139370601
+      },
+      {
+        "decision_id": 1887,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 96.89999999999999,
+        "post_order_value": 96.89999999999999,
+        "cap": 96.89999999999999
+      },
+      {
+        "decision_id": 1917,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 29.699999999999996,
+        "post_order_value": 74.24999999999999,
+        "cap": 51.974999999999994
+      },
+      {
+        "decision_id": 1929,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 71.07458804447148,
+        "post_order_value": 97.344,
+        "cap": 84.20929402223574
+      },
+      {
+        "decision_id": 1940,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 31.810470380823897,
+        "post_order_value": 48.96,
+        "cap": 40.38523519041195
+      },
+      {
+        "decision_id": 2006,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 240.57000000000002,
+        "post_order_value": 240.57000000000002,
+        "cap": 240.57000000000002
+      },
+      {
+        "decision_id": 2035,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 77.48129007099166,
+        "post_order_value": 243.36,
+        "cap": 160.42064503549585
+      },
+      {
+        "decision_id": 2076,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 153.99,
+        "post_order_value": 153.99,
+        "cap": 153.99
+      },
+      {
+        "decision_id": 2118,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 29.703673756462155,
+        "post_order_value": 52.46999999999999,
+        "cap": 41.086836878231075
+      },
+      {
+        "decision_id": 2127,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 39.0,
+        "post_order_value": 39.0,
+        "cap": 39.0
+      },
+      {
+        "decision_id": 2163,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 3.42,
         "post_order_value": 3.42,
-        "cap": 3.1770105508686353
+        "cap": 3.42
       },
       {
-        "decision_id": 6165,
+        "decision_id": 2168,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 23.76,
-        "post_order_value": 23.76,
-        "cap": 23.76
+        "pre_order_value": 49.98,
+        "post_order_value": 49.98,
+        "cap": 49.98
       },
       {
-        "decision_id": 6233,
+        "decision_id": 2171,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 13.26,
-        "post_order_value": 13.26,
-        "cap": 13.26
+        "pre_order_value": 126.048,
+        "post_order_value": 126.048,
+        "cap": 126.048
       },
       {
-        "decision_id": 6266,
+        "decision_id": 2228,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 52.2,
+        "post_order_value": 52.2,
+        "cap": 52.2
+      },
+      {
+        "decision_id": 2235,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 169.92000000000002,
+        "post_order_value": 169.92000000000002,
+        "cap": 169.92000000000002
+      },
+      {
+        "decision_id": 2255,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 89.50283859485361,
-        "post_order_value": 122.75999999999999,
-        "cap": 106.1314192974268
+        "pre_order_value": 45.469685340472275,
+        "post_order_value": 63.72,
+        "cap": 54.59484267023613
       },
       {
-        "decision_id": 6273,
-        "remediate_regate_response": "admit",
+        "decision_id": 2274,
+        "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 31.35,
-        "post_order_value": 31.35,
-        "cap": 31.35
+        "pre_order_value": 26.405153054421355,
+        "post_order_value": 39.779999999999994,
+        "cap": 33.092576527210674
       },
       {
-        "decision_id": 6286,
+        "decision_id": 2288,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 143.52,
-        "post_order_value": 143.52,
-        "cap": 143.52
+        "pre_order_value": 141.024,
+        "post_order_value": 141.024,
+        "cap": 141.024
       },
       {
-        "decision_id": 6309,
+        "decision_id": 2293,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 73.44,
+        "pre_order_value": 37.17,
+        "post_order_value": 37.17,
+        "cap": 37.17
+      },
+      {
+        "decision_id": 2334,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 96.89999999999999,
+        "post_order_value": 96.89999999999999,
+        "cap": 96.89999999999999
+      },
+      {
+        "decision_id": 2385,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 3.42,
+        "post_order_value": 3.42,
+        "cap": 3.42
+      },
+      {
+        "decision_id": 2419,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 43.88210986111934,
+        "post_order_value": 61.379999999999995,
+        "cap": 52.63105493055967
+      },
+      {
+        "decision_id": 2423,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 33.63,
+        "post_order_value": 33.63,
+        "cap": 33.63
+      },
+      {
+        "decision_id": 2447,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 36.0,
+        "post_order_value": 36.0,
+        "cap": 36.0
+      },
+      {
+        "decision_id": 2491,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 317.8812579181196,
+        "post_order_value": 380.64,
+        "cap": 349.2606289590598
+      },
+      {
+        "decision_id": 2505,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 24.48,
+        "post_order_value": 24.48,
+        "cap": 24.48
+      },
+      {
+        "decision_id": 2584,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 15.8971736586951,
+        "post_order_value": 26.73,
+        "cap": 21.31358682934755
+      },
+      {
+        "decision_id": 2589,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 33.66,
+        "post_order_value": 33.66,
+        "cap": 33.66
+      },
+      {
+        "decision_id": 2618,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 41.184,
+        "post_order_value": 41.184,
+        "cap": 41.184
+      },
+      {
+        "decision_id": 2675,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 36.13420058306828,
+        "post_order_value": 40.89,
+        "cap": 38.51210029153414
+      },
+      {
+        "decision_id": 2699,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 28.08,
+        "post_order_value": 28.08,
+        "cap": 28.08
+      },
+      {
+        "decision_id": 2743,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 77.88,
+        "post_order_value": 77.88,
+        "cap": 77.88
+      },
+      {
+        "decision_id": 2770,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 34.944,
+        "post_order_value": 87.36,
+        "cap": 61.152
+      },
+      {
+        "decision_id": 2784,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 51.33,
+        "post_order_value": 51.33,
+        "cap": 51.33
+      },
+      {
+        "decision_id": 2839,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 53.1,
+        "post_order_value": 53.1,
+        "cap": 53.1
+      },
+      {
+        "decision_id": 2842,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 32.85256533746358,
+        "post_order_value": 39.779999999999994,
+        "cap": 36.31628266873179
+      },
+      {
+        "decision_id": 2848,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 64.896,
+        "post_order_value": 64.896,
+        "cap": 64.896
+      },
+      {
+        "decision_id": 2867,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 377.19,
+        "post_order_value": 377.19,
+        "cap": 377.19
+      },
+      {
+        "decision_id": 2898,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 50.343517142599424,
+        "post_order_value": 77.88,
+        "cap": 64.1117585712997
+      },
+      {
+        "decision_id": 2910,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 58.24832839934425,
+        "post_order_value": 68.64,
+        "cap": 63.44416419967213
+      },
+      {
+        "decision_id": 2931,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 33.6846138366264,
+        "post_order_value": 46.92,
+        "cap": 40.3023069183132
+      },
+      {
+        "decision_id": 2990,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 13.904976831515363,
+        "post_order_value": 22.769999999999996,
+        "cap": 18.33748841575768
+      },
+      {
+        "decision_id": 3026,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 32.7889540884501,
+        "post_order_value": 39.269999999999996,
+        "cap": 36.02947704422505
+      },
+      {
+        "decision_id": 3031,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 17.177289233046434,
+        "post_order_value": 28.08,
+        "cap": 22.628644616523218
+      },
+      {
+        "decision_id": 3033,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 61.2,
+        "post_order_value": 61.2,
+        "cap": 61.2
+      },
+      {
+        "decision_id": 3120,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 44.25,
+        "post_order_value": 44.25,
+        "cap": 44.25
+      },
+      {
+        "decision_id": 3133,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 21.291339514242505,
+        "post_order_value": 23.759999999999998,
+        "cap": 22.52566975712125
+      },
+      {
+        "decision_id": 3148,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 115.5,
+        "post_order_value": 115.5,
+        "cap": 115.5
+      },
+      {
+        "decision_id": 3178,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 34.77132979443235,
+        "post_order_value": 42.839999999999996,
+        "cap": 38.805664897216175
+      },
+      {
+        "decision_id": 3190,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 46.560733193592036,
+        "post_order_value": 58.40999999999999,
+        "cap": 52.48536659679601
+      },
+      {
+        "decision_id": 3228,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 38.60999999999999,
+        "post_order_value": 38.60999999999999,
+        "cap": 38.60999999999999
+      },
+      {
+        "decision_id": 3242,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 45.939206507868924,
+        "post_order_value": 61.19999999999999,
+        "cap": 53.56960325393446
+      },
+      {
+        "decision_id": 3246,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 51.168,
+        "post_order_value": 127.92,
+        "cap": 89.544
+      },
+      {
+        "decision_id": 3261,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 42.71409785970409,
+        "post_order_value": 62.4,
+        "cap": 52.557048929852044
+      },
+      {
+        "decision_id": 3273,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 57.996442494509814,
+        "post_order_value": 74.34,
+        "cap": 66.1682212472549
+      },
+      {
+        "decision_id": 3310,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 45.22952344708153,
+        "post_order_value": 78.624,
+        "cap": 61.926761723540764
+      },
+      {
+        "decision_id": 3344,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 32.64,
+        "post_order_value": 81.6,
+        "cap": 57.12
+      },
+      {
+        "decision_id": 3361,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 107.54697222130349,
+        "post_order_value": 190.632,
+        "cap": 149.08948611065176
+      },
+      {
+        "decision_id": 3368,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 56.42999999999999,
+        "post_order_value": 56.42999999999999,
+        "cap": 56.42999999999999
+      },
+      {
+        "decision_id": 3376,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 12.795421690465618,
+        "post_order_value": 18.36,
+        "cap": 15.577710845232808
+      },
+      {
+        "decision_id": 3407,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 2.8328480033180634,
+        "post_order_value": 3.9899999999999998,
+        "cap": 3.4114240016590314
+      },
+      {
+        "decision_id": 3411,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 57.12,
+        "post_order_value": 57.12,
+        "cap": 57.12
+      },
+      {
+        "decision_id": 3463,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 63.74999999999999,
+        "post_order_value": 63.74999999999999,
+        "cap": 63.74999999999999
+      },
+      {
+        "decision_id": 3491,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 41.82,
+        "post_order_value": 41.82,
+        "cap": 41.82
+      },
+      {
+        "decision_id": 3522,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 27.453942423001013,
+        "post_order_value": 42.0,
+        "cap": 34.726971211500505
+      },
+      {
+        "decision_id": 3534,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 271.8112395161745,
+        "post_order_value": 443.7,
+        "cap": 357.7556197580873
+      },
+      {
+        "decision_id": 3545,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 51.673449607851,
+        "post_order_value": 81.0,
+        "cap": 66.3367248039255
+      },
+      {
+        "decision_id": 3587,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 131.04,
+        "post_order_value": 131.04,
+        "cap": 131.04
+      },
+      {
+        "decision_id": 3590,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 74.24999999999999,
+        "post_order_value": 74.24999999999999,
+        "cap": 74.24999999999999
+      },
+      {
+        "decision_id": 3635,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 2.1543321384748824,
+        "post_order_value": 3.42,
+        "cap": 2.787166069237441
+      },
+      {
+        "decision_id": 3638,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 28.9039626401875,
+        "post_order_value": 42.57,
+        "cap": 35.73698132009375
+      },
+      {
+        "decision_id": 3666,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 200.928,
+        "post_order_value": 200.928,
+        "cap": 200.928
+      },
+      {
+        "decision_id": 3668,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 316.83,
+        "post_order_value": 316.83,
+        "cap": 316.83
+      },
+      {
+        "decision_id": 3683,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 23.87465701196004,
+        "post_order_value": 28.05,
+        "cap": 25.962328505980018
+      },
+      {
+        "decision_id": 3715,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 33.956289373024276,
+        "post_order_value": 37.95,
+        "cap": 35.95314468651214
+      },
+      {
+        "decision_id": 3716,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 39.75,
+        "post_order_value": 39.75,
+        "cap": 39.75
+      },
+      {
+        "decision_id": 3723,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 117.0,
+        "post_order_value": 117.0,
+        "cap": 117.0
+      },
+      {
+        "decision_id": 3724,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 37.59924590370271,
+        "post_order_value": 58.65,
+        "cap": 48.12462295185135
+      },
+      {
+        "decision_id": 3733,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 58.410000000000004,
+        "post_order_value": 58.410000000000004,
+        "cap": 58.410000000000004
+      },
+      {
+        "decision_id": 3787,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 59.39999999999999,
+        "post_order_value": 59.39999999999999,
+        "cap": 59.39999999999999
+      },
+      {
+        "decision_id": 3800,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 76.71607742803133,
+        "post_order_value": 117.0,
+        "cap": 96.85803871401566
+      },
+      {
+        "decision_id": 3817,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 96.44432458175774,
+        "post_order_value": 137.904,
+        "cap": 117.17416229087887
+      },
+      {
+        "decision_id": 3819,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 237.12,
+        "post_order_value": 237.12,
+        "cap": 237.12
+      },
+      {
+        "decision_id": 3883,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 26.234680188920972,
+        "post_order_value": 44.25,
+        "cap": 35.24234009446049
+      },
+      {
+        "decision_id": 3891,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 124.8,
+        "post_order_value": 124.8,
+        "cap": 124.8
+      },
+      {
+        "decision_id": 3894,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 89.1,
+        "post_order_value": 89.1,
+        "cap": 89.1
+      },
+      {
+        "decision_id": 3923,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 53.55,
+        "post_order_value": 53.55,
+        "cap": 53.55
+      },
+      {
+        "decision_id": 3926,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 64.25999999999999,
+        "post_order_value": 64.25999999999999,
+        "cap": 64.25999999999999
+      },
+      {
+        "decision_id": 3945,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 64.896,
+        "post_order_value": 64.896,
+        "cap": 64.896
+      },
+      {
+        "decision_id": 3977,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 3.212922854855381,
+        "post_order_value": 9.974999999999998,
+        "cap": 6.59396142742769
+      },
+      {
+        "decision_id": 3998,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 33.975655686393004,
+        "post_order_value": 40.5,
+        "cap": 37.2378278431965
+      },
+      {
+        "decision_id": 4015,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 49.76565860574394,
+        "post_order_value": 62.72999999999999,
+        "cap": 56.24782930287196
+      },
+      {
+        "decision_id": 4017,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 46.087018677548926,
+        "post_order_value": 57.12,
+        "cap": 51.60350933877446
+      },
+      {
+        "decision_id": 4022,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 71.4,
+        "post_order_value": 178.5,
+        "cap": 124.95
+      },
+      {
+        "decision_id": 4029,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 428.4,
+        "post_order_value": 1071.0,
+        "cap": 749.7
+      },
+      {
+        "decision_id": 4035,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 43.81504840218671,
+        "post_order_value": 53.55,
+        "cap": 48.68252420109336
+      },
+      {
+        "decision_id": 4079,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 200.928,
+        "post_order_value": 200.928,
+        "cap": 200.928
+      },
+      {
+        "decision_id": 4114,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 57.486716769729966,
         "post_order_value": 73.44,
-        "cap": 73.44
+        "cap": 65.46335838486499
       },
       {
-        "decision_id": 6318,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 21.124879621691107,
-        "post_order_value": 27.54,
-        "cap": 24.332439810845553
-      },
-      {
-        "decision_id": 6340,
+        "decision_id": 4121,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 32.129999999999995,
-        "post_order_value": 32.129999999999995,
-        "cap": 32.129999999999995
+        "pre_order_value": 92.07,
+        "post_order_value": 92.07,
+        "cap": 92.07
       },
       {
-        "decision_id": 6369,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 8.327473904590896,
-        "post_order_value": 13.26,
-        "cap": 10.793736952295447
-      },
-      {
-        "decision_id": 6436,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 23.36164379052364,
-        "post_order_value": 38.688,
-        "cap": 31.024821895261823
-      },
-      {
-        "decision_id": 6438,
+        "decision_id": 4187,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 51.0,
-        "post_order_value": 51.0,
-        "cap": 51.0
+        "pre_order_value": 37.17,
+        "post_order_value": 37.17,
+        "cap": 37.17
       },
       {
-        "decision_id": 6482,
+        "decision_id": 4203,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 20.887726275780516,
-        "post_order_value": 36.96,
-        "cap": 28.923863137890258
+        "pre_order_value": 44.28076788352571,
+        "post_order_value": 59.39999999999999,
+        "cap": 51.84038394176285
       },
       {
-        "decision_id": 6492,
-        "remediate_regate_response": "escalate",
+        "decision_id": 4208,
+        "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 70.15468648872144,
-        "post_order_value": 98.00999999999999,
-        "cap": 84.08234324436071
+        "pre_order_value": 58.13999999999999,
+        "post_order_value": 58.13999999999999,
+        "cap": 58.13999999999999
       },
       {
-        "decision_id": 6496,
+        "decision_id": 4245,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 346.25520599249893,
+        "pre_order_value": 39.701595463835204,
+        "post_order_value": 44.25,
+        "cap": 41.9757977319176
+      },
+      {
+        "decision_id": 4246,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 2.9514872913807095,
+        "post_order_value": 3.9899999999999998,
+        "cap": 3.4707436456903547
+      },
+      {
+        "decision_id": 4248,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 58.13999999999999,
+        "post_order_value": 58.13999999999999,
+        "cap": 58.13999999999999
+      },
+      {
+        "decision_id": 4265,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 428.4,
+        "post_order_value": 428.4,
+        "cap": 428.4
+      },
+      {
+        "decision_id": 4277,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 305.76,
+        "post_order_value": 305.76,
+        "cap": 305.76
+      },
+      {
+        "decision_id": 4287,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 31.62,
+        "post_order_value": 31.62,
+        "cap": 31.62
+      },
+      {
+        "decision_id": 4306,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 33.63,
+        "post_order_value": 33.63,
+        "cap": 33.63
+      },
+      {
+        "decision_id": 4321,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 25.4997078658979,
+        "post_order_value": 31.62,
+        "cap": 28.55985393294895
+      },
+      {
+        "decision_id": 4322,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 43.22189385703535,
+        "post_order_value": 58.13999999999999,
+        "cap": 50.68094692851767
+      },
+      {
+        "decision_id": 4325,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 38.45300623621029,
+        "post_order_value": 49.98,
+        "cap": 44.216503118105145
+      },
+      {
+        "decision_id": 4345,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 51.732714766506625,
+        "post_order_value": 64.25999999999999,
+        "cap": 57.99635738325331
+      },
+      {
+        "decision_id": 4372,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 50.489999999999995,
+        "post_order_value": 50.489999999999995,
+        "cap": 50.489999999999995
+      },
+      {
+        "decision_id": 4413,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 298.611454822222,
         "post_order_value": 390.15,
-        "cap": 368.2026029962494
+        "cap": 344.380727411111
       },
       {
-        "decision_id": 6498,
+        "decision_id": 4438,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 18.341848141241112,
-        "post_order_value": 27.0,
-        "cap": 22.670924070620558
+        "pre_order_value": 17.142776718323077,
+        "post_order_value": 29.25,
+        "cap": 23.19638835916154
       },
       {
-        "decision_id": 6506,
+        "decision_id": 4439,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 71.95456592996356,
-        "post_order_value": 118.79999999999998,
-        "cap": 95.37728296498177
+        "pre_order_value": 30.252982529957713,
+        "post_order_value": 42.839999999999996,
+        "cap": 36.546491264978854
       },
       {
-        "decision_id": 6605,
+        "decision_id": 4447,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 33.13616360290381,
-        "post_order_value": 56.64,
-        "cap": 44.888081801451904
+        "pre_order_value": 18.106392780180283,
+        "post_order_value": 30.09,
+        "cap": 24.09819639009014
       },
       {
-        "decision_id": 6613,
+        "decision_id": 4452,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 49.04418811649446,
+        "post_order_value": 66.144,
+        "cap": 57.59409405824724
+      },
+      {
+        "decision_id": 4466,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 53.96548805892568,
+        "post_order_value": 89.856,
+        "cap": 71.91074402946283
+      },
+      {
+        "decision_id": 4521,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 54.0,
-        "post_order_value": 54.0,
-        "cap": 54.0
+        "pre_order_value": 390.15,
+        "post_order_value": 390.15,
+        "cap": 390.15
       },
       {
-        "decision_id": 6623,
+        "decision_id": 4567,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 1.5824057644070675,
-        "post_order_value": 2.8499999999999996,
-        "cap": 2.2162028822035333
+        "pre_order_value": 55.45798733010971,
+        "post_order_value": 62.72999999999999,
+        "cap": 59.09399366505485
       },
       {
-        "decision_id": 6675,
+        "decision_id": 4653,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 176.45564268843546,
-        "post_order_value": 221.85,
-        "cap": 199.15282134421773
+        "pre_order_value": 27.619514785264766,
+        "post_order_value": 44.37,
+        "cap": 35.99475739263238
       },
       {
-        "decision_id": 6699,
+        "decision_id": 4657,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 19.415185081679198,
+        "post_order_value": 32.129999999999995,
+        "cap": 25.772592540839597
+      },
+      {
+        "decision_id": 4668,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 47.519999999999996,
+        "post_order_value": 47.519999999999996,
+        "cap": 47.519999999999996
+      },
+      {
+        "decision_id": 4678,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 424.71000000000004,
+        "post_order_value": 424.71000000000004,
+        "cap": 424.71000000000004
+      },
+      {
+        "decision_id": 4692,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 39.017208752597526,
+        "post_order_value": 44.37,
+        "cap": 41.693604376298765
+      },
+      {
+        "decision_id": 4695,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 16.32,
+        "post_order_value": 16.32,
+        "cap": 16.32
+      },
+      {
+        "decision_id": 4709,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 54.74879029150397,
+        "post_order_value": 61.95,
+        "cap": 58.349395145751984
+      },
+      {
+        "decision_id": 4787,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 33.800382808414746,
+        "post_order_value": 42.432,
+        "cap": 38.11619140420737
+      },
+      {
+        "decision_id": 4799,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
         "pre_order_value": 18.36,
@@ -2190,44 +1839,596 @@
         "cap": 18.36
       },
       {
-        "decision_id": 6738,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 24.3764989509192,
-        "post_order_value": 27.54,
-        "cap": 25.9582494754596
-      },
-      {
-        "decision_id": 6764,
+        "decision_id": 4819,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 20.25,
-        "post_order_value": 20.25,
-        "cap": 20.25
+        "pre_order_value": 31.32,
+        "post_order_value": 31.32,
+        "cap": 31.32
       },
       {
-        "decision_id": 6846,
+        "decision_id": 4858,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 71.08222553395782,
-        "post_order_value": 99.0,
-        "cap": 85.04111276697891
+        "pre_order_value": 248.1911871145916,
+        "post_order_value": 341.55,
+        "cap": 294.8705935572958
       },
       {
-        "decision_id": 6885,
+        "decision_id": 4883,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 81.09892517541486,
-        "post_order_value": 108.0,
-        "cap": 94.54946258770744
+        "pre_order_value": 31.66873473259477,
+        "post_order_value": 96.52499999999999,
+        "cap": 64.09686736629737
       },
       {
-        "decision_id": 6902,
+        "decision_id": 4886,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 70.38,
-        "post_order_value": 70.38,
-        "cap": 70.38
+        "pre_order_value": 37.44,
+        "post_order_value": 37.44,
+        "cap": 37.44
+      },
+      {
+        "decision_id": 4887,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 244.79999999999998,
+        "post_order_value": 244.79999999999998,
+        "cap": 244.79999999999998
+      },
+      {
+        "decision_id": 4927,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 58.410000000000004,
+        "post_order_value": 58.410000000000004,
+        "cap": 58.410000000000004
+      },
+      {
+        "decision_id": 4934,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 55.21656798452754,
+        "post_order_value": 75.0,
+        "cap": 65.10828399226378
+      },
+      {
+        "decision_id": 4936,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 33.46368882315464,
+        "post_order_value": 37.44,
+        "cap": 35.45184441157732
+      },
+      {
+        "decision_id": 4956,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 85.0896408531008,
+        "post_order_value": 148.512,
+        "cap": 116.8008204265504
+      },
+      {
+        "decision_id": 4975,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 41.58,
+        "post_order_value": 41.58,
+        "cap": 41.58
+      },
+      {
+        "decision_id": 4979,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 21.377565484486368,
+        "post_order_value": 36.72,
+        "cap": 29.048782742243183
+      },
+      {
+        "decision_id": 5048,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 125.67,
+        "post_order_value": 125.67,
+        "cap": 125.67
+      },
+      {
+        "decision_id": 5053,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 39.599999999999994,
+        "post_order_value": 39.599999999999994,
+        "cap": 39.599999999999994
+      },
+      {
+        "decision_id": 5091,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 41.58,
+        "post_order_value": 41.58,
+        "cap": 41.58
+      },
+      {
+        "decision_id": 5104,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 78.75,
+        "post_order_value": 78.75,
+        "cap": 78.75
+      },
+      {
+        "decision_id": 5118,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 45.9,
+        "post_order_value": 45.9,
+        "cap": 45.9
+      },
+      {
+        "decision_id": 5178,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 37.00985779281888,
+        "post_order_value": 64.896,
+        "cap": 50.95292889640944
+      },
+      {
+        "decision_id": 5243,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 45.53999999999999,
+        "post_order_value": 45.53999999999999,
+        "cap": 45.53999999999999
+      },
+      {
+        "decision_id": 5251,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 22.030039977465435,
+        "post_order_value": 24.48,
+        "cap": 23.25501998873272
+      },
+      {
+        "decision_id": 5292,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 22.137545596971655,
+        "post_order_value": 29.951999999999998,
+        "cap": 26.044772798485827
+      },
+      {
+        "decision_id": 5531,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 30.896250833470237,
+        "post_order_value": 46.529999999999994,
+        "cap": 38.71312541673512
+      },
+      {
+        "decision_id": 5533,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 37.23247852258139,
+        "post_order_value": 49.92,
+        "cap": 43.576239261290695
+      },
+      {
+        "decision_id": 5569,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 53.664,
+        "post_order_value": 53.664,
+        "cap": 53.664
+      },
+      {
+        "decision_id": 5665,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 57.419999999999995,
+        "post_order_value": 57.419999999999995,
+        "cap": 57.419999999999995
+      },
+      {
+        "decision_id": 5666,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 71.27999999999999,
+        "post_order_value": 71.27999999999999,
+        "cap": 71.27999999999999
+      },
+      {
+        "decision_id": 5696,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 34.580642184375264,
+        "post_order_value": 47.42999999999999,
+        "cap": 41.00532109218763
+      },
+      {
+        "decision_id": 5703,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 52.46999999999999,
+        "post_order_value": 52.46999999999999,
+        "cap": 52.46999999999999
+      },
+      {
+        "decision_id": 5715,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 34.944,
+        "post_order_value": 34.944,
+        "cap": 34.944
+      },
+      {
+        "decision_id": 5764,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 163.86293178358474,
+        "post_order_value": 252.45,
+        "cap": 208.15646589179238
+      },
+      {
+        "decision_id": 5765,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 48.88821011068743,
+        "post_order_value": 61.95,
+        "cap": 55.41910505534372
+      },
+      {
+        "decision_id": 5826,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 19.15419607756146,
+        "post_order_value": 21.75,
+        "cap": 20.45209803878073
+      },
+      {
+        "decision_id": 5873,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 36.629999999999995,
+        "post_order_value": 36.629999999999995,
+        "cap": 36.629999999999995
+      },
+      {
+        "decision_id": 5906,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 30.419999999999998,
+        "post_order_value": 30.419999999999998,
+        "cap": 30.419999999999998
+      },
+      {
+        "decision_id": 5908,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 34.645713155677655,
+        "post_order_value": 51.0,
+        "cap": 42.82285657783883
+      },
+      {
+        "decision_id": 5945,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 72.0,
+        "post_order_value": 72.0,
+        "cap": 72.0
+      },
+      {
+        "decision_id": 5948,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 37.62,
+        "post_order_value": 37.62,
+        "cap": 37.62
+      },
+      {
+        "decision_id": 6053,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 3.9899999999999998,
+        "post_order_value": 3.9899999999999998,
+        "cap": 3.9899999999999998
+      },
+      {
+        "decision_id": 6074,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 54.07099967252438,
+        "post_order_value": 74.34,
+        "cap": 64.20549983626219
+      },
+      {
+        "decision_id": 6090,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 46.02,
+        "post_order_value": 46.02,
+        "cap": 46.02
+      },
+      {
+        "decision_id": 6113,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 26.52,
+        "post_order_value": 26.52,
+        "cap": 26.52
+      },
+      {
+        "decision_id": 6214,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 51.38405358764978,
+        "post_order_value": 67.26,
+        "cap": 59.32202679382489
+      },
+      {
+        "decision_id": 6221,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 120.666,
+        "post_order_value": 120.666,
+        "cap": 120.666
+      },
+      {
+        "decision_id": 6223,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 145.16282858134804,
+        "post_order_value": 202.176,
+        "cap": 173.669414290674
+      },
+      {
+        "decision_id": 6239,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 28.515456825615765,
+        "post_order_value": 37.44,
+        "cap": 32.97772841280788
+      },
+      {
+        "decision_id": 6279,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 38.61,
+        "post_order_value": 38.61,
+        "cap": 38.61
+      },
+      {
+        "decision_id": 6280,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 47.56362180329882,
+        "post_order_value": 86.25,
+        "cap": 66.90681090164941
+      },
+      {
+        "decision_id": 6300,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 202.176,
+        "post_order_value": 202.176,
+        "cap": 202.176
+      },
+      {
+        "decision_id": 6308,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 11.031447292501163,
+        "post_order_value": 13.26,
+        "cap": 12.14572364625058
+      },
+      {
+        "decision_id": 6356,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 28.71,
+        "post_order_value": 71.77499999999999,
+        "cap": 50.24249999999999
+      },
+      {
+        "decision_id": 6363,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 21.658953683086835,
+        "post_order_value": 29.580000000000002,
+        "cap": 25.619476841543417
+      },
+      {
+        "decision_id": 6368,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 38.27519414220028,
+        "post_order_value": 44.25,
+        "cap": 41.26259707110014
+      },
+      {
+        "decision_id": 6378,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 43.885732702821294,
+        "post_order_value": 68.34,
+        "cap": 56.112866351410645
+      },
+      {
+        "decision_id": 6387,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 29.323311339847432,
+        "post_order_value": 38.94,
+        "cap": 34.13165566992372
+      },
+      {
+        "decision_id": 6416,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 85.68,
+        "post_order_value": 85.68,
+        "cap": 85.68
+      },
+      {
+        "decision_id": 6444,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 2.16218425099017,
+        "post_order_value": 3.42,
+        "cap": 2.791092125495085
+      },
+      {
+        "decision_id": 6473,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 38.688,
+        "post_order_value": 38.688,
+        "cap": 38.688
+      },
+      {
+        "decision_id": 6487,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 112.43837072598488,
+        "post_order_value": 144.768,
+        "cap": 128.60318536299243
+      },
+      {
+        "decision_id": 6498,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 27.0,
+        "post_order_value": 27.0,
+        "cap": 27.0
+      },
+      {
+        "decision_id": 6500,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 73.44,
+        "post_order_value": 73.44,
+        "cap": 73.44
+      },
+      {
+        "decision_id": 6503,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 217.8664570227328,
+        "post_order_value": 338.208,
+        "cap": 278.0372285113664
+      },
+      {
+        "decision_id": 6509,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 39.405685909956944,
+        "post_order_value": 60.38999999999999,
+        "cap": 49.89784295497847
+      },
+      {
+        "decision_id": 6515,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 32.129999999999995,
+        "post_order_value": 32.129999999999995,
+        "cap": 32.129999999999995
+      },
+      {
+        "decision_id": 6546,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 28.45583473414665,
+        "post_order_value": 46.02,
+        "cap": 37.23791736707332
+      },
+      {
+        "decision_id": 6580,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 92.54330511709648,
+        "post_order_value": 118.79999999999998,
+        "cap": 105.67165255854823
+      },
+      {
+        "decision_id": 6595,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 68.34,
+        "post_order_value": 68.34,
+        "cap": 68.34
+      },
+      {
+        "decision_id": 6609,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 18.619923172288257,
+        "post_order_value": 24.36,
+        "cap": 21.489961586144126
+      },
+      {
+        "decision_id": 6706,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 38.69831025826071,
+        "post_order_value": 138.59999999999997,
+        "cap": 88.64915512913034
+      },
+      {
+        "decision_id": 6723,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 43.559999999999995,
+        "post_order_value": 43.559999999999995,
+        "cap": 43.559999999999995
+      },
+      {
+        "decision_id": 6727,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 1.5904073387110595,
+        "post_order_value": 2.8499999999999996,
+        "cap": 2.22020366935553
+      },
+      {
+        "decision_id": 6742,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 135.52606766691744,
+        "post_order_value": 157.248,
+        "cap": 146.3870338334587
+      },
+      {
+        "decision_id": 6822,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 24.36,
+        "post_order_value": 24.36,
+        "cap": 24.36
+      },
+      {
+        "decision_id": 6854,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 136.4743990421556,
+        "post_order_value": 221.85,
+        "cap": 179.1621995210778
+      },
+      {
+        "decision_id": 6880,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 18.36,
+        "post_order_value": 18.36,
+        "cap": 18.36
+      },
+      {
+        "decision_id": 6901,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 202.98118875781,
+        "post_order_value": 270.27000000000004,
+        "cap": 236.62559437890502
       },
       {
         "decision_id": 6906,
@@ -2238,71 +2439,71 @@
         "cap": 46.176
       },
       {
-        "decision_id": 6950,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 26.55,
-        "post_order_value": 26.55,
-        "cap": 26.55
-      },
-      {
-        "decision_id": 6978,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 58.5,
-        "post_order_value": 58.5,
-        "cap": 58.5
-      },
-      {
-        "decision_id": 6998,
+        "decision_id": 6909,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 28.27086550723403,
-        "post_order_value": 38.61,
-        "cap": 33.44043275361702
+        "pre_order_value": 62.133009882838245,
+        "post_order_value": 110.87999999999998,
+        "cap": 86.50650494141911
       },
       {
-        "decision_id": 7093,
+        "decision_id": 6912,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 49.70567213698881,
+        "post_order_value": 59.39999999999999,
+        "cap": 54.5528360684944
+      },
+      {
+        "decision_id": 6916,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 129.792,
+        "pre_order_value": 55.07999999999999,
+        "post_order_value": 55.07999999999999,
+        "cap": 55.07999999999999
+      },
+      {
+        "decision_id": 6925,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 27.515735088051215,
+        "post_order_value": 35.7,
+        "cap": 31.60786754402561
+      },
+      {
+        "decision_id": 6977,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 104.68099910081982,
         "post_order_value": 129.792,
-        "cap": 129.792
+        "cap": 117.23649955040992
       },
       {
-        "decision_id": 7146,
+        "decision_id": 7048,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 73.44,
-        "post_order_value": 73.44,
-        "cap": 73.44
+        "pre_order_value": 46.02,
+        "post_order_value": 46.02,
+        "cap": 46.02
       },
       {
-        "decision_id": 7147,
+        "decision_id": 7051,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 15.943427746572041,
-        "post_order_value": 24.75,
-        "cap": 20.34671387328602
-      },
-      {
-        "decision_id": 7169,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 35.03591549986589,
+        "pre_order_value": 35.96903603973282,
         "post_order_value": 45.9,
-        "cap": 40.46795774993294
+        "cap": 40.93451801986641
       },
       {
-        "decision_id": 7183,
-        "remediate_regate_response": "admit",
+        "decision_id": 7063,
+        "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 24.78,
-        "post_order_value": 24.78,
-        "cap": 24.78
+        "pre_order_value": 36.81421472348696,
+        "post_order_value": 49.49999999999999,
+        "cap": 43.15710736174348
       },
       {
-        "decision_id": 7194,
+        "decision_id": 7116,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
         "pre_order_value": 63.24,
@@ -2310,79 +2511,71 @@
         "cap": 63.24
       },
       {
-        "decision_id": 7219,
+        "decision_id": 7130,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 57.61324314393578,
-        "post_order_value": 70.28999999999999,
-        "cap": 63.95162157196789
+        "pre_order_value": 20.11615078264669,
+        "post_order_value": 27.84,
+        "cap": 23.978075391323344
       },
       {
-        "decision_id": 7232,
+        "decision_id": 7203,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 32.81080817787966,
-        "post_order_value": 42.12,
-        "cap": 37.46540408893983
+        "pre_order_value": 30.420764480183767,
+        "post_order_value": 37.17,
+        "cap": 33.79538224009188
       },
       {
-        "decision_id": 7249,
+        "decision_id": 7214,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 207.9,
-        "post_order_value": 207.9,
-        "cap": 207.9
+        "pre_order_value": 62.4,
+        "post_order_value": 62.4,
+        "cap": 62.4
       },
       {
-        "decision_id": 7265,
+        "decision_id": 7253,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 18.039082466586272,
-        "post_order_value": 24.75,
-        "cap": 21.394541233293136
+        "pre_order_value": 143.18181713695483,
+        "post_order_value": 190.944,
+        "cap": 167.0629085684774
       },
       {
-        "decision_id": 7273,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 81.0,
-        "post_order_value": 81.0,
-        "cap": 81.0
-      },
-      {
-        "decision_id": 7311,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 47.85,
-        "post_order_value": 47.85,
-        "cap": 47.85
-      },
-      {
-        "decision_id": 7315,
+        "decision_id": 7285,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 24.73554833662628,
-        "post_order_value": 41.82,
-        "cap": 33.277774168313144
+        "pre_order_value": 71.78384210844364,
+        "post_order_value": 97.35,
+        "cap": 84.56692105422181
       },
       {
-        "decision_id": 7365,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 61.199999999999996,
-        "post_order_value": 61.199999999999996,
-        "cap": 61.199999999999996
-      },
-      {
-        "decision_id": 7383,
+        "decision_id": 7300,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 20.88908951717468,
-        "post_order_value": 27.0,
-        "cap": 23.94454475858734
+        "pre_order_value": 47.722572809758894,
+        "post_order_value": 54.449999999999996,
+        "cap": 51.086286404879445
       },
       {
-        "decision_id": 7405,
+        "decision_id": 7350,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 45.629999999999995,
+        "post_order_value": 45.629999999999995,
+        "cap": 45.629999999999995
+      },
+      {
+        "decision_id": 7359,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 260.2013133770101,
+        "post_order_value": 321.29999999999995,
+        "cap": 290.75065668850505
+      },
+      {
+        "decision_id": 7367,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
         "pre_order_value": 264.33000000000004,
@@ -2390,119 +2583,303 @@
         "cap": 264.33000000000004
       },
       {
-        "decision_id": 7588,
+        "decision_id": 7374,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 147.264,
-        "post_order_value": 147.264,
-        "cap": 147.264
+        "pre_order_value": 56.42999999999999,
+        "post_order_value": 56.42999999999999,
+        "cap": 56.42999999999999
       },
       {
-        "decision_id": 7594,
+        "decision_id": 7397,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 71.09417348078401,
-        "post_order_value": 84.96000000000001,
-        "cap": 78.02708674039201
+        "pre_order_value": 53.95215043371644,
+        "post_order_value": 87.36,
+        "cap": 70.65607521685823
       },
       {
-        "decision_id": 7604,
+        "decision_id": 7414,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 215.94,
-        "post_order_value": 215.94,
-        "cap": 215.94
+        "pre_order_value": 63.35999999999999,
+        "post_order_value": 63.35999999999999,
+        "cap": 63.35999999999999
       },
       {
-        "decision_id": 7652,
-        "remediate_regate_response": "admit",
+        "decision_id": 7459,
+        "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 30.0,
+        "pre_order_value": 17.72294655270751,
         "post_order_value": 30.0,
-        "cap": 30.0
+        "cap": 23.861473276353756
       },
       {
-        "decision_id": 7750,
+        "decision_id": 7533,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 79.05,
-        "post_order_value": 79.05,
-        "cap": 79.05
+        "pre_order_value": 4.56,
+        "post_order_value": 4.56,
+        "cap": 4.56
       },
       {
-        "decision_id": 7763,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 34.398309319998596,
-        "post_order_value": 49.49999999999999,
-        "cap": 41.949154659999294
-      },
-      {
-        "decision_id": 7768,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 25.472320313142795,
-        "post_order_value": 30.0,
-        "cap": 27.736160156571398
-      },
-      {
-        "decision_id": 7826,
+        "decision_id": 7564,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 84.96000000000001,
+        "pre_order_value": 62.4,
+        "post_order_value": 62.4,
+        "cap": 62.4
+      },
+      {
+        "decision_id": 7573,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 13.786732993526874,
+        "post_order_value": 20.4,
+        "cap": 17.093366496763437
+      },
+      {
+        "decision_id": 7575,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 24.75,
+        "post_order_value": 24.75,
+        "cap": 24.75
+      },
+      {
+        "decision_id": 7597,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 42.07307621880076,
+        "post_order_value": 53.07,
+        "cap": 47.57153810940038
+      },
+      {
+        "decision_id": 7606,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 37.61283186546918,
+        "post_order_value": 54.449999999999996,
+        "cap": 46.03141593273459
+      },
+      {
+        "decision_id": 7609,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 46.965692303615775,
+        "post_order_value": 54.449999999999996,
+        "cap": 50.707846151807885
+      },
+      {
+        "decision_id": 7633,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 49.01981452806437,
         "post_order_value": 84.96000000000001,
-        "cap": 84.96000000000001
+        "cap": 66.98990726403218
       },
       {
-        "decision_id": 7901,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 46.25056632154164,
-        "post_order_value": 79.65,
-        "cap": 62.95028316077082
-      },
-      {
-        "decision_id": 7934,
+        "decision_id": 7636,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 45.53999999999999,
-        "post_order_value": 45.53999999999999,
-        "cap": 45.53999999999999
+        "pre_order_value": 50.46,
+        "post_order_value": 50.46,
+        "cap": 50.46
       },
       {
-        "decision_id": 7953,
+        "decision_id": 7654,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 24.23862914782091,
-        "post_order_value": 33.660000000000004,
-        "cap": 28.949314573910456
+        "pre_order_value": 34.65412234611054,
+        "post_order_value": 55.08,
+        "cap": 44.86706117305527
       },
       {
-        "decision_id": 7992,
-        "remediate_regate_response": "escalate",
+        "decision_id": 7662,
+        "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 128.34358558102446,
-        "post_order_value": 203.55,
-        "cap": 165.94679279051223
+        "pre_order_value": 30.689999999999998,
+        "post_order_value": 30.689999999999998,
+        "cap": 30.689999999999998
       },
       {
-        "decision_id": 8002,
-        "remediate_regate_response": "escalate",
+        "decision_id": 7684,
+        "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 17.014366938353586,
-        "post_order_value": 23.1,
-        "cap": 20.057183469176792
+        "pre_order_value": 59.39999999999999,
+        "post_order_value": 59.39999999999999,
+        "cap": 59.39999999999999
       },
       {
-        "decision_id": 8058,
+        "decision_id": 7698,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 56.79928074354156,
+        "pre_order_value": 55.33987662961579,
+        "post_order_value": 63.24,
+        "cap": 59.2899383148079
+      },
+      {
+        "decision_id": 7703,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 146.016,
+        "post_order_value": 146.016,
+        "cap": 146.016
+      },
+      {
+        "decision_id": 7705,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 170.9977277045717,
+        "post_order_value": 221.85,
+        "cap": 196.42386385228585
+      },
+      {
+        "decision_id": 7724,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 26.24605449312476,
+        "post_order_value": 88.5,
+        "cap": 57.37302724656238
+      },
+      {
+        "decision_id": 7733,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 81.12,
+        "post_order_value": 81.12,
+        "cap": 81.12
+      },
+      {
+        "decision_id": 7801,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 59.39999999999999,
+        "post_order_value": 59.39999999999999,
+        "cap": 59.39999999999999
+      },
+      {
+        "decision_id": 7809,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 21.947245426447026,
+        "post_order_value": 32.129999999999995,
+        "cap": 27.03862271322351
+      },
+      {
+        "decision_id": 7829,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 46.98,
+        "post_order_value": 46.98,
+        "cap": 46.98
+      },
+      {
+        "decision_id": 7831,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 56.60999999999999,
+        "post_order_value": 56.60999999999999,
+        "cap": 56.60999999999999
+      },
+      {
+        "decision_id": 7848,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 39.936,
+        "post_order_value": 39.936,
+        "cap": 39.936
+      },
+      {
+        "decision_id": 7855,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 51.48,
+        "post_order_value": 128.7,
+        "cap": 90.08999999999999
+      },
+      {
+        "decision_id": 7861,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 37.408901686434675,
+        "post_order_value": 46.02,
+        "cap": 41.714450843217335
+      },
+      {
+        "decision_id": 7897,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 120.26093968218903,
+        "post_order_value": 178.464,
+        "cap": 149.3624698410945
+      },
+      {
+        "decision_id": 7899,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 50.70863601323533,
         "post_order_value": 67.26,
-        "cap": 62.02964037177078
+        "cap": 58.98431800661767
       },
       {
-        "decision_id": 8099,
+        "decision_id": 7911,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 93.31592745023576,
+        "post_order_value": 124.8,
+        "cap": 109.05796372511787
+      },
+      {
+        "decision_id": 7928,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 14.381062151400835,
+        "post_order_value": 18.150000000000002,
+        "cap": 16.26553107570042
+      },
+      {
+        "decision_id": 7989,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 56.25,
+        "post_order_value": 56.25,
+        "cap": 56.25
+      },
+      {
+        "decision_id": 8015,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 31.285999884178423,
+        "post_order_value": 39.599999999999994,
+        "cap": 35.44299994208921
+      },
+      {
+        "decision_id": 8055,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 198.41038377969306,
+        "post_order_value": 277.056,
+        "cap": 237.73319188984652
+      },
+      {
+        "decision_id": 8056,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 89.73532598140592,
+        "post_order_value": 149.76,
+        "cap": 119.74766299070296
+      },
+      {
+        "decision_id": 8060,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 47.06768272473402,
+        "post_order_value": 81.42,
+        "cap": 64.24384136236701
+      },
+      {
+        "decision_id": 8067,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
         "pre_order_value": 186.576,
@@ -2510,111 +2887,103 @@
         "cap": 186.576
       },
       {
-        "decision_id": 8204,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 277.056,
-        "post_order_value": 277.056,
-        "cap": 277.056
-      },
-      {
-        "decision_id": 8216,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 186.576,
-        "post_order_value": 186.576,
-        "cap": 186.576
-      },
-      {
-        "decision_id": 8274,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 81.09,
-        "post_order_value": 81.09,
-        "cap": 81.09
-      },
-      {
-        "decision_id": 8277,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 42.56999999999999,
-        "post_order_value": 42.56999999999999,
-        "cap": 42.56999999999999
-      },
-      {
-        "decision_id": 8355,
+        "decision_id": 8068,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 191.38403572671132,
-        "post_order_value": 277.056,
-        "cap": 234.22001786335565
+        "pre_order_value": 37.895650802303955,
+        "post_order_value": 60.0,
+        "cap": 48.947825401151974
       },
       {
-        "decision_id": 8358,
+        "decision_id": 8076,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 37.444875288965534,
+        "pre_order_value": 32.847361422473284,
+        "post_order_value": 38.94,
+        "cap": 35.89368071123664
+      },
+      {
+        "decision_id": 8107,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 50.489999999999995,
+        "post_order_value": 50.489999999999995,
+        "cap": 50.489999999999995
+      },
+      {
+        "decision_id": 8118,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 83.616,
+        "post_order_value": 83.616,
+        "cap": 83.616
+      },
+      {
+        "decision_id": 8160,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 40.24237789972145,
+        "post_order_value": 72.75,
+        "cap": 56.49618894986072
+      },
+      {
+        "decision_id": 8183,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 25.158490004463424,
+        "post_order_value": 33.15,
+        "cap": 29.15424500223171
+      },
+      {
+        "decision_id": 8188,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 3.4737956162041765,
+        "post_order_value": 4.56,
+        "cap": 4.0168978081020885
+      },
+      {
+        "decision_id": 8212,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 96.96288826350731,
+        "post_order_value": 112.19999999999999,
+        "cap": 104.58144413175364
+      },
+      {
+        "decision_id": 8226,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 4.56,
+        "post_order_value": 4.56,
+        "cap": 4.56
+      },
+      {
+        "decision_id": 8245,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 67.26,
         "post_order_value": 67.26,
-        "cap": 52.35243764448277
+        "cap": 67.26
       },
       {
-        "decision_id": 8372,
+        "decision_id": 8252,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 25.394895853008467,
-        "post_order_value": 31.62,
-        "cap": 28.507447926504234
+        "pre_order_value": 81.05448280932733,
+        "post_order_value": 106.92,
+        "cap": 93.98724140466366
       },
       {
-        "decision_id": 8390,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 54.20290824704741,
-        "post_order_value": 88.74,
-        "cap": 71.4714541235237
-      },
-      {
-        "decision_id": 8443,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 41.03424318663164,
-        "post_order_value": 58.13999999999999,
-        "cap": 49.587121593315814
-      },
-      {
-        "decision_id": 8449,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 20.231629394061017,
-        "post_order_value": 31.62,
-        "cap": 25.92581469703051
-      },
-      {
-        "decision_id": 8461,
+        "decision_id": 8327,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 36.192,
-        "post_order_value": 36.192,
-        "cap": 36.192
+        "pre_order_value": 117.624,
+        "post_order_value": 117.624,
+        "cap": 117.624
       },
       {
-        "decision_id": 8463,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 20.130000000000003,
-        "post_order_value": 20.130000000000003,
-        "cap": 20.130000000000003
-      },
-      {
-        "decision_id": 8485,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 434.304,
-        "post_order_value": 434.304,
-        "cap": 434.304
-      },
-      {
-        "decision_id": 8492,
+        "decision_id": 8353,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
         "pre_order_value": 40.589999999999996,
@@ -2622,247 +2991,87 @@
         "cap": 40.589999999999996
       },
       {
-        "decision_id": 8537,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 31.146839192424622,
-        "post_order_value": 42.84,
-        "cap": 36.99341959621231
-      },
-      {
-        "decision_id": 8541,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 46.43406576870734,
-        "post_order_value": 63.648,
-        "cap": 55.04103288435367
-      },
-      {
-        "decision_id": 8557,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 26.517701521977532,
-        "post_order_value": 46.529999999999994,
-        "cap": 36.523850760988765
-      },
-      {
-        "decision_id": 8561,
+        "decision_id": 8455,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 10.2,
-        "post_order_value": 10.2,
-        "cap": 10.2
+        "pre_order_value": 7.409999999999999,
+        "post_order_value": 7.409999999999999,
+        "cap": 7.409999999999999
       },
       {
-        "decision_id": 8608,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 26.38382101427817,
-        "post_order_value": 46.8,
-        "cap": 36.59191050713908
-      },
-      {
-        "decision_id": 8626,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 135.876,
-        "post_order_value": 339.69,
-        "cap": 237.78300000000002
-      },
-      {
-        "decision_id": 8632,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 41.847245954316755,
-        "post_order_value": 51.48,
-        "cap": 46.663622977158376
-      },
-      {
-        "decision_id": 8654,
+        "decision_id": 8469,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 54.912,
-        "post_order_value": 54.912,
-        "cap": 54.912
-      },
-      {
-        "decision_id": 8701,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 89.10000000000001,
-        "post_order_value": 89.10000000000001,
-        "cap": 89.10000000000001
-      },
-      {
-        "decision_id": 8717,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 17.994166623825386,
-        "post_order_value": 24.0,
-        "cap": 20.997083311912693
-      },
-      {
-        "decision_id": 8814,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 45.82415959154506,
-        "post_order_value": 54.0,
-        "cap": 49.91207979577253
-      },
-      {
-        "decision_id": 8843,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 20.168877353993874,
+        "pre_order_value": 33.66,
         "post_order_value": 33.66,
-        "cap": 26.914438676996937
+        "cap": 33.66
       },
       {
-        "decision_id": 8847,
+        "decision_id": 8474,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 47.801862697770936,
-        "post_order_value": 63.72,
-        "cap": 55.760931348885464
+        "pre_order_value": 44.41184060182131,
+        "post_order_value": 69.03,
+        "cap": 56.720920300910656
       },
       {
-        "decision_id": 8848,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 19.440999386303183,
-        "post_order_value": 33.63,
-        "cap": 26.535499693151593
-      },
-      {
-        "decision_id": 8856,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 85.81849080689753,
-        "post_order_value": 135.876,
-        "cap": 110.84724540344877
-      },
-      {
-        "decision_id": 8875,
+        "decision_id": 8493,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 82.368,
-        "post_order_value": 82.368,
-        "cap": 82.368
+        "pre_order_value": 26.55,
+        "post_order_value": 26.55,
+        "cap": 26.55
       },
       {
-        "decision_id": 8893,
+        "decision_id": 8494,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 27.63443038394175,
+        "pre_order_value": 5.6427994814844435,
+        "post_order_value": 7.409999999999999,
+        "cap": 6.526399740742221
+      },
+      {
+        "decision_id": 8547,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 29.968838755092722,
         "post_order_value": 45.24,
-        "cap": 36.43721519197088
+        "cap": 37.604419377546364
       },
       {
-        "decision_id": 8894,
+        "decision_id": 8548,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 45.846908265174484,
+        "post_order_value": 58.13999999999999,
+        "cap": 51.99345413258724
+      },
+      {
+        "decision_id": 8622,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 83.16000000000001,
-        "post_order_value": 83.16000000000001,
-        "cap": 83.16000000000001
+        "pre_order_value": 76.5,
+        "post_order_value": 76.5,
+        "cap": 76.5
       },
       {
-        "decision_id": 8906,
+        "decision_id": 8647,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 15.59828040032875,
-        "post_order_value": 70.8,
-        "cap": 43.19914020016437
+        "pre_order_value": 58.06009019169249,
+        "post_order_value": 202.5,
+        "cap": 130.28004509584625
       },
       {
-        "decision_id": 8911,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 25.5,
-        "post_order_value": 25.5,
-        "cap": 25.5
-      },
-      {
-        "decision_id": 8964,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 63.72,
-        "post_order_value": 63.72,
-        "cap": 63.72
-      },
-      {
-        "decision_id": 8988,
+        "decision_id": 8713,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 18.271445786025346,
-        "post_order_value": 25.5,
-        "cap": 21.885722893012673
+        "pre_order_value": 20.008472960237633,
+        "post_order_value": 28.32,
+        "cap": 24.164236480118817
       },
       {
-        "decision_id": 9013,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 198.8414907343019,
-        "post_order_value": 358.176,
-        "cap": 278.50874536715094
-      },
-      {
-        "decision_id": 9028,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 32.448,
-        "post_order_value": 32.448,
-        "cap": 32.448
-      },
-      {
-        "decision_id": 9050,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 73.60438607012505,
-        "post_order_value": 114.0,
-        "cap": 93.80219303506252
-      },
-      {
-        "decision_id": 9058,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 22.51513411370203,
-        "post_order_value": 29.699999999999996,
-        "cap": 26.10756705685101
-      },
-      {
-        "decision_id": 9093,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 140.15866907530517,
-        "post_order_value": 203.55,
-        "cap": 171.8543345376526
-      },
-      {
-        "decision_id": 9141,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 62.72999999999999,
-        "post_order_value": 62.72999999999999,
-        "cap": 62.72999999999999
-      },
-      {
-        "decision_id": 9143,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 27.75,
-        "post_order_value": 27.75,
-        "cap": 27.75
-      },
-      {
-        "decision_id": 9160,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 29.639498623062575,
-        "post_order_value": 44.25,
-        "cap": 36.94474931153129
-      },
-      {
-        "decision_id": 9175,
+        "decision_id": 8729,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
         "pre_order_value": 21.779999999999998,
@@ -2870,31 +3079,191 @@
         "cap": 21.779999999999998
       },
       {
-        "decision_id": 9285,
+        "decision_id": 8760,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 83.16000000000001,
-        "post_order_value": 83.16000000000001,
-        "cap": 83.16000000000001
+        "pre_order_value": 49.14,
+        "post_order_value": 49.14,
+        "cap": 49.14
       },
       {
-        "decision_id": 9308,
+        "decision_id": 8766,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 42.28581117231813,
-        "post_order_value": 67.5,
-        "cap": 54.89290558615906
+        "pre_order_value": 20.50423558474446,
+        "post_order_value": 23.759999999999998,
+        "cap": 22.132117792372227
       },
       {
-        "decision_id": 9327,
+        "decision_id": 8801,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 144.0,
-        "post_order_value": 144.0,
-        "cap": 144.0
+        "pre_order_value": 85.5,
+        "post_order_value": 85.5,
+        "cap": 85.5
       },
       {
-        "decision_id": 9329,
+        "decision_id": 8806,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 16.711338125912107,
+        "post_order_value": 23.759999999999998,
+        "cap": 20.235669062956052
+      },
+      {
+        "decision_id": 8817,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 75.83872907596098,
+        "post_order_value": 215.32500000000002,
+        "cap": 145.5818645379805
+      },
+      {
+        "decision_id": 8820,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 65.25,
+        "post_order_value": 65.25,
+        "cap": 65.25
+      },
+      {
+        "decision_id": 8831,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 56.60999999999999,
+        "post_order_value": 56.60999999999999,
+        "cap": 56.60999999999999
+      },
+      {
+        "decision_id": 8837,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 7.969796259035537,
+        "post_order_value": 9.9,
+        "cap": 8.93489812951777
+      },
+      {
+        "decision_id": 8881,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 31.042097064210726,
+        "post_order_value": 35.63999999999999,
+        "cap": 33.34104853210536
+      },
+      {
+        "decision_id": 8889,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 49.56,
+        "post_order_value": 49.56,
+        "cap": 49.56
+      },
+      {
+        "decision_id": 8893,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 31.40680077293942,
+        "post_order_value": 45.24,
+        "cap": 38.323400386469714
+      },
+      {
+        "decision_id": 8910,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 14.17801748396081,
+        "post_order_value": 23.76,
+        "cap": 18.969008741980407
+      },
+      {
+        "decision_id": 8920,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 16.106624195578302,
+        "post_order_value": 21.779999999999998,
+        "cap": 18.94331209778915
+      },
+      {
+        "decision_id": 8921,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 100.91799834557057,
+        "post_order_value": 153.504,
+        "cap": 127.21099917278528
+      },
+      {
+        "decision_id": 8961,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 92.7509146428281,
+        "post_order_value": 153.504,
+        "cap": 123.12745732141406
+      },
+      {
+        "decision_id": 8980,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 17.01429779639463,
+        "post_order_value": 21.779999999999998,
+        "cap": 19.397148898197315
+      },
+      {
+        "decision_id": 9056,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 13.172719784599181,
+        "post_order_value": 19.799999999999997,
+        "cap": 16.48635989229959
+      },
+      {
+        "decision_id": 9110,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 36.56049527558801,
+        "post_order_value": 58.5,
+        "cap": 47.530247637794005
+      },
+      {
+        "decision_id": 9138,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 30.09,
+        "post_order_value": 75.225,
+        "cap": 52.6575
+      },
+      {
+        "decision_id": 9190,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 67.5,
+        "post_order_value": 67.5,
+        "cap": 67.5
+      },
+      {
+        "decision_id": 9198,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 244.79999999999998,
+        "post_order_value": 244.79999999999998,
+        "cap": 244.79999999999998
+      },
+      {
+        "decision_id": 9200,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 40.71,
+        "post_order_value": 40.71,
+        "cap": 40.71
+      },
+      {
+        "decision_id": 9202,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 29.245672608661938,
+        "post_order_value": 51.33,
+        "cap": 40.287836304330966
+      },
+      {
+        "decision_id": 9211,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
         "pre_order_value": 64.896,
@@ -2902,111 +3271,191 @@
         "cap": 64.896
       },
       {
-        "decision_id": 9343,
+        "decision_id": 9214,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 28.33767664597056,
-        "post_order_value": 49.980000000000004,
-        "cap": 39.15883832298528
+        "pre_order_value": 39.645209826819006,
+        "post_order_value": 64.35,
+        "cap": 51.9976049134095
       },
       {
-        "decision_id": 9389,
+        "decision_id": 9215,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 36.82510491590638,
-        "post_order_value": 55.59,
-        "cap": 46.20755245795319
+        "pre_order_value": 17.118537565775213,
+        "post_order_value": 21.779999999999998,
+        "cap": 19.449268782887607
       },
       {
-        "decision_id": 9390,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 28.884971615984544,
-        "post_order_value": 36.629999999999995,
-        "cap": 32.75748580799227
-      },
-      {
-        "decision_id": 9431,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 23.6720167192204,
-        "post_order_value": 40.589999999999996,
-        "cap": 32.1310083596102
-      },
-      {
-        "decision_id": 9473,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 83.46473975769264,
-        "post_order_value": 102.336,
-        "cap": 92.90036987884632
-      },
-      {
-        "decision_id": 9507,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 126.93324258963332,
-        "post_order_value": 177.99,
-        "cap": 152.46162129481667
-      },
-      {
-        "decision_id": 9522,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 67.79421946230826,
-        "post_order_value": 83.16000000000001,
-        "cap": 75.47710973115414
-      },
-      {
-        "decision_id": 9571,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 18.88511589785141,
-        "post_order_value": 26.729999999999997,
-        "cap": 22.807557948925705
-      },
-      {
-        "decision_id": 9584,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 7.752307328456063,
-        "post_order_value": 11.22,
-        "cap": 9.486153664228032
-      },
-      {
-        "decision_id": 9599,
+        "decision_id": 9216,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 105.75,
-        "post_order_value": 105.75,
-        "cap": 105.75
+        "pre_order_value": 39.599999999999994,
+        "post_order_value": 39.599999999999994,
+        "cap": 39.599999999999994
       },
       {
-        "decision_id": 9624,
+        "decision_id": 9232,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 45.92479303542936,
+        "post_order_value": 51.51,
+        "cap": 48.717396517714675
+      },
+      {
+        "decision_id": 9240,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 11.22,
-        "post_order_value": 11.22,
-        "cap": 11.22
+        "pre_order_value": 40.71,
+        "post_order_value": 40.71,
+        "cap": 40.71
       },
       {
-        "decision_id": 9631,
+        "decision_id": 9330,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 205.32,
+        "post_order_value": 205.32,
+        "cap": 205.32
+      },
+      {
+        "decision_id": 9355,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 52.416,
+        "post_order_value": 52.416,
+        "cap": 52.416
+      },
+      {
+        "decision_id": 9356,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 267.75,
+        "post_order_value": 267.75,
+        "cap": 267.75
+      },
+      {
+        "decision_id": 9366,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 22.84900776183476,
-        "post_order_value": 31.679999999999996,
-        "cap": 27.264503880917378
+        "pre_order_value": 161.21939967177224,
+        "post_order_value": 188.604,
+        "cap": 174.9116998358861
       },
       {
-        "decision_id": 9635,
+        "decision_id": 9371,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 41.31,
+        "post_order_value": 41.31,
+        "cap": 41.31
+      },
+      {
+        "decision_id": 9373,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 38.30651734815591,
-        "post_order_value": 69.03,
-        "cap": 53.668258674077954
+        "pre_order_value": 15.198737359122088,
+        "post_order_value": 21.779999999999998,
+        "cap": 18.489368679561043
       },
       {
-        "decision_id": 9649,
+        "decision_id": 9449,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 207.09,
+        "post_order_value": 207.09,
+        "cap": 207.09
+      },
+      {
+        "decision_id": 9453,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 25.411292611597027,
+        "post_order_value": 39.599999999999994,
+        "cap": 32.50564630579851
+      },
+      {
+        "decision_id": 9499,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 25.41,
+        "post_order_value": 25.41,
+        "cap": 25.41
+      },
+      {
+        "decision_id": 9523,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 65.75752946037709,
+        "post_order_value": 82.61999999999999,
+        "cap": 74.18876473018854
+      },
+      {
+        "decision_id": 9537,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 99.44999999999999,
+        "post_order_value": 99.44999999999999,
+        "cap": 99.44999999999999
+      },
+      {
+        "decision_id": 9544,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 8.308685721021305,
+        "post_order_value": 9.57,
+        "cap": 8.939342860510653
+      },
+      {
+        "decision_id": 9597,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 35.4,
+        "post_order_value": 35.4,
+        "cap": 35.4
+      },
+      {
+        "decision_id": 9606,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 223.8890591889531,
+        "post_order_value": 358.176,
+        "cap": 291.03252959447656
+      },
+      {
+        "decision_id": 9623,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 33.4508604023615,
+        "post_order_value": 59.903999999999996,
+        "cap": 46.67743020118075
+      },
+      {
+        "decision_id": 9626,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 43.849659108494926,
+        "post_order_value": 72.75,
+        "cap": 58.29982955424747
+      },
+      {
+        "decision_id": 9670,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 25.919130267792234,
+        "post_order_value": 42.56999999999999,
+        "cap": 34.24456513389612
+      },
+      {
+        "decision_id": 9685,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 119.64527355330857,
+        "post_order_value": 142.5,
+        "cap": 131.0726367766543
+      },
+      {
+        "decision_id": 9689,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
         "pre_order_value": 47.94,
@@ -3014,151 +3463,119 @@
         "cap": 47.94
       },
       {
-        "decision_id": 9671,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 32.669999999999995,
-        "post_order_value": 32.669999999999995,
-        "cap": 32.669999999999995
-      },
-      {
-        "decision_id": 9676,
+        "decision_id": 9699,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 32.36766753175401,
-        "post_order_value": 46.02,
-        "cap": 39.193833765877
+        "pre_order_value": 20.50348228730072,
+        "post_order_value": 31.5,
+        "cap": 26.00174114365036
       },
       {
-        "decision_id": 9681,
+        "decision_id": 9737,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 51.33206080902299,
-        "post_order_value": 68.73,
-        "cap": 60.0310304045115
+        "pre_order_value": 74.67268657827103,
+        "post_order_value": 94.85999999999999,
+        "cap": 84.7663432891355
       },
       {
-        "decision_id": 9688,
+        "decision_id": 9749,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 226.56,
-        "post_order_value": 226.56,
-        "cap": 226.56
-      },
-      {
-        "decision_id": 9692,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 35.105055855602025,
-        "post_order_value": 40.589999999999996,
-        "cap": 37.84752792780101
-      },
-      {
-        "decision_id": 9693,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 30.866541630145832,
-        "post_order_value": 34.65,
-        "cap": 32.75827081507292
-      },
-      {
-        "decision_id": 9701,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 49.205966595710684,
-        "post_order_value": 57.63,
-        "cap": 53.41798329785534
-      },
-      {
-        "decision_id": 9704,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 11.22,
-        "post_order_value": 11.22,
-        "cap": 11.22
-      },
-      {
-        "decision_id": 9722,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 95.04,
-        "post_order_value": 95.04,
-        "cap": 95.04
-      },
-      {
-        "decision_id": 9760,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 114.74999999999999,
-        "post_order_value": 114.74999999999999,
-        "cap": 114.74999999999999
-      },
-      {
-        "decision_id": 9783,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 57.408,
-        "post_order_value": 57.408,
-        "cap": 57.408
-      },
-      {
-        "decision_id": 9792,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 69.0983680209788,
-        "post_order_value": 102.336,
-        "cap": 85.7171840104894
-      },
-      {
-        "decision_id": 9802,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 62.48206276555025,
-        "post_order_value": 95.04,
-        "cap": 78.76103138277513
-      },
-      {
-        "decision_id": 9812,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 43.559999999999995,
-        "post_order_value": 43.559999999999995,
-        "cap": 43.559999999999995
-      },
-      {
-        "decision_id": 9815,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 8.549999999999999,
-        "post_order_value": 8.549999999999999,
-        "cap": 8.549999999999999
-      },
-      {
-        "decision_id": 9909,
-        "remediate_regate_response": "escalate",
-        "single_pass_response": "substitute",
-        "pre_order_value": 31.626003858207728,
+        "pre_order_value": 50.489999999999995,
         "post_order_value": 50.489999999999995,
-        "cap": 41.05800192910386
+        "cap": 50.489999999999995
       },
       {
-        "decision_id": 9914,
+        "decision_id": 9786,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 344.25,
-        "post_order_value": 344.25,
-        "cap": 344.25
+        "pre_order_value": 72.75,
+        "post_order_value": 72.75,
+        "cap": 72.75
       },
       {
-        "decision_id": 9960,
+        "decision_id": 9819,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 22.814628647736434,
+        "post_order_value": 31.5,
+        "cap": 27.157314323868217
+      },
+      {
+        "decision_id": 9832,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
-        "pre_order_value": 45.24,
-        "post_order_value": 45.24,
-        "cap": 45.24
+        "pre_order_value": 88.608,
+        "post_order_value": 88.608,
+        "cap": 88.608
       },
       {
-        "decision_id": 9980,
+        "decision_id": 9860,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 31.98248595401893,
+        "post_order_value": 46.41,
+        "cap": 39.19624297700946
+      },
+      {
+        "decision_id": 9866,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 48.96973551115805,
+        "post_order_value": 72.75,
+        "cap": 60.859867755579025
+      },
+      {
+        "decision_id": 9870,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 35.44233098278374,
+        "post_order_value": 40.589999999999996,
+        "cap": 38.01616549139187
+      },
+      {
+        "decision_id": 9893,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 29.524262365122233,
+        "post_order_value": 41.58,
+        "cap": 35.55213118256111
+      },
+      {
+        "decision_id": 9899,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 42.75,
+        "post_order_value": 42.75,
+        "cap": 42.75
+      },
+      {
+        "decision_id": 9981,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 37.08281713027765,
+        "post_order_value": 54.912,
+        "cap": 45.99740856513883
+      },
+      {
+        "decision_id": 9993,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 69.03,
+        "post_order_value": 69.03,
+        "cap": 69.03
+      },
+      {
+        "decision_id": 10017,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 35.76091968814954,
+        "post_order_value": 42.75,
+        "cap": 39.25545984407477
+      },
+      {
+        "decision_id": 10020,
         "remediate_regate_response": "admit",
         "single_pass_response": "substitute",
         "pre_order_value": 29.951999999999998,
@@ -3166,44 +3583,84 @@
         "cap": 29.951999999999998
       },
       {
+        "decision_id": 10034,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 56.8683611397571,
+        "post_order_value": 63.72,
+        "cap": 60.29418056987855
+      },
+      {
+        "decision_id": 10046,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 235.41,
+        "post_order_value": 235.41,
+        "cap": 235.41
+      },
+      {
+        "decision_id": 10053,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 7.200859657205609,
+        "post_order_value": 9.12,
+        "cap": 8.160429828602805
+      },
+      {
+        "decision_id": 10062,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 13.795329011134486,
+        "post_order_value": 18.150000000000002,
+        "cap": 15.972664505567245
+      },
+      {
+        "decision_id": 10069,
+        "remediate_regate_response": "admit",
+        "single_pass_response": "substitute",
+        "pre_order_value": 32.669999999999995,
+        "post_order_value": 32.669999999999995,
+        "cap": 32.669999999999995
+      },
+      {
+        "decision_id": 10072,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 279.71247793181846,
+        "post_order_value": 336.59999999999997,
+        "cap": 308.1562389659092
+      },
+      {
+        "decision_id": 10094,
+        "remediate_regate_response": "escalate",
+        "single_pass_response": "substitute",
+        "pre_order_value": 11.859072079709959,
+        "post_order_value": 15.3,
+        "cap": 13.579536039854979
+      },
+      {
         "decision_id": 10105,
-        "remediate_regate_response": "admit",
+        "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 405.96,
+        "pre_order_value": 330.5150360862268,
         "post_order_value": 405.96,
-        "cap": 405.96
+        "cap": 368.23751804311337
       },
       {
-        "decision_id": 10107,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 45.53999999999999,
-        "post_order_value": 45.53999999999999,
-        "cap": 45.53999999999999
-      },
-      {
-        "decision_id": 10114,
+        "decision_id": 10116,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 38.85741596214696,
-        "post_order_value": 65.49,
-        "cap": 52.17370798107348
+        "pre_order_value": 38.22960227520391,
+        "post_order_value": 58.410000000000004,
+        "cap": 48.31980113760196
       },
       {
-        "decision_id": 10115,
-        "remediate_regate_response": "admit",
-        "single_pass_response": "substitute",
-        "pre_order_value": 60.18,
-        "post_order_value": 60.18,
-        "cap": 60.18
-      },
-      {
-        "decision_id": 10137,
+        "decision_id": 10124,
         "remediate_regate_response": "escalate",
         "single_pass_response": "substitute",
-        "pre_order_value": 25.68711264859729,
-        "post_order_value": 44.88,
-        "cap": 35.283556324298644
+        "pre_order_value": 285.792,
+        "post_order_value": 714.48,
+        "cap": 500.13599999999997
       }
     ]
   },

@@ -1,4 +1,4 @@
-.PHONY: suite paper test clean all bootstrap ci-local mutate latency
+.PHONY: suite paper test clean all bootstrap ci-local mutate latency sweep
 
 # SARC Suite One-Pass Demo Makefile
 # Apache License 2.0
@@ -36,6 +36,11 @@ latency:
 	@echo "Latency microbenchmark (per-gate + composed, stored in out/quality.json)..."
 	python3 latency_bench.py
 
+sweep:
+	@echo "V3 gate: 30-seed statistical sweep (prereg/seeds.json), CH1-CH6 + CIs..."
+	@echo "Checkpointed per seed under out/results/sweep/ -- safe to re-run/resume."
+	python3 sweep.py
+
 clean:
 	@echo "Cleaning up outputs..."
 	rm -rf out/
@@ -53,6 +58,7 @@ help:
 	@echo "  make suite     Run all scenarios (S1-S4) in both modes"
 	@echo "  make paper     Generate paper tables and populate draft"
 	@echo "  make test      Run the test suite"
+	@echo "  make sweep     V3 gate: 30-seed sweep, CH1-CH6 means + 95% CIs"
 	@echo "  make clean     Remove all outputs"
 	@echo "  make all       suite + paper + test (default)"
 	@echo ""

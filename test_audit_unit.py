@@ -26,6 +26,7 @@ from composition import (
     ActionContext,
     CompositionEngine,
     _audit_clean_evidence_record,
+    _maybe_downroute,
     build_green_engines,
     load_sarc_spec,
 )
@@ -153,3 +154,137 @@ def test_single_pass_budget_state_keys():
     budget_state = line["gates"]["green"]["budget_state"]
     assert budget_state["daily_cost_budget"] == 123.0
     assert budget_state["daily_carbon_budget"] == 456.0
+
+
+# ---------------------------------------------------------------------------
+# W2 / downroute (Phase 3, prereg/w2-workflow.md): the second remediator.
+# ---------------------------------------------------------------------------
+
+
+def test_downroute_triggers_under_w2_tight_budget():
+    engine = _engine()
+    ctx = _ctx(qty=100.0)  # order_value = 1000.0, est_cost_eur = 1200.0
+    record = EvidenceRecord(
+        record_id=f"{SKU}-primary",
+        payload={"sku": SKU, "unit_cost": TRUE_COST, "currency": "GBP"},
+        metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
+    )
+    tight_budget = 360.0  # feasible qty = 360 / (10 * 1.2) = 30
+    line, exec_ctx = engine.remediate_regate(
+        0, ctx, [record], ("agent-replenish",), LOOSE, tight_budget, LOOSE, workflow="W2",
+    )
+    assert line["remediation"]["downroute"] == {
+        "triggered": True, "pre_qty": 100.0, "post_qty": 30.0, "cap_used": tight_budget,
+    }
+    assert line["remediation"]["order_applied"] == ["downroute"]
+    assert line["final"]["admitted"] is True
+    assert exec_ctx.proposed_qty == 30.0
+    assert line["action"]["order_qty"] == 30.0
+
+
+def test_downroute_never_triggers_under_w1_even_with_same_tight_budget():
+    engine = _engine()
+    ctx = _ctx(qty=100.0)
+    record = EvidenceRecord(
+        record_id=f"{SKU}-primary",
+        payload={"sku": SKU, "unit_cost": TRUE_COST, "currency": "GBP"},
+        metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
+    )
+    line, _ = engine.remediate_regate(
+        0, ctx, [record], ("agent-replenish",), LOOSE, 360.0, LOOSE, workflow="W1",
+    )
+    assert line["remediation"]["downroute"] is None
+    assert line["final"]["response"] == "block"
+    assert line["final"]["winner_gate"] == "green"
+
+
+def test_single_pass_w2_downroute_reflected_in_executed_action_not_verdict():
+    engine = _engine()
+    ctx = _ctx(qty=100.0)
+    record = EvidenceRecord(
+        record_id=f"{SKU}-primary",
+        payload={"sku": SKU, "unit_cost": TRUE_COST, "currency": "GBP"},
+        metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
+    )
+    tight_budget = 360.0
+    line, exec_ctx = engine.single_pass(
+        0, ctx, [record], ("agent-replenish",), LOOSE, tight_budget, LOOSE, workflow="W2",
+    )
+    # single_pass judges the ORIGINAL (pre-downroute) action: green sees
+    # qty=100 against a budget that only fits 30, so the JOIN still blocks...
+    assert line["gates"]["green"]["verdict"] == "block"
+    assert line["final"]["response"] == "block"
+    assert line["final"]["admitted"] is False
+    # ...but the executed action (what "action" reports) is downrouted.
+    assert line["remediation"]["downroute"]["post_qty"] == 30.0
+    assert line["action"]["order_qty"] == 30.0
+    assert exec_ctx.proposed_qty == 30.0
+
+
+# ---------------------------------------------------------------------------
+# _maybe_downroute in isolation: closed-form quantity scaling, both binding
+# constraints, and the no-op paths.
+# ---------------------------------------------------------------------------
+
+
+def test_maybe_downroute_w1_is_always_a_noop():
+    ctx = _ctx(qty=100.0)
+    new_ctx, info = _maybe_downroute(ctx, 1.0, 1.0, CARBON_PER_UNIT, COST_MULTIPLIER, "W1")
+    assert new_ctx is ctx
+    assert info is None
+
+
+def test_maybe_downroute_zero_qty_is_a_noop():
+    ctx = _ctx(qty=0.0)
+    new_ctx, info = _maybe_downroute(ctx, 1.0, 1.0, CARBON_PER_UNIT, COST_MULTIPLIER, "W2")
+    assert new_ctx is ctx
+    assert info is None
+
+
+def test_maybe_downroute_already_feasible_is_a_noop():
+    ctx = _ctx(qty=10.0, cost=TRUE_COST)  # est_cost_eur = 100 * COST_MULTIPLIER
+    huge = 1e12
+    new_ctx, info = _maybe_downroute(ctx, huge, huge, CARBON_PER_UNIT, COST_MULTIPLIER, "W2")
+    assert new_ctx is ctx
+    assert info is None
+
+
+def test_maybe_downroute_cost_bound_is_the_binding_constraint():
+    ctx = _ctx(qty=100.0, cost=TRUE_COST)  # est_cost_eur=1200, est_carbon_g=50
+    # cost budget forces qty<=30; a huge carbon budget never binds.
+    tight_cost = 30.0 * TRUE_COST * COST_MULTIPLIER
+    new_ctx, info = _maybe_downroute(ctx, tight_cost, 1e12, CARBON_PER_UNIT, COST_MULTIPLIER, "W2")
+    assert info["triggered"] is True
+    assert info["cap_used"] == tight_cost
+    assert new_ctx.proposed_qty == 30.0
+
+
+def test_maybe_downroute_carbon_bound_is_the_binding_constraint():
+    ctx = _ctx(qty=100.0, cost=TRUE_COST)  # est_cost_eur=1200, est_carbon_g=50
+    # carbon budget forces qty<=20; a huge cost budget never binds.
+    tight_carbon = 20.0 * CARBON_PER_UNIT
+    new_ctx, info = _maybe_downroute(ctx, 1e12, tight_carbon, CARBON_PER_UNIT, COST_MULTIPLIER, "W2")
+    assert info["triggered"] is True
+    assert info["cap_used"] == tight_carbon
+    assert new_ctx.proposed_qty == 20.0
+    assert new_ctx.order_value == 20.0 * TRUE_COST
+    assert new_ctx.est_cost_eur == new_ctx.order_value * COST_MULTIPLIER
+    assert new_ctx.est_carbon_g == 20.0 * CARBON_PER_UNIT
+
+
+def test_w2_evidence_substitution_and_downroute_can_both_trigger_in_order():
+    engine = _engine()
+    ctx = _ctx(qty=100.0, cost=TRUE_COST)
+    stale = EvidenceRecord(
+        record_id=f"{SKU}-primary",
+        payload={"sku": SKU, "unit_cost": TRUE_COST * 0.7, "currency": "GBP"},
+        metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY - 60, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
+    )
+    tight_budget = 360.0
+    line, exec_ctx = engine.remediate_regate(
+        0, ctx, [stale], ("agent-replenish",), LOOSE, tight_budget, LOOSE, workflow="W2",
+    )
+    assert line["remediation"]["evidence_substitution"] is not None
+    assert line["remediation"]["downroute"] is not None
+    assert line["remediation"]["order_applied"] == ["evidence_substitution", "downroute"]
+    assert line["final"]["admitted"] is True

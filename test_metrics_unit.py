@@ -109,8 +109,9 @@ def test_ch2_no_divergence_when_responses_match():
     sp_lines = [_line(0, final_response="admit")]
     all_results = _all_results(S4=_scenario(rtr_lines, [_FakePlanEntry(0, None)]))
     all_results["S4"]["results"]["single_pass"]["lines"] = sp_lines
-    divergent, directions = metrics._ch2(all_results)
+    divergent, label_only, directions = metrics._ch2(all_results)
     assert divergent == 0
+    assert label_only == 0
     assert directions["single_pass_admits_then_violates"] == 0
     assert directions["single_pass_holds_remediated_compliant"] == 0
 
@@ -121,8 +122,9 @@ def test_ch2_admits_then_violates_direction():
     all_results = _all_results(S4=_scenario(rtr_lines, [_FakePlanEntry(0, "stale_master_data")]))
     all_results["S4"]["results"]["single_pass"]["lines"] = sp_lines
     all_results["S4"]["results"]["single_pass"]["audit_flags"] = {0: True}
-    divergent, directions = metrics._ch2(all_results)
+    divergent, label_only, directions = metrics._ch2(all_results)
     assert divergent == 1
+    assert label_only == 0
     assert directions["single_pass_admits_then_violates"] == 1
     assert directions["single_pass_holds_remediated_compliant"] == 0
 
@@ -132,8 +134,9 @@ def test_ch2_holds_remediated_compliant_direction():
     sp_lines = [_line(0, final_response="escalate", admitted=False)]
     all_results = _all_results(S4=_scenario(rtr_lines, [_FakePlanEntry(0, "stale_master_data")]))
     all_results["S4"]["results"]["single_pass"]["lines"] = sp_lines
-    divergent, directions = metrics._ch2(all_results)
+    divergent, label_only, directions = metrics._ch2(all_results)
     assert divergent == 1
+    assert label_only == 0
     assert directions["single_pass_admits_then_violates"] == 0
     assert directions["single_pass_holds_remediated_compliant"] == 1
 
@@ -144,9 +147,44 @@ def test_ch2_no_audit_flag_means_not_admits_then_violates():
     all_results = _all_results(S4=_scenario(rtr_lines, [_FakePlanEntry(0, "stale_master_data")]))
     all_results["S4"]["results"]["single_pass"]["lines"] = sp_lines
     all_results["S4"]["results"]["single_pass"]["audit_flags"] = {0: False}
-    divergent, directions = metrics._ch2(all_results)
+    divergent, label_only, directions = metrics._ch2(all_results)
+    # Class change alone (escalate/held vs substitute/exec) still makes
+    # this divergent under rule 1, even with no audit violation.
     assert divergent == 1
     assert directions["single_pass_admits_then_violates"] == 0
+
+
+def test_ch2_same_class_different_string_clean_audit_is_label_only():
+    """The core fix (prereg/ch2-semantics.md): both protocols execute
+    (same Exec class), the response strings differ only because
+    remediate_regate's Phase II re-reads "admit" post-substitution, and
+    the audit finds nothing wrong -- this must NOT count toward
+    ch2_divergent_decisions."""
+    rtr_lines = [_line(0, final_response="admit", admitted=True)]
+    sp_lines = [_line(0, final_response="substitute", admitted=True)]
+    all_results = _all_results(S4=_scenario(rtr_lines, [_FakePlanEntry(0, "stale_master_data")]))
+    all_results["S4"]["results"]["single_pass"]["lines"] = sp_lines
+    all_results["S4"]["results"]["single_pass"]["audit_flags"] = {0: False}
+    divergent, label_only, directions = metrics._ch2(all_results)
+    assert divergent == 0
+    assert label_only == 1
+    assert directions["single_pass_admits_then_violates"] == 0
+    assert directions["single_pass_holds_remediated_compliant"] == 0
+
+
+def test_ch2_same_class_audited_violation_counts_as_divergent_not_label_only():
+    """Same Exec class, differing response strings, AND the audit flags
+    single_pass's executed action -- rule 2 fires, so this is a genuine
+    divergence, not a label-only difference."""
+    rtr_lines = [_line(0, final_response="admit", admitted=True)]
+    sp_lines = [_line(0, final_response="substitute", admitted=True)]
+    all_results = _all_results(S4=_scenario(rtr_lines, [_FakePlanEntry(0, "stale_master_data")]))
+    all_results["S4"]["results"]["single_pass"]["lines"] = sp_lines
+    all_results["S4"]["results"]["single_pass"]["audit_flags"] = {0: True}
+    divergent, label_only, directions = metrics._ch2(all_results)
+    assert divergent == 1
+    assert label_only == 0
+    assert directions["single_pass_admits_then_violates"] == 1
 
 
 # ---------------------------------------------------------------------------
@@ -282,8 +320,8 @@ def test_build_metrics_assembles_all_required_top_level_keys():
 
     assert set(result.keys()) == {
         "ch1_violations", "ch2_divergent_decisions", "ch2_direction_counts",
-        "ch3_false_hold", "ch4_matrix", "S1", "S2", "S3", "S4",
-        "source_sha256_unchanged",
+        "label_only_differences", "ch3_false_hold", "ch4_matrix",
+        "S1", "S2", "S3", "S4", "source_sha256_unchanged",
     }
     assert result["ch1_violations"] == 0
     assert result["source_sha256_unchanged"] is True

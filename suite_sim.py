@@ -48,6 +48,11 @@ DEFECT_CLASSES = [
     "missing_mandatory_field",
     "lineage_missing",
     "plausible_outlier",
+    "plausible_outlier_high",  # prereg/contamination.md: a second, independent
+    # declared-uncovered class (identical corruption recipe) added at the
+    # same 0.02 per-class rate specifically to make the buffer-contamination
+    # study (CH6) easy to trigger without perturbing the original seven
+    # classes' own per-class rates.
 ]
 
 
@@ -63,6 +68,7 @@ class DecisionPlan:
     read_cost: float
     evidence_records: List[EvidenceRecord]
     injected_defect: Optional[str]
+    workflow: str = "W1"
 
 
 class RetailSimulation:
@@ -123,12 +129,21 @@ class RetailSimulation:
         unauthorized_role_rate: float,
         authorized_roles: List[str],
         unauthorized_role: str = "agent-unauthorized",
+        workflow: str = "W1",
+        commitment_period_days: int = 1,
     ) -> List[DecisionPlan]:
+        """workflow/commitment_period_days implement W2 (prereg/w2-workflow.md):
+        a decision commits once every commitment_period_days days per SKU
+        (7 for W2's weekly commitment) instead of daily. The newsvendor
+        quantile rule itself is unchanged — W2 just evaluates it less
+        often, anchored at the start of each commitment window."""
         rng = random.Random(seed)
         plan: List[DecisionPlan] = []
         decision_id = 0
         for date_idx, date in enumerate(self.dates):
             if date_idx < WARMUP:
+                continue
+            if (date_idx - WARMUP) % commitment_period_days != 0:
                 continue
             for sku in self.skus:
                 if date not in self.qty_by_sku_date[sku]:
@@ -153,6 +168,7 @@ class RetailSimulation:
                         read_cost=read_cost,
                         evidence_records=evidence_records,
                         injected_defect=defect,
+                        workflow=workflow,
                     )
                 )
                 decision_id += 1
@@ -260,7 +276,13 @@ class RetailSimulation:
             )
             return true_cost, [record], chosen
 
-        if chosen == "plausible_outlier":
+        if chosen in ("plausible_outlier", "plausible_outlier_high"):
+            # Identical corruption recipe (Appendix B): unit_cost x 2.5,
+            # clean fresh metadata, clean lineage. plausible_outlier_high
+            # is a second independent class at the same rate (prereg/
+            # contamination.md) so the buffer-contamination study has a
+            # dedicated, isolable injection axis; it is not a *different*
+            # defect mechanically, only a separately-counted one.
             corrupted = true_cost * 2.5
             record = EvidenceRecord(
                 record_id=f"{sku}-primary",

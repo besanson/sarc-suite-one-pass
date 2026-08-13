@@ -1,0 +1,50 @@
+{
+  "ch1_violations": 0,
+  "ch2_divergent_decisions": 216,
+  "ch2_direction_counts": {
+    "single_pass_admits_then_violates": 216,
+    "single_pass_holds_remediated_compliant": 0
+  },
+  "label_only_differences": 207,
+  "ch3_false_hold": 0.0,
+  "ch4_union_ok": true,
+  "ch5_max_violations": 13782,
+  "ch5_supported": true,
+  "seed": 48582056,
+  "ch6": {
+    "W1": {
+      "plain": {
+        "substitutions": 423,
+        "poisoned_substitutions": 23,
+        "poisoned_mean_abs_value_delta": 2.0469130434782614
+      },
+      "quarantine": {
+        "substitutions": 423,
+        "poisoned_substitutions": 0,
+        "poisoned_mean_abs_value_delta": 0.0
+      },
+      "median_of_3": {
+        "substitutions": 423,
+        "poisoned_substitutions": 2,
+        "poisoned_mean_abs_value_delta": 1.125
+      }
+    },
+    "W2": {
+      "plain": {
+        "substitutions": 64,
+        "poisoned_substitutions": 4,
+        "poisoned_mean_abs_value_delta": 1.6942499999999998
+      },
+      "quarantine": {
+        "substitutions": 64,
+        "poisoned_substitutions": 0,
+        "poisoned_mean_abs_value_delta": 0.0
+      },
+      "median_of_3": {
+        "substitutions": 64,
+        "poisoned_substitutions": 1,
+        "poisoned_mean_abs_value_delta": 3.375
+      }
+    }
+  }
+}

@@ -427,7 +427,7 @@ def test_metrics_top_level_keys_exact(suite_run):
     _, _, metrics = suite_run
     expected = {
         "ch1_violations", "ch2_divergent_decisions", "ch2_direction_counts",
-        "ch3_false_hold", "ch4_matrix", "S1", "S2", "S3", "S4",
-        "source_sha256_unchanged",
+        "label_only_differences", "ch3_false_hold", "ch4_matrix",
+        "S1", "S2", "S3", "S4", "source_sha256_unchanged",
     }
     assert set(metrics.keys()) == expected

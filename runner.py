@@ -62,16 +62,19 @@ class ScenarioConfig:
     daily_cost_budget: float
     daily_carbon_budget: float
     apply_s4_kappa: bool = False
+    workflow: str = "W1"
+    commitment_period_days: int = 1
+    seed: int = SEED
 
 
-def _fresh_dq_gate(dq_spec, sku_true_cost: Dict[str, float]) -> DQPreActionGate:
-    buffer = GovernedBuffer(values=dict(sku_true_cost))
+def _fresh_dq_gate(dq_spec, sku_true_cost: Dict[str, float], buffer_factory=GovernedBuffer) -> DQPreActionGate:
+    buffer = buffer_factory(values=dict(sku_true_cost))
     return DQPreActionGate(spec=dq_spec, buffer=buffer)
 
 
-def _engine(dq_spec, sarc_spec, green_engines, sku_true_cost) -> CompositionEngine:
+def _engine(dq_spec, sarc_spec, green_engines, sku_true_cost, buffer_factory=GovernedBuffer) -> CompositionEngine:
     return CompositionEngine(
-        dq_gate=_fresh_dq_gate(dq_spec, sku_true_cost),
+        dq_gate=_fresh_dq_gate(dq_spec, sku_true_cost, buffer_factory),
         sarc_spec=sarc_spec,
         green_engines=green_engines,
         carbon_per_unit=CARBON_PER_UNIT,
@@ -119,11 +122,27 @@ def run_scenario(
     sarc_spec,
     green_engines,
     scenario: ScenarioConfig,
+    buffer_factory=GovernedBuffer,
+    modes: Tuple[str, ...] = ("remediate_regate", "single_pass"),
 ) -> Dict[str, object]:
+    """buffer_factory selects the DQ gate's governed-buffer implementation
+    for the scenario's own run engine (plain GovernedBuffer, or one of
+    contamination.py's mitigation adapters — CH6, prereg/contamination.md).
+    The post-hoc audit engine below always uses the plain GovernedBuffer:
+    the audit is an idealized independent re-check, not itself subject to
+    whichever mitigation is under test.
+
+    modes restricts which composition protocol(s) actually run — the
+    30-seed sweep's contamination scenarios (sweep.py) only ever read
+    remediate_regate lines, so they pass modes=("remediate_regate",) to
+    skip single_pass's redundant compute entirely. Every other caller
+    keeps the default (both modes), unchanged."""
     plan = sim.generate_plan(
-        seed=SEED,
+        seed=scenario.seed,
         unauthorized_role_rate=scenario.unauthorized_role_rate,
         authorized_roles=scenario.authorized_roles,
+        workflow=scenario.workflow,
+        commitment_period_days=scenario.commitment_period_days,
     )
 
     kappa_by_decision: Dict[int, float] = {}
@@ -131,8 +150,8 @@ def run_scenario(
         kappa_by_decision = _compute_s4_kappa(dq_spec, sim.sku_true_cost, plan)
 
     results: Dict[str, Dict[str, object]] = {}
-    for mode in ("remediate_regate", "single_pass"):
-        engine = _engine(dq_spec, sarc_spec, green_engines, sim.sku_true_cost)
+    for mode in modes:
+        engine = _engine(dq_spec, sarc_spec, green_engines, sim.sku_true_cost, buffer_factory)
         lines: List[Dict[str, object]] = []
         exec_ctxs: Dict[int, Tuple[ActionContext, float]] = {}
         for p in plan:
@@ -143,12 +162,14 @@ def run_scenario(
                     p.decision_id, ctx, p.evidence_records,
                     tuple(scenario.authorized_roles), cap,
                     scenario.daily_cost_budget, scenario.daily_carbon_budget,
+                    workflow=scenario.workflow,
                 )
             else:
                 line, exec_ctx = engine.single_pass(
                     p.decision_id, ctx, p.evidence_records,
                     tuple(scenario.authorized_roles), cap,
                     scenario.daily_cost_budget, scenario.daily_carbon_budget,
+                    workflow=scenario.workflow,
                 )
             lines.append(line)
             if line["final"]["admitted"]:
@@ -270,6 +291,84 @@ def build_scenarios(sim: RetailSimulation) -> Dict[str, ScenarioConfig]:
     }
 
 
+W2_ROLE = "agent-w2-replenish"  # distinct from W1's "agent-replenish" (prereg/w2-workflow.md)
+W2_UNAUTHORIZED_ROLE = "agent-w2-unauthorized"
+W2_COMMITMENT_PERIOD_DAYS = 7
+
+
+def build_w2_scenarios(sim: RetailSimulation, seed: int = SEED) -> Dict[str, ScenarioConfig]:
+    """W2's weekly-commitment workflow: calibrated the same generated way
+    as W1's scenarios, from the real weekly order-economics distribution
+    (not W1's daily one — a week's worth of quantity is ~7x a day's)."""
+    loose_plan = sim.generate_plan(
+        seed=seed, unauthorized_role_rate=0.0, authorized_roles=[W2_ROLE],
+        workflow="W2", commitment_period_days=W2_COMMITMENT_PERIOD_DAYS,
+    )
+    stats = sim.calibrate(loose_plan)
+
+    loose_cap = stats["max_order_value"] * 10
+    loose_cost_budget = stats["max_est_cost"] * 10
+    loose_carbon_budget = stats["max_est_carbon"] * 10
+
+    # Tight enough that downroute has real work to do on a meaningful
+    # subset (median order implies roughly half of decisions exceed it),
+    # loose enough that feasible_qty > 0 for virtually all of them.
+    downroute_cost_budget = stats["median_est_cost"]
+    downroute_carbon_budget = stats["median_est_carbon"]
+
+    return {
+        "W2-S1": ScenarioConfig(
+            name="W2-S1", label="W2 baseline: loose weekly budgets, all roles authorised",
+            authorized_roles=[W2_ROLE], unauthorized_role_rate=0.0,
+            order_value_cap=loose_cap, daily_cost_budget=loose_cost_budget,
+            daily_carbon_budget=loose_carbon_budget,
+            workflow="W2", commitment_period_days=W2_COMMITMENT_PERIOD_DAYS, seed=seed,
+        ),
+        "W2-S2": ScenarioConfig(
+            name="W2-S2", label="W2 tight weekly budgets: exercises downroute",
+            authorized_roles=[W2_ROLE], unauthorized_role_rate=0.0,
+            order_value_cap=loose_cap, daily_cost_budget=downroute_cost_budget,
+            daily_carbon_budget=downroute_carbon_budget,
+            workflow="W2", commitment_period_days=W2_COMMITMENT_PERIOD_DAYS, seed=seed,
+        ),
+    }
+
+
+def build_contamination_scenarios(sim: RetailSimulation, seed: int = SEED) -> Dict[str, ScenarioConfig]:
+    """CH6 (prereg/contamination.md): loose-budget scenarios for both
+    workflows — the poisoned-substitution study exercises the evidence
+    buffer, not the resource budgets, so budgets/caps are calibrated the
+    same generated-loose way as S1/W2-S1. Run once per buffer strategy
+    (plain=GovernedBuffer, quarantine=QuarantineWindowBuffer,
+    median_of_3=MedianOf3Buffer) by passing the matching buffer_factory
+    to run_scenario."""
+    w1_plan = sim.generate_plan(seed=seed, unauthorized_role_rate=0.0, authorized_roles=["agent-replenish"])
+    w1_stats = sim.calibrate(w1_plan)
+    w2_plan = sim.generate_plan(
+        seed=seed, unauthorized_role_rate=0.0, authorized_roles=[W2_ROLE],
+        workflow="W2", commitment_period_days=W2_COMMITMENT_PERIOD_DAYS,
+    )
+    w2_stats = sim.calibrate(w2_plan)
+    return {
+        "CONTAM-W1": ScenarioConfig(
+            name="CONTAM-W1", label="contamination study: loose budgets, W1",
+            authorized_roles=["agent-replenish"], unauthorized_role_rate=0.0,
+            order_value_cap=w1_stats["max_order_value"] * 10,
+            daily_cost_budget=w1_stats["max_est_cost"] * 10,
+            daily_carbon_budget=w1_stats["max_est_carbon"] * 10,
+            seed=seed,
+        ),
+        "CONTAM-W2": ScenarioConfig(
+            name="CONTAM-W2", label="contamination study: loose weekly budgets, W2",
+            authorized_roles=[W2_ROLE], unauthorized_role_rate=0.0,
+            order_value_cap=w2_stats["max_order_value"] * 10,
+            daily_cost_budget=w2_stats["max_est_cost"] * 10,
+            daily_carbon_budget=w2_stats["max_est_carbon"] * 10,
+            workflow="W2", commitment_period_days=W2_COMMITMENT_PERIOD_DAYS, seed=seed,
+        ),
+    }
+
+
 def run_all_scenarios(data_path: str = "data/open_retail_daily.csv"):
     sim = RetailSimulation(data_path)
     sha_before = data_sha256(data_path)
@@ -374,7 +473,8 @@ def main():
     print(
         f"CH1 ch1_violations={metrics['ch1_violations']} | "
         f"CH2 ch2_divergent_decisions={metrics['ch2_divergent_decisions']} "
-        f"direction_counts={metrics['ch2_direction_counts']} | "
+        f"direction_counts={metrics['ch2_direction_counts']} "
+        f"label_only_differences={metrics['label_only_differences']} | "
         f"CH3 ch3_false_hold={metrics['ch3_false_hold']:.6f} | "
         f"CH4 union_ok={metrics['ch4_matrix']['union_ok']}"
     )

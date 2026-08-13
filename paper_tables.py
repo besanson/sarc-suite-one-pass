@@ -24,16 +24,9 @@ from __future__ import annotations
 import json
 from typing import Any, Dict
 
+from suite_sim import DEFECT_CLASSES
+
 SCENARIOS = ["S1", "S2", "S3", "S4"]
-DEFECT_CLASSES = [
-    "stale_master_data",
-    "superseded_golden_record",
-    "cross_source_contradiction",
-    "schema_drift",
-    "missing_mandatory_field",
-    "lineage_missing",
-    "plausible_outlier",
-]
 
 
 def _format_table1(metrics: Dict[str, Any]) -> str:
@@ -138,6 +131,7 @@ def generate_tables_and_slots(metrics: Dict[str, Any], manifest: Dict[str, Any])
         f"{d['single_pass_admits_then_violates']} single_pass_admits_then_violates, "
         f"{d['single_pass_holds_remediated_compliant']} single_pass_holds_remediated_compliant"
     )
+    slots["metrics.label_only_differences"] = str(metrics["label_only_differences"])
     slots["metrics.ch3_false_hold"] = f"{metrics['ch3_false_hold']:.6f}"
     po = metrics["ch4_matrix"].get("plausible_outlier", {})
     slots["metrics.ch4_matrix"] = (

@@ -75,17 +75,21 @@ study, the `remediate_regate` rename, Evidence Set schema v1) lives under
 
 ## Files
 
-- **suite_sim.py**: decision stream, economics, and the declared per-class defect injector (builds real `EvidenceRecord`/`RecordMetadata` objects)
-- **composition.py**: three-gate orchestration composing the real engines (remediate_regate and single_pass protocols); no gate-internal defect logic
-- **runner.py**: scenario runner (S1-S4 configurations), post-hoc audit, `out/` writer
-- **metrics.py**: aggregates CH1-CH4 from the actual recorded gate decisions
+- **suite_sim.py**: decision stream, economics, and the declared per-class defect injector (builds real `EvidenceRecord`/`RecordMetadata` objects); `workflow`/`commitment_period_days` implement W2 (weekly commitment)
+- **composition.py**: three-gate orchestration composing the real engines (remediate_regate and single_pass protocols); `_maybe_downroute` is the second (W2-only) remediator; no gate-internal defect logic
+- **runner.py**: scenario runner (S1-S4, W2-S1/W2-S2, contamination scenario configurations), post-hoc audit, `out/` writer
+- **metrics.py**: aggregates CH1-CH4 from the actual recorded gate decisions, under the `prereg/ch2-semantics.md` CH2 redefinition
+- **contamination.py**: CH6 — the poisoned-substitution metric plus the `QuarantineWindowBuffer`/`MedianOf3Buffer` mitigation adapters (buffer-wrapping, outside `sarc_dq.gate`)
+- **ch5_aggregator.py**: CH5 — the weighted-score compensatory aggregator harness against `prereg/weights.json`'s grid
+- **sweep.py**: the V3-gate 30-seed statistical sweep (`prereg/seeds.json`); checkpointed per-seed under `out/results/sweep/`, aggregated with 95% CIs into `out/results/sweep_summary.json`
 - **manifest.py**: generated artifact manifest (`importlib.metadata` + `git rev-parse` + data sha256 + licences — nothing hard-coded)
 - **paper_tables.py**: builds every `[GENERATED: ...]` slot solely from `out/metrics.json` + the manifest
 - **populate_draft.py**: fills the paper draft template, verifying only slot spans changed
 - **specs/authority.yaml**: sarc-governance constraint spec (real YAML schema: id/class/verif/response/predicate)
+- **prereg/**: pre-registered (tagged `prereg-v1`) hypotheses, seeds, weights, and workflow/contamination/semantics definitions — Phase 3 experiments implement these verbatim
 - **test_suite_sim.py**: test suite, including the anti-mock tripwires
 - **data/**: UCI Online Retail dataset (CC BY 4.0)
-- **out/**: output artifacts (evidence sets, run logs, metrics, paper)
+- **out/**: output artifacts (evidence sets, run logs, metrics, paper, sweep results)
 
 ## Data
 
@@ -133,6 +137,30 @@ study, the `remediate_regate` rename, Evidence Set schema v1) lives under
 - **CH2** (single-pass unsoundness is real): S4 divergences observed
 - **CH3** (deterministic selectivity): Zero false holds on clean/auth/budget decisions
 - **CH4** (coverage honesty): plausible_outlier stays uncovered; union property holds
+- **CH5** (compensation is empirically unsafe): over `prereg/weights.json`'s grid, at least one weight vector admits a decision the min join held — see `ch5_aggregator.py`
+- **CH6** (buffer contamination is real and mitigable): the plain buffer produces poisoned substitutions; both mitigations reduce the count — see `contamination.py`, `prereg/contamination.md`
+- **CH7** (multi-remediator order dependence): formal-track only (Phase 4), decided by `checkers/remediator_check.py`
+- **CH8** (robustness across 30 seeds x 2 workflows): see `sweep.py` / `out/results/sweep_summary.json`'s `ch8_robustness` block
+
+## Phase 3: W2, contamination, CH5, and the 30-seed sweep
+
+- **W2** (`prereg/w2-workflow.md`): a weekly-commitment workflow with its
+  own role namespace and a second remediator, downroute (scale the
+  committed quantity to the largest budget-feasible amount, then
+  re-gate) — `build_w2_scenarios` in `runner.py`.
+- **Contamination study** (`prereg/contamination.md`): `plausible_outlier_high`
+  is a second uncovered-by-DQ defect class; `contamination.py` computes
+  the poisoned-substitution metric purely from ground-truth labels and
+  implements the two mitigation buffer adapters, entirely outside
+  `sarc_dq.gate`.
+- **CH5 aggregator** (`prereg/weights.json`): `ch5_aggregator.py` compares
+  the min-join composed result against a weighted-score compensatory
+  aggregator over the pre-registered weight/threshold grid.
+- **`make sweep`**: runs `sweep.py`, the V3-gate statistical sweep over
+  all 30 registered seeds — recomputes CH1-CH4 (new CH2 semantics), CH5,
+  and CH6 (both workflows x plain/quarantine/median_of_3) per seed, then
+  aggregates means and 95% CIs. Checkpointed per seed
+  (`out/results/sweep/seed_<seed>.json`), safe to resume.
 
 ## Determinism & Reproducibility
 

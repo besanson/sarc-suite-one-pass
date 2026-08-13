@@ -134,3 +134,60 @@ mutmut results      # lists non-killed mutants
 mutmut show <id>     # view a specific mutant's diff
 rm -rf mutants .mutmut-cache   # cleanup; not committed (see .gitignore)
 ```
+
+## Update (Phase 3, V3/P3 sweep): re-run after `_maybe_downroute` and the
+## CH2 redefinition
+
+Phase 3 added `_maybe_downroute` (the W2 downroute remediator,
+`prereg/w2-workflow.md`) and rewrote `metrics._ch2` under
+`prereg/ch2-semantics.md`'s Exec/Held-class-change + audited-violation
+redefinition. Both are in the mutation-testing target set
+(`composition.py`, `metrics.py`), so the gate was re-run rather than
+assumed to still hold:
+
+```
+mutmut run, source_paths = [composition.py, metrics.py]
+Total mutants: 1179
+Killed:        1038
+Survived:        139
+Timeout:           2
+No tests:          0
+Kill score = 1038 / 1179 = 0.8804 (88.0%)
+```
+
+Still above the 0.85 threshold. `test_audit_unit.py` gained five direct
+`_maybe_downroute` unit tests (W1 no-op, zero-qty no-op, already-feasible
+no-op, cost-bound cap_used, carbon-bound cap_used) in response to this
+re-run, which is what took `_maybe_downroute`'s own survivor count from
+22 down to 10 before the numbers above were recorded.
+
+The new survivors fall into the same classes already documented above,
+not new ones:
+
+- `_maybe_downroute`'s `ctx.proposed_qty <= 0` -> `<= 1` boundary mutant
+  survives because no fixture exercises a proposed quantity strictly
+  between 0 and 1 — real order quantities in this artifact's data are
+  never fractional-below-one, so this boundary is inert on any decision
+  the simulation can actually produce (class 1: unused/unreachable-value
+  equivalence, extended to a domain-range argument rather than an
+  unused-field argument).
+- `_ch2`'s `sp_audit_flags.get(decision_id, False)` -> `.get(decision_id,
+  None)` survives because the result only ever feeds an `if ... or
+  audited_violation:` truthiness check — `False` and `None` are
+  behaviorally identical there (class 3: logical equivalence, same
+  "default value never observably compared" shape as the `and`/`or`
+  survivor already documented for `remediate_regate`).
+- `ch4_matrix`'s 13 survivors and the remaining `evaluate_*`/`build_*`
+  clusters are the same unused-field and spec-coupling patterns as
+  classes 1 and 2 above, now also present in the functions Phase 3 added
+  call sites to (`evaluate_green`, `evaluate_sarc_pag`,
+  `build_green_engines` are unchanged code, re-mutated because they sit
+  in the same target files — their survivor counts are stable from
+  Phase 2, not new).
+
+Accepted for the same reason as the original decision: the delta between
+this run and Phase 2's is explained by two new, well-understood
+equivalence instances plus test coverage that already closed the
+material gap (`_maybe_downroute`'s binding-constraint branches). No
+further chasing performed — the threshold is met and the survivors are
+equivalence, not weakness.

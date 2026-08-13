@@ -340,6 +340,65 @@ def _remediated_context(ctx: ActionContext, substituted_cost: float, carbon_per_
     )
 
 
+def _maybe_downroute(
+    ctx: ActionContext,
+    daily_cost_budget: float,
+    daily_carbon_budget: float,
+    carbon_per_unit: float,
+    cost_multiplier: float,
+    workflow: str,
+) -> Tuple[ActionContext, Optional[Dict[str, Any]]]:
+    """The second remediation operator (prereg/w2-workflow.md): scale the
+    committed quantity down to the largest quantity whose predicted cost
+    AND carbon both fit the remaining budget, recompute context. Only
+    ever applies under W2 (Green SARC's PreActionGate.evaluate never
+    itself returns Verdict.DOWNROUTE; this repo realizes the downroute
+    *response* as a remediation strategy the same way evidence
+    substitution is realized via the real governed buffer — the gate
+    supplies the verdict, this function supplies what to do about it).
+    W1 is untouched: returns (ctx, None) unconditionally, so W1's
+    behavior (and every byte-identical-output guarantee already locked
+    in by earlier tests) is unaffected.
+
+    cost_hat and carbon_hat are both exactly linear in proposed_qty for a
+    fixed unit_cost (the declared Greensarc field mapping in ADR-001), so
+    the budget-feasible maximum quantity has a closed form — no search.
+    """
+    if workflow != "W2" or ctx.proposed_qty <= 0:
+        return ctx, None
+
+    unit_cost = ctx.order_value / ctx.proposed_qty
+    max_qty_by_cost = (
+        daily_cost_budget / (unit_cost * cost_multiplier)
+        if unit_cost > 0 and cost_multiplier > 0
+        else ctx.proposed_qty
+    )
+    max_qty_by_carbon = (
+        daily_carbon_budget / carbon_per_unit if carbon_per_unit > 0 else ctx.proposed_qty
+    )
+    feasible_qty = max(0.0, min(ctx.proposed_qty, max_qty_by_cost, max_qty_by_carbon))
+
+    if feasible_qty >= ctx.proposed_qty:
+        return ctx, None  # already budget-feasible; nothing to downroute
+
+    cap_used = daily_cost_budget if max_qty_by_cost <= max_qty_by_carbon else daily_carbon_budget
+    new_value = feasible_qty * unit_cost
+    new_ctx = replace(
+        ctx,
+        proposed_qty=feasible_qty,
+        order_value=new_value,
+        est_cost_eur=new_value * cost_multiplier,
+        est_carbon_g=feasible_qty * carbon_per_unit,
+    )
+    info = {
+        "triggered": True,
+        "pre_qty": ctx.proposed_qty,
+        "post_qty": feasible_qty,
+        "cap_used": cap_used,
+    }
+    return new_ctx, info
+
+
 def _remediated_evidence(primary: EvidenceRecord, sku: str, day: int, substituted_cost: float) -> List[EvidenceRecord]:
     """Clean, governed-buffer-sourced evidence for Phase II / the audit —
     admitted by construction (Lemma 1: idempotent substitution)."""
@@ -434,6 +493,23 @@ class CompositionEngine:
                 "substituted_value": sub_cost,
             }
 
+        # Second remediator (W2 only, fixed order per prereg/w2-workflow.md:
+        # evidence gate first, then resource gate): peek at whether green
+        # would reject the (possibly evidence-remediated) action outright
+        # for being over budget, and if so, downroute the quantity to the
+        # budget-feasible maximum before Phase II's real gate evaluation.
+        downroute: Optional[Dict[str, Any]] = None
+        if workflow == "W2":
+            peek_green_resp, _ = evaluate_green(
+                self.green_engines, remediated_ctx.sku, remediated_ctx.est_cost_eur,
+                daily_cost_budget, daily_carbon_budget,
+            )
+            if peek_green_resp == Response.BLOCK:
+                remediated_ctx, downroute = _maybe_downroute(
+                    remediated_ctx, daily_cost_budget, daily_carbon_budget,
+                    self.carbon_per_unit, self.cost_multiplier, workflow,
+                )
+
         if remediated_evidence is evidence_records:
             # No remediation occurred: Phase II would re-evaluate DQ on the
             # identical evidence and get the identical (deterministic)
@@ -461,8 +537,11 @@ class CompositionEngine:
             "context": _context_dict(context, order_value_cap, allowed_roles),
             "remediation": {
                 "evidence_substitution": evidence_substitution,
-                "downroute": None,  # W2-only (Phase 3); always null under W1
-                "order_applied": ["evidence_substitution"] if evidence_substitution else [],
+                "downroute": downroute,
+                "order_applied": (
+                    (["evidence_substitution"] if evidence_substitution else [])
+                    + (["downroute"] if downroute else [])
+                ),
             },
             "gates": {
                 "sarc": {"constraints_evaluated": sarc_detail["constraints_evaluated"], "verdict": RESPONSE_NAME[sarc_resp]},
@@ -528,9 +607,10 @@ class CompositionEngine:
         winner = _find_winner_gate(dq_resp, sarc_resp, green_resp, final_resp)
         paa_flag = evaluate_paa_lineage(self.dq_gate.spec, evidence_records)
 
-        # The executed action still uses the remediated value when DQ
-        # substituted, even though sarc/green judged the ORIGINAL value —
-        # this is the single-pass unsoundness mechanism (Proposition 3).
+        # The executed action still uses the remediated value(s) even
+        # though sarc/green judged the ORIGINAL (pre-remediation) value —
+        # this is the single-pass unsoundness mechanism (Proposition 3),
+        # now extended to both remediators under W2.
         exec_ctx = context
         evidence_substitution: Optional[Dict[str, Any]] = None
         if dq_resp == Response.SUBSTITUTE and dq_decision.substituted_value is not None:
@@ -544,6 +624,18 @@ class CompositionEngine:
                 "substituted_value": dq_decision.substituted_value,
             }
 
+        downroute: Optional[Dict[str, Any]] = None
+        if workflow == "W2":
+            peek_green_resp, _ = evaluate_green(
+                self.green_engines, exec_ctx.sku, exec_ctx.est_cost_eur,
+                daily_cost_budget, daily_carbon_budget,
+            )
+            if peek_green_resp == Response.BLOCK:
+                exec_ctx, downroute = _maybe_downroute(
+                    exec_ctx, daily_cost_budget, daily_carbon_budget,
+                    self.carbon_per_unit, self.cost_multiplier, workflow,
+                )
+
         line = {
             "decision_id": decision_id,
             "day": context.day,
@@ -552,8 +644,11 @@ class CompositionEngine:
             "context": _context_dict(context, order_value_cap, allowed_roles),
             "remediation": {
                 "evidence_substitution": evidence_substitution,
-                "downroute": None,  # W2-only (Phase 3); always null under W1
-                "order_applied": ["evidence_substitution"] if evidence_substitution else [],
+                "downroute": downroute,
+                "order_applied": (
+                    (["evidence_substitution"] if evidence_substitution else [])
+                    + (["downroute"] if downroute else [])
+                ),
             },
             "gates": {
                 "sarc": {"constraints_evaluated": sarc_detail["constraints_evaluated"], "verdict": RESPONSE_NAME[sarc_resp]},

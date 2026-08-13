@@ -1,0 +1,170 @@
+{
+  "n_seeds": 30,
+  "seeds": [
+    26313,
+    990168646,
+    1751999641,
+    1943666721,
+    1163928797,
+    1818785127,
+    1146288088,
+    1245208653,
+    909865711,
+    307071397,
+    1394807488,
+    1961110120,
+    1495033390,
+    1818313340,
+    2040033577,
+    1657195301,
+    876379550,
+    1486713621,
+    1597659626,
+    778087005,
+    460520189,
+    1162169338,
+    84716818,
+    558574779,
+    1740630570,
+    48582056,
+    38855009,
+    1246227770,
+    1179730076,
+    1028331701
+  ],
+  "ch1_violations_total": 0,
+  "ch1_supported_seed_count": 30,
+  "ch2_divergent_decisions": {
+    "mean": 207.5,
+    "ci95_low": 201.29592900293696,
+    "ci95_high": 213.70407099706304,
+    "n": 30
+  },
+  "label_only_differences": {
+    "mean": 191.33333333333334,
+    "ci95_low": 186.5219978461266,
+    "ci95_high": 196.1446688205401,
+    "n": 30
+  },
+  "ch2_supported_seed_count": 30,
+  "ch3_false_hold": {
+    "mean": 0.0,
+    "ci95_low": 0.0,
+    "ci95_high": 0.0,
+    "n": 30
+  },
+  "ch3_supported_seed_count": 30,
+  "ch4_union_ok_seed_count": 30,
+  "ch5_max_violations": {
+    "mean": 13775.066666666668,
+    "ci95_low": 13753.536034430572,
+    "ci95_high": 13796.597298902763,
+    "n": 30
+  },
+  "ch5_supported_seed_count": 30,
+  "ch6": {
+    "W1": {
+      "plain": {
+        "poisoned_substitutions": {
+          "mean": 14.7,
+          "ci95_low": 13.209113868542591,
+          "ci95_high": 16.190886131457408,
+          "n": 30
+        },
+        "poisoned_mean_abs_value_delta": {
+          "mean": 2.2097786583382293,
+          "ci95_low": 2.0242443702402824,
+          "ci95_high": 2.395312946436176,
+          "n": 30
+        }
+      },
+      "quarantine": {
+        "poisoned_substitutions": {
+          "mean": 0.2,
+          "ci95_low": -0.005695061171270888,
+          "ci95_high": 0.4056950611712709,
+          "n": 30
+        },
+        "poisoned_mean_abs_value_delta": {
+          "mean": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0,
+          "n": 30
+        }
+      },
+      "median_of_3": {
+        "poisoned_substitutions": {
+          "mean": 1.8333333333333333,
+          "ci95_low": 1.352099864176417,
+          "ci95_high": 2.3145668024902495,
+          "n": 30
+        },
+        "poisoned_mean_abs_value_delta": {
+          "mean": 2.018935,
+          "ci95_low": 1.2936301558893575,
+          "ci95_high": 2.744239844110642,
+          "n": 30
+        }
+      },
+      "plain_has_poisoning_every_seed": true,
+      "quarantine_strictly_lower_every_seed": true,
+      "median_of_3_strictly_lower_every_seed": true
+    },
+    "W2": {
+      "plain": {
+        "poisoned_substitutions": {
+          "mean": 1.8333333333333333,
+          "ci95_low": 1.3422104718598948,
+          "ci95_high": 2.3244561948067717,
+          "n": 30
+        },
+        "poisoned_mean_abs_value_delta": {
+          "mean": 1.6872349999999998,
+          "ci95_low": 1.3242703858745202,
+          "ci95_high": 2.0501996141254795,
+          "n": 30
+        }
+      },
+      "quarantine": {
+        "poisoned_substitutions": {
+          "mean": 0.06666666666666667,
+          "ci95_low": -0.02806952323307707,
+          "ci95_high": 0.1614028565664104,
+          "n": 30
+        },
+        "poisoned_mean_abs_value_delta": {
+          "mean": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0,
+          "n": 30
+        }
+      },
+      "median_of_3": {
+        "poisoned_substitutions": {
+          "mean": 0.13333333333333333,
+          "ci95_low": 0.004229668564410982,
+          "ci95_high": 0.2624369981022557,
+          "n": 30
+        },
+        "poisoned_mean_abs_value_delta": {
+          "mean": 0.3129,
+          "ci95_low": -0.006455220654055738,
+          "ci95_high": 0.6322552206540557,
+          "n": 30
+        }
+      },
+      "plain_has_poisoning_every_seed": false,
+      "quarantine_strictly_lower_every_seed": false,
+      "median_of_3_strictly_lower_every_seed": false
+    }
+  },
+  "ch8_robustness": {
+    "ch1_robust": true,
+    "ch2_robust": true,
+    "ch3_robust": true,
+    "ch4_robust": true,
+    "ch5_robust": true,
+    "ch6_robust": false,
+    "all_robust": false
+  }
+}

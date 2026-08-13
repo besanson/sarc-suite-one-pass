@@ -35,32 +35,44 @@ def _ch1_violations(all_results: Dict[str, dict]) -> int:
 
 
 def _ch2(all_results: Dict[str, dict]):
-    # NOTE: this still counts response-STRING divergence (the 8.5
-    # semantics). The Exec/Held-class-change + audited-violation
-    # redefinition registered in prereg/ch2-semantics.md is implemented in
-    # Phase 3 ("recompute CH1 to CH4 under the new semantics"), not here —
-    # Phase 2 is the rename only.
+    """prereg/ch2-semantics.md: a decision is divergent iff (1) the
+    Exec/Held class differs between remediate_regate and single_pass, or
+    (2) both execute (same class) but the post-hoc audit flags a
+    violation for single_pass's executed action. A same-class decision
+    whose response *string* differs from a clean audit is a label-only
+    difference — real, but reported separately, not folded into
+    ch2_divergent_decisions."""
     s4 = all_results["S4"]
     rtr_lines = s4["results"]["remediate_regate"]["lines"]
     sp_lines = s4["results"]["single_pass"]["lines"]
     sp_audit_flags = s4["results"]["single_pass"]["audit_flags"]
 
     divergent = 0
+    label_only = 0
     admits_then_violates = 0
     holds_remediated_compliant = 0
     for rtr_line, sp_line in zip(rtr_lines, sp_lines):
-        if rtr_line["final"]["response"] == sp_line["final"]["response"]:
-            continue
-        divergent += 1
         decision_id = rtr_line["decision_id"]
         sp_admitted = sp_line["final"]["admitted"]
         rtr_admitted = rtr_line["final"]["admitted"]
+        class_change = rtr_admitted != sp_admitted
+        # Rule 2 only applies within a shared Exec class: a class change
+        # is already rule 1, regardless of what the audit says.
+        audited_violation = (
+            sp_admitted and rtr_admitted and sp_audit_flags.get(decision_id, False)
+        )
+
+        if class_change or audited_violation:
+            divergent += 1
+        elif rtr_line["final"]["response"] != sp_line["final"]["response"]:
+            label_only += 1
+
         if sp_admitted and sp_audit_flags.get(decision_id, False):
             admits_then_violates += 1
         elif (not sp_admitted) and rtr_admitted:
             holds_remediated_compliant += 1
 
-    return divergent, {
+    return divergent, label_only, {
         "single_pass_admits_then_violates": admits_then_violates,
         "single_pass_holds_remediated_compliant": holds_remediated_compliant,
     }
@@ -161,11 +173,12 @@ def _s4_divergent_decisions(all_results: Dict[str, dict]) -> List[Dict[str, obje
 
 
 def build_metrics(sim, all_results: Dict[str, dict], source_sha256_unchanged: bool) -> Dict[str, object]:
-    ch2_divergent, ch2_directions = _ch2(all_results)
+    ch2_divergent, ch2_label_only, ch2_directions = _ch2(all_results)
     metrics: Dict[str, object] = {
         "ch1_violations": _ch1_violations(all_results),
         "ch2_divergent_decisions": ch2_divergent,
         "ch2_direction_counts": ch2_directions,
+        "label_only_differences": ch2_label_only,
         "ch3_false_hold": _ch3_false_hold(all_results),
         "ch4_matrix": _ch4_matrix(all_results),
     }
