@@ -67,60 +67,61 @@ Artifact: suite-demo composes the three published engines, installed unmodified 
 Hypotheses, stated before the artifact ran:
 
 - CH1 (veto soundness). Post-hoc audit finds zero executed actions violating any gate at execution time under the two-phase protocol. Result: 0
-- CH2 (single-pass unsoundness is real). In S4, single-pass and two-phase verdicts differ on at least one decision, in the predicted direction. Result: 383 divergences; directions 214 single_pass_admits_then_violates, 0 single_pass_holds_remediated_compliant
+- CH2 (single-pass unsoundness is real). In S4, single-pass and two-phase verdicts differ on at least one decision, in the predicted direction. Result: 239 divergences; directions 239 single_pass_admits_then_violates, 0 single_pass_holds_remediated_compliant
 - CH3 (deterministic selectivity). False-hold rate on clean, authorised, in-budget decisions is exactly zero. Result: 0.000000
 - CH4 (coverage honesty). plausible_outlier detection is zero at every gate and in composition; covered-class detection equals the union of member coverages. Result: union_ok=True; plausible_outlier detection dq=0.000 sarc=0.000 green=0.000 (declared uncovered); full matrix in Table 2
 
 Table 1. Decisions, per-gate veto counts, winner-gate distribution, by scenario. | Scenario | Decisions | Executed | Held | DQ Vetoes | SARC Vetoes | Green Vetoes | Winner-gate distribution |
 |---|---|---|---|---|---|---|---|
-| S1 | 10164 | 9601 | 563 | 563 | 0 | 0 | dq=563, none=9601 |
-| S2 | 10164 | 3464 | 6700 | 563 | 0 | 6477 | dq=432, green=6268, none=3464 |
-| S3 | 10164 | 4527 | 5637 | 561 | 5366 | 0 | dq=551, none=4527, sarc=5086 |
-| S4 | 10164 | 9387 | 777 | 563 | 214 | 0 | dq=563, none=9387, sarc=214 |
+| S1 | 10164 | 9592 | 572 | 572 | 0 | 0 | dq=572, none=9592 |
+| S2 | 10164 | 3417 | 6747 | 572 | 0 | 6531 | dq=445, green=6302, none=3417 |
+| S3 | 10164 | 4501 | 5663 | 573 | 5368 | 0 | dq=563, none=4501, sarc=5100 |
+| S4 | 10164 | 9353 | 811 | 572 | 239 | 0 | dq=572, none=9353, sarc=239 |
 
 Table 2. Cross-gate matrix: injected class by winner gate. | Defect class | dq detection rate | sarc detection rate | green detection rate | winner-gate counts |
 |---|---|---|---|---|
-| stale_master_data | 1.000 | 0.000 | 0.000 | none=212 |
-| superseded_golden_record | 1.000 | 0.000 | 0.000 | none=171 |
-| cross_source_contradiction | 1.000 | 0.000 | 0.000 | dq=213 |
-| schema_drift | 1.000 | 0.000 | 0.000 | dq=195 |
-| missing_mandatory_field | 1.000 | 0.000 | 0.000 | dq=155 |
-| lineage_missing | 0.000 | 0.000 | 0.000 | none=184 |
-| plausible_outlier | 0.000 | 0.000 | 0.000 | none=181 |
+| stale_master_data | 1.000 | 0.000 | 0.000 | none=227 |
+| superseded_golden_record | 1.000 | 0.000 | 0.000 | none=212 |
+| cross_source_contradiction | 1.000 | 0.000 | 0.000 | dq=211 |
+| schema_drift | 1.000 | 0.000 | 0.000 | dq=183 |
+| missing_mandatory_field | 1.000 | 0.000 | 0.000 | dq=178 |
+| lineage_missing | 0.000 | 0.000 | 0.000 | none=185 |
+| plausible_outlier | 0.000 | 0.000 | 0.000 | none=152 |
+| plausible_outlier_high | 0.000 | 0.000 | 0.000 | none=177 |
 
 union_ok = True
 
 Table 3. Two-phase versus single-pass divergences in S4, with pre and post order values and the cap. | decision_id | rtr | single_pass | V_pre | V_post | kappa |
 |---|---|---|---|---|---|
-| 52 | admit | substitute | 30.09 | 30.09 | 30.09 |
-| 75 | admit | substitute | 53.55 | 53.55 | 53.55 |
-| 83 | admit | substitute | 41.31 | 41.31 | 41.31 |
-| 90 | admit | substitute | 70.80 | 70.80 | 70.80 |
-| 121 | escalate | substitute | 62.61 | 72.00 | 67.31 |
-| 154 | escalate | substitute | 28.45 | 33.75 | 31.10 |
-| 209 | escalate | substitute | 18.39 | 28.32 | 23.36 |
-| 218 | admit | substitute | 124.80 | 124.80 | 124.80 |
-| 221 | escalate | substitute | 13.03 | 21.42 | 17.23 |
-| 262 | admit | substitute | 53.55 | 53.55 | 53.55 |
-| 282 | admit | substitute | 41.58 | 41.58 | 41.58 |
-| 307 | admit | substitute | 70.80 | 70.80 | 70.80 |
-| 310 | admit | substitute | 31.86 | 31.86 | 31.86 |
-| 325 | admit | substitute | 5.70 | 5.70 | 5.70 |
-| 350 | admit | substitute | 51.00 | 51.00 | 51.00 |
-| 370 | admit | substitute | 6.63 | 6.63 | 6.63 |
-| 409 | admit | substitute | 51.17 | 51.17 | 51.17 |
-| 421 | admit | substitute | 30.09 | 30.09 | 30.09 |
-| 465 | escalate | substitute | 124.53 | 148.50 | 136.51 |
-| 481 | admit | substitute | 62.40 | 62.40 | 62.40 |
+| 56 | escalate | substitute | 31.06 | 40.02 | 35.54 |
+| 76 | admit | substitute | 12.75 | 12.75 | 12.75 |
+| 162 | escalate | substitute | 29.07 | 52.53 | 40.80 |
+| 236 | escalate | substitute | 20.13 | 31.68 | 25.91 |
+| 266 | admit | substitute | 26.52 | 26.52 | 26.52 |
+| 279 | admit | substitute | 64.90 | 64.90 | 64.90 |
+| 286 | admit | substitute | 28.32 | 28.32 | 28.32 |
+| 287 | admit | substitute | 6.27 | 6.27 | 6.27 |
+| 291 | escalate | substitute | 24.34 | 33.75 | 29.05 |
+| 316 | admit | substitute | 54.00 | 54.00 | 54.00 |
+| 334 | escalate | substitute | 7.75 | 10.56 | 9.16 |
+| 352 | admit | substitute | 68.31 | 68.31 | 68.31 |
+| 356 | escalate | substitute | 98.96 | 124.80 | 111.88 |
+| 359 | admit | substitute | 20.40 | 20.40 | 20.40 |
+| 384 | admit | substitute | 23.01 | 23.01 | 23.01 |
+| 404 | admit | substitute | 41.91 | 41.91 | 41.91 |
+| 435 | admit | substitute | 99.00 | 99.00 | 99.00 |
+| 465 | escalate | substitute | 95.57 | 148.50 | 122.03 |
+| 492 | admit | substitute | 36.72 | 36.72 | 36.72 |
+| 499 | admit | substitute | 22.77 | 22.77 | 22.77 |
 
-(363 further divergent decisions omitted for brevity)
+(419 further divergent decisions omitted for brevity)
 
 Table 4. Loss versus clean counterfactual, executed versus held split. | Scenario | Executed count | Executed order value | Held count | Held clean value foregone |
 |---|---|---|---|---|
-| S1 | 9601 | 741037.49 | 563 | 41294.83 |
-| S2 | 3464 | 106310.03 | 6700 | 654041.33 |
-| S3 | 4527 | 143573.71 | 5637 | 616921.57 |
-| S4 | 9387 | 724181.64 | 777 | 57617.29 |
+| S1 | 9592 | 759883.87 | 572 | 42015.00 |
+| S2 | 3417 | 104496.60 | 6747 | 655889.68 |
+| S3 | 4501 | 142929.10 | 5663 | 617891.44 |
+| S4 | 9353 | 739224.74 | 811 | 60347.60 |
 
 Negative-results commitment. Any CH not supported as written is reported as NOT SUPPORTED as written, following the practice of the prior papers.
 

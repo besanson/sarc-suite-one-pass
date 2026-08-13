@@ -1,0 +1,28 @@
+{
+  "citations": [
+    {
+      "id": "sarc",
+      "arxiv_id": "2605.07728",
+      "description": "SARC: obligations and permissions pre-action gate (authority)",
+      "used_since": "paper4-composition-draft-v0.1.md"
+    },
+    {
+      "id": "green-sarc",
+      "arxiv_id": "2606.15954",
+      "description": "Green SARC: predictive cost and carbon budget pre-action gate (resources)",
+      "used_since": "paper4-composition-draft-v0.1.md"
+    },
+    {
+      "id": "sarc-dq",
+      "arxiv_id": "2607.26313",
+      "description": "SARC-DQ: metadata-borne evidence validity pre-action gate (evidence)",
+      "used_since": "paper4-composition-draft-v0.1.md"
+    },
+    {
+      "id": "uci-online-retail",
+      "doi": "10.24432/C5BW33",
+      "description": "Chen, D. (2015). Online Retail [Dataset]. UCI Machine Learning Repository.",
+      "used_since": "paper4-composition-draft-v0.1.md"
+    }
+  ]
+}
