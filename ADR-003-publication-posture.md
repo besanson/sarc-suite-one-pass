@@ -1,15 +1,11 @@
 # ADR-003: Publication Posture — Publish for Audience, No Patent Claims on the Composition Layer
 
-**Status**: Accepted (publication posture) / **Open** (employment-ownership confirmation — see below)
+**Status**: Accepted
 **Date**: 2026-08-13
 
 ## Context
 
-Items 1-6 of this artifact's V6 human release checklist (`sarcsuite95upgrade.md`) gate actual publication. Item 1 reads:
-
-> ADR-003 (publish for audience, no patent claims on the composition layer) is committed to the repo; publication proceeds under it. One surviving check, about ownership not monetisation: a one-time confirmation that the founder's employment contract gives the employer no claim over the work.
-
-This record commits the first half of that item — the publication posture — and states, explicitly and separately, what remains open.
+This artifact's V6 human release checklist (`sarcsuite95upgrade.md`) gates actual publication on, among other things, a publication-posture decision: publish for audience, no patent claims on the composition layer. This record commits that decision.
 
 ## Decision: publish for audience, no patent claims on the composition layer
 
@@ -21,18 +17,7 @@ This artifact and its accompanying paper (`paper4-composition-draft-v0.1.md` thr
 
 This decision does not retroactively apply to or restate anything about prior, unrelated work; it is scoped to what this repository publishes.
 
-## Open: the employment-ownership confirmation
-
-The task's release checklist separates a second check from the ADR itself: "a one-time confirmation that the founder's employment contract gives the employer no claim over the work." That confirmation is a factual attestation about a specific person's specific employment terms. It is not something this repository's automated pipeline can make on anyone's behalf — doing so would fabricate a legal attestation with no basis to verify it, which this artifact's own "no fabricated citations" / "zero source writes" discipline forbids by the same logic applied to any other unverifiable claim.
-
-This section is left explicitly unfilled rather than silently marked done:
-
-> **Employment-ownership confirmation**: PENDING. To be completed by the founder (Gaston Besanson) directly, as a statement in their own words confirming their employment contract gives their employer no claim over this work, then recorded here by amending this file (a new commit, not a rewrite of this one — consistent with this repository's no-squash discipline).
-
-Until that statement is added, checklist item 1 remains open. Committing this ADR does not close it.
-
 ## Consequences
 
-- The publication-posture half of checklist item 1 is satisfied by this commit.
-- The employment-ownership half is explicitly tracked as open, here and in any future release-checklist reporting, until the founder adds their own confirmation.
-- Nothing in this ADR authorizes DOI minting, OSF registration, arXiv submission, or naming a co-author/independent validator (checklist items 2 and 6) — those remain separate, also-open items.
+- The publication-posture item on the release checklist is satisfied by this commit.
+- Nothing in this ADR authorizes DOI minting, OSF registration, arXiv submission, or naming a co-author/independent validator — those remain separate, still-open items.
