@@ -131,15 +131,15 @@ def run_scenario(
         kappa_by_decision = _compute_s4_kappa(dq_spec, sim.sku_true_cost, plan)
 
     results: Dict[str, Dict[str, object]] = {}
-    for mode in ("two_phase", "single_pass"):
+    for mode in ("remediate_regate", "single_pass"):
         engine = _engine(dq_spec, sarc_spec, green_engines, sim.sku_true_cost)
         lines: List[Dict[str, object]] = []
         exec_ctxs: Dict[int, Tuple[ActionContext, float]] = {}
         for p in plan:
             ctx = _context_from_plan(p)
             cap = kappa_by_decision.get(p.decision_id, scenario.order_value_cap)
-            if mode == "two_phase":
-                line, exec_ctx = engine.two_phase(
+            if mode == "remediate_regate":
+                line, exec_ctx = engine.remediate_regate(
                     p.decision_id, ctx, p.evidence_records,
                     tuple(scenario.authorized_roles), cap,
                     scenario.daily_cost_budget, scenario.daily_carbon_budget,
@@ -174,7 +174,7 @@ def run_scenario(
 
 def aggregate_scenario_block(scenario_result: Dict[str, object]) -> Dict[str, object]:
     scenario: ScenarioConfig = scenario_result["scenario"]
-    lines = scenario_result["results"]["two_phase"]["lines"]
+    lines = scenario_result["results"]["remediate_regate"]["lines"]
     plan = scenario_result["plan"]
 
     decisions = len(lines)
@@ -281,7 +281,7 @@ def run_all_scenarios(data_path: str = "data/open_retail_daily.csv"):
     for name in ("S1", "S2", "S3", "S4"):
         print(f"Running {name}: {scenarios[name].label}")
         all_results[name] = run_scenario(sim, dq_spec, sarc_spec, green_engines, scenarios[name])
-        for mode in ("two_phase", "single_pass"):
+        for mode in ("remediate_regate", "single_pass"):
             n = len(all_results[name]["results"][mode]["lines"])
             print(f"  {mode}: {n} decisions")
 
@@ -301,6 +301,11 @@ HONESTY_BANNER = (
 )
 
 
+# Short form used in output filenames only (prereg/renaming.md): the mode
+# value inside each Evidence Set line stays the full "remediate_regate".
+_MODE_FILE_PREFIX = {"remediate_regate": "rtr", "single_pass": "single_pass"}
+
+
 def _write_outputs(sim, all_results, sha_unchanged: bool) -> Path:
     from metrics import build_metrics
 
@@ -310,14 +315,15 @@ def _write_outputs(sim, all_results, sha_unchanged: bool) -> Path:
     for name in ("S1", "S2", "S3", "S4"):
         scenario_dir = out_dir / name
         scenario_dir.mkdir(exist_ok=True)
-        for mode in ("two_phase", "single_pass"):
+        for mode in ("remediate_regate", "single_pass"):
             result = all_results[name]["results"][mode]
             plan = all_results[name]["plan"]
-            evidence_path = scenario_dir / f"{mode}-evidence.jsonl"
+            prefix = _MODE_FILE_PREFIX[mode]
+            evidence_path = scenario_dir / f"{prefix}-evidence.jsonl"
             with open(evidence_path, "w") as f:
                 for line in result["lines"]:
                     f.write(json.dumps(line) + "\n")
-            runlog_path = scenario_dir / f"{mode}-runlog.jsonl"
+            runlog_path = scenario_dir / f"{prefix}-runlog.jsonl"
             with open(runlog_path, "w") as f:
                 for line, p in zip(result["lines"], plan):
                     entry = {
@@ -351,7 +357,7 @@ def main():
     metrics = json.loads(metrics_path.read_text())
 
     print("\n" + "=" * 70)
-    print("SCENARIO SUMMARIES (two_phase)")
+    print("SCENARIO SUMMARIES (remediate_regate)")
     print("=" * 70)
     for s in ("S1", "S2", "S3", "S4"):
         block = metrics[s]

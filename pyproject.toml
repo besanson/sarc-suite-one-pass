@@ -1,0 +1,54 @@
+# Copyright 2026 SARC Suite Contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# This repo has no packaging config of its own (it is run in place, not
+# installed) — this file exists solely to hold [tool.mutmut]'s
+# configuration (Phase 2 / V5 gate).
+
+[tool.mutmut]
+# Only these two files are copied as MUTATION source (mutmut's own
+# only_mutate/source_paths distinction is moot when source_paths already
+# names exactly the V5 gate's target files). mutmut's file walk does not
+# respect .gitignore, so source_paths = ["."] would blindly copy .git/,
+# out/, and anything else sitting in the working tree — also_copy below
+# lists exactly the additional files composition.py/metrics.py's imports
+# need at test time, nothing more.
+source_paths = ["composition.py", "metrics.py"]
+only_mutate = ["composition.py", "metrics.py"]
+also_copy = [
+    "suite_sim.py",
+    "runner.py",
+    "manifest.py",
+    "specs/",
+    "schemas/",
+    "data/",
+]
+# Fast, targeted test selection — deliberately excludes the suite_run
+# fixture (runs the full 4-scenario x 2-mode x ~10k-decision simulation,
+# ~35s) since mutation testing reruns the suite once per surviving
+# mutant. test_metrics_unit.py + test_properties.py + composition.py's
+# six single-decision tests give direct, fast coverage of both target
+# files' actual branches.
+pytest_add_cli_args_test_selection = [
+    "test_metrics_unit.py",
+    "test_properties.py",
+    "test_audit_unit.py",
+    "test_suite_sim.py::test_1_clean_authorised_inbudget_admits_winner_none",
+    "test_suite_sim.py::test_2_stale_record_substitutes_admitted_phase1_recorded",
+    "test_suite_sim.py::test_3_schema_drift_blocks_winner_dq",
+    "test_suite_sim.py::test_4_unauthorised_role_held_winner_sarc",
+    "test_suite_sim.py::test_5_over_budget_vetoed_winner_green",
+    "test_suite_sim.py::test_6_dirty_and_over_budget_most_restrictive_wins_both_recorded",
+    "test_suite_sim.py::test_response_restrictiveness_order",
+]

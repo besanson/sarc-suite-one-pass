@@ -358,8 +358,31 @@ def _remediated_evidence(primary: EvidenceRecord, sku: str, day: int, substitute
     ]
 
 
+def _audit_clean_evidence_record(exec_ctx: ActionContext) -> EvidenceRecord:
+    """The clean, structurally-valid evidence record standing in for
+    "what the executed action's evidence would look like" during the
+    post-hoc audit (R4). unit_cost is recovered as order_value /
+    proposed_qty — the audit re-derives it from the executed action's own
+    numbers rather than trusting any external state, so a decision with
+    proposed_qty == 0 (never produced by the real newsvendor rule, but
+    guarded here rather than dividing by zero) falls back to 0.0."""
+    unit_cost = exec_ctx.order_value / exec_ctx.proposed_qty if exec_ctx.proposed_qty else 0.0
+    return EvidenceRecord(
+        record_id=f"{exec_ctx.sku}-audit",
+        payload={"sku": exec_ctx.sku, "unit_cost": unit_cost, "currency": "GBP"},
+        metadata=RecordMetadata(
+            source="governed_buffer",
+            as_of_day=exec_ctx.day,
+            retrieved_day=exec_ctx.day,
+            version=1,
+            lineage=("governed_buffer:SKU",),
+        ),
+    )
+
+
 class CompositionEngine:
-    """Orchestrates the three real gates with two-phase / single-pass protocols."""
+    """Orchestrates the three real gates with remediate-regate ("rtr") /
+    single-pass protocols."""
 
     def __init__(
         self,
@@ -375,9 +398,12 @@ class CompositionEngine:
         self.carbon_per_unit = carbon_per_unit
         self.cost_multiplier = cost_multiplier
 
-    # -- two-phase (sound) -------------------------------------------------
+    # -- remediate-regate (sound) -------------------------------------------
+    # Renamed from "two_phase" per prereg/renaming.md: avoids the reader
+    # collision with two-phase-commit (there is no coordinator/participant
+    # handshake here). "rtr" is the short form used in identifiers/outputs.
 
-    def two_phase(
+    def remediate_regate(
         self,
         decision_id: int,
         context: ActionContext,
@@ -386,12 +412,13 @@ class CompositionEngine:
         order_value_cap: float,
         daily_cost_budget: float,
         daily_carbon_budget: float,
+        workflow: str = "W1",
     ) -> Tuple[Dict[str, Any], ActionContext]:
         dq_resp1, dq_decision1 = evaluate_dq(self.dq_gate, evidence_records)
 
         remediated_ctx = context
         remediated_evidence = evidence_records
-        phase1: Optional[Dict[str, Any]] = None
+        evidence_substitution: Optional[Dict[str, Any]] = None
         if dq_resp1 == Response.SUBSTITUTE and dq_decision1.substituted_value is not None:
             sub_cost = dq_decision1.substituted_value
             remediated_ctx = _remediated_context(
@@ -400,8 +427,8 @@ class CompositionEngine:
             remediated_evidence = _remediated_evidence(
                 evidence_records[0], context.sku, context.day, sub_cost
             )
-            phase1 = {
-                "dq_response": "substitute",
+            evidence_substitution = {
+                "triggered": True,
                 "pre_order_value": context.order_value,
                 "post_order_value": remediated_ctx.order_value,
                 "substituted_value": sub_cost,
@@ -430,7 +457,13 @@ class CompositionEngine:
             "decision_id": decision_id,
             "day": context.day,
             "sku": context.sku,
+            "workflow": workflow,
             "context": _context_dict(context, order_value_cap, allowed_roles),
+            "remediation": {
+                "evidence_substitution": evidence_substitution,
+                "downroute": None,  # W2-only (Phase 3); always null under W1
+                "order_applied": ["evidence_substitution"] if evidence_substitution else [],
+            },
             "gates": {
                 "sarc": {"constraints_evaluated": sarc_detail["constraints_evaluated"], "verdict": RESPONSE_NAME[sarc_resp]},
                 "green": {
@@ -461,15 +494,13 @@ class CompositionEngine:
                 "admitted": is_executed(final_resp),
                 "response": RESPONSE_NAME[final_resp],
                 "winner_gate": winner,
-                "mode": "two_phase",
+                "mode": "remediate_regate",
             },
             "action": {
                 "order_qty": remediated_ctx.proposed_qty,
                 "order_value": remediated_ctx.order_value,
             },
         }
-        if phase1 is not None:
-            line["phase1"] = phase1
         return line, remediated_ctx
 
     # -- single-pass (measurement only) ------------------------------------
@@ -483,6 +514,7 @@ class CompositionEngine:
         order_value_cap: float,
         daily_cost_budget: float,
         daily_carbon_budget: float,
+        workflow: str = "W1",
     ) -> Tuple[Dict[str, Any], ActionContext]:
         dq_resp, dq_decision = evaluate_dq(self.dq_gate, evidence_records)
         sarc_resp, sarc_detail = evaluate_sarc_pag(
@@ -500,16 +532,29 @@ class CompositionEngine:
         # substituted, even though sarc/green judged the ORIGINAL value —
         # this is the single-pass unsoundness mechanism (Proposition 3).
         exec_ctx = context
+        evidence_substitution: Optional[Dict[str, Any]] = None
         if dq_resp == Response.SUBSTITUTE and dq_decision.substituted_value is not None:
             exec_ctx = _remediated_context(
                 context, dq_decision.substituted_value, self.carbon_per_unit, self.cost_multiplier
             )
+            evidence_substitution = {
+                "triggered": True,
+                "pre_order_value": context.order_value,
+                "post_order_value": exec_ctx.order_value,
+                "substituted_value": dq_decision.substituted_value,
+            }
 
         line = {
             "decision_id": decision_id,
             "day": context.day,
             "sku": context.sku,
+            "workflow": workflow,
             "context": _context_dict(context, order_value_cap, allowed_roles),
+            "remediation": {
+                "evidence_substitution": evidence_substitution,
+                "downroute": None,  # W2-only (Phase 3); always null under W1
+                "order_applied": ["evidence_substitution"] if evidence_substitution else [],
+            },
             "gates": {
                 "sarc": {"constraints_evaluated": sarc_detail["constraints_evaluated"], "verdict": RESPONSE_NAME[sarc_resp]},
                 "green": {
@@ -523,6 +568,9 @@ class CompositionEngine:
                 },
                 "dq": {
                     "detected": dq_decision.detected,
+                    # single_pass has only one evaluation, so "phase1" and
+                    # final predicates are the same by construction.
+                    "phase1_predicates": list(dq_decision.firing),
                     "predicates": list(dq_decision.firing),
                     "verdict": RESPONSE_NAME[dq_resp],
                     "substituted_value": dq_decision.substituted_value,
@@ -557,19 +605,7 @@ class CompositionEngine:
         recomputed context, and the state in force at execution. Returns
         True iff any gate would NOT admit/substitute/degrade it — i.e. a
         soundness violation (R4)."""
-        clean_evidence = [
-            EvidenceRecord(
-                record_id=f"{exec_ctx.sku}-audit",
-                payload={"sku": exec_ctx.sku, "unit_cost": exec_ctx.order_value / exec_ctx.proposed_qty if exec_ctx.proposed_qty else 0.0, "currency": "GBP"},
-                metadata=RecordMetadata(
-                    source="governed_buffer",
-                    as_of_day=exec_ctx.day,
-                    retrieved_day=exec_ctx.day,
-                    version=1,
-                    lineage=("governed_buffer:SKU",),
-                ),
-            )
-        ]
+        clean_evidence = [_audit_clean_evidence_record(exec_ctx)]
         dq_resp, _ = evaluate_dq(self.dq_gate, clean_evidence)
         sarc_resp, _ = evaluate_sarc_pag(
             self.sarc_spec, exec_ctx.role, allowed_roles, exec_ctx.order_value, order_value_cap

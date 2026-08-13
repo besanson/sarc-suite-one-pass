@@ -1,0 +1,54 @@
+{
+  "latency": {
+    "composed_remediate_regate": {
+      "max_us": 196.38399999166722,
+      "mean_us": 66.13699599938627,
+      "median_us": 55.03900001713191,
+      "min_us": 51.86099997445126,
+      "n": 500,
+      "p95_us": 109.83199990732828
+    },
+    "n_decisions_in_workload": 500,
+    "per_gate": {
+      "dq": {
+        "max_us": 193.81399988560588,
+        "mean_us": 29.1985900016698,
+        "median_us": 25.597499984542083,
+        "min_us": 23.74399991822429,
+        "n": 500,
+        "p95_us": 47.23400002148992
+      },
+      "green": {
+        "max_us": 72.71499998751096,
+        "mean_us": 7.388668002022314,
+        "median_us": 6.714500045745808,
+        "min_us": 6.412999937310815,
+        "n": 500,
+        "p95_us": 9.28099984776054
+      },
+      "sarc": {
+        "max_us": 82.73899993582745,
+        "mean_us": 3.9103499980228666,
+        "median_us": 3.366499981893867,
+        "min_us": 3.063999884034274,
+        "n": 500,
+        "p95_us": 5.3589999424730195
+      }
+    }
+  },
+  "mutation": {
+    "kill_score": 0.8756,
+    "killed": 908,
+    "no_tests": 0,
+    "passed": true,
+    "source_paths": [
+      "composition.py",
+      "metrics.py"
+    ],
+    "survived": 129,
+    "survivors_justified_in": "ADR-002-mutation-testing.md",
+    "threshold": 0.85,
+    "timeout": 1,
+    "total_mutants": 1038
+  }
+}

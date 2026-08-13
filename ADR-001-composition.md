@@ -428,3 +428,13 @@ exactly its substituted value.
   `test_Ta_no_local_defect_logic_and_real_gates_instantiated`, which
   checks both the source text and that `comp_module.DQPreActionGate is`
   the real `sarc_dq.gate.PreActionGate` class object).
+
+### Note (9.5 upgrade, Phase 2): "two-phase" renamed to "remediate_regate"
+
+Everything above describing "two-phase"/"Phase I"/"Phase II" describes
+what was true *at the time of the repair* and is left unchanged as
+historical record. Starting with the 9.5 upgrade, the protocol this
+section calls "two-phase" is named `remediate_regate` ("rtr") throughout
+the code, tests, outputs, and the v0.3 paper — see
+`prereg/renaming.md` for the full rationale (avoiding the two-phase-commit
+reader collision) and exact rename scope.

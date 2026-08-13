@@ -31,28 +31,33 @@ SCENARIO_ORDER = ["S1", "S2", "S3", "S4"]
 
 
 def _ch1_violations(all_results: Dict[str, dict]) -> int:
-    return sum(all_results[s]["results"]["two_phase"]["audit_violations"] for s in SCENARIO_ORDER)
+    return sum(all_results[s]["results"]["remediate_regate"]["audit_violations"] for s in SCENARIO_ORDER)
 
 
 def _ch2(all_results: Dict[str, dict]):
+    # NOTE: this still counts response-STRING divergence (the 8.5
+    # semantics). The Exec/Held-class-change + audited-violation
+    # redefinition registered in prereg/ch2-semantics.md is implemented in
+    # Phase 3 ("recompute CH1 to CH4 under the new semantics"), not here —
+    # Phase 2 is the rename only.
     s4 = all_results["S4"]
-    tp_lines = s4["results"]["two_phase"]["lines"]
+    rtr_lines = s4["results"]["remediate_regate"]["lines"]
     sp_lines = s4["results"]["single_pass"]["lines"]
     sp_audit_flags = s4["results"]["single_pass"]["audit_flags"]
 
     divergent = 0
     admits_then_violates = 0
     holds_remediated_compliant = 0
-    for tp_line, sp_line in zip(tp_lines, sp_lines):
-        if tp_line["final"]["response"] == sp_line["final"]["response"]:
+    for rtr_line, sp_line in zip(rtr_lines, sp_lines):
+        if rtr_line["final"]["response"] == sp_line["final"]["response"]:
             continue
         divergent += 1
-        decision_id = tp_line["decision_id"]
+        decision_id = rtr_line["decision_id"]
         sp_admitted = sp_line["final"]["admitted"]
-        tp_admitted = tp_line["final"]["admitted"]
+        rtr_admitted = rtr_line["final"]["admitted"]
         if sp_admitted and sp_audit_flags.get(decision_id, False):
             admits_then_violates += 1
-        elif (not sp_admitted) and tp_admitted:
+        elif (not sp_admitted) and rtr_admitted:
             holds_remediated_compliant += 1
 
     return divergent, {
@@ -65,7 +70,7 @@ def _ch3_false_hold(all_results: Dict[str, dict]) -> float:
     population = 0
     held = 0
     for s in SCENARIO_ORDER:
-        lines = all_results[s]["results"]["two_phase"]["lines"]
+        lines = all_results[s]["results"]["remediate_regate"]["lines"]
         plan = all_results[s]["plan"]
         for line, p in zip(lines, plan):
             clean = p.injected_defect is None
@@ -87,7 +92,7 @@ CH4_SOURCE_SCENARIO = "S1"  # loose budgets, all roles authorised: zero sarc/gre
 def _ch4_matrix(all_results: Dict[str, dict]) -> Dict[str, object]:
     counts = {cls: {"dq": 0, "sarc": 0, "green": 0, "n": 0} for cls in DEFECT_CLASSES}
     winner_counts = {cls: defaultdict(int) for cls in DEFECT_CLASSES}
-    lines = all_results[CH4_SOURCE_SCENARIO]["results"]["two_phase"]["lines"]
+    lines = all_results[CH4_SOURCE_SCENARIO]["results"]["remediate_regate"]["lines"]
     plan = all_results[CH4_SOURCE_SCENARIO]["plan"]
     for line, p in zip(lines, plan):
         cls = p.injected_defect
@@ -95,8 +100,8 @@ def _ch4_matrix(all_results: Dict[str, dict]) -> Dict[str, object]:
             continue
         counts[cls]["n"] += 1
         # dq: use the real GateDecision.detected flag (Phase I under
-        # two_phase re-evaluates DQ on the remediated evidence in Phase
-        # II, so "verdict" alone would read "admit" post-substitution).
+        # remediate_regate re-evaluates DQ on the remediated evidence in
+        # Phase II, so "verdict" alone would read "admit" post-substitution).
         if line["gates"]["dq"]["detected"]:
             counts[cls]["dq"] += 1
         for gate in ("sarc", "green"):
@@ -137,20 +142,20 @@ def _ch4_matrix(all_results: Dict[str, dict]) -> Dict[str, object]:
 
 def _s4_divergent_decisions(all_results: Dict[str, dict]) -> List[Dict[str, object]]:
     s4 = all_results["S4"]
-    tp_lines = s4["results"]["two_phase"]["lines"]
+    rtr_lines = s4["results"]["remediate_regate"]["lines"]
     sp_lines = s4["results"]["single_pass"]["lines"]
     out = []
-    for tp_line, sp_line in zip(tp_lines, sp_lines):
-        if tp_line["final"]["response"] == sp_line["final"]["response"]:
+    for rtr_line, sp_line in zip(rtr_lines, sp_lines):
+        if rtr_line["final"]["response"] == sp_line["final"]["response"]:
             continue
-        phase1 = tp_line.get("phase1")
+        evidence_sub = rtr_line["remediation"]["evidence_substitution"]
         out.append({
-            "decision_id": tp_line["decision_id"],
-            "two_phase_response": tp_line["final"]["response"],
+            "decision_id": rtr_line["decision_id"],
+            "remediate_regate_response": rtr_line["final"]["response"],
             "single_pass_response": sp_line["final"]["response"],
-            "pre_order_value": phase1["pre_order_value"] if phase1 else None,
-            "post_order_value": phase1["post_order_value"] if phase1 else None,
-            "cap": tp_line["context"]["order_value_cap"],
+            "pre_order_value": evidence_sub["pre_order_value"] if evidence_sub else None,
+            "post_order_value": evidence_sub["post_order_value"] if evidence_sub else None,
+            "cap": rtr_line["context"]["order_value_cap"],
         })
     return out
 

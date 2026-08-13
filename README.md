@@ -14,7 +14,7 @@ This demo composes three open Apache 2.0 governance engines at one Pre-Action co
 
 The composition demonstrates:
 1. **Min semantics** across gates (restrictiveness join: admit < substitute < degrade < escalate < block)
-2. **Two-phase protocol** for sound remediation under evidence substitution
+2. **Remediate-regate ("rtr") protocol** for sound remediation under evidence substitution
 3. **Unified Evidence Set** per decision preserving cross-gate lineage
 4. **Declared-uncovered coverage**: plausible_outlier is injected and remains uncovered
 
@@ -59,16 +59,24 @@ pip install pytest
 
 ### Build and Test
 ```bash
+make bootstrap Clone the three engines at their pinned commits (engines.lock) + install pytest/hypothesis/mutmut/jsonschema
+make ci-local  bootstrap + test + suite (local acceptance for .github/workflows/ci.yml)
 make test      # Run the test suite (all must pass)
 make suite     # Run all four scenarios S1-S4 in both modes (~15-20 seconds)
 make paper     # Generate paper draft v0.2 with filled slots
+make mutate    # Mutation testing on composition.py + metrics.py (V5 gate, target >=0.85; see ADR-002)
+make latency   # Per-gate + composed latency microbenchmark, stored in out/quality.json
 make clean     # Remove outputs
 ```
+
+Pre-registration (CH5-CH8, seeds, weights, W2 workflow, contamination
+study, the `remediate_regate` rename, Evidence Set schema v1) lives under
+`prereg/` and `schemas/`, tagged `prereg-v1` — see `prereg/hypotheses.md`.
 
 ## Files
 
 - **suite_sim.py**: decision stream, economics, and the declared per-class defect injector (builds real `EvidenceRecord`/`RecordMetadata` objects)
-- **composition.py**: three-gate orchestration composing the real engines (two-phase and single-pass protocols); no gate-internal defect logic
+- **composition.py**: three-gate orchestration composing the real engines (remediate_regate and single_pass protocols); no gate-internal defect logic
 - **runner.py**: scenario runner (S1-S4 configurations), post-hoc audit, `out/` writer
 - **metrics.py**: aggregates CH1-CH4 from the actual recorded gate decisions
 - **manifest.py**: generated artifact manifest (`importlib.metadata` + `git rev-parse` + data sha256 + licences — nothing hard-coded)
@@ -104,12 +112,12 @@ make clean     # Remove outputs
 
 ### S4: Constructive counterexample (Proposition 3)
 - Authority cap kappa strictly between pre- and post-substitution order values
-- Run in both two-phase and single-pass modes
+- Run in both remediate_regate and single_pass modes
 - Expected: divergent verdicts, CH2 confirmed
 
 ## Composition Protocols
 
-### Two-Phase (Sound)
+### Remediate-Regate (Sound)
 1. **Phase I**: Evaluate evidence gate; on substitution, recompute context
 2. **Phase II**: Evaluate all gates on remediated action; return join
 3. **Termination**: Idempotent substitution guarantees fixed point after ≤1 remediation
@@ -117,11 +125,11 @@ make clean     # Remove outputs
 ### Single-Pass (Measurement)
 - Evaluate all gates once on original action
 - Executed action still uses remediated value if DQ substituted
-- Used to measure divergence vs two-phase (CH2)
+- Used to measure divergence vs remediate_regate (CH2)
 
 ## Hypotheses (Pre-registered)
 
-- **CH1** (veto soundness): Post-hoc audit finds zero violations under two-phase
+- **CH1** (veto soundness): Post-hoc audit finds zero violations under remediate_regate
 - **CH2** (single-pass unsoundness is real): S4 divergences observed
 - **CH3** (deterministic selectivity): Zero false holds on clean/auth/budget decisions
 - **CH4** (coverage honesty): plausible_outlier stays uncovered; union property holds

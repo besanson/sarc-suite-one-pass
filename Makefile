@@ -1,4 +1,4 @@
-.PHONY: suite paper test clean all bootstrap ci-local
+.PHONY: suite paper test clean all bootstrap ci-local mutate latency
 
 # SARC Suite One-Pass Demo Makefile
 # Apache License 2.0
@@ -24,6 +24,17 @@ paper: suite
 test:
 	@echo "Running test suite..."
 	python3 -m pytest -v
+
+mutate:
+	@echo "Mutation testing composition.py + metrics.py (V5 gate, target >=0.85)..."
+	rm -rf mutants .mutmut-cache
+	mutmut run || true
+	mutmut results
+	@echo "See ADR-002-mutation-testing.md for the kill score and survivor analysis."
+
+latency:
+	@echo "Latency microbenchmark (per-gate + composed, stored in out/quality.json)..."
+	python3 latency_bench.py
 
 clean:
 	@echo "Cleaning up outputs..."

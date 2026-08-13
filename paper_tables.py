@@ -68,7 +68,7 @@ def _format_table2(metrics: Dict[str, Any]) -> str:
 
 def _format_table3(metrics: Dict[str, Any]) -> str:
     divergences = metrics["S4"].get("divergent_decisions", [])
-    lines = ["| decision_id | two_phase | single_pass | V_pre | V_post | kappa |"]
+    lines = ["| decision_id | rtr | single_pass | V_pre | V_post | kappa |"]
     lines.append("|---|---|---|---|---|---|")
     if not divergences:
         lines.append("| — | — | — | — | — | — |")
@@ -76,9 +76,9 @@ def _format_table3(metrics: Dict[str, Any]) -> str:
         pre = d["pre_order_value"]
         post = d["post_order_value"]
         lines.append(
-            f"| {d['decision_id']} | {d['two_phase_response']} | {d['single_pass_response']} | "
+            f"| {d['decision_id']} | {d['remediate_regate_response']} | {d['single_pass_response']} | "
             f"{pre:.2f} | {post:.2f} | {d['cap']:.2f} |" if pre is not None else
-            f"| {d['decision_id']} | {d['two_phase_response']} | {d['single_pass_response']} | — | — | {d['cap']:.2f} |"
+            f"| {d['decision_id']} | {d['remediate_regate_response']} | {d['single_pass_response']} | — | — | {d['cap']:.2f} |"
         )
     if len(divergences) > 20:
         lines.append(f"\n({len(divergences) - 20} further divergent decisions omitted for brevity)")

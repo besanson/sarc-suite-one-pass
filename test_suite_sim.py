@@ -88,7 +88,7 @@ LOOSE = 1e12
 def test_1_clean_authorised_inbudget_admits_winner_none():
     engine = _engine()
     ctx = _ctx()
-    line, _ = engine.two_phase(0, ctx, [_clean_record()], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
+    line, _ = engine.remediate_regate(0, ctx, [_clean_record()], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
     assert line["final"]["admitted"] is True
     assert line["final"]["response"] == "admit"
     assert line["final"]["winner_gate"] == "none"
@@ -102,10 +102,11 @@ def test_2_stale_record_substitutes_admitted_phase1_recorded():
         record_id=stale.record_id, payload=stale.payload,
         metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY - 60, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
     )
-    line, exec_ctx = engine.two_phase(0, ctx, [stale], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
+    line, exec_ctx = engine.remediate_regate(0, ctx, [stale], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
     assert line["final"]["admitted"] is True
-    assert "phase1" in line
-    assert line["phase1"]["substituted_value"] == TRUE_COST
+    assert line["remediation"]["evidence_substitution"] is not None
+    assert line["remediation"]["evidence_substitution"]["substituted_value"] == TRUE_COST
+    assert line["remediation"]["order_applied"] == ["evidence_substitution"]
     assert exec_ctx.order_value == pytest.approx(ctx.proposed_qty * TRUE_COST)
 
 
@@ -113,7 +114,7 @@ def test_3_schema_drift_blocks_winner_dq():
     engine = _engine()
     ctx = _ctx()
     bad = _clean_record(unit_cost=str(TRUE_COST))
-    line, _ = engine.two_phase(0, ctx, [bad], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
+    line, _ = engine.remediate_regate(0, ctx, [bad], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
     assert line["final"]["response"] == "block"
     assert line["final"]["winner_gate"] == "dq"
     assert line["final"]["admitted"] is False
@@ -122,7 +123,7 @@ def test_3_schema_drift_blocks_winner_dq():
 def test_4_unauthorised_role_held_winner_sarc():
     engine = _engine()
     ctx = _ctx(role="agent-intruder")
-    line, _ = engine.two_phase(0, ctx, [_clean_record()], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
+    line, _ = engine.remediate_regate(0, ctx, [_clean_record()], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
     assert line["final"]["winner_gate"] == "sarc"
     assert line["final"]["admitted"] is False
     assert line["final"]["response"] == "block"
@@ -131,7 +132,7 @@ def test_4_unauthorised_role_held_winner_sarc():
 def test_5_over_budget_vetoed_winner_green():
     engine = _engine()
     ctx = _ctx()
-    line, _ = engine.two_phase(0, ctx, [_clean_record()], ("agent-replenish",), LOOSE, 0.001, LOOSE)
+    line, _ = engine.remediate_regate(0, ctx, [_clean_record()], ("agent-replenish",), LOOSE, 0.001, LOOSE)
     assert line["final"]["winner_gate"] == "green"
     assert line["final"]["admitted"] is False
 
@@ -140,7 +141,7 @@ def test_6_dirty_and_over_budget_most_restrictive_wins_both_recorded():
     engine = _engine()
     ctx = _ctx()
     bad = _clean_record(unit_cost=str(TRUE_COST))  # dq -> block
-    line, _ = engine.two_phase(0, ctx, [bad], ("agent-replenish",), LOOSE, 0.001, LOOSE)  # green also vetoes
+    line, _ = engine.remediate_regate(0, ctx, [bad], ("agent-replenish",), LOOSE, 0.001, LOOSE)  # green also vetoes
     # exactly one final response
     assert isinstance(line["final"]["response"], str)
     assert line["final"]["response"] == "block"  # block > escalate in restrictiveness
@@ -196,7 +197,7 @@ def test_8_one_line_per_decision_no_ground_truth_sha_unchanged_repos_clean(suite
     sim, all_results, metrics = suite_run
     for s in ("S1", "S2", "S3", "S4"):
         plan = all_results[s]["plan"]
-        for mode in ("two_phase", "single_pass"):
+        for mode in ("remediate_regate", "single_pass"):
             lines = all_results[s]["results"][mode]["lines"]
             assert len(lines) == len(plan)
             for line in lines:
@@ -224,11 +225,11 @@ def test_9_s4_divergent_decisions_and_admits_then_violates(suite_run):
 # -- Test 10 / T-d (audit half): CH1 zero across S1-S4 ----------------------
 
 
-def test_10_ch1_zero_two_phase_audit_across_all_scenarios(suite_run):
+def test_10_ch1_zero_remediate_regate_audit_across_all_scenarios(suite_run):
     _, all_results, metrics = suite_run
     assert metrics["ch1_violations"] == 0
     for s in ("S1", "S2", "S3", "S4"):
-        assert all_results[s]["results"]["two_phase"]["audit_violations"] == 0
+        assert all_results[s]["results"]["remediate_regate"]["audit_violations"] == 0
 
 
 def test_single_pass_s4_audit_finds_violations_above_zero(suite_run):
@@ -329,7 +330,7 @@ def test_Tb_per_class_detection_semantics(suite_run):
 
 def test_Tb_lineage_missing_paa_flag_count_matches_injected_count(suite_run):
     _, all_results, _ = suite_run
-    lines = all_results["S1"]["results"]["two_phase"]["lines"]
+    lines = all_results["S1"]["results"]["remediate_regate"]["lines"]
     plan = all_results["S1"]["plan"]
     injected = sum(1 for p in plan if p.injected_defect == "lineage_missing")
     flagged = sum(1 for line in lines if line["gates"]["dq"]["paa_lineage_flag"])
@@ -361,7 +362,7 @@ def test_Te_determinism_already_covered():
 
 def test_Tf_winner_gate_none_on_clean_admits_lowercase_everywhere(suite_run):
     _, all_results, _ = suite_run
-    lines = all_results["S1"]["results"]["two_phase"]["lines"]
+    lines = all_results["S1"]["results"]["remediate_regate"]["lines"]
     saw_clean_admit = False
     for line in lines:
         if line["final"]["response"] == "admit":
@@ -379,7 +380,7 @@ def test_Tg_no_ground_truth_sha_unchanged_repos_clean(suite_run):
     sim, all_results, metrics = suite_run
     assert metrics["source_sha256_unchanged"] is True
     for s in ("S1", "S2", "S3", "S4"):
-        for mode in ("two_phase", "single_pass"):
+        for mode in ("remediate_regate", "single_pass"):
             for line in all_results[s]["results"][mode]["lines"]:
                 assert "ground_truth" not in json.dumps(line)
 
