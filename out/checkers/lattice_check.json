@@ -1,0 +1,38 @@
+{
+  "max_k": 4,
+  "response_count": 5,
+  "laws": [
+    {
+      "law": "idempotence",
+      "holds": true,
+      "checked": 20
+    },
+    {
+      "law": "commutativity",
+      "holds": true,
+      "checked": 15800
+    },
+    {
+      "law": "associativity",
+      "holds": true,
+      "checked": 125
+    },
+    {
+      "law": "monotone_hardening",
+      "holds": true,
+      "checked": 775
+    },
+    {
+      "law": "duplication_invariance",
+      "holds": true,
+      "checked": 430
+    },
+    {
+      "law": "empty_join_is_admit",
+      "holds": true,
+      "checked": 1
+    }
+  ],
+  "all_hold": true,
+  "total_checks": 17151
+}

@@ -1,0 +1,1314 @@
+{
+  "grid_points_checked": 243,
+  "confluent": false,
+  "counterexample_count": 86,
+  "ch7_registered_outcome": "non_confluent",
+  "sample_counterexample": {
+    "qty": 10.0,
+    "corrupted_unit_cost": 5.0,
+    "governed_unit_cost": 10.0,
+    "cost_budget": 60.0,
+    "carbon_budget": 10.0,
+    "order_a_substitute_then_downroute": {
+      "qty": 5.0,
+      "order_value": 50.0
+    },
+    "order_b_downroute_then_substitute": {
+      "qty": 10.0,
+      "order_value": 100.0
+    }
+  },
+  "all_counterexamples": [
+    {
+      "qty": 10.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 5.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 10.0,
+        "order_value": 100.0
+      }
+    },
+    {
+      "qty": 10.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 5.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 10.0,
+        "order_value": 100.0
+      }
+    },
+    {
+      "qty": 10.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 5.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 10.0,
+        "order_value": 100.0
+      }
+    },
+    {
+      "qty": 10.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 2.5,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 10.0,
+        "order_value": 200.0
+      }
+    },
+    {
+      "qty": 10.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 2.5,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 10.0,
+        "order_value": 200.0
+      }
+    },
+    {
+      "qty": 10.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 2.5,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 10.0,
+        "order_value": 200.0
+      }
+    },
+    {
+      "qty": 10.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 10.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 5.0,
+        "order_value": 25.0
+      }
+    },
+    {
+      "qty": 10.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 10.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 5.0,
+        "order_value": 25.0
+      }
+    },
+    {
+      "qty": 10.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 10.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 5.0,
+        "order_value": 25.0
+      }
+    },
+    {
+      "qty": 10.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 2.5,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 5.0,
+        "order_value": 100.0
+      }
+    },
+    {
+      "qty": 10.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 2.5,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 5.0,
+        "order_value": 100.0
+      }
+    },
+    {
+      "qty": 10.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 2.5,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 5.0,
+        "order_value": 100.0
+      }
+    },
+    {
+      "qty": 10.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 10.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 2.5,
+        "order_value": 12.5
+      }
+    },
+    {
+      "qty": 10.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 10.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 2.5,
+        "order_value": 12.5
+      }
+    },
+    {
+      "qty": 10.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 10.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 2.5,
+        "order_value": 12.5
+      }
+    },
+    {
+      "qty": 10.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 5.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 2.5,
+        "order_value": 25.0
+      }
+    },
+    {
+      "qty": 10.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 5.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 2.5,
+        "order_value": 25.0
+      }
+    },
+    {
+      "qty": 10.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 5.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 2.5,
+        "order_value": 25.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 5.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 10.0,
+        "order_value": 100.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 5.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 10.0,
+        "order_value": 100.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 5.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 10.0,
+        "order_value": 100.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 25.0,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 50.0,
+        "order_value": 500.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 25.0,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 50.0,
+        "order_value": 500.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 2.5,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 10.0,
+        "order_value": 200.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 2.5,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 10.0,
+        "order_value": 200.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 2.5,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 10.0,
+        "order_value": 200.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 12.5,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 20.0,
+        "order_value": 400.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 12.5,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 50.0,
+        "order_value": 1000.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 12.5,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 50.0,
+        "order_value": 1000.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 10.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 5.0,
+        "order_value": 25.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 10.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 5.0,
+        "order_value": 25.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 10.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 5.0,
+        "order_value": 25.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 50.0,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 25.0,
+        "order_value": 125.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 50.0,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 25.0,
+        "order_value": 125.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 2.5,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 5.0,
+        "order_value": 100.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 2.5,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 5.0,
+        "order_value": 100.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 2.5,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 5.0,
+        "order_value": 100.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 12.5,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 20.0,
+        "order_value": 400.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 12.5,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 25.0,
+        "order_value": 500.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 12.5,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 25.0,
+        "order_value": 500.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 10.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 2.5,
+        "order_value": 12.5
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 10.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 2.5,
+        "order_value": 12.5
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 10.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 2.5,
+        "order_value": 12.5
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 20.0,
+        "order_value": 100.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 12.5,
+        "order_value": 62.5
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 50.0,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 12.5,
+        "order_value": 62.5
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 50.0,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 12.5,
+        "order_value": 62.5
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 5.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 2.5,
+        "order_value": 25.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 5.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 2.5,
+        "order_value": 25.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 5.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 2.5,
+        "order_value": 25.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 20.0,
+        "order_value": 200.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 12.5,
+        "order_value": 125.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 25.0,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 12.5,
+        "order_value": 125.0
+      }
+    },
+    {
+      "qty": 50.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 25.0,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 12.5,
+        "order_value": 125.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 5.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 10.0,
+        "order_value": 100.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 5.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 10.0,
+        "order_value": 100.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 5.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 10.0,
+        "order_value": 100.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 25.0,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 50.0,
+        "order_value": 500.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 25.0,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 50.0,
+        "order_value": 500.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 2.5,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 10.0,
+        "order_value": 200.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 2.5,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 10.0,
+        "order_value": 200.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 2.5,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 10.0,
+        "order_value": 200.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 12.5,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 20.0,
+        "order_value": 400.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 12.5,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 50.0,
+        "order_value": 1000.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 5.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 12.5,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 50.0,
+        "order_value": 1000.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 10.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 5.0,
+        "order_value": 25.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 10.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 5.0,
+        "order_value": 25.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 10.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 5.0,
+        "order_value": 25.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 50.0,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 25.0,
+        "order_value": 125.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 50.0,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 25.0,
+        "order_value": 125.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 2.5,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 5.0,
+        "order_value": 100.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 2.5,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 5.0,
+        "order_value": 100.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 2.5,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 5.0,
+        "order_value": 100.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 12.5,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 20.0,
+        "order_value": 400.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 12.5,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 25.0,
+        "order_value": 500.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 10.0,
+      "governed_unit_cost": 20.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 12.5,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 25.0,
+        "order_value": 500.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 10.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 2.5,
+        "order_value": 12.5
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 10.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 2.5,
+        "order_value": 12.5
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 10.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 2.5,
+        "order_value": 12.5
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 20.0,
+        "order_value": 100.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 12.5,
+        "order_value": 62.5
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 50.0,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 12.5,
+        "order_value": 62.5
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 5.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 50.0,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 12.5,
+        "order_value": 62.5
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 5.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 2.5,
+        "order_value": 25.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 5.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 2.5,
+        "order_value": 25.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 60.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 5.0,
+        "order_value": 50.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 2.5,
+        "order_value": 25.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 10.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 20.0,
+        "order_value": 200.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 12.5,
+        "order_value": 125.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 50.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 25.0,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 12.5,
+        "order_value": 125.0
+      }
+    },
+    {
+      "qty": 100.0,
+      "corrupted_unit_cost": 20.0,
+      "governed_unit_cost": 10.0,
+      "cost_budget": 300.0,
+      "carbon_budget": 1000000000000.0,
+      "order_a_substitute_then_downroute": {
+        "qty": 25.0,
+        "order_value": 250.0
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 12.5,
+        "order_value": 125.0
+      }
+    }
+  ],
+  "note": "non-confluent: at least one concrete instance exists where substitute-then-downroute and downroute-then-substitute reach different final actions. This is the formal justification for prereg/w2-workflow.md's fixed ordering (evidence gate first, then resource gate) rather than leaving the order unspecified."
+}

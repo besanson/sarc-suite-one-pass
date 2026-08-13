@@ -1,4 +1,4 @@
-.PHONY: suite paper test clean all bootstrap ci-local mutate latency sweep
+.PHONY: suite paper test clean all bootstrap ci-local mutate latency sweep formal
 
 # SARC Suite One-Pass Demo Makefile
 # Apache License 2.0
@@ -41,6 +41,14 @@ sweep:
 	@echo "Checkpointed per seed under out/results/sweep/ -- safe to re-run/resume."
 	python3 sweep.py
 
+formal:
+	@echo "V2 gate: exhaustive checkers (lattice, compensation/CH5, remediator/CH7)..."
+	python3 -m checkers.lattice_check
+	python3 -m checkers.compensation_check
+	python3 -m checkers.remediator_check
+	python3 -m checkers.proof_status_lint
+	@echo "See appendix-a-proofs.md for the proofs these checkers verify."
+
 clean:
 	@echo "Cleaning up outputs..."
 	rm -rf out/
@@ -59,6 +67,7 @@ help:
 	@echo "  make paper     Generate paper tables and populate draft"
 	@echo "  make test      Run the test suite"
 	@echo "  make sweep     V3 gate: 30-seed sweep, CH1-CH6 means + 95% CIs"
+	@echo "  make formal    V2 gate: exhaustive checkers (lattice, CH5, CH7) + proof lint"
 	@echo "  make clean     Remove all outputs"
 	@echo "  make all       suite + paper + test (default)"
 	@echo ""

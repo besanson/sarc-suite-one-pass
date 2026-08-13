@@ -87,6 +87,8 @@ study, the `remediate_regate` rename, Evidence Set schema v1) lives under
 - **populate_draft.py**: fills the paper draft template, verifying only slot spans changed
 - **specs/authority.yaml**: sarc-governance constraint spec (real YAML schema: id/class/verif/response/predicate)
 - **prereg/**: pre-registered (tagged `prereg-v1`) hypotheses, seeds, weights, and workflow/contamination/semantics definitions — Phase 3 experiments implement these verbatim
+- **checkers/**: Phase 4 (V2 gate) exhaustive finite-model checkers — `lattice_check.py` (join-semilattice laws), `compensation_check.py` (Proposition 1 / CH5 over the full discrete verdict grid), `remediator_check.py` (CH7's order-dependence decision rule), `proof_status_lint.py` (enforces every `PROOF-STATUS` tag is `machine-checked` or `pending-human-review` — never `proven`, which is human-only)
+- **appendix-a-proofs.md**: full proofs for every numbered claim, each tagged `PROOF-STATUS`
 - **test_suite_sim.py**: test suite, including the anti-mock tripwires
 - **data/**: UCI Online Retail dataset (CC BY 4.0)
 - **out/**: output artifacts (evidence sets, run logs, metrics, paper, sweep results)
@@ -161,6 +163,19 @@ study, the `remediate_regate` rename, Evidence Set schema v1) lives under
   and CH6 (both workflows x plain/quarantine/median_of_3) per seed, then
   aggregates means and 95% CIs. Checkpointed per seed
   (`out/results/sweep/seed_<seed>.json`), safe to resume.
+
+## Phase 4: the formal track (V2 gate)
+
+`make formal` runs the three exhaustive checkers under `checkers/` plus
+the PROOF-STATUS lint. Their outputs (`out/checkers/*.json`) back the
+`machine-checked` proofs in `appendix-a-proofs.md`; the checkers verify
+their claims over the *entire* relevant finite state space (the 5-element
+response lattice, the 125-point three-gate verdict grid, or a 243-point
+remediation-order grid), not a sample. Notably, CH7's checker found the
+two remediators (evidence substitution, downroute) do **not** commute —
+`checkers/remediator_check.py` records 86/243 non-confluent grid points
+and a concrete counterexample, which is the formal justification for
+`prereg/w2-workflow.md`'s fixed remediation order.
 
 ## Determinism & Reproducibility
 
