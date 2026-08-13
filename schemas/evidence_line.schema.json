@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/besanson/sarc-suite-one-pass/schemas/evidence_line.schema.json",
+  "title": "SARC Suite Unified Evidence Set line (v1)",
+  "description": "One decision's unified Evidence Set line, extended for the 9.5 upgrade to carry remediation phase records for BOTH remediators (evidence substitution and resource downroute) and the W1/W2 workflow tag. Pre-registered in prereg/w2-workflow.md and prereg/renaming.md; implemented in Phase 2/3.",
+  "type": "object",
+  "required": ["decision_id", "day", "sku", "workflow", "context", "remediation", "gates", "final", "action"],
+  "additionalProperties": false,
+  "properties": {
+    "decision_id": { "type": "integer", "minimum": 0 },
+    "day": { "type": "integer", "minimum": 0 },
+    "sku": { "type": "string", "minLength": 1 },
+    "workflow": { "type": "string", "enum": ["W1", "W2"] },
+
+    "context": {
+      "type": "object",
+      "required": [
+        "agent_id", "role", "sku", "day", "proposed_qty", "order_value",
+        "est_cost_eur", "est_carbon_g", "allowed_roles", "order_value_cap"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "agent_id": { "type": "string" },
+        "role": { "type": "string" },
+        "sku": { "type": "string" },
+        "day": { "type": "integer" },
+        "proposed_qty": { "type": "number" },
+        "order_value": { "type": "number" },
+        "est_cost_eur": { "type": "number" },
+        "est_carbon_g": { "type": "number" },
+        "allowed_roles": { "type": "array", "items": { "type": "string" } },
+        "order_value_cap": { "type": "number" }
+      }
+    },
+
+    "remediation": {
+      "type": "object",
+      "description": "Phase records for both remediators. Each is null when that remediator did not trigger for this decision. evidence_substitution is meaningful in W1 and W2; downroute only ever triggers in W2 (Green SARC's Verdict.DOWNROUTE path, per prereg/w2-workflow.md).",
+      "required": ["evidence_substitution", "downroute", "order_applied"],
+      "additionalProperties": false,
+      "properties": {
+        "evidence_substitution": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "required": ["triggered", "pre_order_value", "post_order_value", "substituted_value"],
+              "additionalProperties": false,
+              "properties": {
+                "triggered": { "const": true },
+                "pre_order_value": { "type": "number" },
+                "post_order_value": { "type": "number" },
+                "substituted_value": { "type": "number" }
+              }
+            }
+          ]
+        },
+        "downroute": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "required": ["triggered", "pre_qty", "post_qty", "cap_used"],
+              "additionalProperties": false,
+              "properties": {
+                "triggered": { "const": true },
+                "pre_qty": { "type": "number" },
+                "post_qty": { "type": "number" },
+                "cap_used": { "type": "number" }
+              }
+            }
+          ]
+        },
+        "order_applied": {
+          "type": "array",
+          "description": "Fixed declared remediator evaluation order actually used for this decision (per prereg/w2-workflow.md: evidence gate before resource gate). Empty array when neither remediator triggered.",
+          "items": { "type": "string", "enum": ["evidence_substitution", "downroute"] },
+          "maxItems": 2,
+          "uniqueItems": true
+        }
+      }
+    },
+
+    "gates": {
+      "type": "object",
+      "required": ["sarc", "green", "dq"],
+      "additionalProperties": false,
+      "properties": {
+        "sarc": {
+          "type": "object",
+          "required": ["constraints_evaluated", "verdict"],
+          "additionalProperties": false,
+          "properties": {
+            "constraints_evaluated": { "type": "object" },
+            "verdict": { "$ref": "#/$defs/response" }
+          }
+        },
+        "green": {
+          "type": "object",
+          "required": ["predicted_cost", "predicted_carbon", "budget_state", "verdict"],
+          "additionalProperties": false,
+          "properties": {
+            "predicted_cost": { "type": "number" },
+            "predicted_carbon": { "type": "number" },
+            "budget_state": { "type": "object" },
+            "verdict": { "$ref": "#/$defs/response" }
+          }
+        },
+        "dq": {
+          "type": "object",
+          "required": [
+            "detected", "phase1_predicates", "predicates", "verdict",
+            "substituted_value", "evidence_ids", "paa_lineage_flag"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "detected": { "type": "boolean" },
+            "phase1_predicates": { "type": "array", "items": { "type": "string" } },
+            "predicates": { "type": "array", "items": { "type": "string" } },
+            "verdict": { "$ref": "#/$defs/response" },
+            "substituted_value": { "type": ["number", "null"] },
+            "evidence_ids": { "type": "array", "items": { "type": "string" } },
+            "paa_lineage_flag": { "type": "boolean" }
+          }
+        }
+      }
+    },
+
+    "final": {
+      "type": "object",
+      "required": ["admitted", "response", "winner_gate", "mode"],
+      "additionalProperties": false,
+      "properties": {
+        "admitted": { "type": "boolean" },
+        "response": { "$ref": "#/$defs/response" },
+        "winner_gate": { "type": "string", "enum": ["none", "dq", "sarc", "green"] },
+        "mode": { "type": "string", "enum": ["remediate_regate", "single_pass"] }
+      }
+    },
+
+    "action": {
+      "type": "object",
+      "required": ["order_qty", "order_value"],
+      "additionalProperties": false,
+      "properties": {
+        "order_qty": { "type": "number" },
+        "order_value": { "type": "number" }
+      }
+    }
+  },
+
+  "$defs": {
+    "response": {
+      "type": "string",
+      "enum": ["admit", "substitute", "degrade", "escalate", "block"],
+      "description": "Lowercase restrictiveness-lattice response (Definition 1): admit < substitute < degrade < escalate < block."
+    }
+  }
+}

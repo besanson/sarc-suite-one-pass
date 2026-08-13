@@ -68,6 +68,19 @@ def _license(pkg: str) -> str:
     return "unknown"
 
 
+def _prereg_v1_sha() -> Optional[str]:
+    """Commit sha the prereg-v1 tag points at in THIS repo (not an engine
+    repo). None before the tag exists (e.g. the Phase 0 baseline, which
+    predates V1). Every result generated after V1 must carry this (the
+    gate's own requirement)."""
+    result = subprocess.run(
+        ["git", "rev-list", "-n", "1", "prereg-v1"], capture_output=True, text=True,
+    )
+    if result.returncode != 0:
+        return None
+    return result.stdout.strip()
+
+
 def build_manifest(data_sha256: str, seed: int) -> Dict[str, object]:
     engines = {}
     for pkg in ("sarc-dq", "sarc-governance", "green-sarc"):
@@ -84,4 +97,5 @@ def build_manifest(data_sha256: str, seed: int) -> Dict[str, object]:
         "engines": engines,
         "data_sha256": data_sha256,
         "artifact_license": "Apache-2.0",
+        "prereg_v1_sha": _prereg_v1_sha(),
     }

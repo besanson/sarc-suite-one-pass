@@ -23,13 +23,13 @@ paper: suite
 
 test:
 	@echo "Running test suite..."
-	python3 -m pytest test_suite_sim.py -v
+	python3 -m pytest -v
 
 clean:
 	@echo "Cleaning up outputs..."
 	rm -rf out/
 	rm -f paper4-composition-draft-v*.md
-	rm -rf .pytest_cache
+	rm -rf .pytest_cache .hypothesis
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
 	find . -type f -name "*.pyc" -delete
 
