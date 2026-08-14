@@ -153,19 +153,19 @@ def run_scenario(
     for mode in modes:
         engine = _engine(dq_spec, sarc_spec, green_engines, sim.sku_true_cost, buffer_factory)
         lines: List[Dict[str, object]] = []
-        exec_ctxs: Dict[int, Tuple[ActionContext, float]] = {}
+        exec_ctxs: Dict[int, Tuple[ActionContext, float, List[Any]]] = {}
         for p in plan:
             ctx = _context_from_plan(p)
             cap = kappa_by_decision.get(p.decision_id, scenario.order_value_cap)
             if mode == "remediate_regate":
-                line, exec_ctx = engine.remediate_regate(
+                line, exec_ctx, exec_evidence = engine.remediate_regate(
                     p.decision_id, ctx, p.evidence_records,
                     tuple(scenario.authorized_roles), cap,
                     scenario.daily_cost_budget, scenario.daily_carbon_budget,
                     workflow=scenario.workflow,
                 )
             else:
-                line, exec_ctx = engine.single_pass(
+                line, exec_ctx, exec_evidence = engine.single_pass(
                     p.decision_id, ctx, p.evidence_records,
                     tuple(scenario.authorized_roles), cap,
                     scenario.daily_cost_budget, scenario.daily_carbon_budget,
@@ -173,21 +173,26 @@ def run_scenario(
                 )
             lines.append(line)
             if line["final"]["admitted"]:
-                exec_ctxs[p.decision_id] = (exec_ctx, cap)
+                exec_ctxs[p.decision_id] = (exec_ctx, cap, exec_evidence)
 
-        # Post-hoc audit: fresh engine so the audit never perturbs the run's buffer.
+        # Post-hoc audit: fresh engine so the audit never perturbs the run's
+        # buffer. Independent review finding F4: audits the EXACT executed
+        # evidence records (exec_evidence), not a synthetic reconstruction.
         audit_engine = _engine(dq_spec, sarc_spec, green_engines, sim.sku_true_cost)
         audit_flags: Dict[int, bool] = {}
-        for decision_id, (exec_ctx, cap) in exec_ctxs.items():
+        exec_evidence_by_decision: Dict[int, List[Any]] = {}
+        for decision_id, (exec_ctx, cap, exec_evidence) in exec_ctxs.items():
             audit_flags[decision_id] = audit_engine.audit_executed(
-                exec_ctx, tuple(scenario.authorized_roles), cap,
+                exec_ctx, exec_evidence, tuple(scenario.authorized_roles), cap,
                 scenario.daily_cost_budget, scenario.daily_carbon_budget,
             )
+            exec_evidence_by_decision[decision_id] = exec_evidence
 
         results[mode] = {
             "lines": lines,
             "audit_flags": audit_flags,
             "audit_violations": sum(audit_flags.values()),
+            "exec_evidence_by_decision": exec_evidence_by_decision,
         }
 
     return {"scenario": scenario, "plan": plan, "results": results}
@@ -405,6 +410,17 @@ HONESTY_BANNER = (
 _MODE_FILE_PREFIX = {"remediate_regate": "rtr", "single_pass": "single_pass"}
 
 
+def _serialize_evidence_record(record) -> Dict[str, object]:
+    """Full payload + metadata (record.full_view(), which explicitly
+    excludes ground_truth per the standing invariant), plus the record's
+    own content-addressed evidence_id -- independent review finding F4's
+    "exact Phase II evidence records, content-addressed, persisted"."""
+    view = record.full_view()
+    view["record_id"] = record.record_id
+    view["evidence_id"] = record.evidence_id()
+    return view
+
+
 def _write_outputs(sim, all_results, sha_unchanged: bool) -> Path:
     from metrics import build_metrics
 
@@ -422,6 +438,14 @@ def _write_outputs(sim, all_results, sha_unchanged: bool) -> Path:
             with open(evidence_path, "w") as f:
                 for line in result["lines"]:
                     f.write(json.dumps(line) + "\n")
+            exec_evidence_path = scenario_dir / f"{prefix}-exec-evidence.jsonl"
+            with open(exec_evidence_path, "w") as f:
+                for decision_id, records in sorted(result["exec_evidence_by_decision"].items()):
+                    entry = {
+                        "decision_id": decision_id,
+                        "evidence": [_serialize_evidence_record(r) for r in records],
+                    }
+                    f.write(json.dumps(entry) + "\n")
             runlog_path = scenario_dir / f"{prefix}-runlog.jsonl"
             with open(runlog_path, "w") as f:
                 for line, p in zip(result["lines"], plan):

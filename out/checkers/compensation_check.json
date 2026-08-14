@@ -16,5 +16,24 @@
     "sarc": "escalate",
     "green": "admit"
   },
-  "proposition_1_holds_exhaustively": true
+  "proposition_1_holds_exhaustively": true,
+  "lemma_verification": {
+    "head_sha": "514f0160cdda2b67994586d2eb23b681824763b5",
+    "vetoed_profiles_count": 61,
+    "n_random_probes": 200,
+    "declared_grid": {
+      "label": "declared_grid",
+      "checked": 264,
+      "mismatches": [],
+      "all_agree": true
+    },
+    "head_derived_random_probe": {
+      "label": "head_derived_random_probe",
+      "checked": 800,
+      "mismatches": [],
+      "all_agree": true
+    },
+    "total_checked": 1064,
+    "lemma_holds_on_all_checked_cases": true
+  }
 }

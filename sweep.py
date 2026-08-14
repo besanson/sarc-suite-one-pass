@@ -44,6 +44,7 @@ from dataclasses import replace
 from pathlib import Path
 from typing import Any, Dict, List
 
+import scipy.stats
 from sarc_dq.gate import GovernedBuffer
 
 from ch5_aggregator import evaluate_ch5, load_weights
@@ -65,10 +66,14 @@ SEEDS_PATH = "prereg/seeds.json"
 SWEEP_DIR = Path("out/results/sweep")
 SWEEP_SUMMARY_PATH = Path("out/results/sweep_summary.json")
 
-# 95% two-tailed t-critical value for df = 30 - 1 = 29 (standard t-table
-# lookup). The registered seed list is fixed at exactly 30 entries, so
-# this single constant is always the correct one for this sweep.
-T_CRIT_DF29 = 2.045230
+# 95% two-tailed t-critical value for df = 30 - 1 = 29, computed exactly at
+# runtime (fixed per independent review finding F6 -- the previous rounded
+# constant 2.045230 diverged from the exact value by up to 3.77e-6 in some
+# CI endpoints). The registered seed list is fixed at exactly 30 entries,
+# so this single value is always the correct one for this sweep. Cast to
+# a plain float: scipy.stats.t.ppf returns a numpy float64, which is not
+# JSON-serializable by json.dump.
+T_CRIT_DF29 = float(scipy.stats.t.ppf(0.975, 29))
 
 BUFFER_STRATEGIES = {
     "plain": GovernedBuffer,

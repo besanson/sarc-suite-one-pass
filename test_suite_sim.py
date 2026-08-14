@@ -88,7 +88,7 @@ LOOSE = 1e12
 def test_1_clean_authorised_inbudget_admits_winner_none():
     engine = _engine()
     ctx = _ctx()
-    line, _ = engine.remediate_regate(0, ctx, [_clean_record()], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
+    line, _, _ = engine.remediate_regate(0, ctx, [_clean_record()], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
     assert line["final"]["admitted"] is True
     assert line["final"]["response"] == "admit"
     assert line["final"]["winner_gate"] == "none"
@@ -102,7 +102,7 @@ def test_2_stale_record_substitutes_admitted_phase1_recorded():
         record_id=stale.record_id, payload=stale.payload,
         metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY - 60, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
     )
-    line, exec_ctx = engine.remediate_regate(0, ctx, [stale], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
+    line, exec_ctx, _ = engine.remediate_regate(0, ctx, [stale], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
     assert line["final"]["admitted"] is True
     assert line["remediation"]["evidence_substitution"] is not None
     assert line["remediation"]["evidence_substitution"]["substituted_value"] == TRUE_COST
@@ -114,7 +114,7 @@ def test_3_schema_drift_blocks_winner_dq():
     engine = _engine()
     ctx = _ctx()
     bad = _clean_record(unit_cost=str(TRUE_COST))
-    line, _ = engine.remediate_regate(0, ctx, [bad], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
+    line, _, _ = engine.remediate_regate(0, ctx, [bad], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
     assert line["final"]["response"] == "block"
     assert line["final"]["winner_gate"] == "dq"
     assert line["final"]["admitted"] is False
@@ -123,7 +123,7 @@ def test_3_schema_drift_blocks_winner_dq():
 def test_4_unauthorised_role_held_winner_sarc():
     engine = _engine()
     ctx = _ctx(role="agent-intruder")
-    line, _ = engine.remediate_regate(0, ctx, [_clean_record()], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
+    line, _, _ = engine.remediate_regate(0, ctx, [_clean_record()], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
     assert line["final"]["winner_gate"] == "sarc"
     assert line["final"]["admitted"] is False
     assert line["final"]["response"] == "block"
@@ -132,7 +132,7 @@ def test_4_unauthorised_role_held_winner_sarc():
 def test_5_over_budget_vetoed_winner_green():
     engine = _engine()
     ctx = _ctx()
-    line, _ = engine.remediate_regate(0, ctx, [_clean_record()], ("agent-replenish",), LOOSE, 0.001, LOOSE)
+    line, _, _ = engine.remediate_regate(0, ctx, [_clean_record()], ("agent-replenish",), LOOSE, 0.001, LOOSE)
     assert line["final"]["winner_gate"] == "green"
     assert line["final"]["admitted"] is False
 
@@ -141,7 +141,7 @@ def test_6_dirty_and_over_budget_most_restrictive_wins_both_recorded():
     engine = _engine()
     ctx = _ctx()
     bad = _clean_record(unit_cost=str(TRUE_COST))  # dq -> block
-    line, _ = engine.remediate_regate(0, ctx, [bad], ("agent-replenish",), LOOSE, 0.001, LOOSE)  # green also vetoes
+    line, _, _ = engine.remediate_regate(0, ctx, [bad], ("agent-replenish",), LOOSE, 0.001, LOOSE)  # green also vetoes
     # exactly one final response
     assert isinstance(line["final"]["response"], str)
     assert line["final"]["response"] == "block"  # block > escalate in restrictiveness

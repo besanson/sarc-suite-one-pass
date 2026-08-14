@@ -151,14 +151,14 @@ def test_audit_invariant_random_admitted_decisions_are_clean(
     daily_cost_budget = 1e12
     daily_carbon_budget = 1e12
 
-    line, exec_ctx = engine.remediate_regate(
+    line, exec_ctx, exec_evidence = engine.remediate_regate(
         0, ctx, [record], allowed_roles, cap, daily_cost_budget, daily_carbon_budget
     )
     if not line["final"]["admitted"]:
         return  # audit invariant only claims something about EXECUTED decisions
 
     violated = engine.audit_executed(
-        exec_ctx, allowed_roles, cap, daily_cost_budget, daily_carbon_budget
+        exec_ctx, exec_evidence, allowed_roles, cap, daily_cost_budget, daily_carbon_budget
     )
     assert not violated, (
         f"audit found a violation on an admitted remediate_regate decision: {line}"
@@ -180,9 +180,15 @@ def test_audit_invariant_random_admitted_decisions_are_clean(
     mode=st.sampled_from(["remediate_regate", "single_pass"]),
 )
 @settings(max_examples=60, suppress_health_check=[HealthCheck.function_scoped_fixture])
-def test_randomly_sampled_lines_validate_against_schema_v1(
+def test_randomly_sampled_lines_validate_against_schema_v2(
     true_cost, qty, role, unit_cost_kind, drop_currency, stale_days, mode
 ):
+    """Schema v2 (independent review finding F2): substituted lines now
+    additionally require remediation.evidence_substitution.pre_evidence_ids
+    and .substitute_source -- this fuzz test's stale_days parameter
+    already drives some examples through the substitution path in both
+    modes, so it exercises the new required fields, not just the v1
+    shape."""
     engine = _engine_and_true_cost(true_cost)
     order_value = qty * true_cost
     ctx = ActionContext(
@@ -206,5 +212,5 @@ def test_randomly_sampled_lines_validate_against_schema_v1(
     allowed_roles = ("agent-replenish",)
     cap = 1e12
     method = engine.remediate_regate if mode == "remediate_regate" else engine.single_pass
-    line, _ = method(0, ctx, [record], allowed_roles, cap, 1e12, 1e12)
+    line, _, _ = method(0, ctx, [record], allowed_roles, cap, 1e12, 1e12)
     jsonschema.validate(line, SCHEMA)

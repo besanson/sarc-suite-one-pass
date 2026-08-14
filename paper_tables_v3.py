@@ -92,10 +92,12 @@ def _abstract_sentence_v3(sweep: Dict[str, Any], compensation_result: Dict[str, 
     else:
         ch6 = "NOT SUPPORTED as written"
     ch7 = remediator_result["ch7_registered_outcome"].replace("_", "-")
+    off_grid = remediator_result["off_grid_probe"]
     return (
         f"CH1 {ch1}; CH2 {ch2}; CH3 {ch3}; CH4 {ch4}; CH5 {ch5} (exhaustive over the discrete grid); "
         f"CH6 {ch6}; CH7 {ch7} (two remediators do not commute, "
-        f"{remediator_result['counterexample_count']}/{remediator_result['grid_points_checked']} grid points); "
+        f"{remediator_result['counterexample_count']}/{remediator_result['grid_points_checked']} grid points, "
+        f"plus {off_grid['non_confluent_count']}/{off_grid['n_probes']} off-grid points per an independent-review-promoted probe); "
         f"CH8 robustness across 30 seeds x 2 workflows holds for CH1-CH5, not for CH6."
     )
 
@@ -156,5 +158,9 @@ def generate_v3_slots(
     slots["checkers.remediator_grid_points"] = str(remediator_result["grid_points_checked"])
     slots["checkers.remediator_counterexamples"] = str(remediator_result["counterexample_count"])
     slots["checkers.remediator_outcome"] = remediator_result["ch7_registered_outcome"]
+
+    off_grid = remediator_result["off_grid_probe"]
+    slots["checkers.remediator_offgrid_probes"] = str(off_grid["n_probes"])
+    slots["checkers.remediator_offgrid_non_confluent"] = str(off_grid["non_confluent_count"])
 
     return slots

@@ -84,7 +84,30 @@ def test_verified_citations_file_has_url_title_author_year():
 
     result = verify_whitelist_schema()
     assert result["clean"] is True
-    assert result["total"] == 4
+    assert result["total"] == 10  # 4 engine/data + 6 F5 related-work citations
+
+
+def test_url_only_citation_is_verified_by_exact_url_match(tmp_path):
+    """perspectives-tofu (Wendlandt et al. 2008) predates DOI assignment
+    for USENIX proceedings -- verified_whitelist_schema still requires it
+    to carry url/title/first_author/year, and citation_check.check()
+    verifies it by exact url presence instead of arxiv_id/doi."""
+    paper = tmp_path / "p.md"
+    paper.write_text(
+        "Trust-on-first-use (Wendlandt et al., USENIX ATC 2008, "
+        "https://www.usenix.org/legacy/event/usenix08/tech/full_papers/wendlandt/wendlandt.pdf)."
+    )
+    result = check_citations(str(paper))
+    assert result["clean"] is True
+    assert result["unverified_urls"] == []
+
+
+def test_unwhitelisted_url_is_flagged(tmp_path):
+    paper = tmp_path / "p.md"
+    paper.write_text("See https://example.com/not-a-real-citation for details.")
+    result = check_citations(str(paper))
+    assert result["clean"] is False
+    assert "https://example.com/not-a-real-citation" in result["unverified_urls"]
 
 
 def test_clean_paper_with_no_citations_at_all(tmp_path):

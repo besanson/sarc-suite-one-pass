@@ -38,13 +38,31 @@ and CH7 is registered as non-confluent -- which, if it occurs, is itself
 the reason a FIXED order had to be pre-registered rather than left
 order-independent.
 
-SEED = 26313 (not used here -- this checker is exhaustive over a finite
-grid, not sampled)
+Off-grid probe (promoted per independent review, review/REVIEW.md
+Section 5: "144/200 HEAD-derived off-grid points were non-confluent").
+The declared grid above is a finite lattice of round numbers; the
+independent review additionally probed continuous-valued points off that
+lattice and found non-confluence there too, strengthening CH7's result
+beyond the pre-registered grid. This module reruns that class of probe
+itself (not a byte-for-byte replay of the reviewer's own run, which this
+artifact cannot reproduce without their RNG draws) using the same
+HEAD-derived deterministic seeding technique already established in
+`checkers/compensation_check.py` for the F1 lemma verification: seed a
+PRNG from sha256(current git HEAD), draw N continuous points strictly
+inside the grid's outer bounds (never on a grid coordinate), and check
+confluence on each with the same real remediation functions.
+
+SEED = 26313 (not used by the declared grid, which is exhaustive; the
+off-grid probe below uses a HEAD-derived seed instead, documented at its
+call site)
 """
 from __future__ import annotations
 
+import hashlib
 import itertools
 import json
+import random
+import subprocess
 from dataclasses import replace
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -59,6 +77,8 @@ CORRUPTED_COST_GRID = [5.0, 10.0, 20.0]
 GOVERNED_COST_GRID = [5.0, 10.0, 20.0]
 COST_BUDGET_GRID = [60.0, 300.0, 1e12]
 CARBON_BUDGET_GRID = [10.0, 50.0, 1e12]
+
+N_OFF_GRID_PROBES = 200
 
 
 def _base_ctx(qty: float, unit_cost: float) -> ActionContext:
@@ -92,6 +112,57 @@ def _close(a: float, b: float, tol: float = 1e-9) -> bool:
     return abs(a - b) <= tol * max(1.0, abs(a), abs(b))
 
 
+def head_sha() -> str:
+    return subprocess.run(
+        ["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=True
+    ).stdout.strip()
+
+
+def random_off_grid_points(n: int, seed_material: str) -> List[Dict[str, float]]:
+    """N continuous-valued points strictly inside the declared grid's
+    outer bounds, never landing on a grid coordinate -- deterministic
+    given seed_material (the HEAD-derived sha in normal use), so the
+    probe is reproducible yet not itself part of the pre-registered
+    fixed grid. Mirrors the independent review's own off-grid probe
+    methodology (review/REVIEW.md Section 5)."""
+    seed = int(hashlib.sha256(seed_material.encode()).hexdigest(), 16) % (2**32)
+    rng = random.Random(seed)
+    points = []
+    for _ in range(n):
+        points.append({
+            "qty": rng.uniform(min(QTY_GRID) + 0.01, max(QTY_GRID) - 0.01),
+            "corrupted_unit_cost": rng.uniform(min(CORRUPTED_COST_GRID) + 0.01, max(CORRUPTED_COST_GRID) - 0.01),
+            "governed_unit_cost": rng.uniform(min(GOVERNED_COST_GRID) + 0.01, max(GOVERNED_COST_GRID) - 0.01),
+            "cost_budget": rng.uniform(min(COST_BUDGET_GRID) + 0.01, 1000.0),
+            "carbon_budget": rng.uniform(min(CARBON_BUDGET_GRID) + 0.01, 1000.0),
+        })
+    return points
+
+
+def _off_grid_probe(points: List[Dict[str, float]]) -> Dict[str, Any]:
+    non_confluent: List[Dict[str, Any]] = []
+    for p in points:
+        a = _order_a_substitute_then_downroute(
+            p["qty"], p["corrupted_unit_cost"], p["governed_unit_cost"], p["cost_budget"], p["carbon_budget"]
+        )
+        b = _order_b_downroute_then_substitute(
+            p["qty"], p["corrupted_unit_cost"], p["governed_unit_cost"], p["cost_budget"], p["carbon_budget"]
+        )
+        agree = _close(a.proposed_qty, b.proposed_qty) and _close(a.order_value, b.order_value)
+        if not agree:
+            non_confluent.append({
+                **p,
+                "order_a_substitute_then_downroute": {"qty": a.proposed_qty, "order_value": a.order_value},
+                "order_b_downroute_then_substitute": {"qty": b.proposed_qty, "order_value": b.order_value},
+            })
+    return {
+        "n_probes": len(points),
+        "non_confluent_count": len(non_confluent),
+        "confluent_count": len(points) - len(non_confluent),
+        "sample_non_confluent": non_confluent[0] if non_confluent else None,
+    }
+
+
 def run() -> Dict[str, Any]:
     grid_points = 0
     counterexamples: List[Dict[str, Any]] = []
@@ -111,6 +182,11 @@ def run() -> Dict[str, Any]:
             })
 
     confluent = len(counterexamples) == 0
+
+    sha = head_sha()
+    off_grid_points = random_off_grid_points(N_OFF_GRID_PROBES, sha)
+    off_grid = _off_grid_probe(off_grid_points)
+
     result: Dict[str, Any] = {
         "grid_points_checked": grid_points,
         "confluent": confluent,
@@ -118,6 +194,17 @@ def run() -> Dict[str, Any]:
         "ch7_registered_outcome": "confluent" if confluent else "non_confluent",
         "sample_counterexample": counterexamples[0] if counterexamples else None,
         "all_counterexamples": counterexamples,
+        "off_grid_probe": {
+            "head_sha": sha,
+            **off_grid,
+            "attribution": (
+                "Promoted per independent review, review/REVIEW.md Section 5 "
+                "(\"144/200 HEAD-derived off-grid points were non-confluent\"); "
+                "this artifact's own rerun uses a fresh HEAD-derived seed and "
+                "will not in general reproduce that exact count, but tests the "
+                "same class of continuous off-grid points."
+            ),
+        },
         "note": (
             "confluent across the finite grid: order of remediation does not "
             "matter, either order is safe to register as canonical."
@@ -126,7 +213,9 @@ def run() -> Dict[str, Any]:
             "substitute-then-downroute and downroute-then-substitute reach "
             "different final actions. This is the formal justification for "
             "prereg/w2-workflow.md's fixed ordering (evidence gate first, "
-            "then resource gate) rather than leaving the order unspecified."
+            "then resource gate) rather than leaving the order unspecified. "
+            "The off-grid probe (see off_grid_probe) strengthens this result "
+            "beyond the pre-registered grid, per the independent review."
         ),
     }
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)

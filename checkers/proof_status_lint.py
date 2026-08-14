@@ -22,10 +22,18 @@ on every change to appendix-a-proofs.md (or any future paper draft that
 carries PROOF-STATUS tags), so a future edit cannot silently cross the
 human-only line.
 
-ALLOWED is deliberately small and closed: only the two statuses this
+ALLOWED is deliberately small and closed: only the statuses this
 pipeline is entitled to assign. "proven" is intentionally absent -- if it
-ever appears in a linted file, that is a lint failure, not a third
+ever appears in a linted file, that is a lint failure, not a fourth
 allowed value to add to this set.
+
+"checked-scope-only" was added per the independent review's proof-tag
+policy (review/REVIEW.md Section 3): a statement whose largest certified
+scope is narrower than its general prose claim is tagged
+"checked-scope-only (REVIEW.md)" and its wording narrowed to exactly
+that certified scope -- distinct from "pending-human-review" (general
+claim, no scope-narrowing needed yet) and from "machine-checked" (the
+full general claim is exhaustively verified).
 
 SEED = 26313 (not applicable -- this is a static text lint, not a
 simulation)
@@ -36,7 +44,7 @@ import re
 from pathlib import Path
 from typing import Dict, List
 
-ALLOWED = {"machine-checked", "pending-human-review"}
+ALLOWED = {"machine-checked", "pending-human-review", "checked-scope-only"}
 TAG_PATTERN = re.compile(r"PROOF-STATUS:\s*([A-Za-z][A-Za-z \-]*[A-Za-z])")
 
 DEFAULT_TARGETS = ["appendix-a-proofs.md"]

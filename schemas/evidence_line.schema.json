@@ -1,12 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/besanson/sarc-suite-one-pass/schemas/evidence_line.schema.json",
-  "title": "SARC Suite Unified Evidence Set line (v1)",
-  "description": "One decision's unified Evidence Set line, extended for the 9.5 upgrade to carry remediation phase records for BOTH remediators (evidence substitution and resource downroute) and the W1/W2 workflow tag. Pre-registered in prereg/w2-workflow.md and prereg/renaming.md; implemented in Phase 2/3.",
+  "title": "SARC Suite Unified Evidence Set line (v2)",
+  "description": "One decision's unified Evidence Set line. v2 (independent review finding F2, review/REVIEW.md): remediation.evidence_substitution now additionally carries pre_evidence_ids (Phase I evidence ids) and substitute_source (buffer_key, content-addressed buffer_write_eid), so provenance can be identified and verified relative to a content-addressed store from the line alone -- see appendix-a-proofs.md's restated Proposition 4. v1 carried remediation phase records for BOTH remediators (evidence substitution and resource downroute) and the W1/W2 workflow tag, pre-registered in prereg/w2-workflow.md and prereg/renaming.md, implemented in Phase 2/3.",
   "type": "object",
-  "required": ["decision_id", "day", "sku", "workflow", "context", "remediation", "gates", "final", "action"],
+  "required": ["schema_version", "decision_id", "day", "sku", "workflow", "context", "remediation", "gates", "final", "action"],
   "additionalProperties": false,
   "properties": {
+    "schema_version": { "const": 2 },
     "decision_id": { "type": "integer", "minimum": 0 },
     "day": { "type": "integer", "minimum": 0 },
     "sku": { "type": "string", "minLength": 1 },
@@ -44,13 +45,32 @@
             { "type": "null" },
             {
               "type": "object",
-              "required": ["triggered", "pre_order_value", "post_order_value", "substituted_value"],
+              "required": [
+                "triggered", "pre_order_value", "post_order_value", "substituted_value",
+                "pre_evidence_ids", "substitute_source"
+              ],
               "additionalProperties": false,
               "properties": {
                 "triggered": { "const": true },
                 "pre_order_value": { "type": "number" },
                 "post_order_value": { "type": "number" },
-                "substituted_value": { "type": "number" }
+                "substituted_value": { "type": "number" },
+                "pre_evidence_ids": {
+                  "type": "array",
+                  "description": "Content-addressed ids (EvidenceRecord.evidence_id()) of the Phase I records the evidence gate actually evaluated before substitution -- identifies and allows verification of what was relied on, given the record store; it does not, by itself, reconstruct the original bytes (Proposition 4, restated).",
+                  "items": { "type": "string" },
+                  "minItems": 1
+                },
+                "substitute_source": {
+                  "type": "object",
+                  "description": "Where the substituted value came from: the governed buffer's site key, and a content-addressed id for that (key, value) write -- identical writes always yield the identical id (Appendix A, Proposition 4).",
+                  "required": ["buffer_key", "buffer_write_eid"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "buffer_key": { "type": "string", "minLength": 1 },
+                    "buffer_write_eid": { "type": "string", "minLength": 1 }
+                  }
+                }
               }
             }
           ]

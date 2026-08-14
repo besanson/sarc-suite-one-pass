@@ -35,6 +35,7 @@ SEED = 26313
 """
 from __future__ import annotations
 
+import hashlib
 from dataclasses import dataclass, field, replace
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
@@ -204,6 +205,28 @@ _DQ_RESPONSE_MAP: Dict[str, Response] = {
     "escalate": Response.ESCALATE,
     "block": Response.BLOCK,
 }
+
+
+def _dq_buffer_key(evidence: List[EvidenceRecord]) -> str:
+    """Mirrors sarc_dq.gate.PreActionGate.evaluate's own site-key
+    derivation (site_field="sku" by default) so provenance recording
+    (substitute_source.buffer_key) uses exactly the same key the real
+    engine consulted, not an assumed equivalent."""
+    primary = evidence[0]
+    return str(primary.payload.get("sku", primary.record_id))
+
+
+def _buffer_write_eid(key: str, value: float) -> str:
+    """Content-addressed id for a governed-buffer entry (independent
+    review finding F2): identical (key, value) always yields the same
+    id, the same content-addressing philosophy EvidenceRecord.evidence_id()
+    already uses. Because the id is a pure, deterministic function of the
+    write's content, computing it here at substitution/provenance-record
+    time gives the identical value it would have if computed at the
+    engine's own put() call -- there is no need to intercept that call to
+    "assign" the id separately; content-addressing means there is only
+    ever one id for a given (key, value)."""
+    return hashlib.sha256(f"{key}\x00{value!r}".encode()).hexdigest()
 
 
 def evaluate_dq(gate: DQPreActionGate, evidence: List[EvidenceRecord]):
@@ -417,28 +440,6 @@ def _remediated_evidence(primary: EvidenceRecord, sku: str, day: int, substitute
     ]
 
 
-def _audit_clean_evidence_record(exec_ctx: ActionContext) -> EvidenceRecord:
-    """The clean, structurally-valid evidence record standing in for
-    "what the executed action's evidence would look like" during the
-    post-hoc audit (R4). unit_cost is recovered as order_value /
-    proposed_qty — the audit re-derives it from the executed action's own
-    numbers rather than trusting any external state, so a decision with
-    proposed_qty == 0 (never produced by the real newsvendor rule, but
-    guarded here rather than dividing by zero) falls back to 0.0."""
-    unit_cost = exec_ctx.order_value / exec_ctx.proposed_qty if exec_ctx.proposed_qty else 0.0
-    return EvidenceRecord(
-        record_id=f"{exec_ctx.sku}-audit",
-        payload={"sku": exec_ctx.sku, "unit_cost": unit_cost, "currency": "GBP"},
-        metadata=RecordMetadata(
-            source="governed_buffer",
-            as_of_day=exec_ctx.day,
-            retrieved_day=exec_ctx.day,
-            version=1,
-            lineage=("governed_buffer:SKU",),
-        ),
-    )
-
-
 class CompositionEngine:
     """Orchestrates the three real gates with remediate-regate ("rtr") /
     single-pass protocols."""
@@ -472,7 +473,12 @@ class CompositionEngine:
         daily_cost_budget: float,
         daily_carbon_budget: float,
         workflow: str = "W1",
-    ) -> Tuple[Dict[str, Any], ActionContext]:
+    ) -> Tuple[Dict[str, Any], ActionContext, List[EvidenceRecord]]:
+        """Returns (line, executed context, executed evidence records) --
+        the third element is the EXACT evidence Phase II relied on
+        (independent review finding F4): the original evidence_records if
+        nothing was substituted, or the real remediated records if it was
+        -- never a synthetic reconstruction."""
         dq_resp1, dq_decision1 = evaluate_dq(self.dq_gate, evidence_records)
 
         remediated_ctx = context
@@ -486,11 +492,17 @@ class CompositionEngine:
             remediated_evidence = _remediated_evidence(
                 evidence_records[0], context.sku, context.day, sub_cost
             )
+            buffer_key = _dq_buffer_key(evidence_records)
             evidence_substitution = {
                 "triggered": True,
                 "pre_order_value": context.order_value,
                 "post_order_value": remediated_ctx.order_value,
                 "substituted_value": sub_cost,
+                "pre_evidence_ids": list(dq_decision1.evidence_ids),
+                "substitute_source": {
+                    "buffer_key": buffer_key,
+                    "buffer_write_eid": _buffer_write_eid(buffer_key, sub_cost),
+                },
             }
 
         # Second remediator (W2 only, fixed order per prereg/w2-workflow.md:
@@ -530,6 +542,7 @@ class CompositionEngine:
         paa_flag = evaluate_paa_lineage(self.dq_gate.spec, evidence_records)
 
         line = {
+            "schema_version": 2,
             "decision_id": decision_id,
             "day": context.day,
             "sku": context.sku,
@@ -580,7 +593,7 @@ class CompositionEngine:
                 "order_value": remediated_ctx.order_value,
             },
         }
-        return line, remediated_ctx
+        return line, remediated_ctx, remediated_evidence
 
     # -- single-pass (measurement only) ------------------------------------
 
@@ -594,7 +607,13 @@ class CompositionEngine:
         daily_cost_budget: float,
         daily_carbon_budget: float,
         workflow: str = "W1",
-    ) -> Tuple[Dict[str, Any], ActionContext]:
+    ) -> Tuple[Dict[str, Any], ActionContext, List[EvidenceRecord]]:
+        """Returns (line, executed context, executed evidence records) --
+        see remediate_regate's docstring for the third element's meaning.
+        single_pass never re-evaluates DQ on the substituted evidence (by
+        design -- that is the unsoundness mechanism), but the executed
+        evidence is still the real substituted records when substitution
+        triggered, not a synthetic reconstruction."""
         dq_resp, dq_decision = evaluate_dq(self.dq_gate, evidence_records)
         sarc_resp, sarc_detail = evaluate_sarc_pag(
             self.sarc_spec, context.role, allowed_roles, context.order_value, order_value_cap
@@ -612,16 +631,26 @@ class CompositionEngine:
         # this is the single-pass unsoundness mechanism (Proposition 3),
         # now extended to both remediators under W2.
         exec_ctx = context
+        exec_evidence = evidence_records
         evidence_substitution: Optional[Dict[str, Any]] = None
         if dq_resp == Response.SUBSTITUTE and dq_decision.substituted_value is not None:
             exec_ctx = _remediated_context(
                 context, dq_decision.substituted_value, self.carbon_per_unit, self.cost_multiplier
             )
+            exec_evidence = _remediated_evidence(
+                evidence_records[0], context.sku, context.day, dq_decision.substituted_value
+            )
+            buffer_key = _dq_buffer_key(evidence_records)
             evidence_substitution = {
                 "triggered": True,
                 "pre_order_value": context.order_value,
                 "post_order_value": exec_ctx.order_value,
                 "substituted_value": dq_decision.substituted_value,
+                "pre_evidence_ids": list(dq_decision.evidence_ids),
+                "substitute_source": {
+                    "buffer_key": buffer_key,
+                    "buffer_write_eid": _buffer_write_eid(buffer_key, dq_decision.substituted_value),
+                },
             }
 
         downroute: Optional[Dict[str, Any]] = None
@@ -637,6 +666,7 @@ class CompositionEngine:
                 )
 
         line = {
+            "schema_version": 2,
             "decision_id": decision_id,
             "day": context.day,
             "sku": context.sku,
@@ -684,24 +714,36 @@ class CompositionEngine:
                 "order_value": exec_ctx.order_value,
             },
         }
-        return line, exec_ctx
+        return line, exec_ctx, exec_evidence
 
     # -- post-hoc audit (CH1 mechanic) --------------------------------------
 
     def audit_executed(
         self,
         exec_ctx: ActionContext,
+        exec_evidence: List[EvidenceRecord],
         allowed_roles: Tuple[str, ...],
         order_value_cap: float,
         daily_cost_budget: float,
         daily_carbon_budget: float,
     ) -> bool:
         """Re-evaluate all three real gates on the executed action, its
-        recomputed context, and the state in force at execution. Returns
-        True iff any gate would NOT admit/substitute/degrade it — i.e. a
-        soundness violation (R4)."""
-        clean_evidence = [_audit_clean_evidence_record(exec_ctx)]
-        dq_resp, _ = evaluate_dq(self.dq_gate, clean_evidence)
+        EXACT executed evidence, and the state in force at execution.
+        Returns True iff any gate would NOT admit/substitute/degrade it --
+        i.e. a soundness violation (R4).
+
+        Independent review finding F4 (review/REVIEW.md): this used to
+        re-derive a synthetic "clean" evidence record from exec_ctx's own
+        numbers (order_value / proposed_qty), which by construction always
+        looked freshly clean to the DQ gate regardless of what actually
+        happened upstream. It now audits exec_evidence, the real Phase II
+        evidence records the decision was executed on -- the original
+        evidence_records if nothing was substituted, the real remediated
+        records if it was (see remediate_regate/single_pass's third
+        return value). A fresh CompositionEngine/buffer is still used for
+        this call (runner.py), so the audit never perturbs the run's own
+        buffer state."""
+        dq_resp, _ = evaluate_dq(self.dq_gate, exec_evidence)
         sarc_resp, _ = evaluate_sarc_pag(
             self.sarc_spec, exec_ctx.role, allowed_roles, exec_ctx.order_value, order_value_cap
         )

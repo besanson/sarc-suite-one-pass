@@ -88,6 +88,55 @@ def test_compensation_check_proposition_1_holds_exhaustively():
     assert joined in (Response.ESCALATE, Response.BLOCK)
 
 
+def test_all_vetoed_profiles_is_strict_subset_of_all_held_profiles():
+    """The Lemma's "vetoed" (s_j=0, i.e. a block verdict) is narrower
+    than CH5's own "Held" (escalate-or-block) -- conflating the two was
+    the bug the random probe caught during the review response."""
+    vetoed = compensation_check.all_vetoed_profiles()
+    held = compensation_check.all_held_profiles()
+    assert len(vetoed) == 61
+    assert len(held) == 98
+    vetoed_set = {tuple(sorted(p.items())) for p in vetoed}
+    held_set = {tuple(sorted(p.items())) for p in held}
+    assert vetoed_set < held_set  # strict subset
+
+
+def test_all_vetoed_profiles_always_contain_a_block():
+    for profile in compensation_check.all_vetoed_profiles():
+        assert "block" in profile.values()
+
+
+def test_leave_one_out_max_matches_reviewer_counterexample():
+    # w=(1,1,1): L* = 3 - 1 = 2, exactly the boundary the reviewer's
+    # tau=2.5 sits above (no vetoed profile admitted).
+    wv = {"dq": 1.0, "sarc": 1.0, "green": 1.0}
+    assert compensation_check.leave_one_out_max(wv) == 2.0
+    assert compensation_check.lemma_predicts_compensation(wv, 2.5) is False
+    assert compensation_check.lemma_predicts_compensation(wv, 2.0) is True
+
+
+def test_lemma_verification_agrees_on_declared_grid_and_random_probe():
+    result = compensation_check.run()
+    lv = result["lemma_verification"]
+    assert lv["declared_grid"]["all_agree"] is True
+    assert lv["head_derived_random_probe"]["all_agree"] is True
+    assert lv["lemma_holds_on_all_checked_cases"] is True
+    assert lv["n_random_probes"] == 200
+    assert lv["total_checked"] == 264 + 200 * 4
+
+
+def test_random_positive_weight_vectors_are_deterministic_and_strictly_positive():
+    vectors_a = compensation_check.random_positive_weight_vectors(50, "fixed-seed-material")
+    vectors_b = compensation_check.random_positive_weight_vectors(50, "fixed-seed-material")
+    assert vectors_a == vectors_b  # same seed material -> identical draws
+    for v in vectors_a:
+        assert all(w > 0 for w in v.values())
+        assert abs(sum(v.values()) - 1.0) < 1e-9
+
+    vectors_c = compensation_check.random_positive_weight_vectors(50, "different-seed-material")
+    assert vectors_a != vectors_c  # different seed material -> different draws
+
+
 def test_compensation_check_pure_green_weight_never_compensates_a_green_block():
     """A weight vector putting all weight on the SAME gate that vetoed can
     never compensate a block from that gate -- block scores exactly 0
@@ -147,3 +196,48 @@ def test_remediator_check_agreeing_orders_are_not_flagged():
     b = remediator_check._order_b_downroute_then_substitute(100.0, 10.0, 10.0, 1e12, 1e12)
     assert remediator_check._close(a.proposed_qty, b.proposed_qty)
     assert remediator_check._close(a.order_value, b.order_value)
+
+
+# ---------------------------------------------------------------------------
+# remediator_check off-grid probe (promoted per independent review, CH7)
+# ---------------------------------------------------------------------------
+
+
+def test_random_off_grid_points_are_deterministic_and_strictly_off_grid():
+    """Same seed material must give the same points (reproducibility),
+    and no point may land exactly on a declared grid coordinate (that
+    would make it a grid point, not an off-grid probe)."""
+    points_a = remediator_check.random_off_grid_points(50, "fixed-seed-material")
+    points_b = remediator_check.random_off_grid_points(50, "fixed-seed-material")
+    assert points_a == points_b
+    for p in points_a:
+        assert p["qty"] not in remediator_check.QTY_GRID
+        assert p["corrupted_unit_cost"] not in remediator_check.CORRUPTED_COST_GRID
+        assert p["governed_unit_cost"] not in remediator_check.GOVERNED_COST_GRID
+
+
+def test_random_off_grid_points_differ_across_seed_material():
+    points_a = remediator_check.random_off_grid_points(20, "seed-one")
+    points_b = remediator_check.random_off_grid_points(20, "seed-two")
+    assert points_a != points_b
+
+
+def test_off_grid_probe_reports_a_non_confluent_count():
+    """This artifact's remediators are already known non-confluent on the
+    declared grid (86/243) -- the off-grid probe is expected to also find
+    non-confluent points, strengthening CH7 per the independent review's
+    own finding (review/REVIEW.md: 144/200 HEAD-derived off-grid points
+    non-confluent)."""
+    points = remediator_check.random_off_grid_points(200, remediator_check.head_sha())
+    probe = remediator_check._off_grid_probe(points)
+    assert probe["n_probes"] == 200
+    assert probe["non_confluent_count"] > 0
+    assert probe["confluent_count"] + probe["non_confluent_count"] == 200
+
+
+def test_remediator_check_run_includes_off_grid_probe_block():
+    result = remediator_check.run()
+    off_grid = result["off_grid_probe"]
+    assert off_grid["n_probes"] == remediator_check.N_OFF_GRID_PROBES
+    assert "head_sha" in off_grid
+    assert off_grid["non_confluent_count"] >= 0

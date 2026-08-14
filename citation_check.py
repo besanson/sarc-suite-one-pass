@@ -28,7 +28,12 @@ counted, not invented -- the count is one of the numbers Phase 6 prints
 in the human release checklist.
 
 Every citation-shaped token (an arXiv ID or a DOI) appearing in a paper
-draft must match an entry's arxiv_id/doi here.
+draft must match an entry's arxiv_id/doi here. Whitelist entries that
+have neither (some venues -- e.g. pre-2010 USENIX proceedings -- never
+had a DOI assigned) are instead checked by exact url presence: the
+entry's own url must appear verbatim in the paper text, so a citation
+without a DOI/arXiv id still gets an automated presence check rather
+than only a one-time human verification during research.
 
 SEED = 26313 (not applicable -- this is a static text check)
 """
@@ -43,6 +48,10 @@ CITATIONS_PATH = "verified-citations.json"
 
 ARXIV_PATTERN = re.compile(r"arXiv[:\s]+(\d{4}\.\d{5})", re.IGNORECASE)
 DOI_PATTERN = re.compile(r"\bdoi[:\s]+(10\.\d{4,9}/[^\s,)\]]+)", re.IGNORECASE)
+# Raw citation URLs (e.g. a pre-DOI-era paper cited by url only): matches
+# a bare http(s) link, trimming common trailing punctuation a sentence
+# might leave attached (closing paren, period, comma).
+URL_PATTERN = re.compile(r"https?://[^\s)\]]+")
 CITE_PLACEHOLDER_PATTERN = re.compile(r"\[CITE[-:][^\]]*\]")
 
 
@@ -71,21 +80,34 @@ def check(paper_path: str, whitelist_path: str = CITATIONS_PATH) -> Dict[str, An
     whitelist = load_whitelist(whitelist_path)
     allowed_arxiv = {c["arxiv_id"] for c in whitelist["citations"] if "arxiv_id" in c}
     allowed_doi = {c["doi"] for c in whitelist["citations"] if "doi" in c}
+    allowed_urls = {c["url"] for c in whitelist["citations"] if "url" in c}
 
     found_arxiv = set(ARXIV_PATTERN.findall(text))
     found_doi = {m.rstrip(".") for m in DOI_PATTERN.findall(text)}
+    found_urls = {m.rstrip(".,;") for m in URL_PATTERN.findall(text)}
     unverified_arxiv = sorted(found_arxiv - allowed_arxiv)
     unverified_doi = sorted(found_doi - allowed_doi)
+    # A found url is verified if it exactly matches a whitelisted url, OR
+    # is itself the doi.org/arxiv.org resolver form of an already-allowed
+    # doi/arxiv_id (both forms of the same citation legitimately appear).
+    unverified_urls = sorted(
+        u for u in found_urls
+        if u not in allowed_urls
+        and not any(doi in u for doi in allowed_doi)
+        and not any(aid in u for aid in allowed_arxiv)
+    )
     placeholder_count = len(CITE_PLACEHOLDER_PATTERN.findall(text))
 
     return {
         "paper_path": paper_path,
         "found_arxiv_ids": sorted(found_arxiv),
         "found_dois": sorted(found_doi),
+        "found_urls": sorted(found_urls),
         "unverified_arxiv_ids": unverified_arxiv,
         "unverified_dois": unverified_doi,
+        "unverified_urls": unverified_urls,
         "cite_needed_placeholder_count": placeholder_count,
-        "clean": not unverified_arxiv and not unverified_doi,
+        "clean": not unverified_arxiv and not unverified_doi and not unverified_urls,
     }
 
 

@@ -20,7 +20,9 @@ SEED = 26313
 """
 from __future__ import annotations
 
-from sweep import load_seeds, mean_ci95
+import scipy.stats
+
+from sweep import T_CRIT_DF29, load_seeds, mean_ci95
 
 
 def test_load_seeds_matches_registered_count_and_first_seed():
@@ -66,3 +68,12 @@ def test_mean_ci95_wider_spread_gives_wider_interval():
     tight_width = tight["ci95_high"] - tight["ci95_low"]
     wide_width = wide["ci95_high"] - wide["ci95_low"]
     assert wide_width > tight_width
+
+
+def test_t_crit_df29_matches_scipy_exactly():
+    """Fixed per independent review finding F6: t_crit is computed at
+    runtime via scipy.stats.t.ppf rather than a rounded hardcoded
+    constant (the prior 2.045230 diverged from the exact value by up to
+    3.77e-6 in some CI endpoints -- review/REVIEW.md)."""
+    assert T_CRIT_DF29 == scipy.stats.t.ppf(0.975, 29)
+    assert isinstance(T_CRIT_DF29, float)  # JSON-serializable, not np.float64

@@ -36,6 +36,65 @@
       "first_author": "Daqing Chen",
       "year": 2015,
       "verified_via": "WebFetch of https://archive.ics.uci.edu/dataset/352/online+retail, 2026-08-13"
+    },
+    {
+      "id": "nowak-veto-thresholds",
+      "doi": "10.1016/j.ejor.2003.06.008",
+      "url": "https://doi.org/10.1016/j.ejor.2003.06.008",
+      "title": "Preference and veto thresholds in multicriteria analysis based on stochastic dominance",
+      "first_author": "Maciej Nowak",
+      "year": 2004,
+      "topic": "non-compensatory and veto rules in multi-criteria decision analysis (Section 10, related work)",
+      "verified_via": "WebFetch of https://api.crossref.org/works/10.1016/j.ejor.2003.06.008, 2026-08-14"
+    },
+    {
+      "id": "schneider-enforceable-policies",
+      "doi": "10.1145/353323.353382",
+      "url": "https://doi.org/10.1145/353323.353382",
+      "title": "Enforceable security policies",
+      "first_author": "Fred B. Schneider",
+      "year": 2000,
+      "topic": "runtime verification and enforcement monitors (Section 10, related work)",
+      "verified_via": "WebFetch of https://api.crossref.org/works/10.1145/353323.353382, 2026-08-14"
+    },
+    {
+      "id": "llamafirewall",
+      "arxiv_id": "2505.03574",
+      "url": "https://arxiv.org/abs/2505.03574",
+      "title": "LlamaFirewall: An open source guardrail system for building secure AI agents",
+      "first_author": "Sahana Chennabasappa",
+      "year": 2025,
+      "topic": "guardrail and policy-engine frameworks for LLM agents; monitoring versus pre-action placement (Section 10, related work)",
+      "verified_via": "WebFetch of https://arxiv.org/abs/2505.03574, 2026-08-14"
+    },
+    {
+      "id": "clark-wilson-1987",
+      "doi": "10.1109/SP.1987.10001",
+      "url": "https://doi.org/10.1109/SP.1987.10001",
+      "title": "A Comparison of Commercial and Military Computer Security Policies",
+      "first_author": "David D. Clark",
+      "year": 1987,
+      "topic": "separation of duties and multi-party authorisation (Section 10, related work)",
+      "verified_via": "WebFetch of https://api.crossref.org/works/10.1109/SP.1987.10001, 2026-08-14"
+    },
+    {
+      "id": "agent-contracts",
+      "arxiv_id": "2601.08815",
+      "url": "https://arxiv.org/abs/2601.08815",
+      "title": "Agent Contracts: A Formal Framework for Resource-Bounded Autonomous AI Systems",
+      "first_author": "Qing Ye",
+      "year": 2026,
+      "topic": "budget governors for autonomous systems (Section 10, related work)",
+      "verified_via": "WebFetch of https://arxiv.org/abs/2601.08815, 2026-08-14"
+    },
+    {
+      "id": "perspectives-tofu",
+      "url": "https://www.usenix.org/legacy/event/usenix08/tech/full_papers/wendlandt/wendlandt.pdf",
+      "title": "Perspectives: Improving SSH-style Host Authentication with Multi-path Network Probing",
+      "first_author": "Dan Wendlandt",
+      "year": 2008,
+      "topic": "cache/buffer poisoning and trust-on-first-use vulnerabilities in adjacent systems (Section 10, related work); no DOI/arXiv id exists for this pre-2010 USENIX paper, verified by url only",
+      "verified_via": "WebFetch of https://ptolemy.berkeley.edu/projects/truststc/pubs/388.html, 2026-08-14 (usenix.org itself returned 403 to WebFetch)"
     }
   ]
 }

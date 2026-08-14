@@ -67,7 +67,7 @@ echo "Installing engines (editable) + toolchain..."
 pip install -q -e "$PARENT_DIR/dqSarc[gate]"
 pip install -q -e "$PARENT_DIR/sarc-governance"
 pip install -q -e "$PARENT_DIR/Greensarc"
-pip install -q pytest hypothesis mutmut jsonschema
+pip install -q pytest hypothesis mutmut jsonschema "scipy==1.17.1"
 
 echo
 echo "Bootstrap complete."

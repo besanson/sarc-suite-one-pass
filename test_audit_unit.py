@@ -25,7 +25,8 @@ from __future__ import annotations
 from composition import (
     ActionContext,
     CompositionEngine,
-    _audit_clean_evidence_record,
+    _buffer_write_eid,
+    _dq_buffer_key,
     _maybe_downroute,
     build_green_engines,
     load_sarc_spec,
@@ -59,33 +60,22 @@ def _ctx(qty=5.0, cost=TRUE_COST, role="agent-replenish"):
     )
 
 
-# ---------------------------------------------------------------------------
-# _audit_clean_evidence_record: the helper extracted from audit_executed
-# so its unit_cost recomputation can be tested directly.
-# ---------------------------------------------------------------------------
-
-
-def test_audit_clean_evidence_record_recovers_unit_cost_via_division():
-    ctx = _ctx(qty=5.0, cost=12.5)  # order_value = 62.5
-    record = _audit_clean_evidence_record(ctx)
-    assert record.payload["unit_cost"] == 12.5  # 62.5 / 5.0, NOT 62.5 * 5.0
-    assert record.payload["sku"] == SKU
-    assert record.payload["currency"] == "GBP"
-    assert record.record_id == f"{SKU}-audit"
-
-
-def test_audit_clean_evidence_record_zero_qty_falls_back_to_zero_cost():
-    ctx = _ctx(qty=0.0, cost=TRUE_COST)
-    record = _audit_clean_evidence_record(ctx)
-    assert record.payload["unit_cost"] == 0.0
-
-
-def test_audit_clean_evidence_record_is_structurally_clean():
-    ctx = _ctx()
-    record = _audit_clean_evidence_record(ctx)
-    assert record.metadata.source == "governed_buffer"
-    assert record.metadata.age_days == 0
-    assert record.metadata.lineage == ("governed_buffer:SKU",)
+def _clean_evidence(ctx):
+    """A well-formed evidence record matching ctx's own numbers -- used
+    by the audit_executed tests below that exercise cap/budget/role
+    violations (not evidence content itself), so any clean, schema-valid
+    record does the job. Independent review finding F4: composition.py's
+    audit_executed itself no longer builds this kind of record internally
+    (see runner.py's exec_evidence threading) -- this is a TEST fixture
+    only."""
+    unit_cost = ctx.order_value / ctx.proposed_qty if ctx.proposed_qty else 0.0
+    return [
+        EvidenceRecord(
+            record_id=f"{ctx.sku}-audit-fixture",
+            payload={"sku": ctx.sku, "unit_cost": unit_cost, "currency": "GBP"},
+            metadata=RecordMetadata(source="erp.pricing", as_of_day=ctx.day, retrieved_day=ctx.day, version=2, lineage=("supplier_feed:SKU",)),
+        )
+    ]
 
 
 # ---------------------------------------------------------------------------
@@ -98,29 +88,47 @@ def test_audit_clean_evidence_record_is_structurally_clean():
 def test_audit_executed_detects_over_cap_violation():
     engine = _engine()
     exec_ctx = _ctx(qty=100.0, cost=TRUE_COST)  # order_value = 1000.0
-    violated = engine.audit_executed(exec_ctx, ("agent-replenish",), 10.0, LOOSE, LOOSE)
+    violated = engine.audit_executed(exec_ctx, _clean_evidence(exec_ctx), ("agent-replenish",), 10.0, LOOSE, LOOSE)
     assert violated is True
 
 
 def test_audit_executed_detects_over_budget_violation():
     engine = _engine()
     exec_ctx = _ctx(qty=100.0, cost=TRUE_COST)
-    violated = engine.audit_executed(exec_ctx, ("agent-replenish",), LOOSE, 0.001, LOOSE)
+    violated = engine.audit_executed(exec_ctx, _clean_evidence(exec_ctx), ("agent-replenish",), LOOSE, 0.001, LOOSE)
     assert violated is True
 
 
 def test_audit_executed_detects_unauthorised_role_violation():
     engine = _engine()
     exec_ctx = _ctx(role="agent-intruder")
-    violated = engine.audit_executed(exec_ctx, ("agent-replenish",), LOOSE, LOOSE, LOOSE)
+    violated = engine.audit_executed(exec_ctx, _clean_evidence(exec_ctx), ("agent-replenish",), LOOSE, LOOSE, LOOSE)
     assert violated is True
 
 
 def test_audit_executed_clean_on_compliant_decision():
     engine = _engine()
     exec_ctx = _ctx()
-    violated = engine.audit_executed(exec_ctx, ("agent-replenish",), LOOSE, LOOSE, LOOSE)
+    violated = engine.audit_executed(exec_ctx, _clean_evidence(exec_ctx), ("agent-replenish",), LOOSE, LOOSE, LOOSE)
     assert violated is False
+
+
+def test_audit_executed_detects_violation_in_the_exact_evidence_itself():
+    """Independent review finding F4: the audit must catch a violation
+    that lives in the EXACT executed evidence, not just in ctx/budget/role
+    -- a synthetic reconstruction from ctx's own numbers could never
+    exercise this path, because it always looks clean by construction."""
+    engine = _engine()
+    exec_ctx = _ctx()
+    dirty_evidence = [
+        EvidenceRecord(
+            record_id=f"{SKU}-audit-fixture",
+            payload={"sku": SKU, "unit_cost": TRUE_COST},  # missing "currency"
+            metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
+        )
+    ]
+    violated = engine.audit_executed(exec_ctx, dirty_evidence, ("agent-replenish",), LOOSE, LOOSE, LOOSE)
+    assert violated is True
 
 
 # ---------------------------------------------------------------------------
@@ -136,7 +144,7 @@ def test_remediate_regate_budget_state_keys():
         payload={"sku": SKU, "unit_cost": TRUE_COST, "currency": "GBP"},
         metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
     )
-    line, _ = engine.remediate_regate(0, ctx, [record], ("agent-replenish",), LOOSE, 123.0, 456.0)
+    line, _, _ = engine.remediate_regate(0, ctx, [record], ("agent-replenish",), LOOSE, 123.0, 456.0)
     budget_state = line["gates"]["green"]["budget_state"]
     assert budget_state["daily_cost_budget"] == 123.0
     assert budget_state["daily_carbon_budget"] == 456.0
@@ -150,7 +158,7 @@ def test_single_pass_budget_state_keys():
         payload={"sku": SKU, "unit_cost": TRUE_COST, "currency": "GBP"},
         metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
     )
-    line, _ = engine.single_pass(0, ctx, [record], ("agent-replenish",), LOOSE, 123.0, 456.0)
+    line, _, _ = engine.single_pass(0, ctx, [record], ("agent-replenish",), LOOSE, 123.0, 456.0)
     budget_state = line["gates"]["green"]["budget_state"]
     assert budget_state["daily_cost_budget"] == 123.0
     assert budget_state["daily_carbon_budget"] == 456.0
@@ -170,7 +178,7 @@ def test_downroute_triggers_under_w2_tight_budget():
         metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
     )
     tight_budget = 360.0  # feasible qty = 360 / (10 * 1.2) = 30
-    line, exec_ctx = engine.remediate_regate(
+    line, exec_ctx, _ = engine.remediate_regate(
         0, ctx, [record], ("agent-replenish",), LOOSE, tight_budget, LOOSE, workflow="W2",
     )
     assert line["remediation"]["downroute"] == {
@@ -190,7 +198,7 @@ def test_downroute_never_triggers_under_w1_even_with_same_tight_budget():
         payload={"sku": SKU, "unit_cost": TRUE_COST, "currency": "GBP"},
         metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
     )
-    line, _ = engine.remediate_regate(
+    line, _, _ = engine.remediate_regate(
         0, ctx, [record], ("agent-replenish",), LOOSE, 360.0, LOOSE, workflow="W1",
     )
     assert line["remediation"]["downroute"] is None
@@ -207,7 +215,7 @@ def test_single_pass_w2_downroute_reflected_in_executed_action_not_verdict():
         metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
     )
     tight_budget = 360.0
-    line, exec_ctx = engine.single_pass(
+    line, exec_ctx, _ = engine.single_pass(
         0, ctx, [record], ("agent-replenish",), LOOSE, tight_budget, LOOSE, workflow="W2",
     )
     # single_pass judges the ORIGINAL (pre-downroute) action: green sees
@@ -281,10 +289,101 @@ def test_w2_evidence_substitution_and_downroute_can_both_trigger_in_order():
         metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY - 60, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
     )
     tight_budget = 360.0
-    line, exec_ctx = engine.remediate_regate(
+    line, exec_ctx, _ = engine.remediate_regate(
         0, ctx, [stale], ("agent-replenish",), LOOSE, tight_budget, LOOSE, workflow="W2",
     )
     assert line["remediation"]["evidence_substitution"] is not None
     assert line["remediation"]["downroute"] is not None
     assert line["remediation"]["order_applied"] == ["evidence_substitution", "downroute"]
     assert line["final"]["admitted"] is True
+
+
+# ---------------------------------------------------------------------------
+# Evidence Set provenance (independent review finding F2, schema v2):
+# pre_evidence_ids and substitute_source in remediation.evidence_substitution.
+# ---------------------------------------------------------------------------
+
+
+def test_buffer_write_eid_is_content_addressed():
+    a = _buffer_write_eid("SKU1", 10.0)
+    b = _buffer_write_eid("SKU1", 10.0)
+    assert a == b  # identical (key, value) -> identical id
+
+    different_value = _buffer_write_eid("SKU1", 10.5)
+    assert different_value != a
+
+    different_key = _buffer_write_eid("SKU2", 10.0)
+    assert different_key != a
+
+
+def test_dq_buffer_key_matches_evidence_payload_sku():
+    record = EvidenceRecord(
+        record_id=f"{SKU}-primary",
+        payload={"sku": SKU, "unit_cost": TRUE_COST, "currency": "GBP"},
+        metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
+    )
+    assert _dq_buffer_key([record]) == SKU
+
+
+def test_remediate_regate_evidence_substitution_carries_provenance_fields():
+    engine = _engine()
+    ctx = _ctx()
+    stale = EvidenceRecord(
+        record_id=f"{SKU}-primary",
+        payload={"sku": SKU, "unit_cost": TRUE_COST * 0.7, "currency": "GBP"},
+        metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY - 60, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
+    )
+    line, _, _ = engine.remediate_regate(0, ctx, [stale], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
+    sub = line["remediation"]["evidence_substitution"]
+    assert sub is not None
+    assert sub["pre_evidence_ids"] == [stale.evidence_id()]
+    assert sub["substitute_source"]["buffer_key"] == SKU
+    assert sub["substitute_source"]["buffer_write_eid"] == _buffer_write_eid(SKU, sub["substituted_value"])
+    assert line["schema_version"] == 2
+
+
+def test_single_pass_evidence_substitution_carries_provenance_fields():
+    engine = _engine()
+    ctx = _ctx()
+    stale = EvidenceRecord(
+        record_id=f"{SKU}-primary",
+        payload={"sku": SKU, "unit_cost": TRUE_COST * 0.7, "currency": "GBP"},
+        metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY - 60, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
+    )
+    line, _, _ = engine.single_pass(0, ctx, [stale], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
+    sub = line["remediation"]["evidence_substitution"]
+    assert sub is not None
+    assert sub["pre_evidence_ids"] == [stale.evidence_id()]
+    assert sub["substitute_source"]["buffer_key"] == SKU
+    assert sub["substitute_source"]["buffer_write_eid"] == _buffer_write_eid(SKU, sub["substituted_value"])
+    assert line["schema_version"] == 2
+
+
+def test_no_substitution_means_no_provenance_fields_needed():
+    engine = _engine()
+    ctx = _ctx()
+    clean = EvidenceRecord(
+        record_id=f"{SKU}-primary",
+        payload={"sku": SKU, "unit_cost": TRUE_COST, "currency": "GBP"},
+        metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
+    )
+    line, _, _ = engine.remediate_regate(0, ctx, [clean], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
+    assert line["remediation"]["evidence_substitution"] is None
+    assert line["schema_version"] == 2
+
+
+def test_provenance_fields_validate_against_schema_v2():
+    import json
+
+    import jsonschema
+
+    schema = json.loads(open("schemas/evidence_line.schema.json").read())
+    engine = _engine()
+    ctx = _ctx()
+    stale = EvidenceRecord(
+        record_id=f"{SKU}-primary",
+        payload={"sku": SKU, "unit_cost": TRUE_COST * 0.7, "currency": "GBP"},
+        metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY - 60, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
+    )
+    line, _, _ = engine.remediate_regate(0, ctx, [stale], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
+    jsonschema.validate(line, schema)

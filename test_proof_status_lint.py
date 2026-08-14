@@ -78,7 +78,7 @@ def test_every_proposition_lemma_theorem_heading_has_a_following_tag():
 
     text = Path("appendix-a-proofs.md").read_text()
     claim_headings = re.findall(
-        r"^## (Proposition \d+|Lemma \d+|Theorem \d+|CH\d+)", text, re.MULTILINE
+        r"^## (Proposition \d+|Lemma \d+|Theorem \d+|Corollary \d+|CH\d+)", text, re.MULTILINE
     )
     tags = proof_status_lint.find_tags(text)
     assert len(claim_headings) == len(tags), (claim_headings, tags)
