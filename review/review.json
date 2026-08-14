@@ -1,0 +1,311 @@
+{
+  "reviewer_identity": {
+    "reviewer": "automated agent",
+    "model_name": "Perplexity Computer",
+    "date": "2026-08-13",
+    "protocol_version": "sarc-suite-one-pass attached protocol",
+    "repository_head": "2009890eded25c0dd30df2e4f541073c3cfd9ef5"
+  },
+  "verdicts": [
+    {
+      "claim": "C1",
+      "claim_text": "Compensatory aggregation violates veto",
+      "evidence_checked": "Appendix Proposition 1; compensation checker; analytical counterexample",
+      "verdict": "REFUTED",
+      "note": "The declared discrete grid passes, but the universal proposition is false: f(s)=s1+s2+s3, tau=2.5 admits (1,1,1) while every vetoed profile scores at most 2.0."
+    },
+    {
+      "claim": "C2",
+      "claim_text": "Join composition is order-invariant absent remediation",
+      "evidence_checked": "lattice checker rerun: 17,151 exhaustive checks",
+      "verdict": "CONFIRMED",
+      "note": "The real Response join passed idempotence, commutativity, associativity, monotone hardening, duplication invariance, and empty-join checks."
+    },
+    {
+      "claim": "C3",
+      "claim_text": "Single-pass is unsound under substitution",
+      "evidence_checked": "S4 construction; metrics; 30-seed sweep; exact replay",
+      "verdict": "CONFIRMED-WITH-CAVEAT",
+      "note": "The existential construction reproduces for the implemented gates; it is not a universal result for arbitrary remediators."
+    },
+    {
+      "claim": "C4",
+      "claim_text": "Remediate-regate is sound and terminates after one remediation per operator",
+      "evidence_checked": "composition path; audit tests; 30-seed output",
+      "verdict": "CONFIRMED-WITH-CAVEAT",
+      "note": "Phase II evaluates the remediated action, but termination depends on an external DQ predicate contract and the iff corollary is insufficiently proved."
+    },
+    {
+      "claim": "C5",
+      "claim_text": "Unified Evidence Set preserves cross-gate lineage",
+      "evidence_checked": "evidence-line schema/output; substituted-line inspection",
+      "verdict": "REFUTED",
+      "note": "A hash commitment and numeric substitute do not reconstruct original evidence bytes or buffer-write provenance from the Evidence Set alone."
+    },
+    {
+      "claim": "C6",
+      "claim_text": "No manufactured coverage",
+      "evidence_checked": "metrics._ch4_matrix; 30-seed sweep",
+      "verdict": "CONFIRMED-WITH-CAVEAT",
+      "note": "The equality holds but is definitional because composition detection is coded as the union of member detector flags."
+    },
+    {
+      "claim": "C7",
+      "claim_text": "Zero false holds on clean, authorised, in-budget decisions",
+      "evidence_checked": "CH3 metrics and all 30 seed artifacts",
+      "verdict": "CONFIRMED-WITH-CAVEAT",
+      "note": "The result is zero for the defined synthetic, label-derived population; it is not a general selectivity proof."
+    },
+    {
+      "claim": "C8",
+      "claim_text": "Engines compose unmodified",
+      "evidence_checked": "fresh make bootstrap at engines.lock SHAs; clean engine clones; make test/suite/paper",
+      "verdict": "CONFIRMED",
+      "note": "Fresh bootstrap and all required builds succeeded at the pinned SHAs; engine clones were clean."
+    },
+    {
+      "claim": "C9",
+      "claim_text": "Full reproducibility",
+      "evidence_checked": "fresh bootstrap; make test/suite/paper; three byte-exact seed replays; provenance",
+      "verdict": "CONFIRMED-WITH-CAVEAT",
+      "note": "The build and selected artifacts reproduce. The paper itself retains DOI TODO/release provenance work, so the broader release claim remains qualified."
+    },
+    {
+      "claim": "CH1",
+      "claim_text": "Veto soundness under remediate-regate",
+      "evidence_checked": "30-seed sweep; post-hoc audit; CH1 metrics",
+      "verdict": "CONFIRMED-WITH-CAVEAT",
+      "note": "Zero audited violations across 30 seeds, but the DQ audit constructs synthetic clean evidence rather than re-evaluating exact executed evidence."
+    },
+    {
+      "claim": "CH2",
+      "claim_text": "Single-pass unsoundness is real",
+      "evidence_checked": "S4; 30 seed artifacts; recomputed statistics",
+      "verdict": "CONFIRMED",
+      "note": "Every seed has registered divergence and at least one single-pass-admits-then-violates observation."
+    },
+    {
+      "claim": "CH3",
+      "claim_text": "Deterministic selectivity",
+      "evidence_checked": "CH3 metrics; 30 seed artifacts",
+      "verdict": "CONFIRMED-WITH-CAVEAT",
+      "note": "False-hold rate is zero in the declared simulator population only."
+    },
+    {
+      "claim": "CH4",
+      "claim_text": "Coverage honesty",
+      "evidence_checked": "CH4 matrix; 30-seed summary",
+      "verdict": "CONFIRMED-WITH-CAVEAT",
+      "note": "The union readout is reproduced but is constructed directly from member-gate detection flags."
+    },
+    {
+      "claim": "CH5",
+      "claim_text": "Compensation unsafe on the declared discrete grid",
+      "evidence_checked": "compensation checker: 125 profiles \u00d7 264 cells",
+      "verdict": "CONFIRMED",
+      "note": "The exhaustive declared encoding reports 98 held profiles and a maximum 48 compensatory admissions at one grid cell."
+    },
+    {
+      "claim": "CH6",
+      "claim_text": "Buffer contamination is real and mitigable",
+      "evidence_checked": "contamination metrics; 30-seed W1/W2 sweep",
+      "verdict": "CONFIRMED-WITH-CAVEAT",
+      "note": "W1 support reproduces; W2 fails the every-seed criterion and is transparently reported as not supported."
+    },
+    {
+      "claim": "CH7",
+      "claim_text": "Two remediators are order-dependent",
+      "evidence_checked": "remediator checker; actual remediation replay; off-grid probe",
+      "verdict": "CONFIRMED",
+      "note": "The checker reports 86 non-confluent cases of 243; off-grid HEAD-derived probe found 144 of 200 disagreements."
+    },
+    {
+      "claim": "CH8",
+      "claim_text": "Robustness across 30 seeds and workflows",
+      "evidence_checked": "sweep aggregation and 30 seed artifacts",
+      "verdict": "CONFIRMED",
+      "note": "The registered robustness readout reproduces: CH1\u2013CH5 true and CH6 false under its all-seeds/all-workflows condition."
+    }
+  ],
+  "proof_classifications": [
+    {
+      "statement": "Proposition 3 (Appendix A, lines 112\u2013158)",
+      "classification": "checked-scope-only",
+      "largest_certified_scope": "Conditional algebraic construction with a substituting DQ decision and cap strictly between pre/post values; implemented S4 across 30 registered seeds.",
+      "reason": "Valid existential construction, but no executable checker covers arbitrary continuous economics or arbitrary gate implementations."
+    },
+    {
+      "statement": "Lemma 1 (Appendix A, lines 162\u2013195)",
+      "classification": "checked-scope-only",
+      "largest_certified_scope": "Current one-shot composition branch and exercised DQ-library behavior in scenarios/tests.",
+      "reason": "The argument depends on an external DQ predicate contract; the repository does not prove every possible governed record cannot retrigger substitution."
+    },
+    {
+      "statement": "Theorem 1 and Corollary 1 (Appendix A, lines 199\u2013233)",
+      "classification": "insufficient",
+      "largest_certified_scope": "Phase-II re-evaluation and restrictive join are structurally sufficient for current code, conditional on gate semantics.",
+      "reason": "The iff corollary\u2019s necessity direction does not follow: a non-invariant gate can vary only on actions independently held and never executed."
+    },
+    {
+      "statement": "Proposition 4 (Appendix A, lines 237\u2013268)",
+      "classification": "error-found",
+      "largest_certified_scope": "Evidence-line JSON shape and presence of post-Phase-II evidence IDs.",
+      "reason": "Content hashes cannot reconstruct bytes absent a separate record store, and output omits original evidence and substitute provenance."
+    }
+  ],
+  "findings": [
+    {
+      "id": "F1",
+      "severity": 1,
+      "title": "Proposition 1/C1 is false as stated",
+      "impact": "The paper overclaims a universal continuous-domain veto theorem beyond the finite grid actually checked.",
+      "reproduction": "Set f(s)=s1+s2+s3 and tau=2.5 on [0,1]^3. f(1,1,1)=3 is admissible; with any coordinate 0, f\u22642, so no vetoed profile is admitted.",
+      "follow_up": "Retract or weaken the universal proposition, or add a condition ensuring a vetoed profile can meet the threshold."
+    },
+    {
+      "id": "F2",
+      "severity": 1,
+      "title": "Proposition 4/C5 cannot reconstruct records or substitution provenance from Evidence Set alone",
+      "impact": "The lineage claim is materially stronger than the emitted evidence supports.",
+      "reproduction": "Inspect any substituted remediate-regate line: it contains a post-remediation evidence_id and numeric substituted_value, but no original bytes/metadata or buffer-write provenance. Hashes are not reversible.",
+      "follow_up": "Store immutable content/provenance objects or durable resolvable references for original and remediated evidence, or weaken the claim to identity commitment."
+    },
+    {
+      "id": "F3",
+      "severity": 2,
+      "title": "Theorem 1 iff corollary has an unproved and generally false necessity direction",
+      "impact": "The paper treats gate invariance as necessary for single-pass soundness without an executability/reachability condition.",
+      "reproduction": "Let authority vary under rho only for actions independently held by DQ. Those actions never execute, so single-pass can remain sound despite non-invariance.",
+      "follow_up": "State only sufficiency, or add and prove explicit universal reachability/executability assumptions."
+    },
+    {
+      "id": "F4",
+      "severity": 2,
+      "title": "CH1 post-hoc audit does not re-evaluate exact executed evidence",
+      "impact": "The zero-violation claim is weaker than its DQ wording suggests.",
+      "reproduction": "composition._audit_clean_evidence_record rebuilds a clean governed-buffer record from action values; audit_executed uses that synthetic record rather than the execution evidence/metadata.",
+      "follow_up": "Persist and audit the exact Phase-II evidence or a lossless canonical representation."
+    },
+    {
+      "id": "F5",
+      "severity": 2,
+      "title": "Six unresolved [CITE] placeholders remain in the populated paper",
+      "impact": "The paper is not bibliographically complete for release.",
+      "reproduction": "Count [CITE tokens in the populated paper: 6. The local release output reports the same count.",
+      "follow_up": "Replace placeholders with verified citations before release."
+    },
+    {
+      "id": "F6",
+      "severity": 3,
+      "title": "Exact scipy t-intervals exceed the protocol 1e-6 tolerance for two endpoint pairs",
+      "impact": "Displayed paper rounding is unaffected, but the stated exact-tolerance audit criterion is not met.",
+      "reproduction": "Recompute with scipy t(df=29): CH2 divergent endpoints differ by up to 1.085566964e-6 and CH5 max-violations endpoints by up to 3.767356247e-6 because sweep.py uses rounded T_CRIT_DF29=2.045230. All other intervals are within tolerance.",
+      "follow_up": "Compute the critical value from scipy (or relax/document the tolerance for the rounded constant)."
+    }
+  ],
+  "environment_and_provenance": {
+    "origin_prereg_v1_verified_remotely": true,
+    "prereg_tree_results_free": true,
+    "commit_order_verified": "P0, preregistration, P2 hardening, P3 results, P4 formal, P5 paper",
+    "fresh_make_bootstrap": "succeeded at engines.lock pinned SHAs",
+    "make_test": {
+      "exit_code": 0,
+      "passed": 135,
+      "failed": 0,
+      "skipped": 0
+    },
+    "make_suite_exit_code": 0,
+    "make_paper_exit_code": 0,
+    "engine_clones_clean": true,
+    "repository_tracked_state_clean": true,
+    "source_data_sha256_unchanged": true,
+    "schema_sample": {
+      "sample_size": 200,
+      "selection": "HEAD-derived",
+      "passed": true
+    },
+    "evidence_set_scan": {
+      "lines": 81312,
+      "ground_truth_leakage_hits": 0
+    },
+    "citations": {
+      "urls_refetched": 4,
+      "title_first_author_pairs_matched": 4,
+      "populated_paper_cite_placeholders": 6
+    }
+  },
+  "statistics_audit": {
+    "method": "Recomputed means and t intervals with df=29; scipy exact comparison applied.",
+    "three_seed_replays": [
+      {
+        "seed": 26313,
+        "wall_seconds": 10.328566951,
+        "sha256": "7c922b783c270fdbd0cbbfecb852cd4f6c706971063479709e5927dc2bdb5820",
+        "byte_exact": true
+      },
+      {
+        "seed": 84716818,
+        "wall_seconds": 9.882554574,
+        "sha256": "b263821a9ad5cef57d1b40f9e212f52b5629dd5db04ce304395f2acf848560b9",
+        "byte_exact": true
+      },
+      {
+        "seed": 1146288088,
+        "wall_seconds": 9.784135801,
+        "sha256": "1fd6963d22802c71a025c88ee887c53777e7175c81e5ea11c50db41cc77c7b46",
+        "byte_exact": true
+      }
+    ],
+    "ci_tolerance_findings": {
+      "within_1e6": "all except CH2 divergent CI endpoints and CH5 max-violations CI endpoints",
+      "ch2_divergent_max_delta": 1.085566964e-06,
+      "ch5_max_violations_max_delta": 3.767356247e-06,
+      "cause": "sweep.py hard-codes rounded T_CRIT_DF29=2.045230",
+      "displayed_paper_rounding_affected": false
+    },
+    "mutation_sample": {
+      "mutants": 150,
+      "killed": 127,
+      "survived": 23,
+      "kill_rate": 0.8466666666666667,
+      "wilson_95_percent": [
+        0.7804201682766676,
+        0.8956004622947993
+      ],
+      "committed_quality_rate": 0.8804,
+      "committed_rate_within_interval": true
+    },
+    "additional_probes": [
+      {
+        "name": "General compensation counterexample",
+        "outcome": "C1 counterexample found."
+      },
+      {
+        "name": "HEAD-derived off-grid nonconfluence",
+        "outcome": "144 disagreements of 200 points."
+      },
+      {
+        "name": "HEAD-derived off-grid downroute feasibility",
+        "outcome": "0 violations of 200 points."
+      }
+    ]
+  },
+  "scores": [
+    {
+      "lens": "Research-artifact",
+      "score_out_of_10": 5.5,
+      "justification": "Strong preregistration, deterministic build, replay, and measurement mechanics are outweighed by two severity-1 theoretical/evidence overclaims; the paper cannot score highly until those claims are corrected."
+    },
+    {
+      "lens": "Software-engineering",
+      "score_out_of_10": 8.0,
+      "justification": "Bootstrap, tests, suite, paper generation, exact replays, integrity checks, schema validation, and mutation sampling are strong. Remaining deductions reflect the synthetic-evidence audit gap, t-critical precision issue, and unresolved citation placeholders."
+    }
+  ],
+  "disclosure_paragraph": "This artifact was independently replicated and adversarially reviewed by an automated agent following the published protocol in sarc-suite-agent-review.md; the full report and evidence are at <path/link>. Automated review complements and does not replace human peer review.",
+  "limitations": [
+    "This is an automated review, not human peer review.",
+    "The report distinguishes finite/model-specific confirmation from broader theoretical claims."
+  ],
+  "evidence_location": "review-out/evidence/"
+}
