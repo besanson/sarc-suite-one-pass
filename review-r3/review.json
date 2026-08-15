@@ -1,0 +1,214 @@
+{
+  "review_identity": {
+    "artifact": "sarc-suite-one-pass",
+    "review_type": "independent automated review",
+    "round": 3,
+    "closure_round": true,
+    "reviewer_model": "Perplexity Computer",
+    "date": "2026-08-15",
+    "head_sha": "5e5e00812acb1990535d1ede85195d9e5c03790b",
+    "protocol": "sarc-suite-agent-review-r3.md"
+  },
+  "closure_rule": "Severity-1 and severity-2 findings are fix obligations. Severity-3 and below are known issues for the repository issue list; they do not block release and do not trigger a further review round.",
+  "overall_disposition": "NOT RELEASE-READY: two severity-2 fix obligations remain.",
+  "provenance": {
+    "fresh_clone": true,
+    "source_repo_edited_by_reviewer": false,
+    "prereg_v1_commit": "31552b2ee6548787e766b0253498014eb0a5093c",
+    "prereg_tree_contains_results": false,
+    "round2_markdown_sha256": "411c05f0efe7676fee2acb3dfdb099163d383b54b7dd547bb93765b0226b6a94",
+    "round2_markdown_integrity": true,
+    "round2_json_sha256": "2b062e9d86b86eb58d4f7aa8a0762f47b95ec69ab329ac59546e00db78167c56",
+    "round2_json_integrity": true,
+    "source_data_sha256": "4f637bc36ba5cffb56c31cd2b8273a135f89cc65448b28929ee71e73ded8f1d9",
+    "pinned_engines": {
+      "dqSarc": "db6c396128a4df7fe12d13be163b1e7d32087177",
+      "governance": "74df5de29a305a76bf3cc97a185ece2f11b1b833",
+      "Green": "8482226b461ccbf91971f90ea6de42cd7a931e5c"
+    }
+  },
+  "response_audit": [
+    {
+      "id": "R2-F1",
+      "status": "RESOLVED",
+      "evidence": "The build graph is real: touching a checker input and running make paper regenerated all checker outputs and populated the paper from current values."
+    },
+    {
+      "id": "R2-F2",
+      "status": "RESOLVED",
+      "evidence": "The post-hoc CH7 probe is fixed at seed 26313, n=200, explicitly documented, and stable; direct replay yielded 150/200 non-confluent points and 200/200 downroute-feasible points."
+    },
+    {
+      "id": "R2-F3",
+      "status": "RESOLVED",
+      "evidence": "The previously unstable aggregate uses math.fsum; all recomputed sweep means and intervals matched at 1e-6 and formal outputs were byte-identical across two runs."
+    },
+    {
+      "id": "R2-F4",
+      "status": "RESOLVED",
+      "evidence": "Evidence schema v2 and empty-predicate behavior are documented; a HEAD-derived 200-line validation sample had zero errors."
+    },
+    {
+      "id": "R2-F5",
+      "status": "RESOLVED",
+      "evidence": "The required two-round disclosure is present verbatim in both Markdown and independently extracted PDF text."
+    },
+    {
+      "id": "R2-F6",
+      "status": "RESOLVED",
+      "evidence": "The durable buffer write log resolves all 3,478 substitutions, representing 1,684 unique event IDs, to exactly one event; there were no unresolved or multiply resolved IDs."
+    },
+    {
+      "id": "R2 follow-up regeneration commit",
+      "status": "REGRESSED",
+      "evidence": "Committed per-seed artifacts replay byte-exactly, but the three committed formal checker JSON files still identify 77bf676 rather than current HEAD 5e5e008. Fresh regeneration changes those tracked artifacts only by provenance stamps."
+    },
+    {
+      "id": "R2 CH1 reload follow-up",
+      "status": "RESOLVED",
+      "evidence": "The audit loads persisted Evidence Set lines rather than synthesizing clean in-memory DQ evidence."
+    }
+  ],
+  "verdicts": [
+    {"claim": "C1", "evidence_checked": "Corrected positive-weight linear lemma, tag scope, 17,151-point lattice checker, and 1,500 independent rational-weight cases", "verdict": "CONFIRMED", "note": "The prior universal statement and unsupported necessity corollary remain retracted; the corrected iff lemma survived all checks."},
+    {"claim": "C2", "evidence_checked": "Composition code, tests, and formal outputs", "verdict": "CONFIRMED", "note": "Single-pass remediation can invalidate an earlier gate decision."},
+    {"claim": "C3", "evidence_checked": "Remediate-and-regate construction and executable tests", "verdict": "CONFIRMED-WITH-CAVEAT", "note": "Confirmed for the implemented construction and stated domain, not as a universal result for arbitrary remediation systems."},
+    {"claim": "C4", "evidence_checked": "Termination lemma, proof taxonomy, persisted-line reload audit", "verdict": "CONFIRMED-WITH-CAVEAT", "note": "Termination holds under the explicitly stated one-remediation assumptions."},
+    {"claim": "C5", "evidence_checked": "81,312 Evidence Set lines and durable substitution log", "verdict": "CONFIRMED-WITH-CAVEAT", "note": "Full lineage is present and substitutions resolve to unique events; reconstruction of external original record bytes remains conditional on the referenced record store."},
+    {"claim": "C6", "evidence_checked": "Coverage definitions and paper wording", "verdict": "CONFIRMED-WITH-CAVEAT", "note": "The no-new-coverage statement is a definitional union result under the paper's model."},
+    {"claim": "C7", "evidence_checked": "Synthetic poisoning experiment, evidence scans, and mitigations", "verdict": "CONFIRMED-WITH-CAVEAT", "note": "Mechanism demonstration is supported; it is not a prevalence estimate."},
+    {"claim": "C8", "evidence_checked": "Evidence Set generation, schema, leakage scan, and statistics", "verdict": "CONFIRMED", "note": "One unified Evidence Set per action is emitted with documented schema and lineage."},
+    {"claim": "C9", "evidence_checked": "Fresh clone, pinned bootstrap, make all, formal reruns, seed replays, and arXiv fallback rebuild", "verdict": "REFUTED", "note": "Scientific computations replay, but current-HEAD formal artifacts have stale provenance and the documented Tectonic fallback cannot pass make arxiv."},
+    {"claim": "CH1", "evidence_checked": "Persisted-line reload path and 30-seed outputs", "verdict": "CONFIRMED", "note": "The round-two synthetic-audit defect is resolved."},
+    {"claim": "CH2", "evidence_checked": "Independent recomputation from per-seed artifacts", "verdict": "CONFIRMED", "note": "Reported statistics recompute exactly."},
+    {"claim": "CH3", "evidence_checked": "Per-seed artifacts and scope statements", "verdict": "CONFIRMED-WITH-CAVEAT", "note": "Supported for the preregistered workflows and implemented engines."},
+    {"claim": "CH4", "evidence_checked": "Per-seed artifacts and mechanism scope", "verdict": "CONFIRMED-WITH-CAVEAT", "note": "Supported as a mechanism demonstration, not a broad empirical prevalence claim."},
+    {"claim": "CH5", "evidence_checked": "125 x 264 exhaustive finite grid; maximum 48 violations", "verdict": "CONFIRMED", "note": "The finite-grid claim is exhaustive over its declared domain."},
+    {"claim": "CH6", "evidence_checked": "Both preregistered workflows and robustness outputs", "verdict": "CONFIRMED-WITH-CAVEAT", "note": "Supported for the daily workflow and not supported for the weekly workflow, as disclosed."},
+    {"claim": "CH7", "evidence_checked": "243-point grid, published counterexample, fixed 200-point probe, and independent 200-point probe", "verdict": "CONFIRMED", "note": "Non-confluence reproduced at 86/243 grid points, 150/200 fixed-seed points, and 140/200 independent points; downroute feasibility was 200/200 in both off-grid probes."},
+    {"claim": "CH8", "evidence_checked": "Thirty-seed robustness outputs", "verdict": "CONFIRMED", "note": "Robustness holds for CH1-CH5 and not CH6, matching the qualified claim."}
+  ],
+  "delta_from_round2": [
+    {"claim": "C1", "round2": "CONFIRMED-WITH-CAVEAT", "round3": "CONFIRMED", "reason": "Corrected theorem scope, taxonomy, and independent 1,500-case adversarial family all pass."},
+    {"claim": "C2", "round2": "CONFIRMED", "round3": "CONFIRMED", "reason": "No material change."},
+    {"claim": "C3", "round2": "CONFIRMED-WITH-CAVEAT", "round3": "CONFIRMED-WITH-CAVEAT", "reason": "Construction remains sound within its stated scope."},
+    {"claim": "C4", "round2": "CONFIRMED-WITH-CAVEAT", "round3": "CONFIRMED-WITH-CAVEAT", "reason": "Reload and proof-label defects are fixed; lemma assumptions remain a necessary scope caveat."},
+    {"claim": "C5", "round2": "CONFIRMED-WITH-CAVEAT", "round3": "CONFIRMED-WITH-CAVEAT", "reason": "Durable event resolution is fixed; external byte reconstruction remains conditional."},
+    {"claim": "C6", "round2": "CONFIRMED-WITH-CAVEAT", "round3": "CONFIRMED-WITH-CAVEAT", "reason": "No material change."},
+    {"claim": "C7", "round2": "CONFIRMED-WITH-CAVEAT", "round3": "CONFIRMED-WITH-CAVEAT", "reason": "No material change."},
+    {"claim": "C8", "round2": "CONFIRMED", "round3": "CONFIRMED", "reason": "No material change."},
+    {"claim": "C9", "round2": "REFUTED", "round3": "REFUTED", "reason": "Seed staleness is fixed, but current-HEAD checker provenance regressed and the documented arXiv fallback fails."},
+    {"claim": "CH1", "round2": "CONFIRMED-WITH-CAVEAT", "round3": "CONFIRMED", "reason": "Audit now reloads exact persisted evidence lines."},
+    {"claim": "CH2", "round2": "CONFIRMED", "round3": "CONFIRMED", "reason": "No material change."},
+    {"claim": "CH3", "round2": "CONFIRMED-WITH-CAVEAT", "round3": "CONFIRMED-WITH-CAVEAT", "reason": "No material change."},
+    {"claim": "CH4", "round2": "CONFIRMED-WITH-CAVEAT", "round3": "CONFIRMED-WITH-CAVEAT", "reason": "No material change."},
+    {"claim": "CH5", "round2": "CONFIRMED", "round3": "CONFIRMED", "reason": "No material change."},
+    {"claim": "CH6", "round2": "CONFIRMED-WITH-CAVEAT", "round3": "CONFIRMED-WITH-CAVEAT", "reason": "No material change."},
+    {"claim": "CH7", "round2": "CONFIRMED-WITH-CAVEAT", "round3": "CONFIRMED", "reason": "Fixed and independent direct probes reproduce non-confluence while preserving downroute feasibility."},
+    {"claim": "CH8", "round2": "CONFIRMED", "round3": "CONFIRMED", "reason": "No material change."}
+  ],
+  "findings": [
+    {
+      "id": "R3-F1",
+      "severity": 2,
+      "title": "Committed formal artifacts carry stale current-HEAD provenance",
+      "status": "FIX OBLIGATION",
+      "evidence": "All three committed checker JSON files report generated_at_head_sha 77bf676 while repository HEAD is 5e5e008. Fresh make formal is deterministic but changes the tracked files to current-HEAD stamps.",
+      "impact": "A consumer cannot establish that the committed formal outputs were generated at the revision that contains them.",
+      "required_fix": "Regenerate and commit all formal outputs at the release HEAD, or redesign the provenance stamp so publication-only commits do not immediately stale the committed artifacts."
+    },
+    {
+      "id": "R3-F2",
+      "severity": 2,
+      "title": "The documented Tectonic arXiv fallback cannot pass its own gates",
+      "status": "FIX OBLIGATION",
+      "evidence": "Pinned Tectonic 0.17.0 produced a 19-page PDF in two builds with identical file lists and page counts, but make arxiv exited 2 both times: G1 expects a main.log Tectonic does not produce, and G4/G6 text gates are compiler/extraction-sensitive.",
+      "impact": "The declared fallback build path is not a successful reproducible release path; rebuilding also changes the committed PDF and parity report.",
+      "required_fix": "Make all gates compiler-aware and demonstrate a clean make arxiv under each documented compiler, then commit outputs and the parity report from the declared release toolchain."
+    },
+    {
+      "id": "R3-F3",
+      "severity": 3,
+      "title": "The committed parity report obscures an allowed raw numeric delta",
+      "status": "KNOWN ISSUE; NON-BLOCKING; NO FURTHER ROUND",
+      "evidence": "G3 reports raw totals 689 and 688 while normalized differences are empty. Independent extraction found exactly one legitimate superscript flattening: Markdown tokens 2 and 31 become PDF token 231, with no unexplained differences.",
+      "impact": "Reporting sloppiness, not artifact damage.",
+      "recommended_fix": "Show raw and post-allowlist totals separately and enumerate every applied exception in the report."
+    }
+  ],
+  "mechanical_results": {
+    "bootstrap_wall_seconds": 9.624,
+    "tests": {"passed": 176, "failed": 0, "skipped": 0, "pytest_wall_seconds": 117.48, "make_test_wall_seconds": 119.210},
+    "make_all": {"exit": 0, "wall_seconds": 133.897},
+    "formal": {
+      "lattice_checks": 17151,
+      "ch5_thresholds": 125,
+      "ch5_compositions": 264,
+      "ch5_max_violations": 48,
+      "ch7_nonconfluent_grid": 86,
+      "ch7_grid_total": 243,
+      "repeat_byte_identical": true
+    },
+    "statistics": {"all_means_and_intervals_exact": true, "tolerance": 0.000001},
+    "evidence": {"lines": 81312, "schema_sample": 200, "schema_errors": 0, "ground_truth_or_label_hits": 0},
+    "replays": [
+      {"seed": 26313, "wall_seconds": 10.055083742976421, "byte_exact_to_committed": true, "sha256": "7c922b783c270fdbd0cbbfecb852cd4f6c706971063479709e5927dc2bdb5820"},
+      {"seed": 1028331701, "wall_seconds": 9.758451394998701, "byte_exact_to_committed": true, "sha256": "5616122194edcd5e39b40977a6129684c5b1af466c19ec1049286b9f45a417c0"},
+      {"seed": 1179730076, "wall_seconds": 10.49041742499685, "byte_exact_to_committed": true, "sha256": "4f3b0e9cdd23925afb75b00d980067825af62b0bbc930bee56f60fdf132e611b"}
+    ],
+    "mutation_sample": {
+      "derivation": "lowest sha256(HEAD + ':r3-mutation:' + mutant_name)",
+      "population": 1264,
+      "sample": 150,
+      "killed": 130,
+      "survived": 20,
+      "kill_rate": 0.8666666666666667,
+      "wilson_95": [0.803019825502258, 0.9120019952944858],
+      "committed_score": 0.8804,
+      "committed_score_inside_interval": true,
+      "wall_seconds": 47.88068737098365
+    },
+    "citations_refetched": 10
+  },
+  "latex_audit": {
+    "compiler": "Tectonic 0.17.0",
+    "build_exit_codes": [2, 2],
+    "build_wall_seconds": [13, 2],
+    "same_file_list": true,
+    "page_counts": [19, 19],
+    "independent_number_parity": {
+      "markdown_total": 689,
+      "pdf_total": 688,
+      "allowed_delta": "2 and 31 flattened to 231",
+      "unexplained_differences": 0,
+      "pass": true
+    },
+    "tag_counts": {
+      "machine_checked": {"expected": 21, "markdown": 21, "pdf": 21},
+      "checked_scope_only": {"expected": 26, "markdown": 26, "pdf": 26},
+      "pending_human_review": {"expected": 7, "markdown": 7, "pdf": 7}
+    },
+    "disclosure_exact": true,
+    "honesty_banners_present": true,
+    "bib_entries": 10,
+    "verified_records": 10,
+    "tarball_contents": ["main.tex", "main.bbl"],
+    "abstract_characters": 1900,
+    "abstract_within_limit": true,
+    "abstract_faithful": true
+  },
+  "scores": {
+    "research_artifact": {
+      "score": 8.5,
+      "out_of": 10,
+      "justification": "The central scientific claims, corrected theorem, finite checks, 30-seed statistics, persisted-evidence audit, direct CH7 probes, and qualified negative results are unusually well evidenced. Prior severity-1 scientific overclaims are repaired. The remaining deductions are for release-provenance and package reproducibility, not a newly discovered false scientific result."
+    },
+    "software_engineering": {
+      "score": 8.0,
+      "out_of": 10,
+      "justification": "The pinned bootstrap, 176-test suite, deterministic seed replays, stable-sum regeneration, schema validation, durable substitution log, build dependencies, and mutation score are strong. The stale formal provenance at final HEAD and a documented compiler fallback that cannot pass its own gates prevent a higher score."
+    }
+  },
+  "author_reuse_disclosure": "This artifact was independently replicated and adversarially reviewed in three rounds by automated agents following the published protocols in sarc-suite-agent-review.md, sarc-suite-agent-review-r2.md, and sarc-suite-agent-review-r3.md; the round-one report and evidence are at review/REVIEW.md and review/review.json, the round-two report and evidence are at review-out-r2/REVIEW-R2.md, review-out-r2/review.json, and review-out-r2/evidence/, and the round-three report and evidence are at review-out-r3/REVIEW-R3.md, review-out-r3/review.json, and review-out-r3/evidence/. Automated review complements and does not replace human peer review.",
+  "evidence_directory": "review-out-r3/evidence/"
+}
