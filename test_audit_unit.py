@@ -25,9 +25,11 @@ from __future__ import annotations
 from composition import (
     ActionContext,
     CompositionEngine,
-    _buffer_write_eid,
     _dq_buffer_key,
     _maybe_downroute,
+    _record_buffer_write,
+    _resolve_buffer_write_event,
+    _seed_genesis_writes,
     build_green_engines,
     load_sarc_spec,
 )
@@ -48,7 +50,10 @@ def _engine() -> CompositionEngine:
     green_engines = build_green_engines({SKU: TRUE_COST}, CARBON_PER_UNIT, COST_MULTIPLIER)
     buffer = GovernedBuffer(values={SKU: TRUE_COST})
     dq_gate = DQPreActionGate(spec=dq_spec, buffer=buffer)
-    return CompositionEngine(dq_gate, sarc_spec, green_engines, CARBON_PER_UNIT, COST_MULTIPLIER)
+    return CompositionEngine(
+        dq_gate, sarc_spec, green_engines, CARBON_PER_UNIT, COST_MULTIPLIER,
+        initial_buffer_values={SKU: TRUE_COST},
+    )
 
 
 def _ctx(qty=5.0, cost=TRUE_COST, role="agent-replenish"):
@@ -304,16 +309,41 @@ def test_w2_evidence_substitution_and_downroute_can_both_trigger_in_order():
 # ---------------------------------------------------------------------------
 
 
-def test_buffer_write_eid_is_content_addressed():
-    a = _buffer_write_eid("SKU1", 10.0)
-    b = _buffer_write_eid("SKU1", 10.0)
-    assert a == b  # identical (key, value) -> identical id
+def test_record_buffer_write_gives_each_event_a_distinct_id_even_when_repeated():
+    """Round-two independent review finding R2-F6(a): the old
+    key+value-only hash gave every identical (key, value) write the SAME
+    id, which is exactly why 3,478 real substitution occurrences
+    resolved to only 62 unique ids. write_seq makes every event distinct
+    regardless of whether its (key, value) repeats a prior write."""
+    log = []
+    first = _record_buffer_write(log, "SKU1", 10.0, day=1)
+    second = _record_buffer_write(log, "SKU1", 10.0, day=2)  # identical (key, value), different write
+    assert first != second
+    assert len(log) == 2
+    assert log[0] == {"write_seq": 0, "key": "SKU1", "value": 10.0, "day": 1, "event_id": first}
+    assert log[1] == {"write_seq": 1, "key": "SKU1", "value": 10.0, "day": 2, "event_id": second}
 
-    different_value = _buffer_write_eid("SKU1", 10.5)
-    assert different_value != a
 
-    different_key = _buffer_write_eid("SKU2", 10.0)
-    assert different_key != a
+def test_resolve_buffer_write_event_finds_the_most_recent_matching_write():
+    log = []
+    older = _record_buffer_write(log, "SKU1", 10.0, day=1)
+    _record_buffer_write(log, "SKU1", 11.0, day=2)
+    newer = _record_buffer_write(log, "SKU1", 10.0, day=3)  # same value as `older`, later write
+    assert _resolve_buffer_write_event(log, "SKU1", 10.0) == newer
+    assert _resolve_buffer_write_event(log, "SKU1", 10.0) != older
+    assert _resolve_buffer_write_event(log, "SKU1", 999.0) is None  # no matching write at all
+
+
+def test_seed_genesis_writes_covers_the_buffers_initial_state():
+    """A substitution whose value equals the buffer's pre-run seed value
+    (never itself an observed put()) must still resolve to exactly one
+    write-log entry -- the genesis entry -- not None."""
+    log = []
+    _seed_genesis_writes(log, {"SKU1": 10.0, "SKU2": 20.0})
+    assert len(log) == 2
+    assert all(entry["day"] is None for entry in log)  # genesis, not a real decision day
+    assert _resolve_buffer_write_event(log, "SKU1", 10.0) is not None
+    assert _resolve_buffer_write_event(log, "SKU2", 20.0) is not None
 
 
 def test_dq_buffer_key_matches_evidence_payload_sku():
@@ -333,12 +363,31 @@ def test_remediate_regate_evidence_substitution_carries_provenance_fields():
         payload={"sku": SKU, "unit_cost": TRUE_COST * 0.7, "currency": "GBP"},
         metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY - 60, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
     )
+    # Snapshot BEFORE the call: remediate_regate's own Phase II re-admits
+    # the now-clean remediated evidence, which appends a SECOND write
+    # (same value, later write_seq) to the log after the substitution's
+    # own provenance was already resolved against the FIRST (genesis)
+    # entry -- resolving again against the post-call log would find that
+    # later write instead, a look-ahead mismatch, not a bug in the code
+    # under test. Comparing against the pre-call snapshot avoids that.
+    genesis_id = engine.write_log[-1]["event_id"]
+    assert len(engine.write_log) == 1  # only the SKU genesis entry exists yet
+
     line, _, _ = engine.remediate_regate(0, ctx, [stale], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
     sub = line["remediation"]["evidence_substitution"]
     assert sub is not None
     assert sub["pre_evidence_ids"] == [stale.evidence_id()]
     assert sub["substitute_source"]["buffer_key"] == SKU
-    assert sub["substitute_source"]["buffer_write_eid"] == _buffer_write_eid(SKU, sub["substituted_value"])
+    # Round-two independent review finding R2-F6(a): the substitution
+    # traces to exactly the genesis write it actually read from.
+    assert sub["substitute_source"]["buffer_write_eid"] == genesis_id
+    matches = [e for e in engine.write_log if e["event_id"] == genesis_id]
+    assert len(matches) == 1  # exactly one durable write event, never zero or ambiguous
+    # Phase II then re-admits the clean remediated evidence, appending
+    # its own (later, distinct) write event for the same governed value
+    # -- expected, and itself individually resolvable.
+    assert len(engine.write_log) == 2
+    assert engine.write_log[-1]["event_id"] != genesis_id
     assert line["schema_version"] == 2
 
 
@@ -355,8 +404,52 @@ def test_single_pass_evidence_substitution_carries_provenance_fields():
     assert sub is not None
     assert sub["pre_evidence_ids"] == [stale.evidence_id()]
     assert sub["substitute_source"]["buffer_key"] == SKU
-    assert sub["substitute_source"]["buffer_write_eid"] == _buffer_write_eid(SKU, sub["substituted_value"])
+    resolved = _resolve_buffer_write_event(engine.write_log, SKU, sub["substituted_value"])
+    assert sub["substitute_source"]["buffer_write_eid"] == resolved
+    assert resolved is not None
     assert line["schema_version"] == 2
+
+
+def test_repeated_identical_writes_stay_individually_resolvable():
+    """The exact regression the round-two review's provenance probe
+    found: 3,478 real substitution occurrences resolved to only 62
+    unique buffer_write_eid values, because the old id was a pure
+    function of (key, value) and the same true cost gets written
+    repeatedly across many decisions/days. Simulates that pattern
+    directly: several admits at the SAME (key, value), then a
+    substitution -- the substitution's event id must match exactly ONE
+    write-log entry, and that entry must be the most recent of the
+    repeated writes, not an ambiguous merge of all of them."""
+    engine = _engine()
+    admit_ctx = _ctx()
+    clean = EvidenceRecord(
+        record_id=f"{SKU}-primary",
+        payload={"sku": SKU, "unit_cost": TRUE_COST, "currency": "GBP"},
+        metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
+    )
+    # Repeated admits at the identical (key, value) -- the same true cost
+    # read cleanly on several different days.
+    for decision_id in range(5):
+        engine.remediate_regate(decision_id, admit_ctx, [clean], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
+
+    # genesis (1) + 5 repeated identical admits = 6 write-log entries,
+    # every one with a DISTINCT event id despite identical (key, value).
+    same_value_entries = [e for e in engine.write_log if e["key"] == SKU and e["value"] == TRUE_COST]
+    assert len(same_value_entries) == 6
+    assert len({e["event_id"] for e in same_value_entries}) == 6  # all distinct
+
+    stale = EvidenceRecord(
+        record_id=f"{SKU}-primary",
+        payload={"sku": SKU, "unit_cost": TRUE_COST * 0.7, "currency": "GBP"},
+        metadata=RecordMetadata(source="erp.pricing", as_of_day=DAY - 60, retrieved_day=DAY, version=2, lineage=("supplier_feed:SKU",)),
+    )
+    line, _, _ = engine.remediate_regate(5, admit_ctx, [stale], ("agent-replenish",), LOOSE, LOOSE, LOOSE)
+    sub = line["remediation"]["evidence_substitution"]
+    assert sub is not None
+    resolved_id = sub["substitute_source"]["buffer_write_eid"]
+    matches = [e for e in engine.write_log if e["event_id"] == resolved_id]
+    assert len(matches) == 1  # exactly one durable write event, not zero, not several
+    assert matches[0] == same_value_entries[-1]  # the MOST RECENT of the repeated writes
 
 
 def test_no_substitution_means_no_provenance_fields_needed():

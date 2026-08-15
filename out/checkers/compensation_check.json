@@ -17,8 +17,9 @@
     "green": "admit"
   },
   "proposition_1_holds_exhaustively": true,
+  "generated_at_head_sha": "cee2d7f40820c2248b4c32376e2490c84478cf1b",
   "lemma_verification": {
-    "head_sha": "514f0160cdda2b67994586d2eb23b681824763b5",
+    "head_sha": "cee2d7f40820c2248b4c32376e2490c84478cf1b",
     "vetoed_profiles_count": 61,
     "n_random_probes": 200,
     "declared_grid": {

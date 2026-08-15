@@ -51,10 +51,10 @@ import itertools
 import json
 import math
 import random
-import subprocess
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
+from checkers._provenance import head_sha
 from composition import Response, compute_restrictiveness_join, is_executed
 
 GATES = ("dq", "sarc", "green")
@@ -127,12 +127,6 @@ def _violations(weight_vector: Dict[str, float], threshold: float, held_profiles
     violating = [p for p, s in zip(held_profiles, scores) if s >= threshold]
     witness = violating[0] if violating else {}
     return len(violating), witness
-
-
-def head_sha() -> str:
-    return subprocess.run(
-        ["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=True
-    ).stdout.strip()
 
 
 def random_positive_weight_vectors(n: int, seed_material: str) -> List[Dict[str, float]]:
@@ -216,6 +210,7 @@ def run(weights_path: str = "prereg/weights.json") -> Dict[str, Any]:
         "max_violation_cell": max_cell,
         "witness_profile": witness_profile,
         "proposition_1_holds_exhaustively": max_violations >= 1,
+        "generated_at_head_sha": sha,
         "lemma_verification": {
             "head_sha": sha,
             "vetoed_profiles_count": len(vetoed_profiles),

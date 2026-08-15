@@ -65,7 +65,10 @@ def _engine() -> CompositionEngine:
     green_engines = build_green_engines({SKU: TRUE_COST}, CARBON_PER_UNIT, COST_MULTIPLIER)
     buffer = GovernedBuffer(values={SKU: TRUE_COST})
     dq_gate = DQPreActionGate(spec=dq_spec, buffer=buffer)
-    return CompositionEngine(dq_gate, sarc_spec, green_engines, CARBON_PER_UNIT, COST_MULTIPLIER)
+    return CompositionEngine(
+        dq_gate, sarc_spec, green_engines, CARBON_PER_UNIT, COST_MULTIPLIER,
+        initial_buffer_values={SKU: TRUE_COST},
+    )
 
 
 def _ctx(qty=5.0, cost=TRUE_COST, role="agent-replenish"):

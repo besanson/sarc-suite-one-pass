@@ -216,29 +216,79 @@ def _dq_buffer_key(evidence: List[EvidenceRecord]) -> str:
     return str(primary.payload.get("sku", primary.record_id))
 
 
-def _buffer_write_eid(key: str, value: float) -> str:
-    """Content-addressed id for a governed-buffer entry (independent
-    review finding F2): identical (key, value) always yields the same
-    id, the same content-addressing philosophy EvidenceRecord.evidence_id()
-    already uses. Because the id is a pure, deterministic function of the
-    write's content, computing it here at substitution/provenance-record
-    time gives the identical value it would have if computed at the
-    engine's own put() call -- there is no need to intercept that call to
-    "assign" the id separately; content-addressing means there is only
-    ever one id for a given (key, value)."""
-    return hashlib.sha256(f"{key}\x00{value!r}".encode()).hexdigest()
+def _record_buffer_write(write_log: List[Dict[str, Any]], key: str, value: float, day: Optional[int]) -> str:
+    """Appends one durable, run-scoped write-log event and returns its
+    content-addressed event id (independent review round-two finding
+    R2-F6(a), replacing the old key+value-only `_buffer_write_eid`).
+    Hashing write_seq together with key/value/day means repeated
+    identical (key, value) writes -- common, since many SKUs' governed
+    cost doesn't change often -- get DISTINCT ids instead of collapsing
+    to the same one (the exact bug the review's provenance probe found:
+    3,478 substitution occurrences resolving to only 62 unique ids).
+    write_seq is write_log's own length before the append, so ids are
+    stable regardless of what gets logged later. day=None marks a
+    genesis entry seeded from the buffer's initial (pre-run) known-good
+    values -- see `_seed_genesis_writes` -- rather than a write produced
+    by an actual admitted decision during this run."""
+    write_seq = len(write_log)
+    event_id = hashlib.sha256(f"{write_seq}\x00{key}\x00{value!r}\x00{day!r}".encode()).hexdigest()
+    write_log.append({"write_seq": write_seq, "key": key, "value": value, "day": day, "event_id": event_id})
+    return event_id
 
 
-def evaluate_dq(gate: DQPreActionGate, evidence: List[EvidenceRecord]):
+def _seed_genesis_writes(write_log: List[Dict[str, Any]], initial_buffer_values: Dict[str, float]) -> None:
+    """One genesis write-log entry per SKU the buffer was constructed
+    with (runner.py's `buffer_factory(values=dict(sku_true_cost))`),
+    with day=None. Without this, a decision that substitutes before any
+    real admit has ever been logged for its SKU -- entirely possible,
+    since a stale/corrupt read can be the very first decision the
+    simulation draws for that SKU -- would resolve to no write-log entry
+    at all, because the buffer's pre-run seed value was never itself an
+    observed `put()` call."""
+    for key, value in sorted(initial_buffer_values.items()):
+        _record_buffer_write(write_log, key, value, day=None)
+
+
+def _resolve_buffer_write_event(write_log: List[Dict[str, Any]], key: str, value: float) -> Optional[str]:
+    """The event id of the MOST RECENT prior write to `key` whose value
+    equals `value` -- the exact write a substitution actually drew from,
+    resolved against this run's own durable write history, not
+    recomputed as a bare content hash of (key, value) alone. Same
+    backward-scan-for-most-recent-match technique
+    contamination.py's compute_poisoned_substitutions already uses for
+    its own provenance tracing. Returns None only if no matching prior
+    write exists at all (including no genesis entry), which should not
+    happen for a real substitution -- the buffer must have had SOME
+    value to substitute."""
+    for entry in reversed(write_log):
+        if entry["key"] == key and entry["value"] == value:
+            return entry["event_id"]
+    return None
+
+
+def evaluate_dq(
+    gate: DQPreActionGate,
+    evidence: List[EvidenceRecord],
+    write_log: Optional[List[Dict[str, Any]]] = None,
+    day: Optional[int] = None,
+):
     """Evaluate the real sarc_dq PreActionGate; refresh the governed buffer
     on a clean admit (downstream-only remediation, per Appendix B). A
     response of "admit" means the real schema_conformant/complete
     predicates already validated unit_cost/sku, so no further type check
-    is needed here."""
+    is needed here. write_log, when given, records this write as a
+    durable run-scoped event (independent review round-two finding
+    R2-F6(a)) -- callers that don't care about write provenance (e.g.
+    audit_executed's independent re-evaluation, which never produces its
+    own evidence_substitution record) simply omit it."""
     decision = gate.evaluate(evidence)
     if decision.response == "admit":
         primary = evidence[0]
-        gate.buffer.put(str(primary.payload["sku"]), float(primary.payload["unit_cost"]))
+        key = str(primary.payload["sku"])
+        value = float(primary.payload["unit_cost"])
+        gate.buffer.put(key, value)
+        if write_log is not None:
+            _record_buffer_write(write_log, key, value, day)
     return _DQ_RESPONSE_MAP[decision.response], decision
 
 
@@ -451,12 +501,23 @@ class CompositionEngine:
         green_engines: GreenEngines,
         carbon_per_unit: float,
         cost_multiplier: float,
+        initial_buffer_values: Optional[Dict[str, float]] = None,
     ) -> None:
         self.dq_gate = dq_gate
         self.sarc_spec = sarc_spec
         self.green_engines = green_engines
         self.carbon_per_unit = carbon_per_unit
         self.cost_multiplier = cost_multiplier
+        # Durable, run-scoped governed-buffer write log (independent
+        # review round-two finding R2-F6(a)) -- every real evaluate_dq
+        # admit that writes to dq_gate.buffer also appends here, plus one
+        # genesis entry per SKU the buffer was seeded with at
+        # construction, so every substitution's provenance resolves to
+        # exactly one durable write event, never a bare content hash
+        # that repeated identical writes could collapse together.
+        self.write_log: List[Dict[str, Any]] = []
+        if initial_buffer_values:
+            _seed_genesis_writes(self.write_log, initial_buffer_values)
 
     # -- remediate-regate (sound) -------------------------------------------
     # Renamed from "two_phase" per prereg/renaming.md: avoids the reader
@@ -479,7 +540,7 @@ class CompositionEngine:
         (independent review finding F4): the original evidence_records if
         nothing was substituted, or the real remediated records if it was
         -- never a synthetic reconstruction."""
-        dq_resp1, dq_decision1 = evaluate_dq(self.dq_gate, evidence_records)
+        dq_resp1, dq_decision1 = evaluate_dq(self.dq_gate, evidence_records, self.write_log, context.day)
 
         remediated_ctx = context
         remediated_evidence = evidence_records
@@ -501,7 +562,7 @@ class CompositionEngine:
                 "pre_evidence_ids": list(dq_decision1.evidence_ids),
                 "substitute_source": {
                     "buffer_key": buffer_key,
-                    "buffer_write_eid": _buffer_write_eid(buffer_key, sub_cost),
+                    "buffer_write_eid": _resolve_buffer_write_event(self.write_log, buffer_key, sub_cost),
                 },
             }
 
@@ -529,7 +590,7 @@ class CompositionEngine:
             # real gate (its evidence_id() hashing is the dominant cost).
             dq_resp2, dq_decision2 = dq_resp1, dq_decision1
         else:
-            dq_resp2, dq_decision2 = evaluate_dq(self.dq_gate, remediated_evidence)
+            dq_resp2, dq_decision2 = evaluate_dq(self.dq_gate, remediated_evidence, self.write_log, context.day)
         sarc_resp, sarc_detail = evaluate_sarc_pag(
             self.sarc_spec, remediated_ctx.role, allowed_roles, remediated_ctx.order_value, order_value_cap
         )
@@ -614,7 +675,7 @@ class CompositionEngine:
         design -- that is the unsoundness mechanism), but the executed
         evidence is still the real substituted records when substitution
         triggered, not a synthetic reconstruction."""
-        dq_resp, dq_decision = evaluate_dq(self.dq_gate, evidence_records)
+        dq_resp, dq_decision = evaluate_dq(self.dq_gate, evidence_records, self.write_log, context.day)
         sarc_resp, sarc_detail = evaluate_sarc_pag(
             self.sarc_spec, context.role, allowed_roles, context.order_value, order_value_cap
         )
@@ -649,7 +710,7 @@ class CompositionEngine:
                 "pre_evidence_ids": list(dq_decision.evidence_ids),
                 "substitute_source": {
                     "buffer_key": buffer_key,
-                    "buffer_write_eid": _buffer_write_eid(buffer_key, dq_decision.substituted_value),
+                    "buffer_write_eid": _resolve_buffer_write_event(self.write_log, buffer_key, dq_decision.substituted_value),
                 },
             }
 
@@ -742,7 +803,11 @@ class CompositionEngine:
         records if it was (see remediate_regate/single_pass's third
         return value). A fresh CompositionEngine/buffer is still used for
         this call (runner.py), so the audit never perturbs the run's own
-        buffer state."""
+        buffer state. write_log is intentionally omitted here: the audit
+        never produces its own evidence_substitution record (it only
+        returns a violated/clean bool), so it has no provenance to
+        resolve against a write-log entry -- this call's own
+        self.write_log stays empty and unused, harmlessly."""
         dq_resp, _ = evaluate_dq(self.dq_gate, exec_evidence)
         sarc_resp, _ = evaluate_sarc_pag(
             self.sarc_spec, exec_ctx.role, allowed_roles, exec_ctx.order_value, order_value_cap

@@ -71,7 +71,10 @@ def run_benchmark() -> dict:
     dq_gate = DQPreActionGate(spec=dq_spec, buffer=buffer)
 
     from composition import CompositionEngine
-    engine = CompositionEngine(dq_gate, sarc_spec, green_engines, CARBON_PER_UNIT, COST_MULTIPLIER)
+    engine = CompositionEngine(
+        dq_gate, sarc_spec, green_engines, CARBON_PER_UNIT, COST_MULTIPLIER,
+        initial_buffer_values=dict(sim.sku_true_cost),
+    )
 
     idx = {"i": 0}
 

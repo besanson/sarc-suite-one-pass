@@ -63,7 +63,7 @@
                 },
                 "substitute_source": {
                   "type": "object",
-                  "description": "Where the substituted value came from: the governed buffer's site key, and a content-addressed id for that (key, value) write -- identical writes always yield the identical id (Appendix A, Proposition 4).",
+                  "description": "Where the substituted value came from: the governed buffer's site key, and the id of the SPECIFIC durable write event the substitution actually drew from. Fixed per round-two independent review finding R2-F6(a): buffer_write_eid used to be a bare hash of (key, value) alone, so repeated identical writes -- common, since many SKUs' governed cost doesn't change often -- collapsed onto the SAME id (the review's provenance probe found 3,478 real substitution occurrences resolving to only 62 unique ids). buffer_write_eid now identifies exactly one entry in this run's durable, append-only governed-buffer write log (persisted next to the evidence lines as <scenario>-<mode>-buffer-writes.jsonl, one JSON object per line: write_seq, key, value, day, event_id -- event_id hashes all four together, so distinct write events always get distinct ids even when key and value repeat). Every entry in that log -- including a genesis entry per SKU seeded from the buffer's pre-run known-good values, for substitutions that trace back to that initial state rather than a write made during this run -- resolves buffer_write_eid to exactly one write-log line, never zero, never several (Appendix A, Proposition 4).",
                   "required": ["buffer_key", "buffer_write_eid"],
                   "additionalProperties": false,
                   "properties": {
@@ -128,6 +128,7 @@
         },
         "dq": {
           "type": "object",
+          "description": "phase1_predicates and predicates are BOTH always present (both listed in required below) -- this schema has no 'missing' state for either, only 'present and possibly empty'. phase1_predicates is Phase I's firing record: whatever sarc_dq predicates matched the evidence as originally submitted, before any remediation. predicates is what Phase II actually judged the action on -- documented per round-two independent review finding R2-N4 (review-r2/REVIEW-R2.md): predicates is empty in two structurally different cases, and non-empty in a third. (1) Evidence was clean and unremediated: Phase I found nothing, and composition.py reuses Phase I's decision for Phase II as a no-op optimization (re-running would be redundant since the evidence didn't change) -- predicates equals phase1_predicates, both empty. (2) Evidence had a substitutable defect that WAS remediated: Phase II genuinely re-runs DQ evaluation on the post-remediation evidence, which is governed-clean by construction (Lemma 1, appendix-a-proofs.md) and so is found predicate-free -- predicates is empty while phase1_predicates records the original (non-empty) firing that triggered the substitution. (3) Evidence had a non-substitutable defect (dq gate's Phase I verdict was not 'substitute', e.g. an unremediable schema/lineage violation): nothing was remediated, so Phase II reuses Phase I's decision unchanged (same no-op path as case 1) -- predicates equals phase1_predicates, both non-empty, describing the same still-unresolved violation. An empty predicates array therefore never means 'Phase II did not run' in the sense of being skipped without judgment -- it certifies no predicate fired against whatever evidence Phase II actually judged (which case 1/3 show is sometimes literally Phase I's own evidence, reused rather than re-evaluated, and case 2 shows is sometimes freshly re-evaluated remediated evidence).",
           "required": [
             "detected", "phase1_predicates", "predicates", "verdict",
             "substituted_value", "evidence_ids", "paa_lineage_flag"
@@ -135,8 +136,16 @@
           "additionalProperties": false,
           "properties": {
             "detected": { "type": "boolean" },
-            "phase1_predicates": { "type": "array", "items": { "type": "string" } },
-            "predicates": { "type": "array", "items": { "type": "string" } },
+            "phase1_predicates": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Phase I's firing record: sarc_dq predicates that matched the evidence as originally submitted, before any remediation. Always present; empty iff the original evidence was clean."
+            },
+            "predicates": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "What Phase II actually judged the action on -- see the parent gates.dq object's description for the three cases (clean/unremediated, remediated-and-clean, non-substitutable-and-unremediated) that determine whether this is empty and, if non-empty, whether it equals phase1_predicates."
+            },
             "verdict": { "$ref": "#/$defs/response" },
             "substituted_value": { "type": ["number", "null"] },
             "evidence_ids": { "type": "array", "items": { "type": "string" } },

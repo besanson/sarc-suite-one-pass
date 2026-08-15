@@ -1,0 +1,9 @@
+{
+  "_note": "This file postdates prereg-v1 (tagged 31552b2, whose tree contains no out/ or result artifacts) -- it is a dated post-hoc methodological fix, not a pre-registration made before any corresponding result existed. The CH7 off-grid non-confluence probe was promoted into checkers/remediator_check.py during the round-one review response (review/REVIEW.md's own ad hoc HEAD-derived probe: '144/200 HEAD-derived off-grid points were non-confluent'). Seeding that probe from the current git HEAD made its published count drift with every commit -- the round-two independent review (review-r2/REVIEW-R2.md, finding R2-N1) caught the response commit's paper reporting 140/200 while a `make formal` rerun at the same commit produced 145/200. This file fixes the probe's seed to a single declared constant so the published off-grid count is commit-stable from here on, the same way prereg/seeds.json and prereg/weights.json fix the sweep seeds and CH5 grid. HEAD-derived randomness remains a reviewer's own tool for independent adversarial probing; it is no longer this artifact's own seeding source for any number that appears in the published paper.",
+  "dated": "2026-08-15",
+  "ch7_off_grid_probe": {
+    "seed": 26313,
+    "n_probes": 200,
+    "note": "seed reuses this artifact's own first registered seed (prereg/seeds.json) rather than an arbitrary new constant."
+  }
+}

@@ -1,10 +1,19 @@
-.PHONY: suite paper test clean all bootstrap ci-local mutate latency sweep formal paper-v3
+.PHONY: suite paper paper-legacy test clean all bootstrap ci-local mutate latency sweep formal paper-v3
 
 # SARC Suite One-Pass Demo Makefile
 # Apache License 2.0
 # SEED = 26313
 
-all: suite paper test
+# `paper` depends on `formal` (round-two independent review, finding
+# R2-N1/R2-F1(a)): the committed out/checkers/*.json and out/paper/
+# slots_v3.json used to be able to drift apart, because `paper` only
+# depended on `suite`, so a rerun of `make formal` alone (or a fresh
+# commit's HEAD-derived probe re-seeding, since fixed by R2-F1(b))
+# could regenerate checker output that the paper draft never picked up.
+# `all` lists suite, formal, paper explicitly in that order so a single
+# `make all` invocation regenerates everything coherently, not just in
+# whatever order each target's own prerequisites happen to imply.
+all: suite formal paper test
 
 bootstrap:
 	@echo "Bootstrapping pinned engines + toolchain..."
@@ -17,8 +26,24 @@ suite:
 	@echo "Running SARC Suite: all four scenarios in two composition modes..."
 	python3 runner.py
 
-paper: suite
-	@echo "Generating paper tables and populating draft..."
+# The canonical paper build (Phase 5, v0.3: CH1-CH8, 30-seed CIs,
+# exhaustive proofs, V4 citations). Depends on suite, sweep, AND formal
+# -- in that order -- so out/paper/slots_v3.json is always populated
+# from checker output generated in the SAME invocation, never a stale
+# out/checkers/*.json left over from an earlier commit (R2-F1(a)).
+paper: suite sweep formal
+	@echo "Generating v0.3 paper (CH1-CH8, 30-seed CIs, exhaustive proofs, V4 citations)..."
+	python3 paper_v3.py
+
+# Backward-compatible alias: some docs/scripts still say paper-v3.
+paper-v3: paper
+
+# The original v0.1/v0.2 paper pipeline (main.py, paper_tables.py) --
+# superseded by `paper` (v0.3) as this artifact's live paper, kept only
+# because test_suite_sim.py still imports main.py's PAPER_DRAFT_TEXT
+# directly for its leakage/committed-files checks. Not part of `all`.
+paper-legacy: suite
+	@echo "Generating legacy v0.1/v0.2 paper tables and populating draft..."
 	python3 main.py
 
 test:
@@ -49,10 +74,6 @@ formal:
 	python3 -m checkers.proof_status_lint
 	@echo "See appendix-a-proofs.md for the proofs these checkers verify."
 
-paper-v3: suite sweep formal
-	@echo "Phase 5: paper v0.3 (CH1-CH8, 30-seed CIs, exhaustive proofs, V4 citations)..."
-	python3 paper_v3.py
-
 clean:
 	@echo "Cleaning up outputs..."
 	rm -rf out/
@@ -68,13 +89,14 @@ help:
 	@echo "  make bootstrap Clone pinned engines (engines.lock) + install toolchain"
 	@echo "  make ci-local  bootstrap + test + suite (local acceptance for ci.yml)"
 	@echo "  make suite     Run all scenarios (S1-S4) in both modes"
-	@echo "  make paper     Generate paper tables and populate draft"
-	@echo "  make test      Run the test suite"
 	@echo "  make sweep     V3 gate: 30-seed sweep, CH1-CH6 means + 95% CIs"
 	@echo "  make formal    V2 gate: exhaustive checkers (lattice, CH5, CH7) + proof lint"
-	@echo "  make paper-v3  Phase 5: v0.3 paper (CH1-CH8, CIs, proofs, V4 citations)"
+	@echo "  make paper     Phase 5: v0.3 paper (depends on suite, sweep, formal, in order)"
+	@echo "  make paper-v3  Alias for make paper"
+	@echo "  make paper-legacy  Superseded v0.1/v0.2 paper pipeline (main.py)"
+	@echo "  make test      Run the test suite"
 	@echo "  make clean     Remove all outputs"
-	@echo "  make all       suite + paper + test (default)"
+	@echo "  make all       suite + formal + paper + test, in that order (default)"
 	@echo ""
 	@echo "Outputs:"
 	@echo "  out/           Evidence sets, run logs, metrics"

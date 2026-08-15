@@ -39,7 +39,7 @@ SEED = 26313 (first entry of prereg/seeds.json)
 from __future__ import annotations
 
 import json
-import statistics
+import math
 from dataclasses import replace
 from pathlib import Path
 from typing import Any, Dict, List
@@ -87,13 +87,22 @@ def load_seeds() -> List[int]:
 
 
 def mean_ci95(values: List[float]) -> Dict[str, float]:
+    """Order-stable per round-two independent review finding
+    R2-N3/R2-F3: mean and variance are computed via math.fsum over
+    explicitly sorted inputs, not naive sum()/len() or an unspecified
+    accumulation order, so the result cannot depend on the order
+    `values` happened to arrive in (e.g. dict/set iteration order
+    upstream, which Python does not guarantee stable across runs)."""
     n = len(values)
     if n == 0:
         return {"mean": 0.0, "ci95_low": 0.0, "ci95_high": 0.0, "n": 0}
-    m = statistics.mean(values)
+    ordered = sorted(values)
+    m = math.fsum(ordered) / n
     if n < 2:
         return {"mean": m, "ci95_low": m, "ci95_high": m, "n": n}
-    se = statistics.stdev(values) / (n ** 0.5)
+    squared_deviations = sorted((v - m) ** 2 for v in ordered)
+    variance = math.fsum(squared_deviations) / (n - 1)
+    se = math.sqrt(variance) / math.sqrt(n)
     half = T_CRIT_DF29 * se
     return {"mean": m, "ci95_low": m - half, "ci95_high": m + half, "n": n}
 

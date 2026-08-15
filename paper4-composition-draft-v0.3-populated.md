@@ -8,7 +8,7 @@ Version 0.3: extends v0.1/v0.2 (CH1-CH4, single seed) with a second remediation 
 
 ## Abstract
 
-Agentic AI systems take consequential actions governed by more than one concern at once: is the agent permitted to act, can the organisation afford the action, and is the evidence behind it valid. Prior work treats these as separate pre-action gates: SARC for obligations and permissions (arXiv 2605.07728), Green SARC for predictive cost and carbon budgets (arXiv 2606.15954), and SARC-DQ for metadata-borne evidence validity (arXiv 2607.26313). This paper studies what none of them answers: the semantics of all three judging the same action at the same instant, when more than one of them can rewrite the action. We show that (i) for positive-weight linear (additive-score) aggregation of gate outcomes, an action a member gate vetoed is admitted exactly when the admission threshold does not exceed the aggregator's largest leave-one-out weight sum -- a precise, provable condition, not the universal claim for any strictly increasing aggregator this paper's v0.1/v0.2/early-v0.3 drafts stated (an independent review refuted that universal form with a threshold-at-the-supremum counterexample; Appendix A) -- verified exhaustively over the full discrete verdict grid plus randomized probes, not just a sample; (ii) naive single-pass composition is unsound under remediation, and a remediate-and-regate protocol restores soundness and terminates after one remediation by idempotence; (iii) a second remediation operator (resource-budget downroute) does not commute with the first (evidence substitution) -- a finite-model checker finds concrete non-confluent instances, which is why a fixed operator order is pre-registered rather than left unspecified; (iv) a governed evidence buffer that trusts its own most recent admitted write is vulnerable to poisoning from declared-uncovered defect classes, and two buffer-side mitigations reduce (not eliminate) that exposure; (v) the composed plane can emit one unified Evidence Set per action preserving full lineage across gates; and (vi) composition adds no coverage: classes no member gate covers remain uncovered, reported as a feature. Empirically, on a deterministic open-data artifact composing the three published engines unmodified, over 30 pre-registered seeds and two workflows: CH1 supported; CH2 supported; CH3 supported; CH4 supported; CH5 supported (exhaustive over the discrete grid); CH6 supported on every seed under W1; NOT supported on every seed under W2 (smaller weekly-commitment population); CH7 non-confluent (two remediators do not commute, 86/243 grid points, plus 140/200 off-grid points per an independent-review-promoted probe); CH8 robustness across 30 seeds x 2 workflows holds for CH1-CH5, not for CH6.
+Agentic AI systems take consequential actions governed by more than one concern at once: is the agent permitted to act, can the organisation afford the action, and is the evidence behind it valid. Prior work treats these as separate pre-action gates: SARC for obligations and permissions (arXiv 2605.07728), Green SARC for predictive cost and carbon budgets (arXiv 2606.15954), and SARC-DQ for metadata-borne evidence validity (arXiv 2607.26313). This paper studies what none of them answers: the semantics of all three judging the same action at the same instant, when more than one of them can rewrite the action. We show that (i) for positive-weight linear (additive-score) aggregation of gate outcomes, an action a member gate vetoed is admitted exactly when the admission threshold does not exceed the aggregator's largest leave-one-out weight sum -- a precise, provable condition, not the universal claim for any strictly increasing aggregator this paper's v0.1/v0.2/early-v0.3 drafts stated (an independent review refuted that universal form with a threshold-at-the-supremum counterexample; Appendix A) -- verified exhaustively over the full discrete verdict grid plus randomized probes, not just a sample; (ii) naive single-pass composition is unsound under remediation, and a remediate-and-regate protocol restores soundness and terminates after one remediation by idempotence; (iii) a second remediation operator (resource-budget downroute) does not commute with the first (evidence substitution) -- a finite-model checker finds concrete non-confluent instances, which is why a fixed operator order is pre-registered rather than left unspecified; (iv) a governed evidence buffer that trusts its own most recent admitted write is vulnerable to poisoning from declared-uncovered defect classes, and two buffer-side mitigations reduce (not eliminate) that exposure; (v) the composed plane can emit one unified Evidence Set per action preserving full lineage across gates; and (vi) composition adds no coverage: classes no member gate covers remain uncovered, reported as a feature. Empirically, on a deterministic open-data artifact composing the three published engines unmodified, over 30 pre-registered seeds and two workflows: CH1 supported; CH2 supported; CH3 supported; CH4 supported; CH5 supported (exhaustive over the discrete grid); CH6 supported on every seed under W1; NOT supported on every seed under W2 (smaller weekly-commitment population); CH7 non-confluent (two remediators do not commute, 86/243 grid points, plus 150/200 off-grid points per an independent-review-promoted probe); CH8 robustness across 30 seeds x 2 workflows holds for CH1-CH5, not for CH6.
 
 ## 1. Introduction
 
@@ -36,7 +36,7 @@ Remark (sequential coupling). Resource-gate state decrements as actions execute;
 
 Represent each gate's outcome as a score s_i in [0,1] with s_i = 0 iff the gate holds the action, and let an aggregator f admit a iff f(s) >= tau with tau > 0. An earlier draft of this paper claimed that any strictly increasing f with some admissible profile violates veto -- an independent review refuted this: for f(s) = s1+s2+s3 and tau = 2.5, f(1,1,1) = 3 is admissible, yet no profile with a coordinate at 0 can reach 2.5 (its maximum there is 2), so veto is fully preserved despite f being strictly increasing and having an admissible profile. The universal form was wrong to treat those two hypotheses as sufficient; whether compensation is possible depends on the relationship between tau and f's own weight structure.
 
-Lemma (linear family). Let f(s) = sum_i w_i s_i with w_i >= 0, not all zero, and let L_j = sum_{i != j} w_i (the largest score achievable with s_j = 0), L* = max_j L_j. A vetoed profile (s_j = 0 for some j) is admitted by f if and only if tau <= L*. Min never admits a vetoed profile, for any tau > 0, regardless of weights. Full proof, the reviewer's counterexample worked through against this exact condition, and the discrete instantiation's exhaustive machine check (including 200 HEAD-derived random weight-vector probes), in Appendix A.
+Lemma (linear family; general arbitrary-n statement retagged pending-human-review, finite n=3 encoding split into Corollary 2, per independent review round two finding R2-N2). Let f(s) = sum_i w_i s_i with w_i >= 0, not all zero, and let L_j = sum_{i != j} w_i (the largest score achievable with s_j = 0), L* = max_j L_j. A vetoed profile (s_j = 0 for some j) is admitted by f if and only if tau <= L*. Min never admits a vetoed profile, for any tau > 0, regardless of weights. Full proof, the reviewer's counterexample worked through against this exact condition, and the discrete instantiation's exhaustive machine check (including 200 HEAD-derived random weight-vector probes), in Appendix A.
 
 Consequence: the composed verdict of Definition 2 is the ordinal form of min on admissibility, the cross-gate generalisation of "any failed predicate blocks".
 
@@ -56,9 +56,9 @@ Protocol (remediate-regate composition, "rtr" in artifact output). Phase I: eval
 
 Lemma 1 (termination, scoped to the current one-shot composition branch). For the current one-shot composition branch and the DQ-library behavior exercised in this artifact's scenarios/tests, buffer substitution is idempotent, rho_sub(rho_sub(a)) = rho_sub(a), and E(rho_sub(a)) consists of governed records the evidence gate admits by construction; hence no further remediation is generated and the protocol reaches a fixed point after at most one remediation of each operator. The argument depends on an external DQ predicate contract this artifact composes but does not itself prove for every possible governed record (independent review classification: checked-scope-only). Full proof in Appendix A.
 
-Theorem 1 (soundness of remediate-regate composition). Under Lemma 1 and gates that are functions of (action, context, evidence, current state), the remediate-regate protocol satisfies Definition 3: Phase II evaluates every gate on a_exec itself, and the join preserves every Held verdict. Corollary 1 (sufficiency only): if the authority and resource gates are invariant under the operators applied on the executed-reachable action set, single-pass is sound. The converse does not hold in general -- an independent review gave a counterexample (a gate that varies only on actions independently held, and so never executed) -- and this paper no longer claims it; an earlier draft's iff overstated what was proved. Full proof, and the counterexample worked through, in Appendix A.
+Theorem 1 (soundness of remediate-regate composition; general statement retagged checked-scope-only per independent review round two, finite response-lattice encoding split into Corollary 3). Under Lemma 1 and gates that are functions of (action, context, evidence, current state), the remediate-regate protocol satisfies Definition 3: Phase II evaluates every gate on a_exec itself, and the join preserves every Held verdict. Corollary 1 (sufficiency only; retagged checked-scope-only per independent review round two): if the authority and resource gates are invariant under the operators applied on the executed-reachable action set, single-pass is sound. The converse does not hold in general -- an independent review gave a counterexample (a gate that varies only on actions independently held, and so never executed) -- and this paper no longer claims it; an earlier draft's iff overstated what was proved. Full proof, and the counterexample worked through, in Appendix A.
 
-CH7 (multi-remediator order dependence). With both operators active, does a fixed order matter -- is rho_route(rho_sub(a)) always equal to rho_sub(rho_route(a))? A finite-model checker (checkers/remediator_check.py) applies both orders over a grid of (243 points): quantity, corrupted unit cost, governed unit cost, cost budget, carbon budget, reusing the real remediation functions directly. Registered outcome: non_confluent, with 86 disagreeing grid points out of 243. The independent review additionally probed continuous-valued points off this pre-registered grid and found non-confluence there too (review/REVIEW.md Section 5: 144/200 HEAD-derived off-grid points non-confluent); this artifact promotes that probe into the checker itself, using the same HEAD-derived deterministic seeding already established for the F1 lemma verification, and reruns it on every checker run: 140/200 off-grid points disagree, strengthening CH7 beyond the declared grid. Where the two orders disagree, the mechanism is structurally the same failure Proposition 3 identifies between composition protocols: a budget check run against a not-yet-corrected value never gets re-checked once the value is corrected. This is the formal justification for prereg/w2-workflow.md's fixed ordering (evidence gate first, then resource gate) -- not an arbitrary implementation choice but a consequence of the operators' non-commutativity. Full result in Appendix A.
+CH7 (multi-remediator order dependence). With both operators active, does a fixed order matter -- is rho_route(rho_sub(a)) always equal to rho_sub(rho_route(a))? A finite-model checker (checkers/remediator_check.py) applies both orders over a grid of (243 points): quantity, corrupted unit cost, governed unit cost, cost budget, carbon budget, reusing the real remediation functions directly. Registered outcome: non_confluent, with 86 disagreeing grid points out of 243. The independent review additionally probed continuous-valued points off this pre-registered grid and found non-confluence there too (review/REVIEW.md Section 5: 144/200 HEAD-derived off-grid points non-confluent); this artifact promotes that probe into the checker itself and reruns it on every checker run, seeded from a fixed declared constant in prereg/probe-seeds.json rather than the current git HEAD, so the published count is commit-stable rather than drifting with every commit (round-two independent review finding R2-N1): 150/200 off-grid points disagree, strengthening CH7 beyond the declared grid. Where the two orders disagree, the mechanism is structurally the same failure Proposition 3 identifies between composition protocols: a budget check run against a not-yet-corrected value never gets re-checked once the value is corrected. This is the formal justification for prereg/w2-workflow.md's fixed ordering (evidence gate first, then resource gate) -- not an arbitrary implementation choice but a consequence of the operators' non-commutativity. Full result in Appendix A.
 
 ## 6. Buffer poisoning: a governed value is only as good as its last admit
 
@@ -72,7 +72,7 @@ Results, 30 seeds, both workflows: under W1 (daily), plain produces at least one
 
 Each decision emits one record: action context; per-gate sections (authority constraints and verdicts; resource predicted cost, carbon, budget state, verdict; evidence predicate results, verdict, substitution with pre and post values and buffer key, record eids); the final join, winner gate, and the remediation record (which operators fired, in which order, for this decision). Ground-truth labels are never present; they live in a separate run log. The line's JSON shape is fixed by schemas/evidence_line.schema.json (Draft 2020-12), pre-registered before any Phase 3 result existed.
 
-Proposition 4 (identity commitment and integrity, relative to a content-addressed store). From an executed action's unified Evidence Set line alone, one can identify -- by content-addressed id -- every record each phase relied on, including the Phase I evidence before substitution and the specific governed-buffer write a substitution drew from, and verify those identities given access to the record store and buffer write history; the line does not, by itself, reconstruct the original bytes, and this paper no longer claims that it does (an earlier draft did; an independent review correctly refuted the byte-reconstruction reading -- Appendix A). Extends the single-gate lineage result of arXiv 2607.26313. Full proof in Appendix A.
+Proposition 4 (identity commitment and integrity, relative to a content-addressed store; retagged checked-scope-only per independent review round two). From an executed action's unified Evidence Set line alone, one can identify -- by content-addressed id -- every record each phase relied on, including the Phase I evidence before substitution and the specific governed-buffer write a substitution drew from, and verify those identities given access to the record store and buffer write history; the line does not, by itself, reconstruct the original bytes, and this paper no longer claims that it does (an earlier draft did; an independent review correctly refuted the byte-reconstruction reading -- Appendix A). A durable, run-scoped buffer write-history log (composition.py's write_log, persisted as buffer-writes.jsonl next to the evidence lines) now backs "the specific governed-buffer write a substitution drew from": each substitution resolves to exactly one write event, closing the round-two independent review's provenance finding that 3,478 real substitution occurrences resolved to only 62 unique ids under the prior key+value-only hash. Extends the single-gate lineage result of arXiv 2607.26313. Full proof in Appendix A.
 
 Proposition 5 (no manufactured coverage). The composed plane's detected class set equals the union of member gates' detected class sets; composition never detects a class no member covers. Corollary: declared uncovered classes remain uncovered, and an honest composed readout must say so. Full proof (a structural tautology, machine-verified across every swept seed) in Appendix A.
 
@@ -176,11 +176,11 @@ Negative-results commitment. Any CH not supported as written is reported as NOT 
 
 | # | Claim | Evidence source | Status |
 |---|---|---|---|
-| C1 | Linear-family compensation lemma (tau <= L*); universal claim retracted per independent review F1 | Lemma (linear family), Appendix A | machine-checked, 1,064 cases (declared grid + 200 HEAD-derived probes) |
+| C1 | Linear-family compensation lemma (tau <= L*) for arbitrary n; universal claim retracted per independent review F1; general lemma retagged pending-human-review, finite n=3 encoding split into Corollary 2 per independent review R2-N2 | Lemma (linear family) + Corollary 2, Appendix A | Lemma pending-human-review; Corollary 2 machine-checked, 1,064 cases (n=3 declared grid + 200 HEAD-derived probes) |
 | C2 | Join composition order-invariant absent remediation | Proposition 2, Appendix A | machine-checked |
 | C3 | Single-pass unsound under substitution, scoped to the implemented construction (independent review classification: checked-scope-only) | Proposition 3 + Table 3 | checked-scope-only (REVIEW.md); generated |
-| C4 | Remediate-regate sound (Theorem 1); single-pass sound under gate invariance, sufficiency only, necessity retracted per independent review F3 (Corollary 1); Lemma 1 scoped to the current one-shot composition branch (independent review classification: checked-scope-only) | Lemma 1, Theorem 1, Corollary 1, Appendix A | Theorem 1 machine-checked; Lemma 1 checked-scope-only (REVIEW.md); Corollary 1 pending-human-review |
-| C5 | Evidence Set gives identity commitment + integrity relative to a content-addressed store (not byte reconstruction; retracted per independent review F2) | Proposition 4, schema v2, Appendix A | machine-checked (schema-verified identity-commitment claim) |
+| C4 | Remediate-regate sound (Theorem 1, general statement retagged checked-scope-only, finite response-lattice encoding split into Corollary 3, per independent review R2-N2); single-pass sound under gate invariance, sufficiency only, necessity retracted per independent review F3 (Corollary 1, retagged checked-scope-only per independent review round two); Lemma 1 scoped to the current one-shot composition branch (checked-scope-only) | Lemma 1, Theorem 1, Corollary 1, Corollary 3, Appendix A | Theorem 1 checked-scope-only (REVIEW.md); Corollary 3 machine-checked, 17,151 cases; Lemma 1 checked-scope-only (REVIEW.md); Corollary 1 checked-scope-only (REVIEW.md) |
+| C5 | Evidence Set gives identity commitment + integrity relative to a content-addressed store (not byte reconstruction; retracted per independent review F2); retagged checked-scope-only per independent review round two (R2-N2: schema field presence and hash commitments are checker-adjacent unit tests, not an exhaustive finite-model checker) | Proposition 4, schema v2, Appendix A | checked-scope-only (REVIEW.md) |
 | C6 | No manufactured coverage | Proposition 5 + CH4, Appendix A | machine-checked (tautology) + generated |
 | C7 | Zero false holds on clean, authorised, in-budget | CH3 | generated; 30-seed CI |
 | C8 | Engines compose unmodified | editable installs; git-clean test | artifact test |
@@ -214,9 +214,9 @@ Synthetic metadata layer over open payloads; declared injection rates; no preval
 
 ## 12. Validation note
 
-This artifact was independently replicated and adversarially reviewed by an automated agent following the published protocol in sarc-suite-agent-review.md; the full report and evidence are at review/REVIEW.md and review/review.json (this repository, committed unedited). Automated review complements and does not replace human peer review.
+This artifact was independently replicated and adversarially reviewed in two rounds by automated agents following the published protocols in sarc-suite-agent-review.md and sarc-suite-agent-review-r2.md; the round-one report and evidence are at review/REVIEW.md and review/review.json, and the round-two report and evidence are at review-out-r2/REVIEW-R2.md, review-out-r2/review.json, and review-out-r2/evidence/. Automated review complements and does not replace human peer review.
 
-This draft is the artifact's response to that review: findings F1-F6 (review/REVIEW.md Section 4) are fixed or weakened per the review's own binding-unless-fixed policy, never argued with in this text; the proof-tag reclassifications in Appendix A (checked-scope-only for Proposition 3 and Lemma 1, sufficiency-only for Corollary 1) follow the review's Section 3 proof-tag policy exactly, and no tag here claims more than that review certified. This response has not itself been re-reviewed.
+This draft is the artifact's response to that review: findings F1-F6 (review/REVIEW.md Section 4) are fixed or weakened per the review's own binding-unless-fixed policy, never argued with in this text; the proof-tag reclassifications in Appendix A (checked-scope-only for Proposition 3 and Lemma 1, sufficiency-only for Corollary 1) follow the review's Section 3 proof-tag policy exactly, and no tag here claims more than that review certified.
 
 ## Appendix A. Proofs
 
@@ -226,7 +226,20 @@ available to this artifact's automated pipeline:
 - **machine-checked**: an exhaustive finite-model checker under
   `checkers/` (or a structural tautology argued directly from the code
   that produces the number) verifies the claim over its entire relevant
-  discrete state space -- not a sample, the whole space.
+  discrete state space -- not a sample, the whole space. Per round-two
+  independent review finding R2-N2 (general Proposition/Theorem
+  statements were tagged `machine-checked` when only a narrower finite
+  instantiation was actually executable-verified): a statement's own
+  `PROOF-STATUS` line must name the specific checker module and the
+  enumerated domain it covers (a concrete count, grid, or state-space
+  size), not just assert the claim is machine-checked in general.
+  `checkers/proof_status_lint.py` enforces this mechanically. A
+  statement whose true generality (arbitrary `n`, arbitrary gates,
+  arbitrary action spaces) exceeds what any checker enumerates gets
+  `pending-human-review` or `checked-scope-only` instead, plus a
+  sibling finite-encoding Corollary stated at exactly the checker's
+  scope and tagged `machine-checked` there (Corollary 2 and Corollary 3
+  below are the two introduced for this reason).
 - **pending-human-review**: the claim is proved here in prose (a
   standard mathematical argument) and, where applicable, instantiated
   empirically by the artifact, but has not been exhaustively verified by
@@ -349,13 +362,41 @@ independent review's own probe methodology) at the same four thresholds
 -- 1,064 consistency checks in total, all agreeing with the Lemma's
 prediction (`out/checkers/compensation_check.json`).
 
-**PROOF-STATUS: machine-checked** (the Lemma's general `tau <= L*`
-characterization is verified, not merely instantiated, across all 1,064
-declared-grid-plus-random-probe cells in
-`checkers/compensation_check.py`; `out/checkers/compensation_check.json`).
-The algebraic proof above is elementary (linearity plus the `[0,1]`
-bound), and the checker confirms it holds on every case actually
-computed, not just the ones the hand proof covers analytically.
+**PROOF-STATUS: pending-human-review.** Retagged per round-two
+independent review finding R2-N2 (`review-r2/REVIEW-R2.md`): the Lemma
+above (Sufficiency/Necessity/Min) is a general algebraic argument, true
+for arbitrary `n` and arbitrary nonnegative weights on the continuous
+cube `[0,1]^n`, but that generality is exactly what no executable
+checker in this repository verifies. `checkers/compensation_check.py`
+enumerates only this artifact's own finite `n = 3` instantiation
+(Corollary 2 immediately below) -- correct and machine-checked at that
+scope, but not a machine check of the continuous arbitrary-`n`
+statement itself. Largest certified scope per the review: "analytic
+arbitrary-n proof plus finite executable checks at n=3."
+
+---
+
+## Corollary 2 (finite three-gate encoding of the linear-family lemma)
+
+**Statement.** For this artifact's own finite encoding of the Lemma
+above -- `n = 3` gates (`dq`, `sarc`, `green`), profiles drawn from
+`composition.Response^3` (125 points, `|Response| = 5`), scored via
+`prereg/weights.json`'s `score_encoding`, `tau` ranging over the four
+registered thresholds -- the `tau <= L*` characterization holds exactly
+on every one of 1,064 checked cases: the 264 declared grid cells (every
+combination of the artifact's registered weight vectors and thresholds)
+plus 200 HEAD-derived random positive-weight vectors at those same four
+thresholds, each verified against brute-force ground truth over the
+`s_j = 0` ("vetoed") population. The algebraic proof above is elementary
+(linearity plus the `[0,1]` bound), and the checker confirms it holds on
+every case actually computed, not just the ones the hand proof covers
+analytically.
+
+**PROOF-STATUS: machine-checked** (`checkers/compensation_check.py`;
+enumerated domain: `n = 3` gates, the 125-point `composition.Response^3`
+profile space, 264 declared grid cells plus 200 HEAD-derived random
+probe vectors x 4 thresholds = 1,064 cases, all agreeing with the
+Lemma's prediction; `out/checkers/compensation_check.json`).
 
 ---
 
@@ -529,10 +570,17 @@ too -- there is no way for the executed action to have been admitted by
 the join while simultaneously being held by one of the very gates that
 produced that join, because they are the SAME evaluation.
 
-**PROOF-STATUS: machine-checked** (the core join argument follows
-directly and exhaustively from Proposition 2's monotone-hardening law,
-itself machine-checked over the full finite `Response` lattice by
-`checkers/lattice_check.py` -- 17,151 checks). CH1's 30-seed empirical
+**PROOF-STATUS: checked-scope-only (REVIEW.md).** Retagged per
+round-two independent review finding R2-N2 (`review-r2/REVIEW-R2.md`).
+Largest scope certified: current code path under Lemma 1 and the
+five-response join. `checkers/lattice_check.py` exhaustively certifies
+Proposition 2's monotone-hardening law -- the join mechanism this proof
+leans on -- over the full finite `Response` lattice (17,151 checks), but
+that certifies the join mechanism, not Theorem 1's own premises for
+arbitrary gates, arbitrary action spaces, or arbitrary current-state
+transitions, nor Lemma 1's external DQ predicate contract this theorem
+also depends on. Corollary 3 immediately after Corollary 1 below states
+precisely what the lattice checker does certify. CH1's 30-seed empirical
 audit (zero violations on every seed, `out/results/sweep_summary.json`)
 corroborates this on real data without substituting for the proof.
 
@@ -567,11 +615,37 @@ on the actions that end up executed, their single-pass verdicts
 verdicts (computed on `rho(a)`) for exactly those actions, so
 single-pass inherits soundness on them from Theorem 1.
 
-**PROOF-STATUS: pending-human-review.** Stated for arbitrary gates and
-action spaces; a structural argument from the code path (not itself
-exhaustively re-derived over an unbounded input space, unlike Theorem
-1's finite-lattice-backed join argument). The necessity direction is not
-tagged at all -- it is retracted, not weakly supported.
+**PROOF-STATUS: checked-scope-only (REVIEW.md).** Retagged per
+round-two independent review (`review-r2/REVIEW-R2.md`): largest scope
+certified is sufficiency on executed-reachable actions under Lemma 1 and
+invariance of downstream gates. The necessity direction is properly
+retracted above, not weakly supported under any tag. The sufficiency
+proof is a structural argument from the code path via Theorem 1's
+join argument -- not itself exhaustively re-derived over an unbounded
+arbitrary action space, but resting on the same finite lattice-backed
+join mechanism Corollary 3 below certifies, which is why this carries
+`checked-scope-only` rather than the more generic `pending-human-review`
+it carried before this round's retag.
+
+---
+
+## Corollary 3 (finite response-lattice encoding of remediate_regate soundness)
+
+**Statement.** For this artifact's finite `Response` lattice
+(`|Response| = 5`) and the join-hardening property `checkers/
+lattice_check.py` exhaustively verifies (17,151 checks over tuples of
+length 1 through 4): no combination of Phase-II per-gate responses drawn
+from this five-value lattice can have its join equal `ADMIT` while any
+individual response in that combination is Held (`escalate` or
+`block`). This is the exact finite mechanism Theorem 1's join argument
+invokes, verified over its entire domain -- not an instantiation of it,
+the full domain the checker enumerates.
+
+**PROOF-STATUS: machine-checked** (`checkers/lattice_check.py`;
+enumerated domain: `Response^k` for `k = 1..4`, `|Response| = 5`,
+17,151 total law checks across idempotence, commutativity,
+associativity, monotone hardening, duplication invariance, and the
+empty-join case; `out/checkers/lattice_check.json`).
 
 ---
 
@@ -641,16 +715,48 @@ the id alone. Authority and resource gate sections are unchanged from
 v1 (`constraints_evaluated`, `predicted_cost`/`predicted_carbon`/`budget_state`)
 and were never part of the refuted claim.
 
-**PROOF-STATUS: machine-checked** (the schema-verified identity-
-commitment claim: schema v2's `required` fields on
-`remediation.evidence_substitution`, confirmed present and well-formed
-on real substituted lines by `test_provenance_fields_validate_against_schema_v2`
-and the fuzzed `test_randomly_sampled_lines_validate_against_schema_v2`,
-and `_buffer_write_eid`'s content-addressing property directly unit-
-tested). This tag covers the identity-commitment and schema-shape claim
-specifically -- it does not and cannot cover "bytes are recoverable from
-hashes," because that claim is now explicitly disclaimed rather than
-made.
+**Update (R2-F6(a), durable buffer write-history log).** Since the
+round-two review ran, `substitute_source.buffer_write_eid` no longer
+identifies a write by content hash alone. Every `evaluate_dq` admit now
+appends an event to a run-scoped, append-only write log
+(`composition._record_buffer_write`: `write_seq`, `key`, `value`, `day`,
+and an `event_id` hashing all four), seeded with one genesis entry per
+SKU from the buffer's pre-run known-good values
+(`composition._seed_genesis_writes`) so even a substitution that traces
+back to the buffer's initial state -- possible on a SKU's very first
+decision -- resolves to a real entry, not nothing. A substitution's
+`buffer_write_eid` is resolved against this log
+(`composition._resolve_buffer_write_event`: most recent prior write to
+the same key with the same value) and persisted alongside the evidence
+lines as `<scenario>-<mode>-buffer-writes.jsonl`. This directly answers
+the review's own provenance probe (3,478 substitution occurrences
+resolving to only 62 unique ids under the old key+value-only hash):
+`test_repeated_identical_writes_stay_individually_resolvable`
+(`test_audit_unit.py`) reproduces that exact repeated-write pattern and
+asserts each substitution still resolves to exactly one write-log entry.
+
+**PROOF-STATUS: checked-scope-only (REVIEW.md).** Retagged per
+round-two independent review (`review-r2/REVIEW-R2.md`): largest scope
+certified is schema-v2 field presence and deterministic key/value hash
+commitments. Schema v2's `required` fields on
+`remediation.evidence_substitution` are confirmed present and
+well-formed on real substituted lines by
+`test_provenance_fields_validate_against_schema_v2` and the fuzzed
+`test_randomly_sampled_lines_validate_against_schema_v2`, and the write
+log's content-addressing property is directly unit tested -- these are
+not exhaustive-finite-model checks under `checkers/`, so this does not
+carry `machine-checked` (round-two finding R2-N2's linter rule: that tag
+requires a named executable checker module and enumerated domain). The
+durable write-history log above resolves the specific-write-event-
+identity residual the round-two review flagged, but store-backed
+resolution (verifying a candidate record/write against an actual
+persistent store, not just this run's own JSONL log) remains outside
+what any test here exercises; this tag is not retroactively upgraded to
+`machine-checked` on the strength of this repo's own unit tests without
+a further review certifying it. This tag covers the identity-commitment
+and schema-shape claim specifically -- it does not and cannot cover
+"bytes are recoverable from hashes," because that claim is explicitly
+disclaimed rather than made.
 
 ---
 
@@ -710,25 +816,33 @@ same failure mode Proposition 3 already identifies for single-pass
 composition, now shown to recur between two remediators rather than
 between two composition protocols.
 
-**Off-grid probe (promoted per independent review).** The 243-point grid
-above is a finite lattice of round numbers. The independent review
+**Off-grid probe (promoted per independent review; seed fixed per
+round-two review finding R2-N1/R2-F1).** The 243-point grid above is a
+finite lattice of round numbers. The independent review
 (`review/REVIEW.md`, Section 5) additionally probed continuous-valued
-points off that lattice using a HEAD-derived deterministic seed and
-found 144/200 non-confluent. `checkers/remediator_check.py` now runs
-this class of probe itself on every invocation
-(`random_off_grid_points`, seeded from `sha256(git HEAD)`, the same
-technique established for the F1 lemma verification in
-`checkers/compensation_check.py`): 200 continuous points strictly inside
-the grid's outer bounds, never on a grid coordinate, checked with the
-same real remediation functions. This artifact's own rerun records its count in
-`out/checkers/remediator_check.json`'s `off_grid_probe.non_confluent_count`
-(out of `off_grid_probe.n_probes` = 200) -- a fresh HEAD-derived seed at
-every commit, so it does not reproduce the reviewer's exact 144/200, but
-confirms the same off-grid non-confluence beyond the pre-registered
-grid on every rerun to date.
+points off that lattice and found 144/200 non-confluent.
+`checkers/remediator_check.py` runs this class of probe itself on every
+invocation (`random_off_grid_points`): 200 continuous points strictly
+inside the grid's outer bounds, never on a grid coordinate, checked with
+the same real remediation functions. This probe's seed was originally
+HEAD-derived (`sha256(git HEAD)`), the same technique established for
+the F1 lemma verification in `checkers/compensation_check.py` -- but
+that made the published non-confluent count drift with every commit,
+which the round-two independent review caught (`review-r2/REVIEW-R2.md`,
+finding R2-N1: the response commit's paper reported 140/200 while a
+`make formal` rerun at the same commit produced 145/200). The seed is
+now a fixed constant declared in `prereg/probe-seeds.json` (dated after
+`prereg-v1`, since this probe itself postdates `prereg-v1`), so the
+published count is commit-stable: `out/checkers/remediator_check.json`'s
+`off_grid_probe.non_confluent_count` out of `off_grid_probe.n_probes` =
+200. It does not reproduce the reviewer's own exact 144/200 (a
+different, independently drawn probe), but confirms the same off-grid
+non-confluence beyond the pre-registered grid, and no longer drifts on
+rerun at a fixed commit or across commits.
 
-**PROOF-STATUS: machine-checked** (exhaustive over the 243-point finite
-grid, `out/checkers/remediator_check.json`; the sample counterexample is
+**PROOF-STATUS: machine-checked** (`checkers/remediator_check.py`;
+enumerated domain: the 243-point finite grid,
+`out/checkers/remediator_check.json`; the sample counterexample is
 independently re-derived, not just read back from the checker's own
 report, in `test_checkers.py::test_remediator_check_non_confluent_counterexample_is_reproducible`;
 the off-grid probe above is a supplementary, non-exhaustive finite
@@ -761,4 +875,4 @@ sample and does not itself extend the machine-checked scope beyond the
 
 ## Appendix C. Statistical methodology (V3 gate)
 
-30 seeds (prereg/seeds.json, first seed 26313, generated by `random.Random(26313)` sampling without replacement from [1, 2^31-1], frozen before any Phase 3 code ran). Confidence intervals are two-tailed 95% t-intervals, mean +/- t_crit(df=29, alpha=0.05) * (stdev / sqrt(30)), t_crit = scipy.stats.t.ppf(0.975, 29), computed exactly at runtime (fixed per independent review finding F6: the prior rounded constant 2.045230 diverged from the exact value by up to 3.77e-6 in some CI endpoints -- see review/REVIEW.md); implementation in sweep.py's mean_ci95, using the statistics module for mean/stdev and scipy (pinned in bootstrap.sh) for the t-critical value. Scenario economics (budgets, caps) are calibrated once from the registered baseline seed and held fixed across the sweep; only each scenario's decision-stream seed varies -- the same "treatment", repeated draws, which is the design this kind of robustness claim requires. Per-seed summaries (no raw per-decision data) are checkpointed under out/results/sweep/ and are part of this artifact's committed history.
+30 seeds (prereg/seeds.json, first seed 26313, generated by `random.Random(26313)` sampling without replacement from [1, 2^31-1], frozen before any Phase 3 code ran). Confidence intervals are two-tailed 95% t-intervals, mean +/- t_crit(df=29, alpha=0.05) * (stdev / sqrt(30)), t_crit = scipy.stats.t.ppf(0.975, 29), computed exactly at runtime (fixed per independent review finding F6: the prior rounded constant 2.045230 diverged from the exact value by up to 3.77e-6 in some CI endpoints -- see review/REVIEW.md); implementation in sweep.py's mean_ci95, using math.fsum over explicitly sorted inputs for mean and variance (fixed per independent review round-two finding R2-N3: naive sum()/len() is order-dependent at the ULP level, unlike fsum) and scipy (pinned in bootstrap.sh) for the t-critical value. Scenario economics (budgets, caps) are calibrated once from the registered baseline seed and held fixed across the sweep; only each scenario's decision-stream seed varies -- the same "treatment", repeated draws, which is the design this kind of robustness claim requires. Per-seed summaries (no raw per-decision data) are checkpointed under out/results/sweep/ and are part of this artifact's committed history.

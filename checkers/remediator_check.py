@@ -45,32 +45,50 @@ independent review additionally probed continuous-valued points off that
 lattice and found non-confluence there too, strengthening CH7's result
 beyond the pre-registered grid. This module reruns that class of probe
 itself (not a byte-for-byte replay of the reviewer's own run, which this
-artifact cannot reproduce without their RNG draws) using the same
-HEAD-derived deterministic seeding technique already established in
-`checkers/compensation_check.py` for the F1 lemma verification: seed a
-PRNG from sha256(current git HEAD), draw N continuous points strictly
-inside the grid's outer bounds (never on a grid coordinate), and check
-confluence on each with the same real remediation functions.
+artifact cannot reproduce without their RNG draws): draw N continuous
+points strictly inside the grid's outer bounds (never on a grid
+coordinate), and check confluence on each with the same real remediation
+functions.
 
-SEED = 26313 (not used by the declared grid, which is exhaustive; the
-off-grid probe below uses a HEAD-derived seed instead, documented at its
-call site)
+The probe's seed was originally HEAD-derived (sha256 of the current git
+commit), which made its published non-confluent count drift with every
+commit -- the round-two independent review (review-r2/REVIEW-R2.md,
+finding R2-N1) caught the response commit's paper reporting 140/200
+while a plain rerun at the same commit produced 145/200, since a
+`make formal` rerun after further commits landed re-derives the seed
+from a different HEAD. The seed is now a fixed constant declared in
+prereg/probe-seeds.json (dated after prereg-v1, since the probe itself
+postdates prereg-v1 -- see that file's note), so the published count is
+commit-stable. HEAD-derived randomness remains a reviewer's own tool for
+independent adversarial probing, not this artifact's seeding source.
+
+Each run of this checker also stamps its own output with
+`generated_at_head_sha` (checkers/_provenance.py) -- the git HEAD
+current when the checker actually ran -- so a committed checker artifact
+whose content predates the commit it sits alongside (staleness) is
+machine-detectable, per the same review finding.
+
+SEED = 26313 (both the declared grid, which is exhaustive and doesn't
+need a seed, and the off-grid probe below, which now uses the fixed
+seed from prereg/probe-seeds.json -- coincidentally the same value as
+this artifact's first registered sweep seed, not a re-use of sweep
+state)
 """
 from __future__ import annotations
 
-import hashlib
 import itertools
 import json
-import random
-import subprocess
 from dataclasses import replace
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+import random
 
+from checkers._provenance import head_sha
 from composition import ActionContext, _maybe_downroute, _remediated_context
 from suite_sim import CARBON_PER_UNIT, COST_MULTIPLIER
 
 OUT_PATH = Path("out/checkers/remediator_check.json")
+PROBE_SEEDS_PATH = Path("prereg/probe-seeds.json")
 
 QTY_GRID = [10.0, 50.0, 100.0]
 CORRUPTED_COST_GRID = [5.0, 10.0, 20.0]
@@ -78,7 +96,9 @@ GOVERNED_COST_GRID = [5.0, 10.0, 20.0]
 COST_BUDGET_GRID = [60.0, 300.0, 1e12]
 CARBON_BUDGET_GRID = [10.0, 50.0, 1e12]
 
-N_OFF_GRID_PROBES = 200
+
+def load_off_grid_probe_spec(path: Path = PROBE_SEEDS_PATH) -> Dict[str, Any]:
+    return json.loads(path.read_text())["ch7_off_grid_probe"]
 
 
 def _base_ctx(qty: float, unit_cost: float) -> ActionContext:
@@ -112,20 +132,15 @@ def _close(a: float, b: float, tol: float = 1e-9) -> bool:
     return abs(a - b) <= tol * max(1.0, abs(a), abs(b))
 
 
-def head_sha() -> str:
-    return subprocess.run(
-        ["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=True
-    ).stdout.strip()
-
-
-def random_off_grid_points(n: int, seed_material: str) -> List[Dict[str, float]]:
+def random_off_grid_points(n: int, seed: int) -> List[Dict[str, float]]:
     """N continuous-valued points strictly inside the declared grid's
     outer bounds, never landing on a grid coordinate -- deterministic
-    given seed_material (the HEAD-derived sha in normal use), so the
-    probe is reproducible yet not itself part of the pre-registered
-    fixed grid. Mirrors the independent review's own off-grid probe
-    methodology (review/REVIEW.md Section 5)."""
-    seed = int(hashlib.sha256(seed_material.encode()).hexdigest(), 16) % (2**32)
+    given seed (a fixed constant from prereg/probe-seeds.json in normal
+    use, not HEAD-derived -- see this module's docstring and that
+    file's dated note), so the probe is reproducible AND commit-stable,
+    while still not itself part of the pre-registered fixed grid.
+    Mirrors the independent review's own off-grid probe methodology
+    (review/REVIEW.md Section 5)."""
     rng = random.Random(seed)
     points = []
     for _ in range(n):
@@ -183,8 +198,8 @@ def run() -> Dict[str, Any]:
 
     confluent = len(counterexamples) == 0
 
-    sha = head_sha()
-    off_grid_points = random_off_grid_points(N_OFF_GRID_PROBES, sha)
+    probe_spec = load_off_grid_probe_spec()
+    off_grid_points = random_off_grid_points(probe_spec["n_probes"], probe_spec["seed"])
     off_grid = _off_grid_probe(off_grid_points)
 
     result: Dict[str, Any] = {
@@ -194,15 +209,18 @@ def run() -> Dict[str, Any]:
         "ch7_registered_outcome": "confluent" if confluent else "non_confluent",
         "sample_counterexample": counterexamples[0] if counterexamples else None,
         "all_counterexamples": counterexamples,
+        "generated_at_head_sha": head_sha(),
         "off_grid_probe": {
-            "head_sha": sha,
+            "seed": probe_spec["seed"],
+            "seed_source": "prereg/probe-seeds.json (fixed, commit-stable -- round-two review finding R2-N1)",
             **off_grid,
             "attribution": (
                 "Promoted per independent review, review/REVIEW.md Section 5 "
                 "(\"144/200 HEAD-derived off-grid points were non-confluent\"); "
-                "this artifact's own rerun uses a fresh HEAD-derived seed and "
-                "will not in general reproduce that exact count, but tests the "
-                "same class of continuous off-grid points."
+                "this artifact's own rerun uses a fixed declared seed (not "
+                "HEAD-derived, since round two) and will not in general "
+                "reproduce that exact count, but tests the same class of "
+                "continuous off-grid points and is stable across commits."
             ),
         },
         "note": (

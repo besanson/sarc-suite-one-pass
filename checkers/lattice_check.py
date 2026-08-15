@@ -45,6 +45,7 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List
 
+from checkers._provenance import head_sha
 from composition import Response, compute_restrictiveness_join
 
 MAX_K = 4
@@ -146,6 +147,7 @@ def run() -> Dict[str, Any]:
         "laws": results,
         "all_hold": all(r["holds"] for r in results),
         "total_checks": sum(r["checked"] for r in results),
+        "generated_at_head_sha": head_sha(),
     }
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUT_PATH.write_text(json.dumps(result, indent=2))

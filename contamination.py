@@ -31,6 +31,7 @@ SEED = 26313
 """
 from __future__ import annotations
 
+import math
 from collections import defaultdict
 from typing import Any, Dict, List, Optional, Sequence
 
@@ -176,7 +177,12 @@ def compute_poisoned_substitutions(
             write_history[sku].append((p.decision_id, p.injected_defect, written_value))
 
     deltas = [event["abs_value_delta"] for event in poisoned_events]
-    mean_delta = sum(deltas) / len(deltas) if deltas else 0.0
+    # Order-stable per round-two independent review finding R2-N3
+    # ("poisoned_mean_abs_value_delta" differed by one ULP between two
+    # replays of the same seed): math.fsum over explicitly sorted
+    # deltas, not naive sum()/len(), so the result is independent of
+    # whatever order poisoned_events happened to be appended in.
+    mean_delta = math.fsum(sorted(deltas)) / len(deltas) if deltas else 0.0
 
     return {
         "substitutions": substitutions,

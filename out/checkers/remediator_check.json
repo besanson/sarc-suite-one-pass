@@ -1310,27 +1310,29 @@
       }
     }
   ],
+  "generated_at_head_sha": "cee2d7f40820c2248b4c32376e2490c84478cf1b",
   "off_grid_probe": {
-    "head_sha": "514f0160cdda2b67994586d2eb23b681824763b5",
+    "seed": 26313,
+    "seed_source": "prereg/probe-seeds.json (fixed, commit-stable -- round-two review finding R2-N1)",
     "n_probes": 200,
-    "non_confluent_count": 140,
-    "confluent_count": 60,
+    "non_confluent_count": 150,
+    "confluent_count": 50,
     "sample_non_confluent": {
-      "qty": 85.75844652664328,
-      "corrupted_unit_cost": 11.982263175051592,
-      "governed_unit_cost": 19.58592058898074,
-      "cost_budget": 481.4986263064198,
-      "carbon_budget": 945.389166704253,
+      "qty": 51.49826720274343,
+      "corrupted_unit_cost": 18.56825345753959,
+      "governed_unit_cost": 17.69712860789935,
+      "cost_budget": 605.0589352856848,
+      "carbon_budget": 151.56992197533145,
       "order_a_substitute_then_downroute": {
-        "qty": 20.48659665663594,
-        "order_value": 401.24885525534984
+        "qty": 28.491389229079445,
+        "order_value": 504.2157794047373
       },
       "order_b_downroute_then_substitute": {
-        "qty": 33.48690054569947,
-        "order_value": 655.8717748591657
+        "qty": 27.154723009233905,
+        "order_value": 480.5606254062961
       }
     },
-    "attribution": "Promoted per independent review, review/REVIEW.md Section 5 (\"144/200 HEAD-derived off-grid points were non-confluent\"); this artifact's own rerun uses a fresh HEAD-derived seed and will not in general reproduce that exact count, but tests the same class of continuous off-grid points."
+    "attribution": "Promoted per independent review, review/REVIEW.md Section 5 (\"144/200 HEAD-derived off-grid points were non-confluent\"); this artifact's own rerun uses a fixed declared seed (not HEAD-derived, since round two) and will not in general reproduce that exact count, but tests the same class of continuous off-grid points and is stable across commits."
   },
   "note": "non-confluent: at least one concrete instance exists where substitute-then-downroute and downroute-then-substitute reach different final actions. This is the formal justification for prereg/w2-workflow.md's fixed ordering (evidence gate first, then resource gate) rather than leaving the order unspecified. The off-grid probe (see off_grid_probe) strengthens this result beyond the pre-registered grid, per the independent review."
 }

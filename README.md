@@ -63,7 +63,8 @@ make bootstrap Clone the three engines at their pinned commits (engines.lock) + 
 make ci-local  bootstrap + test + suite (local acceptance for .github/workflows/ci.yml)
 make test      # Run the test suite (all must pass)
 make suite     # Run all four scenarios S1-S4 in both modes (~15-20 seconds)
-make paper     # Generate paper draft v0.2 with filled slots
+make paper     # Generate the v0.3 paper (depends on suite, sweep, formal, in that order)
+make paper-legacy  # Superseded v0.1/v0.2 paper pipeline (main.py), kept for its own tests only
 make mutate    # Mutation testing on composition.py + metrics.py (V5 gate, target >=0.85; see ADR-002)
 make latency   # Per-gate + composed latency microbenchmark, stored in out/quality.json
 make clean     # Remove outputs
@@ -179,7 +180,7 @@ two remediators (evidence substitution, downroute) do **not** commute —
 and a concrete counterexample, which is the formal justification for
 `prereg/w2-workflow.md`'s fixed remediation order.
 
-## Phase 5: paper v0.3 (`make paper-v3`)
+## Phase 5: paper v0.3 (`make paper`)
 
 `paper4-composition-draft-v0.3.md` extends v0.1/v0.2 (which stay
 unmodified historical artifacts) with the second remediator, buffer
@@ -203,7 +204,7 @@ before the run is considered clean.
 
 ✓ `make test` green
 ✓ `make suite` completes in under about 20s, prints scenario summaries and the CH1-CH4 line
-✓ `make paper` produces v0.2 with zero unfilled slots, sourced solely from `out/metrics.json` and the generated manifest
+✓ `make paper` produces v0.3 with zero unfilled slots, sourced solely from `out/metrics.json`, `out/results/sweep_summary.json`, `out/checkers/*.json`, `appendix-a-proofs.md`, and the generated manifest (`make paper-legacy` still produces v0.2 the same way, from `out/metrics.json` and the manifest alone)
 ✓ Honesty banners verbatim in README, readouts, and the populated draft's Appendix B
 ✓ ADR-001-composition.md written, including the Repair section
 ✓ Apache-2.0 headers on all new files; LICENSE at repo root

@@ -117,7 +117,10 @@ def _engine_and_true_cost(true_cost: float) -> CompositionEngine:
     green_engines = build_green_engines({SKU: true_cost}, CARBON_PER_UNIT, COST_MULTIPLIER)
     buffer = GovernedBuffer(values={SKU: true_cost})
     dq_gate = DQPreActionGate(spec=dq_spec, buffer=buffer)
-    return CompositionEngine(dq_gate, sarc_spec, green_engines, CARBON_PER_UNIT, COST_MULTIPLIER)
+    return CompositionEngine(
+        dq_gate, sarc_spec, green_engines, CARBON_PER_UNIT, COST_MULTIPLIER,
+        initial_buffer_values={SKU: true_cost},
+    )
 
 
 @given(

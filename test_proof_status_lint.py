@@ -61,12 +61,49 @@ def test_linter_catches_a_typo_status(tmp_path):
 def test_linter_accepts_a_clean_file(tmp_path):
     good_file = tmp_path / "good-proofs.md"
     good_file.write_text(
-        "Proposition X.\n\nPROOF-STATUS: machine-checked\n\n"
+        "Proposition X.\n\n"
+        "PROOF-STATUS: machine-checked (checkers/example_check.py; 42 cases).\n\n"
         "Proposition Y.\n\nPROOF-STATUS: pending-human-review\n"
     )
     result = proof_status_lint.lint_file(str(good_file))
     assert result["clean"] is True
     assert result["tag_count"] == 2
+
+
+def test_linter_catches_machine_checked_with_no_checker_or_domain(tmp_path):
+    """Round-two review finding R2-N2: a bare 'machine-checked' with no
+    named checker module and no enumerated domain overclaims exactly the
+    way the general Proposition 1 / Theorem 1 statements did."""
+    bad_file = tmp_path / "bad-scope.md"
+    bad_file.write_text("Proposition X.\n\nPROOF-STATUS: machine-checked (trust me).\n")
+    result = proof_status_lint.lint_file(str(bad_file))
+    assert result["clean"] is False
+    assert len(result["machine_checked_scope_violations"]) == 1
+
+
+def test_linter_catches_machine_checked_with_domain_but_no_checker(tmp_path):
+    bad_file = tmp_path / "bad-scope2.md"
+    bad_file.write_text("Proposition X.\n\nPROOF-STATUS: machine-checked (all 243 cases pass).\n")
+    result = proof_status_lint.lint_file(str(bad_file))
+    assert result["clean"] is False
+    violation = result["machine_checked_scope_violations"][0]
+    assert violation["has_enumerated_domain"] is True
+    assert violation["has_checker_or_tautology_reference"] is False
+
+
+def test_linter_accepts_machine_checked_via_structural_tautology(tmp_path):
+    """The taxonomy's own stated alternative to a checkers/ module: 'a
+    structural tautology argued directly from the code that produces the
+    number' (Proposition 5's coverage-union identity is the real
+    example) -- must not require a checkers/*.py path."""
+    good_file = tmp_path / "tautology-proofs.md"
+    good_file.write_text(
+        "Proposition X.\n\n"
+        "PROOF-STATUS: machine-checked (tautological by construction, "
+        "confirmed on all 30 seeds).\n"
+    )
+    result = proof_status_lint.lint_file(str(good_file))
+    assert result["clean"] is True
 
 
 def test_every_proposition_lemma_theorem_heading_has_a_following_tag():

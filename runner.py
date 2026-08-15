@@ -31,6 +31,7 @@ from typing import Dict, List, Optional, Tuple
 import sarc_governance as sg
 from sarc_dq.dq_spec import load_spec as load_dq_spec
 from sarc_dq.gate import GovernedBuffer, PreActionGate as DQPreActionGate
+from sarc_dq.records import EvidenceRecord, RecordMetadata
 
 from composition import (
     ActionContext,
@@ -79,6 +80,12 @@ def _engine(dq_spec, sarc_spec, green_engines, sku_true_cost, buffer_factory=Gov
         green_engines=green_engines,
         carbon_per_unit=CARBON_PER_UNIT,
         cost_multiplier=COST_MULTIPLIER,
+        # Same dict just used to seed the buffer above (buffer_factory's
+        # values= kwarg) -- passed again so the engine's own write-log
+        # (independent review round-two finding R2-F6(a)) can seed a
+        # genesis entry per SKU, matching the buffer's real initial
+        # state exactly rather than guessing at it after the fact.
+        initial_buffer_values=sku_true_cost,
     )
 
 
@@ -193,6 +200,11 @@ def run_scenario(
             "audit_flags": audit_flags,
             "audit_violations": sum(audit_flags.values()),
             "exec_evidence_by_decision": exec_evidence_by_decision,
+            # The live run's own durable governed-buffer write log
+            # (independent review round-two finding R2-F6(a)) -- NOT
+            # audit_engine's, which never produces its own
+            # evidence_substitution to resolve provenance for.
+            "buffer_writes": engine.write_log,
         }
 
     return {"scenario": scenario, "plan": plan, "results": results}
@@ -421,18 +433,122 @@ def _serialize_evidence_record(record) -> Dict[str, object]:
     return view
 
 
-def _write_outputs(sim, all_results, sha_unchanged: bool) -> Path:
+def _deserialize_evidence_record(view: Dict[str, object]) -> EvidenceRecord:
+    """Inverse of _serialize_evidence_record (independent review
+    round-two finding R2-F6(b), persisted-evidence reload audit):
+    reconstructs a real EvidenceRecord from its persisted JSONL view.
+    age_days is dropped -- it's a RecordMetadata @property
+    (retrieved_day - as_of_day), not a constructor field, so passing it
+    back in would be a TypeError, not a no-op. ground_truth is never in
+    the persisted view (full_view() excludes it by design), so the
+    reloaded record legitimately has the same empty ground_truth any
+    gate is allowed to see."""
+    m = view["metadata"]
+    metadata = RecordMetadata(
+        source=m["source"], as_of_day=m["as_of_day"], retrieved_day=m["retrieved_day"],
+        version=m["version"], lineage=tuple(m["lineage"]),
+    )
+    return EvidenceRecord(record_id=view["record_id"], payload=dict(view["payload"]), metadata=metadata)
+
+
+def _reconstruct_exec_ctx_and_params(
+    line: Dict[str, object],
+) -> Tuple[ActionContext, Tuple[str, ...], float, float, float]:
+    """Rebuilds exactly the (exec_ctx, allowed_roles, order_value_cap,
+    daily_cost_budget, daily_carbon_budget) audit_executed needs, from
+    ONE persisted evidence line alone (independent review round-two
+    finding R2-F6(b)): context.{agent_id,role,sku,day} never change
+    under remediation; action.{order_qty,order_value} are the EXECUTED,
+    post-remediation values (composition.py writes them from
+    remediated_ctx/exec_ctx, never the pre-remediation context);
+    est_cost_eur/est_carbon_g are recomputed with the same formulas
+    composition.py itself uses to build every ActionContext
+    (order_value * COST_MULTIPLIER, order_qty * CARBON_PER_UNIT); cap
+    and allowed_roles are exactly what Phase I/II were actually judged
+    against (context.order_value_cap, context.allowed_roles); the daily
+    budgets are read back from gates.green.budget_state, the same
+    values evaluate_green was actually called with for this decision."""
+    ctx = line["context"]
+    action = line["action"]
+    budget_state = line["gates"]["green"]["budget_state"]
+    exec_ctx = ActionContext(
+        agent_id=ctx["agent_id"], role=ctx["role"], sku=ctx["sku"], day=ctx["day"],
+        proposed_qty=action["order_qty"], order_value=action["order_value"],
+        est_cost_eur=action["order_value"] * COST_MULTIPLIER,
+        est_carbon_g=action["order_qty"] * CARBON_PER_UNIT,
+    )
+    return (
+        exec_ctx, tuple(ctx["allowed_roles"]), ctx["order_value_cap"],
+        budget_state["daily_cost_budget"], budget_state["daily_carbon_budget"],
+    )
+
+
+def reload_and_reaudit(
+    dq_spec, sarc_spec, green_engines, sku_true_cost: Dict[str, float], out_dir: Path = Path("out")
+) -> Dict[str, Dict[str, Dict[int, bool]]]:
+    """Independent review round-two finding R2-F6(b): "audit_executed
+    runs before _write_outputs ... the round-two requirement for a
+    persisted-evidence replay remains unmet." This function IS that
+    replay: for every scenario/mode, it loads the JUST-WRITTEN
+    {prefix}-evidence.jsonl and {prefix}-exec-evidence.jsonl back from
+    disk, reconstructs real EvidenceRecord objects and ActionContexts
+    from that persisted representation alone (never the in-memory
+    objects the run itself produced), and reruns audit_executed on a
+    fresh engine -- exactly the same audit the live run performed, but
+    driven entirely by what actually made it to disk. Must be called
+    AFTER the evidence/exec-evidence files exist (i.e. after the first
+    write pass in _write_outputs)."""
+    reloaded: Dict[str, Dict[str, Dict[int, bool]]] = {}
+    for name in ("S1", "S2", "S3", "S4"):
+        reloaded[name] = {}
+        scenario_dir = out_dir / name
+        for mode in ("remediate_regate", "single_pass"):
+            prefix = _MODE_FILE_PREFIX[mode]
+            lines_by_decision = {
+                json.loads(l)["decision_id"]: json.loads(l)
+                for l in (scenario_dir / f"{prefix}-evidence.jsonl").read_text().splitlines()
+            }
+            audit_engine = _engine(dq_spec, sarc_spec, green_engines, sku_true_cost)
+            flags: Dict[int, bool] = {}
+            exec_evidence_path = scenario_dir / f"{prefix}-exec-evidence.jsonl"
+            for raw in exec_evidence_path.read_text().splitlines():
+                entry = json.loads(raw)
+                decision_id = entry["decision_id"]
+                exec_evidence = [_deserialize_evidence_record(v) for v in entry["evidence"]]
+                line = lines_by_decision[decision_id]
+                exec_ctx, allowed_roles, cap, cost_budget, carbon_budget = _reconstruct_exec_ctx_and_params(line)
+                flags[decision_id] = audit_engine.audit_executed(
+                    exec_ctx, exec_evidence, allowed_roles, cap, cost_budget, carbon_budget,
+                )
+            reloaded[name][mode] = flags
+    return reloaded
+
+
+def _write_outputs(sim, all_results, sha_unchanged: bool, dq_spec=None, sarc_spec=None, green_engines=None) -> Path:
+    """dq_spec/sarc_spec/green_engines are optional and, if omitted,
+    rebuilt via build_engines(sim) -- but build_engines loads
+    specs/authority.yaml relative to the CURRENT working directory, so
+    any caller that changes directory (e.g. a test isolating its output
+    under tmp_path) MUST build them beforehand, in the original
+    directory, and pass them in here rather than relying on the
+    default."""
     from metrics import build_metrics
+
+    if dq_spec is None or sarc_spec is None or green_engines is None:
+        dq_spec, sarc_spec, green_engines = build_engines(sim)
 
     out_dir = Path("out")
     out_dir.mkdir(exist_ok=True)
 
+    # Pass 1: write evidence, exec-evidence, and buffer-writes for every
+    # scenario/mode. reload_and_reaudit (pass 2 below) depends on these
+    # files actually existing on disk -- it is a genuine reload, not a
+    # relabeled in-memory recheck.
     for name in ("S1", "S2", "S3", "S4"):
         scenario_dir = out_dir / name
         scenario_dir.mkdir(exist_ok=True)
         for mode in ("remediate_regate", "single_pass"):
             result = all_results[name]["results"][mode]
-            plan = all_results[name]["plan"]
             prefix = _MODE_FILE_PREFIX[mode]
             evidence_path = scenario_dir / f"{prefix}-evidence.jsonl"
             with open(evidence_path, "w") as f:
@@ -446,6 +562,45 @@ def _write_outputs(sim, all_results, sha_unchanged: bool) -> Path:
                         "evidence": [_serialize_evidence_record(r) for r in records],
                     }
                     f.write(json.dumps(entry) + "\n")
+            # Durable governed-buffer write log (independent review
+            # round-two finding R2-F6(a)): one line per write event, in
+            # write_seq order, next to this mode's evidence lines --
+            # substitute_source.buffer_write_eid in {prefix}-evidence.jsonl
+            # resolves to exactly one entry here.
+            buffer_writes_path = scenario_dir / f"{prefix}-buffer-writes.jsonl"
+            with open(buffer_writes_path, "w") as f:
+                for entry in result["buffer_writes"]:
+                    f.write(json.dumps(entry) + "\n")
+
+    # Pass 2 (independent review round-two finding R2-F6(b)): reload the
+    # just-written evidence back from disk, reconstruct real
+    # EvidenceRecord/ActionContext objects from that persisted
+    # representation, and rerun the audit on them -- never the in-memory
+    # objects the run itself produced. Assert it agrees with the
+    # in-memory audit_flags (the strong claim: the SAME violation/clean
+    # verdicts are reachable from disk alone, not just from what the run
+    # happened to hold in memory), then make the reloaded flags
+    # authoritative for CH1 and the runlog -- "CH1 is reported from the
+    # reloaded audit."
+    reloaded = reload_and_reaudit(dq_spec, sarc_spec, green_engines, sim.sku_true_cost, out_dir)
+    for name in ("S1", "S2", "S3", "S4"):
+        for mode in ("remediate_regate", "single_pass"):
+            result = all_results[name]["results"][mode]
+            reloaded_flags = reloaded[name][mode]
+            if reloaded_flags != result["audit_flags"]:
+                raise AssertionError(
+                    f"persisted-evidence reload audit disagrees with the in-memory audit "
+                    f"for {name}/{mode}: reloaded={reloaded_flags} in_memory={result['audit_flags']}"
+                )
+            result["audit_flags"] = reloaded_flags
+            result["audit_violations"] = sum(reloaded_flags.values())
+
+    for name in ("S1", "S2", "S3", "S4"):
+        scenario_dir = out_dir / name
+        for mode in ("remediate_regate", "single_pass"):
+            result = all_results[name]["results"][mode]
+            plan = all_results[name]["plan"]
+            prefix = _MODE_FILE_PREFIX[mode]
             runlog_path = scenario_dir / f"{prefix}-runlog.jsonl"
             with open(runlog_path, "w") as f:
                 for line, p in zip(result["lines"], plan):

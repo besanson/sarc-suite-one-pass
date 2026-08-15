@@ -6,7 +6,20 @@ available to this artifact's automated pipeline:
 - **machine-checked**: an exhaustive finite-model checker under
   `checkers/` (or a structural tautology argued directly from the code
   that produces the number) verifies the claim over its entire relevant
-  discrete state space -- not a sample, the whole space.
+  discrete state space -- not a sample, the whole space. Per round-two
+  independent review finding R2-N2 (general Proposition/Theorem
+  statements were tagged `machine-checked` when only a narrower finite
+  instantiation was actually executable-verified): a statement's own
+  `PROOF-STATUS` line must name the specific checker module and the
+  enumerated domain it covers (a concrete count, grid, or state-space
+  size), not just assert the claim is machine-checked in general.
+  `checkers/proof_status_lint.py` enforces this mechanically. A
+  statement whose true generality (arbitrary `n`, arbitrary gates,
+  arbitrary action spaces) exceeds what any checker enumerates gets
+  `pending-human-review` or `checked-scope-only` instead, plus a
+  sibling finite-encoding Corollary stated at exactly the checker's
+  scope and tagged `machine-checked` there (Corollary 2 and Corollary 3
+  below are the two introduced for this reason).
 - **pending-human-review**: the claim is proved here in prose (a
   standard mathematical argument) and, where applicable, instantiated
   empirically by the artifact, but has not been exhaustively verified by
@@ -129,13 +142,41 @@ independent review's own probe methodology) at the same four thresholds
 -- 1,064 consistency checks in total, all agreeing with the Lemma's
 prediction (`out/checkers/compensation_check.json`).
 
-**PROOF-STATUS: machine-checked** (the Lemma's general `tau <= L*`
-characterization is verified, not merely instantiated, across all 1,064
-declared-grid-plus-random-probe cells in
-`checkers/compensation_check.py`; `out/checkers/compensation_check.json`).
-The algebraic proof above is elementary (linearity plus the `[0,1]`
-bound), and the checker confirms it holds on every case actually
-computed, not just the ones the hand proof covers analytically.
+**PROOF-STATUS: pending-human-review.** Retagged per round-two
+independent review finding R2-N2 (`review-r2/REVIEW-R2.md`): the Lemma
+above (Sufficiency/Necessity/Min) is a general algebraic argument, true
+for arbitrary `n` and arbitrary nonnegative weights on the continuous
+cube `[0,1]^n`, but that generality is exactly what no executable
+checker in this repository verifies. `checkers/compensation_check.py`
+enumerates only this artifact's own finite `n = 3` instantiation
+(Corollary 2 immediately below) -- correct and machine-checked at that
+scope, but not a machine check of the continuous arbitrary-`n`
+statement itself. Largest certified scope per the review: "analytic
+arbitrary-n proof plus finite executable checks at n=3."
+
+---
+
+## Corollary 2 (finite three-gate encoding of the linear-family lemma)
+
+**Statement.** For this artifact's own finite encoding of the Lemma
+above -- `n = 3` gates (`dq`, `sarc`, `green`), profiles drawn from
+`composition.Response^3` (125 points, `|Response| = 5`), scored via
+`prereg/weights.json`'s `score_encoding`, `tau` ranging over the four
+registered thresholds -- the `tau <= L*` characterization holds exactly
+on every one of 1,064 checked cases: the 264 declared grid cells (every
+combination of the artifact's registered weight vectors and thresholds)
+plus 200 HEAD-derived random positive-weight vectors at those same four
+thresholds, each verified against brute-force ground truth over the
+`s_j = 0` ("vetoed") population. The algebraic proof above is elementary
+(linearity plus the `[0,1]` bound), and the checker confirms it holds on
+every case actually computed, not just the ones the hand proof covers
+analytically.
+
+**PROOF-STATUS: machine-checked** (`checkers/compensation_check.py`;
+enumerated domain: `n = 3` gates, the 125-point `composition.Response^3`
+profile space, 264 declared grid cells plus 200 HEAD-derived random
+probe vectors x 4 thresholds = 1,064 cases, all agreeing with the
+Lemma's prediction; `out/checkers/compensation_check.json`).
 
 ---
 
@@ -309,10 +350,17 @@ too -- there is no way for the executed action to have been admitted by
 the join while simultaneously being held by one of the very gates that
 produced that join, because they are the SAME evaluation.
 
-**PROOF-STATUS: machine-checked** (the core join argument follows
-directly and exhaustively from Proposition 2's monotone-hardening law,
-itself machine-checked over the full finite `Response` lattice by
-`checkers/lattice_check.py` -- 17,151 checks). CH1's 30-seed empirical
+**PROOF-STATUS: checked-scope-only (REVIEW.md).** Retagged per
+round-two independent review finding R2-N2 (`review-r2/REVIEW-R2.md`).
+Largest scope certified: current code path under Lemma 1 and the
+five-response join. `checkers/lattice_check.py` exhaustively certifies
+Proposition 2's monotone-hardening law -- the join mechanism this proof
+leans on -- over the full finite `Response` lattice (17,151 checks), but
+that certifies the join mechanism, not Theorem 1's own premises for
+arbitrary gates, arbitrary action spaces, or arbitrary current-state
+transitions, nor Lemma 1's external DQ predicate contract this theorem
+also depends on. Corollary 3 immediately after Corollary 1 below states
+precisely what the lattice checker does certify. CH1's 30-seed empirical
 audit (zero violations on every seed, `out/results/sweep_summary.json`)
 corroborates this on real data without substituting for the proof.
 
@@ -347,11 +395,37 @@ on the actions that end up executed, their single-pass verdicts
 verdicts (computed on `rho(a)`) for exactly those actions, so
 single-pass inherits soundness on them from Theorem 1.
 
-**PROOF-STATUS: pending-human-review.** Stated for arbitrary gates and
-action spaces; a structural argument from the code path (not itself
-exhaustively re-derived over an unbounded input space, unlike Theorem
-1's finite-lattice-backed join argument). The necessity direction is not
-tagged at all -- it is retracted, not weakly supported.
+**PROOF-STATUS: checked-scope-only (REVIEW.md).** Retagged per
+round-two independent review (`review-r2/REVIEW-R2.md`): largest scope
+certified is sufficiency on executed-reachable actions under Lemma 1 and
+invariance of downstream gates. The necessity direction is properly
+retracted above, not weakly supported under any tag. The sufficiency
+proof is a structural argument from the code path via Theorem 1's
+join argument -- not itself exhaustively re-derived over an unbounded
+arbitrary action space, but resting on the same finite lattice-backed
+join mechanism Corollary 3 below certifies, which is why this carries
+`checked-scope-only` rather than the more generic `pending-human-review`
+it carried before this round's retag.
+
+---
+
+## Corollary 3 (finite response-lattice encoding of remediate_regate soundness)
+
+**Statement.** For this artifact's finite `Response` lattice
+(`|Response| = 5`) and the join-hardening property `checkers/
+lattice_check.py` exhaustively verifies (17,151 checks over tuples of
+length 1 through 4): no combination of Phase-II per-gate responses drawn
+from this five-value lattice can have its join equal `ADMIT` while any
+individual response in that combination is Held (`escalate` or
+`block`). This is the exact finite mechanism Theorem 1's join argument
+invokes, verified over its entire domain -- not an instantiation of it,
+the full domain the checker enumerates.
+
+**PROOF-STATUS: machine-checked** (`checkers/lattice_check.py`;
+enumerated domain: `Response^k` for `k = 1..4`, `|Response| = 5`,
+17,151 total law checks across idempotence, commutativity,
+associativity, monotone hardening, duplication invariance, and the
+empty-join case; `out/checkers/lattice_check.json`).
 
 ---
 
@@ -421,16 +495,48 @@ the id alone. Authority and resource gate sections are unchanged from
 v1 (`constraints_evaluated`, `predicted_cost`/`predicted_carbon`/`budget_state`)
 and were never part of the refuted claim.
 
-**PROOF-STATUS: machine-checked** (the schema-verified identity-
-commitment claim: schema v2's `required` fields on
-`remediation.evidence_substitution`, confirmed present and well-formed
-on real substituted lines by `test_provenance_fields_validate_against_schema_v2`
-and the fuzzed `test_randomly_sampled_lines_validate_against_schema_v2`,
-and `_buffer_write_eid`'s content-addressing property directly unit-
-tested). This tag covers the identity-commitment and schema-shape claim
-specifically -- it does not and cannot cover "bytes are recoverable from
-hashes," because that claim is now explicitly disclaimed rather than
-made.
+**Update (R2-F6(a), durable buffer write-history log).** Since the
+round-two review ran, `substitute_source.buffer_write_eid` no longer
+identifies a write by content hash alone. Every `evaluate_dq` admit now
+appends an event to a run-scoped, append-only write log
+(`composition._record_buffer_write`: `write_seq`, `key`, `value`, `day`,
+and an `event_id` hashing all four), seeded with one genesis entry per
+SKU from the buffer's pre-run known-good values
+(`composition._seed_genesis_writes`) so even a substitution that traces
+back to the buffer's initial state -- possible on a SKU's very first
+decision -- resolves to a real entry, not nothing. A substitution's
+`buffer_write_eid` is resolved against this log
+(`composition._resolve_buffer_write_event`: most recent prior write to
+the same key with the same value) and persisted alongside the evidence
+lines as `<scenario>-<mode>-buffer-writes.jsonl`. This directly answers
+the review's own provenance probe (3,478 substitution occurrences
+resolving to only 62 unique ids under the old key+value-only hash):
+`test_repeated_identical_writes_stay_individually_resolvable`
+(`test_audit_unit.py`) reproduces that exact repeated-write pattern and
+asserts each substitution still resolves to exactly one write-log entry.
+
+**PROOF-STATUS: checked-scope-only (REVIEW.md).** Retagged per
+round-two independent review (`review-r2/REVIEW-R2.md`): largest scope
+certified is schema-v2 field presence and deterministic key/value hash
+commitments. Schema v2's `required` fields on
+`remediation.evidence_substitution` are confirmed present and
+well-formed on real substituted lines by
+`test_provenance_fields_validate_against_schema_v2` and the fuzzed
+`test_randomly_sampled_lines_validate_against_schema_v2`, and the write
+log's content-addressing property is directly unit tested -- these are
+not exhaustive-finite-model checks under `checkers/`, so this does not
+carry `machine-checked` (round-two finding R2-N2's linter rule: that tag
+requires a named executable checker module and enumerated domain). The
+durable write-history log above resolves the specific-write-event-
+identity residual the round-two review flagged, but store-backed
+resolution (verifying a candidate record/write against an actual
+persistent store, not just this run's own JSONL log) remains outside
+what any test here exercises; this tag is not retroactively upgraded to
+`machine-checked` on the strength of this repo's own unit tests without
+a further review certifying it. This tag covers the identity-commitment
+and schema-shape claim specifically -- it does not and cannot cover
+"bytes are recoverable from hashes," because that claim is explicitly
+disclaimed rather than made.
 
 ---
 
@@ -490,25 +596,33 @@ same failure mode Proposition 3 already identifies for single-pass
 composition, now shown to recur between two remediators rather than
 between two composition protocols.
 
-**Off-grid probe (promoted per independent review).** The 243-point grid
-above is a finite lattice of round numbers. The independent review
+**Off-grid probe (promoted per independent review; seed fixed per
+round-two review finding R2-N1/R2-F1).** The 243-point grid above is a
+finite lattice of round numbers. The independent review
 (`review/REVIEW.md`, Section 5) additionally probed continuous-valued
-points off that lattice using a HEAD-derived deterministic seed and
-found 144/200 non-confluent. `checkers/remediator_check.py` now runs
-this class of probe itself on every invocation
-(`random_off_grid_points`, seeded from `sha256(git HEAD)`, the same
-technique established for the F1 lemma verification in
-`checkers/compensation_check.py`): 200 continuous points strictly inside
-the grid's outer bounds, never on a grid coordinate, checked with the
-same real remediation functions. This artifact's own rerun records its count in
-`out/checkers/remediator_check.json`'s `off_grid_probe.non_confluent_count`
-(out of `off_grid_probe.n_probes` = 200) -- a fresh HEAD-derived seed at
-every commit, so it does not reproduce the reviewer's exact 144/200, but
-confirms the same off-grid non-confluence beyond the pre-registered
-grid on every rerun to date.
+points off that lattice and found 144/200 non-confluent.
+`checkers/remediator_check.py` runs this class of probe itself on every
+invocation (`random_off_grid_points`): 200 continuous points strictly
+inside the grid's outer bounds, never on a grid coordinate, checked with
+the same real remediation functions. This probe's seed was originally
+HEAD-derived (`sha256(git HEAD)`), the same technique established for
+the F1 lemma verification in `checkers/compensation_check.py` -- but
+that made the published non-confluent count drift with every commit,
+which the round-two independent review caught (`review-r2/REVIEW-R2.md`,
+finding R2-N1: the response commit's paper reported 140/200 while a
+`make formal` rerun at the same commit produced 145/200). The seed is
+now a fixed constant declared in `prereg/probe-seeds.json` (dated after
+`prereg-v1`, since this probe itself postdates `prereg-v1`), so the
+published count is commit-stable: `out/checkers/remediator_check.json`'s
+`off_grid_probe.non_confluent_count` out of `off_grid_probe.n_probes` =
+200. It does not reproduce the reviewer's own exact 144/200 (a
+different, independently drawn probe), but confirms the same off-grid
+non-confluence beyond the pre-registered grid, and no longer drifts on
+rerun at a fixed commit or across commits.
 
-**PROOF-STATUS: machine-checked** (exhaustive over the 243-point finite
-grid, `out/checkers/remediator_check.json`; the sample counterexample is
+**PROOF-STATUS: machine-checked** (`checkers/remediator_check.py`;
+enumerated domain: the 243-point finite grid,
+`out/checkers/remediator_check.json`; the sample counterexample is
 independently re-derived, not just read back from the checker's own
 report, in `test_checkers.py::test_remediator_check_non_confluent_counterexample_is_reproducible`;
 the off-grid probe above is a supplementary, non-exhaustive finite

@@ -204,11 +204,13 @@ def test_remediator_check_agreeing_orders_are_not_flagged():
 
 
 def test_random_off_grid_points_are_deterministic_and_strictly_off_grid():
-    """Same seed material must give the same points (reproducibility),
-    and no point may land exactly on a declared grid coordinate (that
-    would make it a grid point, not an off-grid probe)."""
-    points_a = remediator_check.random_off_grid_points(50, "fixed-seed-material")
-    points_b = remediator_check.random_off_grid_points(50, "fixed-seed-material")
+    """Same seed must give the same points (reproducibility), and no
+    point may land exactly on a declared grid coordinate (that would
+    make it a grid point, not an off-grid probe). Seeding is now a
+    fixed declared int (prereg/probe-seeds.json), not HEAD-derived --
+    round-two review finding R2-N1/R2-F1(b)."""
+    points_a = remediator_check.random_off_grid_points(50, 26313)
+    points_b = remediator_check.random_off_grid_points(50, 26313)
     assert points_a == points_b
     for p in points_a:
         assert p["qty"] not in remediator_check.QTY_GRID
@@ -216,9 +218,9 @@ def test_random_off_grid_points_are_deterministic_and_strictly_off_grid():
         assert p["governed_unit_cost"] not in remediator_check.GOVERNED_COST_GRID
 
 
-def test_random_off_grid_points_differ_across_seed_material():
-    points_a = remediator_check.random_off_grid_points(20, "seed-one")
-    points_b = remediator_check.random_off_grid_points(20, "seed-two")
+def test_random_off_grid_points_differ_across_seeds():
+    points_a = remediator_check.random_off_grid_points(20, 1)
+    points_b = remediator_check.random_off_grid_points(20, 2)
     assert points_a != points_b
 
 
@@ -228,16 +230,19 @@ def test_off_grid_probe_reports_a_non_confluent_count():
     non-confluent points, strengthening CH7 per the independent review's
     own finding (review/REVIEW.md: 144/200 HEAD-derived off-grid points
     non-confluent)."""
-    points = remediator_check.random_off_grid_points(200, remediator_check.head_sha())
+    spec = remediator_check.load_off_grid_probe_spec()
+    points = remediator_check.random_off_grid_points(spec["n_probes"], spec["seed"])
     probe = remediator_check._off_grid_probe(points)
-    assert probe["n_probes"] == 200
+    assert probe["n_probes"] == spec["n_probes"]
     assert probe["non_confluent_count"] > 0
-    assert probe["confluent_count"] + probe["non_confluent_count"] == 200
+    assert probe["confluent_count"] + probe["non_confluent_count"] == spec["n_probes"]
 
 
 def test_remediator_check_run_includes_off_grid_probe_block():
     result = remediator_check.run()
     off_grid = result["off_grid_probe"]
-    assert off_grid["n_probes"] == remediator_check.N_OFF_GRID_PROBES
-    assert "head_sha" in off_grid
+    spec = remediator_check.load_off_grid_probe_spec()
+    assert off_grid["n_probes"] == spec["n_probes"]
+    assert off_grid["seed"] == spec["seed"]
     assert off_grid["non_confluent_count"] >= 0
+    assert "generated_at_head_sha" in result
