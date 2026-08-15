@@ -2,9 +2,46 @@
   "all_pass": true,
   "gates": {
     "G1_build": {
+      "builds": [
+        {
+          "errors": [],
+          "exit_code": 0,
+          "file_list": [
+            "main.pdf",
+            "main.tex"
+          ],
+          "overfull_hbox_above_10pt": [],
+          "page_count": 19,
+          "pdf_produced": true,
+          "undefined_citations": [],
+          "undefined_references": []
+        },
+        {
+          "errors": [],
+          "exit_code": 0,
+          "file_list": [
+            "main.pdf",
+            "main.tex"
+          ],
+          "overfull_hbox_above_10pt": [],
+          "page_count": 19,
+          "pdf_produced": true,
+          "undefined_citations": [],
+          "undefined_references": []
+        }
+      ],
+      "compiler": "tectonic",
       "errors": [],
+      "exit_code_zero": true,
+      "file_list": [
+        "main.pdf",
+        "main.tex"
+      ],
       "overfull_hbox_above_10pt": [],
+      "page_count": 19,
       "pass": true,
+      "pdf_produced": true,
+      "two_build_identical": true,
       "undefined_citations": [],
       "undefined_references": []
     },
@@ -18,11 +55,48 @@
       "pass": true
     },
     "G3_number_parity": {
-      "added_in_pdf": {},
-      "md_number_token_count": 689,
-      "missing_from_pdf": {},
+      "exceptions_applied": [
+        {
+          "count": 1,
+          "matched": true,
+          "side": "missing_from_pdf",
+          "token": "31"
+        },
+        {
+          "count": 1,
+          "matched": true,
+          "side": "missing_from_pdf",
+          "token": "2"
+        },
+        {
+          "count": 1,
+          "matched": true,
+          "side": "added_in_pdf",
+          "token": "231"
+        }
+      ],
       "pass": true,
-      "pdf_number_token_count": 688,
+      "post_exception_diff": {
+        "added_in_pdf": {},
+        "missing_from_pdf": {}
+      },
+      "post_exception_totals": {
+        "md_number_token_count": 689,
+        "pdf_number_token_count": 689
+      },
+      "raw_diff": {
+        "added_in_pdf": {
+          "231": 1
+        },
+        "missing_from_pdf": {
+          "2": 1,
+          "31": 1
+        }
+      },
+      "raw_totals": {
+        "md_number_token_count": 689,
+        "pdf_number_token_count": 688
+      },
       "required_values_present": {
         "150": true,
         "200": true,
@@ -52,7 +126,7 @@
     },
     "G4_prose_parity": {
       "pass": true,
-      "repo_head": "f0d2bdff3812215dd83b2480e35a97411ee6d947",
+      "repo_head": "847d97f8e60961b0145bcdbf2ffcc9bc6fc542a7",
       "sections": {
         "1. Introduction": {
           "md_words": 462,
@@ -73,9 +147,9 @@
           "within_2pct": true
         },
         "12. Validation note": {
-          "md_words": 122,
+          "md_words": 134,
           "pct_diff": 0.0,
-          "pdf_words": 122,
+          "pdf_words": 134,
           "within_2pct": true
         },
         "2. Setting and definitions": {
@@ -86,8 +160,8 @@
         },
         "3. Compensation admits vetoed actions": {
           "md_words": 351,
-          "pct_diff": 0.0,
-          "pdf_words": 351,
+          "pct_diff": 0.57,
+          "pdf_words": 353,
           "within_2pct": true
         },
         "4. Order invariance without remediation": {
@@ -98,8 +172,8 @@
         },
         "5. The remediation interaction: two operators, one order": {
           "md_words": 729,
-          "pct_diff": 1.372,
-          "pdf_words": 739,
+          "pct_diff": 0.412,
+          "pdf_words": 732,
           "within_2pct": true
         },
         "6. Buffer poisoning: a governed value is only as good as its last admit": {
@@ -115,21 +189,21 @@
           "within_2pct": true
         },
         "8. Pre-registered empirical protocol": {
-          "md_words": 1010,
-          "pct_diff": 1.584,
-          "pdf_words": 994,
+          "md_words": 1007,
+          "pct_diff": 1.192,
+          "pdf_words": 995,
           "within_2pct": true
         },
         "9. Claims to evidence": {
           "md_words": 351,
           "pct_diff": 0.57,
-          "pdf_words": 349,
+          "pdf_words": 353,
           "within_2pct": true
         },
         "Appendix A. Proofs": {
           "md_words": 4989,
-          "pct_diff": 0.08,
-          "pdf_words": 4993,
+          "pct_diff": 0.301,
+          "pdf_words": 5004,
           "within_2pct": true
         },
         "Appendix B. Artifact manifest": {
@@ -140,61 +214,61 @@
         },
         "Appendix C. Statistical methodology (V3 gate)": {
           "md_words": 174,
-          "pct_diff": 1.149,
-          "pdf_words": 176,
+          "pct_diff": 0.575,
+          "pdf_words": 175,
           "within_2pct": true
         }
       },
       "sentence_sample": [
         {
           "found": true,
-          "index": 103,
-          "sentence": "Extends the single-gate lineage result of arXiv 2607.26313."
+          "index": 0,
+          "sentence": "One Gate Is Not Enough: Non-Compensatory Composition of Pre-Action Controls for Agentic AI"
         },
         {
           "found": true,
-          "index": 126,
-          "sentence": "CH7 (multi-remediator order dependence)."
+          "index": 5,
+          "sentence": "Three families of pre-action concern are separately established: authority, resources, and evidence."
         },
         {
           "found": true,
-          "index": 156,
-          "sentence": "This artifact was independently replicated and adversarially reviewed in two rounds by automated agents following the pu"
+          "index": 24,
+          "sentence": "Resource-gate state decrements as actions execute; soundness here is per action given current state; stream-level orderi"
         },
         {
           "found": true,
-          "index": 171,
-          "sentence": "The universal claim was false as written; the error was treating \"strictly increasing plus some admissible profile\" as s"
+          "index": 32,
+          "sentence": "Results, 30 seeds, both workflows: under W1 (daily), plain produces at least one poisoned substitution on every seed (14"
         },
         {
           "found": true,
-          "index": 174,
-          "sentence": "Let f(s) = sum_i w_i s_i on [0,1]^n with weights w_i >= 0, not all zero, and let f admit s iff f(s) >= tau for tau > 0."
+          "index": 37,
+          "sentence": "Corollary: declared uncovered classes remain uncovered, and an honest composed readout must say so."
         },
         {
           "found": true,
-          "index": 203,
-          "sentence": "Corollary 2 (finite three-gate encoding of the linear-family lemma)"
+          "index": 43,
+          "sentence": "Single-seed result: 0. 30-seed result: 30/30 seeds with zero violations."
         },
         {
           "found": true,
-          "index": 236,
-          "sentence": "A second evaluation of the DQ gate on E(rho(a)) therefore returns admit, not substitute -- rho applied to an already-rem"
+          "index": 59,
+          "sentence": "CH7's non-confluence result is a property of this artifact's two specific remediation operators (evidence substitution, "
         },
         {
           "found": true,
-          "index": 258,
-          "sentence": "No reachability/executability condition is added to recover the iff here -- the simpler, honest fix is to state only wha"
+          "index": 67,
+          "sentence": "checked-scope-only (REVIEW.md): the independent review (review/REVIEW.md, Section 3) found the statement's general prose"
         },
         {
           "found": true,
-          "index": 300,
-          "sentence": "PROOF-STATUS: machine-checked (tautological by the construction of metrics._ch4_matrix's gate_fired expression, confirme"
+          "index": 80,
+          "sentence": "If the authority/resource gates are invariant under rho on the actions that end up executed, their single-pass verdicts "
         },
         {
           "found": true,
-          "index": 318,
-          "sentence": "Confidence intervals are two-tailed 95% t-intervals, mean +/- t_crit(df=29, alpha=0.05) * (stdev / sqrt(30)), t_crit = s"
+          "index": 81,
+          "sentence": "PROOF-STATUS: checked-scope-only (REVIEW.md)."
         }
       ]
     },

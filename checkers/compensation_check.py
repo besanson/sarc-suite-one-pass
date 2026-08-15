@@ -54,12 +54,32 @@ import random
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
-from checkers._provenance import head_sha
+from checkers._provenance import head_sha, inputs_hash
 from composition import Response, compute_restrictiveness_join, is_executed
 
 GATES = ("dq", "sarc", "green")
 OUT_PATH = Path("out/checkers/compensation_check.json")
 N_RANDOM_PROBES = 200
+
+# Round-three response (finding R3-F1): this checker's own generating
+# inputs. prereg/weights.json is the declared grid/score_encoding this
+# checker actually reads (load_weights); prereg/probe-seeds.json and
+# engines.lock are included uniformly across every checker's stamp (see
+# checkers/_provenance.py's inputs_hash docstring), even though neither
+# is this checker's own random-probe seed source -- that source is
+# deliberately HEAD-derived (random_positive_weight_vectors), an
+# existing, unchanged-by-round-three methodological choice, and
+# inputs_hash intentionally does NOT include HEAD, so a fresh commit
+# that touches none of these files stays "fresh" even though the
+# checker's own probe vectors would differ if actually rerun.
+INPUT_FILES = [
+    Path("checkers/compensation_check.py"),
+    Path("checkers/_provenance.py"),
+    Path("composition.py"),
+    Path("prereg/weights.json"),
+    Path("prereg/probe-seeds.json"),
+    Path("engines.lock"),
+]
 
 
 def load_weights(path: str = "prereg/weights.json") -> Dict[str, Any]:
@@ -211,6 +231,7 @@ def run(weights_path: str = "prereg/weights.json") -> Dict[str, Any]:
         "witness_profile": witness_profile,
         "proposition_1_holds_exhaustively": max_violations >= 1,
         "generated_at_head_sha": sha,
+        "inputs_hash": inputs_hash(INPUT_FILES),
         "lemma_verification": {
             "head_sha": sha,
             "vetoed_profiles_count": len(vetoed_profiles),

@@ -45,11 +45,27 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List
 
-from checkers._provenance import head_sha
+from checkers._provenance import head_sha, inputs_hash
 from composition import Response, compute_restrictiveness_join
 
 MAX_K = 4
 OUT_PATH = Path("out/checkers/lattice_check.json")
+
+# Round-three response (finding R3-F1): this checker's own generating
+# inputs -- its source, the shared provenance helper, the composition
+# module it exhausts, and the two repository-wide files every checker's
+# stamp covers uniformly (see checkers/_provenance.py's inputs_hash
+# docstring). Neither prereg/probe-seeds.json nor engines.lock actually
+# influences this checker's own result today -- it is exhaustive and
+# seedless -- but they are included so the freshness stamp does not need
+# revisiting if that ever changes.
+INPUT_FILES = [
+    Path("checkers/lattice_check.py"),
+    Path("checkers/_provenance.py"),
+    Path("composition.py"),
+    Path("prereg/probe-seeds.json"),
+    Path("engines.lock"),
+]
 
 
 def _all_tuples(k: int):
@@ -148,6 +164,7 @@ def run() -> Dict[str, Any]:
         "all_hold": all(r["holds"] for r in results),
         "total_checks": sum(r["checked"] for r in results),
         "generated_at_head_sha": head_sha(),
+        "inputs_hash": inputs_hash(INPUT_FILES),
     }
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUT_PATH.write_text(json.dumps(result, indent=2))

@@ -13,27 +13,33 @@
 # limitations under the License.
 
 """
-Freshness tests (round-two independent review, finding R2-N1/R2-F1(a)):
-"the committed out/checkers/*.json embedded the review commit SHA, and
-the paper reports 140/200 although the response HEAD deterministically
-produces 145/200." Two distinct bugs made this possible: `make paper`
-didn't depend on `make formal` (fixed in the Makefile: `paper: suite
-sweep formal`), and the off-grid probe was HEAD-derived so its count
-drifted across commits even at a fixed set of source files (fixed in
+Freshness tests.
+
+Round-two independent review, finding R2-N1/R2-F1(a): "the committed
+out/checkers/*.json embedded the review commit SHA, and the paper
+reports 140/200 although the response HEAD deterministically produces
+145/200." Two distinct bugs made this possible: `make paper` didn't
+depend on `make formal` (fixed in the Makefile: `paper: suite sweep
+formal`), and the off-grid probe was HEAD-derived so its count drifted
+across commits even at a fixed set of source files (fixed in
 checkers/remediator_check.py + prereg/probe-seeds.json, R2-F1(b)).
 
-These tests guard both halves directly rather than trusting the
-Makefile's dependency graph alone:
-  1. every checker, run now, stamps its own output with the actual
-     current git HEAD (checkers/_provenance.py) -- a checked-in checker
-     JSON whose generated_at_head_sha does not match the commit it
-     ships in is exactly the staleness the review caught.
-  2. the off-grid probe is deterministic given the fixed seed in
-     prereg/probe-seeds.json -- rerunning it twice, or rerunning it
-     fresh against the paper's already-populated slots, must agree.
-
-SEED = 26313 (via prereg/probe-seeds.json's fixed ch7_off_grid_probe
-seed, not HEAD-derived -- see checkers/remediator_check.py)
+Round-three independent review, finding R3-F1: the round-two fix's own
+freshness notion -- "every committed checker JSON's generated_at_head_sha
+must equal the current commit" -- flags every commit that never touches
+a checker's actual inputs (a README edit, this docstring, an unrelated
+file) as staleness, which is precisely what the round-three review
+caught: the response commit's formal artifacts legitimately carried an
+earlier HEAD because nothing they read had changed since. Freshness is
+now DEFINED by inputs_hash (checkers/_provenance.py): a checker artifact
+is fresh if and only if recomputing inputs_hash from the CURRENT tree
+reproduces the hash the COMMITTED artifact already carries. This is
+testable at any commit -- it does not require rerunning a checker at
+all -- and is immune to publication-only commits by construction, since
+inputs_hash's file list never includes anything but the checker's own
+declared generating inputs. generated_at_head_sha remains in every
+artifact as an informational stamp (see checkers/_provenance.py) but is
+no longer what these tests assert freshness from.
 """
 from __future__ import annotations
 
@@ -44,6 +50,7 @@ from pathlib import Path
 import pytest
 
 from checkers import compensation_check, lattice_check, remediator_check
+from checkers._provenance import inputs_hash
 
 
 def _require(path: str):
@@ -58,8 +65,55 @@ def _current_head_sha() -> str:
     ).stdout.strip()
 
 
+def _committed_stamp(path: str, key: str):
+    _require(path)
+    return json.loads(Path(path).read_text())[key]
+
+
 # ---------------------------------------------------------------------------
-# (1) every checker stamps the real current HEAD when it actually runs
+# (1) freshness is defined by inputs_hash: recomputed from the CURRENT tree,
+#     with no checker rerun, it must equal the committed artifact's stamp.
+# ---------------------------------------------------------------------------
+
+
+def test_lattice_check_inputs_hash_matches_committed_artifact():
+    committed = _committed_stamp("out/checkers/lattice_check.json", "inputs_hash")
+    assert inputs_hash(lattice_check.INPUT_FILES) == committed
+
+
+def test_compensation_check_inputs_hash_matches_committed_artifact():
+    committed = _committed_stamp("out/checkers/compensation_check.json", "inputs_hash")
+    assert inputs_hash(compensation_check.INPUT_FILES) == committed
+
+
+def test_remediator_check_inputs_hash_matches_committed_artifact():
+    committed = _committed_stamp("out/checkers/remediator_check.json", "inputs_hash")
+    assert inputs_hash(remediator_check.INPUT_FILES) == committed
+
+
+def test_inputs_hash_is_stable_across_reruns_at_the_same_tree_state():
+    """inputs_hash depends only on file contents, never on HEAD or wall
+    clock -- two calls back to back at an unchanged tree must agree,
+    unlike generated_at_head_sha which two SEPARATE `git commit`s in
+    between would legitimately change."""
+    assert inputs_hash(lattice_check.INPUT_FILES) == inputs_hash(lattice_check.INPUT_FILES)
+    assert inputs_hash(compensation_check.INPUT_FILES) == inputs_hash(compensation_check.INPUT_FILES)
+    assert inputs_hash(remediator_check.INPUT_FILES) == inputs_hash(remediator_check.INPUT_FILES)
+
+
+def test_fresh_checker_runs_stamp_the_same_inputs_hash_the_tree_predicts():
+    """A checker actually run right now must stamp its output with
+    exactly the inputs_hash this test file independently recomputes from
+    the same declared file list -- the checker isn't silently hashing
+    something else internally."""
+    assert lattice_check.run()["inputs_hash"] == inputs_hash(lattice_check.INPUT_FILES)
+    assert compensation_check.run()["inputs_hash"] == inputs_hash(compensation_check.INPUT_FILES)
+    assert remediator_check.run()["inputs_hash"] == inputs_hash(remediator_check.INPUT_FILES)
+
+
+# ---------------------------------------------------------------------------
+# (2) generated_at_head_sha remains informational: a FRESH run stamps the
+#     real current HEAD, but this is no longer the freshness signal itself.
 # ---------------------------------------------------------------------------
 
 
@@ -78,32 +132,8 @@ def test_remediator_check_stamps_current_head_on_fresh_run():
     assert result["generated_at_head_sha"] == _current_head_sha()
 
 
-def test_committed_checker_artifacts_share_one_generation_sha():
-    """All three out/checkers/*.json were meant to be regenerated
-    together by a single `make formal` invocation (itself run as part of
-    `make paper`'s dependency chain) -- if they carry DIFFERENT
-    generated_at_head_sha values, they were produced by separate runs at
-    separate commits, which is precisely the staleness pattern R2-N1
-    describes."""
-    for p in (
-        "out/checkers/lattice_check.json",
-        "out/checkers/compensation_check.json",
-        "out/checkers/remediator_check.json",
-    ):
-        _require(p)
-    shas = {
-        json.loads(Path(p).read_text())["generated_at_head_sha"]
-        for p in (
-            "out/checkers/lattice_check.json",
-            "out/checkers/compensation_check.json",
-            "out/checkers/remediator_check.json",
-        )
-    }
-    assert len(shas) == 1, f"checker artifacts were generated at different commits: {shas}"
-
-
 # ---------------------------------------------------------------------------
-# (2) the off-grid probe is fixed-seed and commit-stable, not HEAD-derived
+# (3) the off-grid probe is fixed-seed and commit-stable, not HEAD-derived
 # ---------------------------------------------------------------------------
 
 
@@ -127,7 +157,9 @@ def test_off_grid_probe_result_is_identical_across_reruns():
     assert first["off_grid_probe"]["n_probes"] == second["off_grid_probe"]["n_probes"]
     # generated_at_head_sha may legitimately differ if a commit landed
     # between the two calls in some other context; the probe VALUE must
-    # not, since it no longer depends on HEAD at all.
+    # not, since it no longer depends on HEAD at all. inputs_hash must
+    # not differ either, since neither call changed any file on disk.
+    assert first["inputs_hash"] == second["inputs_hash"]
 
 
 # ---------------------------------------------------------------------------

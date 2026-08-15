@@ -1,4 +1,4 @@
-.PHONY: suite paper paper-legacy test clean all bootstrap ci-local mutate latency sweep formal paper-v3 arxiv
+.PHONY: suite paper paper-legacy test clean all bootstrap ci-local mutate latency sweep formal paper-v3 arxiv release-check
 
 # SARC Suite One-Pass Demo Makefile
 # Apache License 2.0
@@ -48,27 +48,70 @@ paper-legacy: suite
 
 # arXiv LaTeX conversion (paper-tex/): regenerates refs.bib from
 # verified-citations.json (never hand-edited, so it can never drift --
-# see paper-tex/generate_refs_bib.py), builds main.tex with latexmk
-# (falls back to tectonic if latexmk/a TeX Live install is unavailable),
-# runs the six parity gates (paper-tex/gates/run_gates.py) and stops on
-# any failure, then packages exactly what arXiv needs: main.tex plus the
-# already-built main.bbl (arXiv's own documented preference over
-# shipping refs.bib + relying on their pipeline to invoke bibtex).
+# see paper-tex/generate_refs_bib.py), then runs the six parity gates
+# (paper-tex/gates/run_gates.py), which drive their own build (G1) and
+# stop the whole target on any gate failure.
+#
+# Round-three response (finding R3-F2): pinned Tectonic 0.17.0 (see
+# bootstrap.sh) is the CANONICAL release toolchain -- bootstrap-
+# installable everywhere, unlike latexmk, which needs a full local TeX
+# Live install and remains only a SUPPORTED ALTERNATIVE. This target
+# therefore: (1) if latexmk is present, verifies the build+gates ALSO
+# pass under it first (a real second-toolchain check, not merely
+# attempted -- its failure fails this target too); (2) always builds
+# and gates under Tectonic last, so the main.pdf/parity-report.json this
+# target leaves on disk (the ones `git add` would pick up) are always
+# the canonical-toolchain build, regardless of whether step (1) ran.
+# Packaging ships main.tex + refs.bib, not main.bbl: Tectonic's build
+# model runs bibtex internally and never writes main.bbl to disk at all
+# (verified directly), and shipping refs.bib instead is arXiv's own
+# documented alternative (arXiv runs bibtex itself against it) -- this
+# way packaging needs nothing that only one of the two toolchains
+# produces.
 arxiv:
 	@echo "Regenerating paper-tex/refs.bib from verified-citations.json..."
 	cd paper-tex && python3 generate_refs_bib.py
-	@echo "Building main.tex (latexmk, falling back to tectonic)..."
-	cd paper-tex && ( \
-		latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex \
-		|| tectonic main.tex \
-	)
-	@echo "Running parity gates G1-G6..."
-	cd paper-tex && python3 gates/run_gates.py
-	@echo "Packaging arxiv.tar.gz (main.tex, main.bbl)..."
+	@if command -v latexmk >/dev/null 2>&1; then \
+		echo "latexmk found -- verifying build + gates under the supported-alternative toolchain..." ; \
+		( cd paper-tex && SARC_LATEX_COMPILER=latexmk python3 gates/run_gates.py ) || exit 1 ; \
+	else \
+		echo "latexmk not found -- skipping the supported-alternative toolchain check (Tectonic, canonical, is checked next regardless)." ; \
+	fi
+	@echo "Building main.tex + running parity gates G1-G6 under Tectonic (canonical toolchain)..."
+	cd paper-tex && SARC_LATEX_COMPILER=tectonic python3 gates/run_gates.py
+	@echo "Packaging arxiv.tar.gz (main.tex, refs.bib)..."
 	cd paper-tex && rm -f arxiv.tar.gz && tar --sort=name --mtime='UTC 2026-01-01' \
 		--owner=0 --group=0 --numeric-owner \
-		-cf arxiv.tar.gz main.tex main.bbl
+		-cf arxiv.tar.gz main.tex refs.bib
 	@echo "arxiv.tar.gz written to paper-tex/arxiv.tar.gz"
+
+# Round-three response (finding R3-F1(c)): the mandatory pre-release
+# command (see README) -- composes every check a release needs and were
+# previously only run ad hoc: the full test suite (which already
+# includes inputs-hash freshness, test_freshness.py, and the seed
+# 26313 / 1028331701 replay-against-committed-artifact checks,
+# test_sweep_replay.py), an explicit formal-checkers double-run byte-
+# identity check (two fresh subprocess runs of `make formal`, diffed --
+# not otherwise exercised by the pytest suite, which only replays the
+# simulation in-process, not the checkers-as-CLI path), and the arXiv
+# build gate (`make arxiv`, itself Tectonic-canonical per R3-F2).
+release-check:
+	@echo "=== release-check: full test suite (includes inputs-hash freshness + seed replay) ==="
+	python3 -m pytest -v
+	@echo "=== release-check: formal double-run byte identity ==="
+	rm -rf /tmp/sarc-release-check-formal-1 /tmp/sarc-release-check-formal-2
+	mkdir -p /tmp/sarc-release-check-formal-1 /tmp/sarc-release-check-formal-2
+	$(MAKE) formal
+	cp out/checkers/*.json /tmp/sarc-release-check-formal-1/
+	$(MAKE) formal
+	cp out/checkers/*.json /tmp/sarc-release-check-formal-2/
+	diff -rq /tmp/sarc-release-check-formal-1 /tmp/sarc-release-check-formal-2
+	@rm -rf /tmp/sarc-release-check-formal-1 /tmp/sarc-release-check-formal-2
+	@echo "formal double-run byte-identical: OK"
+	@echo "=== release-check: arXiv build gate ==="
+	$(MAKE) arxiv
+	@echo ""
+	@echo "release-check: ALL CHECKS PASS"
 
 test:
 	@echo "Running test suite..."
@@ -118,7 +161,8 @@ help:
 	@echo "  make paper     Phase 5: v0.3 paper (depends on suite, sweep, formal, in order)"
 	@echo "  make paper-v3  Alias for make paper"
 	@echo "  make paper-legacy  Superseded v0.1/v0.2 paper pipeline (main.py)"
-	@echo "  make arxiv     Build paper-tex/main.tex, run parity gates G1-G6, package arxiv.tar.gz"
+	@echo "  make arxiv     Build paper-tex/main.tex (Tectonic canonical, latexmk alternative), run parity gates G1-G6, package arxiv.tar.gz"
+	@echo "  make release-check  MANDATORY before any release: full tests + formal double-run identity + arXiv build gate"
 	@echo "  make test      Run the test suite"
 	@echo "  make clean     Remove all outputs"
 	@echo "  make all       suite + formal + paper + test, in that order (default)"

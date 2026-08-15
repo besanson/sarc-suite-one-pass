@@ -6,6 +6,17 @@
 %
 % Non-negotiable #1: no prose edits, no reordering, no added/removed
 % claims, numbers, tags, or caveats.
+%
+% Round-three response (finding R3-F2(a)): pinned Tectonic 0.17.0 is the
+% CANONICAL release toolchain for this file -- bootstrap-installable
+% everywhere via a static binary (see bootstrap.sh's install_tectonic),
+% unlike latexmk, which needs a full local TeX Live install and is a
+% SUPPORTED ALTERNATIVE only. `make arxiv` / `make release-check` build
+% and gate-check this file under Tectonic; if latexmk is also present
+% they additionally verify it there first (see the Makefile's `arxiv`
+% target). Building manually: `tectonic main.tex` (or `latexmk -pdf
+% main.tex`); either way, run `python3 gates/run_gates.py` afterward
+% (it drives its own build, so this manual step is optional).
 \documentclass[11pt,a4paper]{article}
 
 \usepackage[utf8]{inputenc}
@@ -388,7 +399,7 @@ Synthetic metadata layer over open payloads; declared injection rates; no preval
 
 \section{Validation note}
 
-This artifact was independently replicated and adversarially reviewed in two rounds by automated agents following the published protocols in \mbox{sarc-suite-agent-review.md} and \mbox{sarc-suite-agent-review-r2.md}; the round-one report and evidence are at \mbox{review/REVIEW.md} and \mbox{review/review.json}, and the round-two report and evidence are at \mbox{review-out-r2/REVIEW-R2.md}, \mbox{review-out-r2/review.json}, and \mbox{review-out-r2/evidence/}. Automated review complements and does not replace human peer review.
+This artifact was independently replicated and adversarially reviewed in three rounds by automated agents following the published protocols in \mbox{sarc-suite-agent-review.md}, \mbox{sarc-suite-agent-review-r2.md}, and \mbox{sarc-suite-agent-review-r3.md}; the round-one report and evidence are at \mbox{review/REVIEW.md} and \mbox{review/review.json}, the round-two report and evidence are at \mbox{review-out-r2/REVIEW-R2.md}, \mbox{review-out-r2/review.json}, and \mbox{review-out-r2/evidence/}, and the round-three report and evidence are at \mbox{review-out-r3/REVIEW-R3.md}, \mbox{review-out-r3/review.json}, and \mbox{review-out-r3/evidence/}. Automated review complements and does not replace human peer review.
 
 This draft is the artifact's response to that review: findings F1-F6 (\mbox{review/REVIEW.md} Section 4) are fixed or weakened per the review's own binding-unless-fixed policy, never argued with in this text; the proof-tag reclassifications in Appendix A (checked-scope-only for Proposition 3 and Lemma 1, sufficiency-only for Corollary 1) follow the review's Section 3 proof-tag policy exactly, and no tag here claims more than that review certified.
 

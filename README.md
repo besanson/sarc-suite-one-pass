@@ -192,6 +192,37 @@ way v0.1 -> v0.2 works, from `out/metrics.json` +
 (V4 gate) verifies every citation against `verified-citations.json`
 before the run is considered clean.
 
+## Phase 6: arXiv LaTeX package (`make arxiv`) and release checks (`make release-check`)
+
+`paper-tex/main.tex` is a hand-typeset (not pandoc-generated) LaTeX
+conversion of the populated v0.3 paper, checked word-for-word and
+number-for-number against the markdown source by six parity gates
+(`paper-tex/gates/run_gates.py`, G1-G6; results in
+`paper-tex/parity-report.json`). `make arxiv` regenerates
+`paper-tex/refs.bib`, builds `main.tex`, runs the gates, and packages
+`paper-tex/arxiv.tar.gz` (`main.tex` + `refs.bib` — arXiv runs bibtex
+itself against `refs.bib`, so packaging needs nothing compiler-specific).
+
+**Toolchain**: pinned **Tectonic 0.17.0** is the canonical release
+toolchain — a single static binary (`bootstrap.sh` installs it,
+bootstrap-installable on any machine with `curl`/`tar`, no TeX Live
+install required). **latexmk** remains a supported alternative for
+contributors who already have a full TeX Live install; `make arxiv`
+verifies the build under it too when it is present on `PATH`, and skips
+that check with a printed notice when it is not. Either way, `make
+arxiv` must exit 0 — this is enforced, not just documented.
+
+`make release-check` is the **mandatory pre-release command**: the full
+test suite (which already includes the checker inputs-hash freshness
+tests, `test_freshness.py`, and the seed 26313 / 1028331701 replay-
+against-committed-artifact tests, `test_sweep_replay.py`), an explicit
+double-run byte-identity check of the formal checkers' output, and the
+arXiv build gate (`make arxiv`). Run it before any release and confirm
+it prints `release-check: ALL CHECKS PASS`.
+
+Known, non-blocking issues in this package are tracked in
+[`KNOWN-ISSUES.md`](KNOWN-ISSUES.md).
+
 ## Determinism & Reproducibility
 
 - **SEED = 26313** everywhere

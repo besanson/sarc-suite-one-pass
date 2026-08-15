@@ -83,12 +83,29 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 import random
 
-from checkers._provenance import head_sha
+from checkers._provenance import head_sha, inputs_hash
 from composition import ActionContext, _maybe_downroute, _remediated_context
 from suite_sim import CARBON_PER_UNIT, COST_MULTIPLIER
 
 OUT_PATH = Path("out/checkers/remediator_check.json")
 PROBE_SEEDS_PATH = Path("prereg/probe-seeds.json")
+
+# Round-three response (finding R3-F1): this checker's own generating
+# inputs -- source, the two composition functions it reuses directly
+# (via composition.py), suite_sim.py for the CARBON_PER_UNIT/
+# COST_MULTIPLIER constants both remediation orders are computed with,
+# and prereg/probe-seeds.json, this checker's actual off-grid-probe seed
+# source (unlike compensation_check.py's, this one really does change
+# the checker's committed result if edited). engines.lock is included
+# uniformly across every checker's stamp (see checkers/_provenance.py).
+INPUT_FILES = [
+    Path("checkers/remediator_check.py"),
+    Path("checkers/_provenance.py"),
+    Path("composition.py"),
+    Path("suite_sim.py"),
+    Path("prereg/probe-seeds.json"),
+    Path("engines.lock"),
+]
 
 QTY_GRID = [10.0, 50.0, 100.0]
 CORRUPTED_COST_GRID = [5.0, 10.0, 20.0]
@@ -210,6 +227,7 @@ def run() -> Dict[str, Any]:
         "sample_counterexample": counterexamples[0] if counterexamples else None,
         "all_counterexamples": counterexamples,
         "generated_at_head_sha": head_sha(),
+        "inputs_hash": inputs_hash(INPUT_FILES),
         "off_grid_probe": {
             "seed": probe_spec["seed"],
             "seed_source": "prereg/probe-seeds.json (fixed, commit-stable -- round-two review finding R2-N1)",
