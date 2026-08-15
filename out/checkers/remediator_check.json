@@ -1310,7 +1310,7 @@
       }
     }
   ],
-  "generated_at_head_sha": "cee2d7f40820c2248b4c32376e2490c84478cf1b",
+  "generated_at_head_sha": "77bf676a27d575f8cf1807b4cfec0efeda33632c",
   "off_grid_probe": {
     "seed": 26313,
     "seed_source": "prereg/probe-seeds.json (fixed, commit-stable -- round-two review finding R2-N1)",

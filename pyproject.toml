@@ -14,7 +14,13 @@
 #
 # This repo has no packaging config of its own (it is run in place, not
 # installed) — this file exists solely to hold [tool.mutmut]'s
-# configuration (Phase 2 / V5 gate).
+# configuration (Phase 2 / V5 gate) and [tool.pytest.ini_options]'s
+# marker registration.
+
+[tool.pytest.ini_options]
+markers = [
+    "slow: exercises the real ~10k-decision simulation end to end (seconds, not milliseconds) -- included in the default `make test` run, but selectable/deselectable via -m 'slow' / -m 'not slow'.",
+]
 
 [tool.mutmut]
 # Only these two files are copied as MUTATION source (mutmut's own

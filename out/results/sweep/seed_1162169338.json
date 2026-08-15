@@ -16,7 +16,7 @@
       "plain": {
         "substitutions": 420,
         "poisoned_substitutions": 16,
-        "poisoned_mean_abs_value_delta": 2.1071250000000004
+        "poisoned_mean_abs_value_delta": 2.107125
       },
       "quarantine": {
         "substitutions": 420,
@@ -26,7 +26,7 @@
       "median_of_3": {
         "substitutions": 420,
         "poisoned_substitutions": 4,
-        "poisoned_mean_abs_value_delta": 2.7224999999999997
+        "poisoned_mean_abs_value_delta": 2.7225
       }
     },
     "W2": {

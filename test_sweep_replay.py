@@ -43,6 +43,7 @@ SEED = 26313 and 1028331701 (both registered in prereg/seeds.json)
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 import pytest
 
@@ -84,3 +85,41 @@ def test_seed_1028331701_poisoned_mean_abs_value_delta_is_stable():
     a = first["ch6"]["W1"]["plain"]["poisoned_mean_abs_value_delta"]
     b = second["ch6"]["W1"]["plain"]["poisoned_mean_abs_value_delta"]
     assert a.hex() == b.hex()  # bit-exact, not just ==, which float already guarantees here too
+
+
+@pytest.mark.slow
+def test_seed_1028331701_fresh_run_matches_committed_artifact():
+    """Guards against exactly the staleness class this repo already hit
+    once, silently: `make sweep`'s own checkpoint logic
+    (`if seed_path.exists(): ... skipping`) means a code fix that
+    changes a seed's computed values does NOT, by itself, regenerate an
+    already-committed per-seed artifact -- the stale value only gets
+    replaced by an explicit `rm` + rerun. After the R2-F3 order-stable
+    summation fix landed, this repo's own committed
+    out/results/sweep/seed_1028331701.json still held the pre-fix value
+    (2.3614615384615383) through an entire `make all` run, because the
+    checkpoint file already existed and the sweep step skipped it --
+    only test_seed_replay_is_byte_identical's two in-process replays
+    (which never touch the checkpoint file) stayed green throughout,
+    masking the drift completely.
+
+    Unlike that test -- which only proves two fresh replays agree with
+    EACH OTHER, and would stay green even if both sides were quietly
+    stale relative to history -- this test compares a fresh replay
+    against the COMMITTED out/results/sweep/seed_1028331701.json on
+    disk: the actual artifact `make sweep` left behind and that ships
+    in this repo's history. Marked slow (real ~10k-decision simulation,
+    not the two-line unit checks elsewhere in this file) so it can be
+    deselected with `-m "not slow"` if ever needed, but it is NOT
+    excluded from the default `make test` run -- staleness like this
+    must be caught by the standard suite, not an opt-in extra."""
+    committed_path = Path("out/results/sweep/seed_1028331701.json")
+    if not committed_path.exists():
+        pytest.skip(f"{committed_path} not present -- run make sweep first")
+    committed = json.loads(committed_path.read_text())
+
+    sim = RetailSimulation("data/open_retail_daily.csv")
+    dq_spec, sarc_spec, green_engines = build_engines(sim)
+    fresh = run_seed(sim, dq_spec, sarc_spec, green_engines, 1028331701)
+
+    assert _canonical(fresh) == _canonical(committed)
