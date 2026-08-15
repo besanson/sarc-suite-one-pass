@@ -1,0 +1,180 @@
+{
+  "reviewer_identity": {
+    "reviewer": "automated agent",
+    "round": 2,
+    "model_name": "Perplexity Computer",
+    "date": "2026-08-15",
+    "repository_head": "af4a3f019128de569708ff5fe83c900701aa865e",
+    "protocol_file": "sarc-suite-agent-review-r2.md",
+    "not_human_peer_review": true
+  },
+  "response_audit": [
+    {
+      "finding": "F1",
+      "verdict": "PARTIALLY-RESOLVED",
+      "evidence": "The false universal strictly-increasing claim is retracted, its counterexample is reproduced, and the linear-family iff is mathematically correct. The declared 264 grid cells, 800 randomized checks, and an independent 800-case exact-arithmetic adversarial family all pass. Residual: Proposition 1 remains tagged machine-checked although the executable checker covers finite n=3 samples, not the stated arbitrary-n continuous theorem."
+    },
+    {
+      "finding": "F2",
+      "verdict": "PARTIALLY-RESOLVED",
+      "evidence": "All 3,478 substituted lines carry pre_evidence_ids and substitute_source.buffer_write_eid, and Proposition 4 now disclaims byte reconstruction. Residual: the ID is recomputed at substitution time from key/value, no durable buffer write history or store locator exists, and only 62 unique IDs cover 3,478 substitutions, so it cannot identify a specific write event."
+    },
+    {
+      "finding": "F3",
+      "verdict": "RESOLVED",
+      "evidence": "The body, abstract, claims table, and appendix state sufficiency only. The old necessity direction appears only in explicit retraction/counterexample discussion."
+    },
+    {
+      "finding": "F4",
+      "verdict": "PARTIALLY-RESOLVED",
+      "evidence": "CH1 now audits the exact in-memory Phase II EvidenceRecord objects and persists those same full records. Residual: audit_executed runs before _write_outputs and never reloads the persisted *-exec-evidence.jsonl required by the round-two probe."
+    },
+    {
+      "finding": "F5",
+      "verdict": "RESOLVED",
+      "evidence": "All ten registry entries were re-fetched; title and first-author pairs match, using Crossref or the registered alternate page where DOI publisher pages blocked extraction. The populated paper contains zero [CITE: tokens."
+    },
+    {
+      "finding": "F6",
+      "verdict": "RESOLVED",
+      "evidence": "Runtime scipy t.ppf(0.975,29)=2.045229642132703 is used. Every recomputed mean and interval matches the sweep summary; maximum absolute delta is 1.11e-16, below 1e-6."
+    }
+  ],
+  "verdicts": [
+    {"claim": "C1", "verdict": "CONFIRMED-WITH-CAVEAT", "note": "The corrected linear-family theorem is true and all finite/adversarial probes pass; the machine-checked tag exceeds executable scope."},
+    {"claim": "C2", "verdict": "CONFIRMED", "note": "17,151 exhaustive Response-lattice checks pass."},
+    {"claim": "C3", "verdict": "CONFIRMED-WITH-CAVEAT", "note": "The implemented S4 existential construction reproduces across 30 seeds; it is correctly scoped away from arbitrary remediators."},
+    {"claim": "C4", "verdict": "CONFIRMED-WITH-CAVEAT", "note": "Current Phase II/join structure supports the claim under Lemma 1, but Theorem 1's machine tag is broader than the lattice checker and the exact-evidence audit is not a persisted-file replay."},
+    {"claim": "C5", "verdict": "CONFIRMED-WITH-CAVEAT", "note": "Schema v2 supplies identity commitments, not bytes. Verification/resolution remains conditional on stores not implemented here, and the write ID cannot distinguish repeated identical write events."},
+    {"claim": "C6", "verdict": "CONFIRMED-WITH-CAVEAT", "note": "No-manufactured-coverage holds definitionally because composed detection is the union of member flags."},
+    {"claim": "C7", "verdict": "CONFIRMED-WITH-CAVEAT", "note": "Zero false holds reproduces for the declared synthetic label-derived population, not as a general selectivity theorem."},
+    {"claim": "C8", "verdict": "CONFIRMED", "note": "Pinned engines bootstrap at the declared SHAs and remain git-clean."},
+    {"claim": "C9", "verdict": "REFUTED", "note": "Full reproducibility fails on current HEAD: formal artifacts are committed with the prior review SHA, the populated paper reports stale 140/200 rather than current 145/200, and one selected seed differs by one ULP."},
+    {"claim": "CH1", "verdict": "CONFIRMED-WITH-CAVEAT", "note": "Zero violations reproduces and exact in-memory executed evidence is audited, but persisted evidence is not reloaded."},
+    {"claim": "CH2", "verdict": "CONFIRMED", "note": "Every seed meets the registered divergence and direction rule."},
+    {"claim": "CH3", "verdict": "CONFIRMED-WITH-CAVEAT", "note": "Zero false holds reproduces within the declared simulator population."},
+    {"claim": "CH4", "verdict": "CONFIRMED-WITH-CAVEAT", "note": "Coverage honesty reproduces but is constructed directly from member flags."},
+    {"claim": "CH5", "verdict": "CONFIRMED", "note": "125 profiles x 264 cells reproduce; maximum is 48 compensatory admissions."},
+    {"claim": "CH6", "verdict": "CONFIRMED-WITH-CAVEAT", "note": "W1 mitigation support reproduces; W2 fails the every-seed rule and the paper states that limitation."},
+    {"claim": "CH7", "verdict": "CONFIRMED-WITH-CAVEAT", "note": "86/243 grid non-confluence and independent 159/200 off-grid non-confluence reproduce through actual code; the paper's current-HEAD off-grid number is stale."},
+    {"claim": "CH8", "verdict": "CONFIRMED", "note": "The registered readout reproduces: CH1-CH5 robust, CH6 not robust under the all-workflow condition."}
+  ],
+  "proof_classifications": [
+    {
+      "statement": "Proposition 1 linear-family lemma",
+      "classification": "pending-human-review",
+      "largest_certified_scope": "Analytic arbitrary-n proof plus finite executable checks at n=3.",
+      "reason": "The theorem is correct, but 1,064 finite checker cells do not machine-check the full continuous arbitrary-n statement."
+    },
+    {
+      "statement": "Lemma 1 termination",
+      "classification": "checked-scope-only",
+      "largest_certified_scope": "Current one-shot composition branch and exercised pinned DQ behavior.",
+      "reason": "It depends on an external predicate contract and is correctly narrowed."
+    },
+    {
+      "statement": "Theorem 1 remediate-regate soundness",
+      "classification": "checked-scope-only",
+      "largest_certified_scope": "Current code path under Lemma 1 and the five-response join.",
+      "reason": "The lattice checker certifies join hardening, not all premises of the arbitrary gate/state statement."
+    },
+    {
+      "statement": "Corollary 1 sufficiency",
+      "classification": "checked-scope-only",
+      "largest_certified_scope": "Sufficiency on executed-reachable actions under Lemma 1 and invariance of downstream gates.",
+      "reason": "The necessity direction is properly retracted; the remaining prose proof is not exhaustively executable over arbitrary action spaces."
+    },
+    {
+      "statement": "Proposition 4 identity commitment",
+      "classification": "checked-scope-only",
+      "largest_certified_scope": "Schema-v2 field presence and deterministic key/value hash commitments.",
+      "reason": "Store-backed resolution and specific write-event identity are conditional and not implemented."
+    }
+  ],
+  "new_findings": [
+    {
+      "id": "R2-N1",
+      "severity": 2,
+      "title": "Current-HEAD formal artifacts and populated paper are stale",
+      "impact": "The committed checker JSON embeds the review commit SHA, and the paper reports 140/200 although the response HEAD deterministically produces 145/200.",
+      "reproduction": "Run make paper, then make formal at af4a3f0; inspect git diff for out/checkers/*.json and compare out/paper/slots_v3.json."
+    },
+    {
+      "id": "R2-N2",
+      "severity": 2,
+      "title": "Machine-checked proof tags exceed executable scope",
+      "impact": "Readers can mistake finite n=3 sampling and a lattice property for machine verification of arbitrary-n/continuous or arbitrary-gate propositions.",
+      "reproduction": "Compare Appendix A Proposition 1 and Theorem 1 tags with compensation_check.py and lattice_check.py."
+    },
+    {
+      "id": "R2-N3",
+      "severity": 3,
+      "title": "One selected seed is not byte-reproducible",
+      "impact": "Seed 1028331701 differs only by one ULP in one CH6 W1 mean, leaving displayed statistics unchanged but violating byte-exact replay.",
+      "reproduction": "Run run_seed with fresh objects for seed 1028331701 and diff against out/results/sweep/seed_1028331701.json."
+    },
+    {
+      "id": "R2-N4",
+      "severity": 3,
+      "title": "Phase II predicate emptiness is not documented in schema",
+      "impact": "74,995 of 81,312 unified lines have an empty Phase II DQ predicate list, including expected clean re-evaluations, but the schema only permits the array and does not explain semantics.",
+      "reproduction": "Scan gates.dq.predicates over out/*/*-evidence.jsonl and inspect schemas/evidence_line.schema.json."
+    },
+    {
+      "id": "R2-N5",
+      "severity": 3,
+      "title": "Round-one disclosure is not byte-verbatim",
+      "impact": "The validation note is substantively equivalent but substitutes a concrete path for the round-one report's literal <path/link> token; it also necessarily predates round two.",
+      "reproduction": "Compare paper section 12 with review/review.json disclosure_paragraph."
+    }
+  ],
+  "statistics_audit": {
+    "tcrit_df29": 2.045229642132703,
+    "max_abs_delta": 1.1102230246251565e-16,
+    "strict_1e6_tolerance_passed": true,
+    "replays": [
+      {"seed": 26313, "wall_seconds": 9.591459807998035, "byte_exact": true, "sha256": "7c922b783c270fdbd0cbbfecb852cd4f6c706971063479709e5927dc2bdb5820"},
+      {"seed": 1028331701, "wall_seconds": 9.405160612004693, "byte_exact": false, "one_ulp_delta": true, "fresh_sha256": "5616122194edcd5e39b40977a6129684c5b1af466c19ec1049286b9f45a417c0"},
+      {"seed": 84716818, "wall_seconds": 9.2337313080061, "byte_exact": true, "sha256": "b263821a9ad5cef57d1b40f9e212f52b5629dd5db04ce304395f2acf848560b9"}
+    ],
+    "mutation_sample": {
+      "population": 808,
+      "sample_size": 150,
+      "killed": 127,
+      "survived": 23,
+      "kill_rate": 0.8466666666666667,
+      "wilson_95": [0.7804201682766676, 0.8956004622947993],
+      "committed_rate": 0.8804,
+      "committed_rate_inside_interval": true
+    }
+  },
+  "mechanical_replication": {
+    "bootstrap_exit_code": 0,
+    "tests": {"passed": 155, "failed": 0, "skipped": 0, "wall_seconds": 40.542382666},
+    "suite_exit_code": 0,
+    "suite_wall_seconds": 8.137122172,
+    "paper_exit_code": 0,
+    "paper_wall_seconds": 8.560525931,
+    "formal_exit_code": 0,
+    "formal_wall_seconds": 1.141877338,
+    "schema_sample": {"size": 200, "schema_version": 2, "errors": 0},
+    "evidence_lines": 81312,
+    "ground_truth_leakage_hits": 0,
+    "engine_clones_clean": true,
+    "source_sha256": "4f637bc36ba5cffb56c31cd2b8273a135f89cc65448b28929ee71e73ded8f1d9"
+  },
+  "scores": [
+    {
+      "lens": "Research-artifact",
+      "score_out_of_10": 7.5,
+      "justification": "The two severity-1 overclaims were substantively corrected and statistics/citations are strong, but proof tags still overstate executable scope and current-HEAD paper evidence is stale."
+    },
+    {
+      "lens": "Software-engineering",
+      "score_out_of_10": 7.5,
+      "justification": "Tests, schema validation, pinned engines, mutation calibration, and exact in-memory audit evidence are strong; deductions reflect build ordering/stale artifacts, absent persisted-audit replay, and a one-ULP deterministic replay miss."
+    }
+  ],
+  "disclosure_paragraph": "This artifact was independently replicated and adversarially reviewed in two rounds by automated agents following the published protocols in sarc-suite-agent-review.md and sarc-suite-agent-review-r2.md; the round-one report and evidence are at review/REVIEW.md and review/review.json, and the round-two report and evidence are at review-out-r2/REVIEW-R2.md, review-out-r2/review.json, and review-out-r2/evidence/. Automated review complements and does not replace human peer review.",
+  "evidence_location": "review-out-r2/evidence/"
+}
