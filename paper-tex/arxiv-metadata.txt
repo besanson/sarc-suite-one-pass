@@ -1,0 +1,44 @@
+arXiv submission metadata
+==========================
+FOR FOUNDER APPROVAL -- not yet submitted.
+
+Title (verbatim from the paper)
+--------------------------------
+One Gate Is Not Enough: Non-Compensatory Composition of Pre-Action Controls for Agentic AI
+
+Author line
+-----------
+Gaston Besanson (sole author at draft time; co-author or credited independent reviewer slot open)
+
+Category suggestion
+--------------------
+Primary: cs.AI (Artificial Intelligence)
+  Rationale: the paper's central contribution is the composition semantics of
+  multiple pre-action gates governing an agentic AI system's actions --
+  a join-semilattice model, a remediate-and-regate protocol, and their
+  soundness/completeness properties -- squarely an AI-systems and
+  formal-semantics contribution.
+
+Cross-list: cs.SE (Software Engineering)
+  Rationale: the artifact is a deterministic, open-data reference
+  implementation with pre-registered hypotheses, exhaustive finite-model
+  checkers, a 30-seed statistical sweep, and machine-checked/human-reviewed
+  proof-status tagging for every claim -- an engineering-methodology
+  contribution (empirical software engineering rigor) as much as a
+  theoretical one.
+
+Cross-list: cs.CY (Computers and Society)
+  Rationale: the paper's subject is governance of agentic AI systems --
+  authority, resource, and evidence-validity controls, and the honest
+  reporting of what composition does and does not cover -- directly
+  relevant to AI governance and accountability.
+
+License
+-------
+CC BY 4.0 (per ADR-003)
+
+Linked artifacts
+-----------------
+GitHub repository: [TODO -- fill in public repository URL once published]
+Zenodo DOI: [TODO -- mint on release, per the paper's own Appendix B
+  data/artifact provenance fields; not yet minted]

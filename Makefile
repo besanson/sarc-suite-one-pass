@@ -1,4 +1,4 @@
-.PHONY: suite paper paper-legacy test clean all bootstrap ci-local mutate latency sweep formal paper-v3
+.PHONY: suite paper paper-legacy test clean all bootstrap ci-local mutate latency sweep formal paper-v3 arxiv
 
 # SARC Suite One-Pass Demo Makefile
 # Apache License 2.0
@@ -45,6 +45,30 @@ paper-v3: paper
 paper-legacy: suite
 	@echo "Generating legacy v0.1/v0.2 paper tables and populating draft..."
 	python3 main.py
+
+# arXiv LaTeX conversion (paper-tex/): regenerates refs.bib from
+# verified-citations.json (never hand-edited, so it can never drift --
+# see paper-tex/generate_refs_bib.py), builds main.tex with latexmk
+# (falls back to tectonic if latexmk/a TeX Live install is unavailable),
+# runs the six parity gates (paper-tex/gates/run_gates.py) and stops on
+# any failure, then packages exactly what arXiv needs: main.tex plus the
+# already-built main.bbl (arXiv's own documented preference over
+# shipping refs.bib + relying on their pipeline to invoke bibtex).
+arxiv:
+	@echo "Regenerating paper-tex/refs.bib from verified-citations.json..."
+	cd paper-tex && python3 generate_refs_bib.py
+	@echo "Building main.tex (latexmk, falling back to tectonic)..."
+	cd paper-tex && ( \
+		latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex \
+		|| tectonic main.tex \
+	)
+	@echo "Running parity gates G1-G6..."
+	cd paper-tex && python3 gates/run_gates.py
+	@echo "Packaging arxiv.tar.gz (main.tex, main.bbl)..."
+	cd paper-tex && rm -f arxiv.tar.gz && tar --sort=name --mtime='UTC 2026-01-01' \
+		--owner=0 --group=0 --numeric-owner \
+		-cf arxiv.tar.gz main.tex main.bbl
+	@echo "arxiv.tar.gz written to paper-tex/arxiv.tar.gz"
 
 test:
 	@echo "Running test suite..."
@@ -94,6 +118,7 @@ help:
 	@echo "  make paper     Phase 5: v0.3 paper (depends on suite, sweep, formal, in order)"
 	@echo "  make paper-v3  Alias for make paper"
 	@echo "  make paper-legacy  Superseded v0.1/v0.2 paper pipeline (main.py)"
+	@echo "  make arxiv     Build paper-tex/main.tex, run parity gates G1-G6, package arxiv.tar.gz"
 	@echo "  make test      Run the test suite"
 	@echo "  make clean     Remove all outputs"
 	@echo "  make all       suite + formal + paper + test, in that order (default)"

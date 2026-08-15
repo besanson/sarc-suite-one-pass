@@ -20,3 +20,15 @@ out/*
 !out/results/
 !out/paper/
 !out/checkers/
+
+# LaTeX build byproducts (paper-tex/): regenerable by `make arxiv`
+# (latexmk) from main.tex + refs.bib, no standalone value of their own.
+# main.pdf, main.bbl, arxiv.tar.gz, parity-report.json, and refs.bib
+# ARE committed -- they are this task's actual deliverables/output, not
+# intermediate scratch.
+paper-tex/main.aux
+paper-tex/main.blg
+paper-tex/main.fdb_latexmk
+paper-tex/main.fls
+paper-tex/main.log
+paper-tex/main.out
