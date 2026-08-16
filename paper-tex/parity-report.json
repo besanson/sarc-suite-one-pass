@@ -11,7 +11,7 @@
             "main.tex"
           ],
           "overfull_hbox_above_10pt": [],
-          "page_count": 19,
+          "page_count": 20,
           "pdf_produced": true,
           "undefined_citations": [],
           "undefined_references": []
@@ -24,7 +24,7 @@
             "main.tex"
           ],
           "overfull_hbox_above_10pt": [],
-          "page_count": 19,
+          "page_count": 20,
           "pdf_produced": true,
           "undefined_citations": [],
           "undefined_references": []
@@ -38,7 +38,7 @@
         "main.tex"
       ],
       "overfull_hbox_above_10pt": [],
-      "page_count": 19,
+      "page_count": 20,
       "pass": true,
       "pdf_produced": true,
       "two_build_identical": true,
@@ -126,7 +126,7 @@
     },
     "G4_prose_parity": {
       "pass": true,
-      "repo_head": "847d97f8e60961b0145bcdbf2ffcc9bc6fc542a7",
+      "repo_head": "c5c72fccefc4f20b6f16d2743d31bb0b4f8005e8",
       "sections": {
         "1. Introduction": {
           "md_words": 462,
@@ -147,9 +147,9 @@
           "within_2pct": true
         },
         "12. Validation note": {
-          "md_words": 134,
+          "md_words": 251,
           "pct_diff": 0.0,
-          "pdf_words": 134,
+          "pdf_words": 251,
           "within_2pct": true
         },
         "2. Setting and definitions": {
@@ -202,8 +202,8 @@
         },
         "Appendix A. Proofs": {
           "md_words": 4989,
-          "pct_diff": 0.301,
-          "pdf_words": 5004,
+          "pct_diff": 0.321,
+          "pdf_words": 5005,
           "within_2pct": true
         },
         "Appendix B. Artifact manifest": {
@@ -222,53 +222,53 @@
       "sentence_sample": [
         {
           "found": true,
-          "index": 0,
-          "sentence": "One Gate Is Not Enough: Non-Compensatory Composition of Pre-Action Controls for Agentic AI"
+          "index": 11,
+          "sentence": "Once a second remediator is introduced -- a resource gate that, rather than simply blocking an over-budget action, can s"
         },
         {
           "found": true,
-          "index": 5,
-          "sentence": "Three families of pre-action concern are separately established: authority, resources, and evidence."
+          "index": 22,
+          "sentence": "Setting and definitions"
         },
         {
           "found": true,
-          "index": 24,
-          "sentence": "Resource-gate state decrements as actions execute; soundness here is per action given current state; stream-level orderi"
+          "index": 23,
+          "sentence": "Remark (sequential coupling)."
         },
         {
           "found": true,
-          "index": 32,
-          "sentence": "Results, 30 seeds, both workflows: under W1 (daily), plain produces at least one poisoned substitution on every seed (14"
+          "index": 38,
+          "sentence": "Full proof (a structural tautology, machine-verified across every swept seed) in Appendix A."
         },
         {
           "found": true,
-          "index": 37,
-          "sentence": "Corollary: declared uncovered classes remain uncovered, and an honest composed readout must say so."
+          "index": 46,
+          "sentence": "Negative-results commitment."
         },
         {
           "found": true,
-          "index": 43,
-          "sentence": "Single-seed result: 0. 30-seed result: 30/30 seeds with zero violations."
+          "index": 47,
+          "sentence": "Any CH not supported as written is reported as NOT SUPPORTED as written, following the practice of the prior papers -- C"
         },
         {
           "found": true,
-          "index": 59,
-          "sentence": "CH7's non-confluence result is a property of this artifact's two specific remediation operators (evidence substitution, "
+          "index": 50,
+          "sentence": "Guardrail and policy-engine frameworks for LLM agents: LlamaFirewall (arXiv 2505.03574) is a recent example of a unified"
         },
         {
           "found": true,
-          "index": 67,
-          "sentence": "checked-scope-only (REVIEW.md): the independent review (review/REVIEW.md, Section 3) found the statement's general prose"
+          "index": 60,
+          "sentence": "The artifact is a mechanism demonstration, not a benchmark release."
         },
         {
           "found": true,
-          "index": 80,
-          "sentence": "If the authority/resource gates are invariant under rho on the actions that end up executed, their single-pass verdicts "
+          "index": 65,
+          "sentence": "Drafting, engineering, and review automation were AI-assisted (Claude and Perplexity systems); the author is solely resp"
         },
         {
           "found": true,
-          "index": 81,
-          "sentence": "PROOF-STATUS: checked-scope-only (REVIEW.md)."
+          "index": 75,
+          "sentence": "Single-pass evaluates the authority gate against the ORIGINAL order value qty * v0 (Definition 3's c(a), not c(rho(a))),"
         }
       ]
     },
@@ -298,13 +298,15 @@
       "pass": true
     },
     "G6_disclosure_and_banners": {
+      "acknowledgements_sentence_present": true,
       "disclosure_first_sentence_present": true,
       "disclosure_last_sentence_present": true,
       "honesty_banners_present": {
         "Negative-results commitment. Any CH not supported ": true,
         "Scope honesty. This paper claims composition seman": true
       },
-      "pass": true
+      "pass": true,
+      "process_provenance_sentence_present": true
     }
   }
 }

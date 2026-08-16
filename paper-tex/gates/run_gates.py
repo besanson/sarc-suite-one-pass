@@ -1170,14 +1170,38 @@ def gate_g5_structure_parity() -> dict:
 
 DISCLOSURE_FIRST_SENTENCE = (
     "This artifact was independently replicated and adversarially reviewed "
-    "in three rounds by automated agents following the published protocols "
-    "in sarc-suite-agent-review.md, sarc-suite-agent-review-r2.md, and "
-    "sarc-suite-agent-review-r3.md; the round-one report and evidence are "
-    "at review/REVIEW.md and review/review.json, the round-two report and "
-    "evidence are at review-out-r2/REVIEW-R2.md, review-out-r2/review.json, "
-    "and review-out-r2/evidence/, and the round-three report and evidence "
-    "are at review-out-r3/REVIEW-R3.md, review-out-r3/review.json, and "
-    "review-out-r3/evidence/."
+    "in four rounds by automated agents following the published protocols "
+    "in sarc-suite-agent-review.md, sarc-suite-agent-review-r2.md, "
+    "sarc-suite-agent-review-r3.md, and sarc-suite-agent-review-r4.md; the "
+    "round-one report and evidence are at review/REVIEW.md and "
+    "review/review.json, the round-two report and evidence are at "
+    "review-out-r2/REVIEW-R2.md, review-out-r2/review.json, and "
+    "review-out-r2/evidence/, the round-three report and evidence are at "
+    "review-out-r3/REVIEW-R3.md, review-out-r3/review.json, and "
+    "review-out-r3/evidence/, and the round-four report and evidence are "
+    "at review-out-r4/REVIEW-R4.md, review-out-r4/review.json, and "
+    "review-out-r4/evidence/."
+)
+# Round-four response: the paper now presents this sentence as a
+# QUOTATION from the round-four report (see main.tex's Validation note),
+# not as the paper's own unqualified first-person claim -- the
+# quotation-mark glyphs around it are typographic wrapping, not part of
+# the sentence itself, so the substring check above (unchanged) still
+# finds it exactly.
+PROCESS_PROVENANCE_SENTENCE = (
+    "Process provenance: the review protocols were authored by the "
+    "author's AI assistant before each round and are committed in this "
+    "repository; the reviews were commissioned by the author and "
+    "executed by a separate vendor's automated agent in fresh sessions "
+    "with access only to this public repository; adjudication between "
+    "rounds was performed by the same assistant that authored the "
+    "protocols and is not independent; every mechanical claim in the "
+    "review reports is re-runnable from this repository."
+)
+ACKNOWLEDGEMENTS_SENTENCE = (
+    "Drafting, engineering, and review automation were AI-assisted "
+    "(Claude and Perplexity systems); the author is solely responsible "
+    "for all claims."
 )
 DISCLOSURE_LAST_SENTENCE = (
     "This draft is the artifact's response to that review: findings F1-F6 "
@@ -1211,13 +1235,23 @@ def gate_g6_disclosure_and_banners() -> dict:
 
     disclosure_first = present(DISCLOSURE_FIRST_SENTENCE)
     disclosure_last = present(DISCLOSURE_LAST_SENTENCE)
+    process_provenance = present(PROCESS_PROVENANCE_SENTENCE)
+    acknowledgements = present(ACKNOWLEDGEMENTS_SENTENCE)
     banners = {b[:50]: present(b) for b in HONESTY_BANNERS}
 
-    ok = disclosure_first and disclosure_last and all(banners.values())
+    ok = (
+        disclosure_first
+        and disclosure_last
+        and process_provenance
+        and acknowledgements
+        and all(banners.values())
+    )
     return {
         "pass": ok,
         "disclosure_first_sentence_present": disclosure_first,
         "disclosure_last_sentence_present": disclosure_last,
+        "process_provenance_sentence_present": process_provenance,
+        "acknowledgements_sentence_present": acknowledgements,
         "honesty_banners_present": banners,
     }
 

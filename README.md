@@ -223,6 +223,44 @@ it prints `release-check: ALL CHECKS PASS`.
 Known, non-blocking issues in this package are tracked in
 [`KNOWN-ISSUES.md`](KNOWN-ISSUES.md).
 
+## Review Chain
+
+This artifact underwent four rounds of commissioned automated
+adversarial review, not human peer review. Each round's protocol
+document was written in advance by the author's AI assistant and
+committed to this repository alongside the report it produced; the
+review itself, against that protocol, was executed independently by a
+separate vendor's automated agent (a Perplexity product), run by the
+author in a fresh session with access only to this public repository.
+As the paper's Validation note discloses:
+
+> "Automated review complements and does not replace human peer
+> review."
+
+Final-round reviewer scores by round (research-artifact lens /
+software-engineering lens):
+
+| Round | Research artifact | Software engineering | Disposition |
+|---|---:|---:|---|
+| 1 | 5.5/10 | 8.0/10 | -- |
+| 2 | 7.5/10 | 7.5/10 | -- |
+| 3 | 8.5/10 | 8.0/10 | -- |
+| 4 (terminal) | 9.5/10 | 9.5/10 | **RELEASE** |
+
+Reports and their protocols:
+
+- Round 1: [`review/REVIEW.md`](review/REVIEW.md) / [`review/review.json`](review/review.json) — protocol [`sarc-suite-agent-review.md`](sarc-suite-agent-review.md)
+- Round 2: [`review-r2/REVIEW-R2.md`](review-r2/REVIEW-R2.md) / [`review-r2/review.json`](review-r2/review.json) — protocol [`sarc-suite-agent-review-r2.md`](sarc-suite-agent-review-r2.md)
+- Round 3: [`review-r3/REVIEW-R3.md`](review-r3/REVIEW-R3.md) / [`review-r3/review.json`](review-r3/review.json) — protocol [`sarc-suite-agent-review-r3.md`](sarc-suite-agent-review-r3.md)
+- Round 4 (terminal): [`review-r4/REVIEW-R4.md`](review-r4/REVIEW-R4.md) / [`review-r4/review.json`](review-r4/review.json) — protocol [`sarc-suite-agent-review-r4.md`](sarc-suite-agent-review-r4.md)
+
+See the paper's Validation note (Section 12) for the full disclosure
+and its process-provenance note: the review *protocols*, and the
+*adjudication* of each round's findings between rounds, were not
+independent of the author's own AI assistant; only the review
+*execution* against each committed protocol was performed
+independently.
+
 ## Determinism & Reproducibility
 
 - **SEED = 26313** everywhere

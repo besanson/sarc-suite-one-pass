@@ -151,9 +151,13 @@ Synthetic metadata layer over open payloads; declared injection rates; no preval
 
 ## 12. Validation note
 
-This artifact was independently replicated and adversarially reviewed in three rounds by automated agents following the published protocols in sarc-suite-agent-review.md, sarc-suite-agent-review-r2.md, and sarc-suite-agent-review-r3.md; the round-one report and evidence are at review/REVIEW.md and review/review.json, the round-two report and evidence are at review-out-r2/REVIEW-R2.md, review-out-r2/review.json, and review-out-r2/evidence/, and the round-three report and evidence are at review-out-r3/REVIEW-R3.md, review-out-r3/review.json, and review-out-r3/evidence/. Automated review complements and does not replace human peer review.
+The round-four terminal review report states, verbatim: "This artifact was independently replicated and adversarially reviewed in four rounds by automated agents following the published protocols in sarc-suite-agent-review.md, sarc-suite-agent-review-r2.md, sarc-suite-agent-review-r3.md, and sarc-suite-agent-review-r4.md; the round-one report and evidence are at review/REVIEW.md and review/review.json, the round-two report and evidence are at review-out-r2/REVIEW-R2.md, review-out-r2/review.json, and review-out-r2/evidence/, the round-three report and evidence are at review-out-r3/REVIEW-R3.md, review-out-r3/review.json, and review-out-r3/evidence/, and the round-four report and evidence are at review-out-r4/REVIEW-R4.md, review-out-r4/review.json, and review-out-r4/evidence/. Automated review complements and does not replace human peer review." (review-r4/REVIEW-R4.md, Author-reuse disclosure.)
+
+Process provenance: the review protocols were authored by the author's AI assistant before each round and are committed in this repository; the reviews were commissioned by the author and executed by a separate vendor's automated agent in fresh sessions with access only to this public repository; adjudication between rounds was performed by the same assistant that authored the protocols and is not independent; every mechanical claim in the review reports is re-runnable from this repository.
 
 This draft is the artifact's response to that review: findings F1-F6 (review/REVIEW.md Section 4) are fixed or weakened per the review's own binding-unless-fixed policy, never argued with in this text; the proof-tag reclassifications in Appendix A (checked-scope-only for Proposition 3 and Lemma 1, sufficiency-only for Corollary 1) follow the review's Section 3 proof-tag policy exactly, and no tag here claims more than that review certified.
+
+**Acknowledgements.** Drafting, engineering, and review automation were AI-assisted (Claude and Perplexity systems); the author is solely responsible for all claims.
 
 ## Appendix A. Proofs
 
