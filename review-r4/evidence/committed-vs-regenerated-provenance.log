@@ -1,0 +1,15 @@
+CURRENT_HEAD 75e050ca9a2246849b5b82b06e0ba9201afeae80
+out/checkers/compensation_check.json COMMITTED
+{'generated_at_head_sha': '847d97f8e60961b0145bcdbf2ffcc9bc6fc542a7', 'inputs_hash': 'ae395aba5633365aee56a5b7003ad22631ec0eb013386c4c5dcf86840dc9a6ae'}
+out/checkers/compensation_check.json REGENERATED
+{'generated_at_head_sha': '75e050ca9a2246849b5b82b06e0ba9201afeae80', 'inputs_hash': 'ae395aba5633365aee56a5b7003ad22631ec0eb013386c4c5dcf86840dc9a6ae'}
+out/checkers/lattice_check.json COMMITTED
+{'generated_at_head_sha': '847d97f8e60961b0145bcdbf2ffcc9bc6fc542a7', 'inputs_hash': 'ef17526509da3d0ff26ae9c34b50d213227cc480f69a90c976b83df7ef662f54'}
+out/checkers/lattice_check.json REGENERATED
+{'generated_at_head_sha': '75e050ca9a2246849b5b82b06e0ba9201afeae80', 'inputs_hash': 'ef17526509da3d0ff26ae9c34b50d213227cc480f69a90c976b83df7ef662f54'}
+out/checkers/remediator_check.json COMMITTED
+{'generated_at_head_sha': '847d97f8e60961b0145bcdbf2ffcc9bc6fc542a7', 'inputs_hash': '1496570e6dbedb2446f9735cd8131dd15224ea0cdda2b414c954293eef4b0f5e'}
+out/checkers/remediator_check.json REGENERATED
+{'generated_at_head_sha': '75e050ca9a2246849b5b82b06e0ba9201afeae80', 'inputs_hash': '1496570e6dbedb2446f9735cd8131dd15224ea0cdda2b414c954293eef4b0f5e'}
+COMMITTED_STAMP_IN_HISTORY?
+fatal: git cat-file: could not get object info

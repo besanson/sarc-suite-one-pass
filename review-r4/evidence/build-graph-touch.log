@@ -1,0 +1,505 @@
+BEFORE
+out/checkers/compensation_check.json mtime=1786875663
+out/checkers/lattice_check.json mtime=1786875663
+out/checkers/remediator_check.json mtime=1786875663
+out/paper/slots_v3.json mtime=1786874812
+98ab53a42aca238f2c0eb253a305d78b91bd49aaee86082273c532606a5a5d31  out/checkers/compensation_check.json
+1b685cac429f9f3d15eeee7bc35c89b4ae66f1653b9e793d41737232d84bbe9e  out/checkers/lattice_check.json
+939fecd88a1d4cb9fd096360094cfaa9f99fb7b10fdc2b0567e8225ff23c86a8  out/checkers/remediator_check.json
+62858a3074e5c3f8c81a90e7a7ca23398dc562bd1314ab4e55021c010762c5f5  out/paper/slots_v3.json
+TOUCH composition.py
+composition.py mtime=1786875676
+Running SARC Suite: all four scenarios in two composition modes...
+python3 runner.py
+======================================================================
+SARC SUITE ONE-PASS DEMO: suite run
+======================================================================
+Running S1: baseline: loose budgets, all roles authorised
+  remediate_regate: 10164 decisions
+  single_pass: 10164 decisions
+Running S2: tight-budget day
+  remediate_regate: 10164 decisions
+  single_pass: 10164 decisions
+Running S3: unauthorised burst
+  remediate_regate: 10164 decisions
+  single_pass: 10164 decisions
+Running S4: constructive counterexample (Proposition 3)
+  remediate_regate: 10164 decisions
+  single_pass: 10164 decisions
+
+======================================================================
+SCENARIO SUMMARIES (remediate_regate)
+======================================================================
+S1: decisions=10164 executed=9592 held=572 veto_counts={'dq': 572, 'sarc': 0, 'green': 0} winner_gate_distribution={'none': 9592, 'dq': 572}
+S2: decisions=10164 executed=3417 held=6747 veto_counts={'dq': 572, 'sarc': 0, 'green': 6531} winner_gate_distribution={'none': 3417, 'dq': 445, 'green': 6302}
+S3: decisions=10164 executed=4501 held=5663 veto_counts={'dq': 573, 'sarc': 5368, 'green': 0} winner_gate_distribution={'none': 4501, 'dq': 563, 'sarc': 5100}
+S4: decisions=10164 executed=9353 held=811 veto_counts={'dq': 572, 'sarc': 239, 'green': 0} winner_gate_distribution={'none': 9353, 'dq': 572, 'sarc': 239}
+
+======================================================================
+CH1-CH4
+======================================================================
+CH1 ch1_violations=0 | CH2 ch2_divergent_decisions=239 direction_counts={'single_pass_admits_then_violates': 239, 'single_pass_holds_remediated_compliant': 0} label_only_differences=200 | CH3 ch3_false_hold=0.000000 | CH4 union_ok=True
+
+======================================================================
+CH4 PER-CLASS MATRIX (source: S1)
+======================================================================
+  stale_master_data            dq=1.000 sarc=0.000 green=0.000 winner_gate_counts={'none': 227}
+  superseded_golden_record     dq=1.000 sarc=0.000 green=0.000 winner_gate_counts={'none': 212}
+  cross_source_contradiction   dq=1.000 sarc=0.000 green=0.000 winner_gate_counts={'dq': 211}
+  schema_drift                 dq=1.000 sarc=0.000 green=0.000 winner_gate_counts={'dq': 183}
+  missing_mandatory_field      dq=1.000 sarc=0.000 green=0.000 winner_gate_counts={'dq': 178}
+  lineage_missing              dq=0.000 sarc=0.000 green=0.000 winner_gate_counts={'none': 185}
+  plausible_outlier            dq=0.000 sarc=0.000 green=0.000 winner_gate_counts={'none': 152}
+  plausible_outlier_high       dq=0.000 sarc=0.000 green=0.000 winner_gate_counts={'none': 177}
+
+======================================================================
+HONESTY BANNER
+======================================================================
+Mechanism demonstration on open payload data with a declared synthetic metadata layer. Not a live GIGO-Bench release; live cells come only from the official harness. Not the proprietary Suite: no connectors, evidence vault, identity, or hosting. plausible_outlier is injected and not caught, by design: declared uncovered. S4 is a constructed counterexample scenario, declared as such.
+
+source_sha256_unchanged=True
+
+Artifact: out/metrics.json
+V3 gate: 30-seed statistical sweep (prereg/seeds.json), CH1-CH6 + CIs...
+Checkpointed per seed under out/results/sweep/ -- safe to re-run/resume.
+python3 sweep.py
+seed 26313: already computed, skipping
+seed 990168646: already computed, skipping
+seed 1751999641: already computed, skipping
+seed 1943666721: already computed, skipping
+seed 1163928797: already computed, skipping
+seed 1818785127: already computed, skipping
+seed 1146288088: already computed, skipping
+seed 1245208653: already computed, skipping
+seed 909865711: already computed, skipping
+seed 307071397: already computed, skipping
+seed 1394807488: already computed, skipping
+seed 1961110120: already computed, skipping
+seed 1495033390: already computed, skipping
+seed 1818313340: already computed, skipping
+seed 2040033577: already computed, skipping
+seed 1657195301: already computed, skipping
+seed 876379550: already computed, skipping
+seed 1486713621: already computed, skipping
+seed 1597659626: already computed, skipping
+seed 778087005: already computed, skipping
+seed 460520189: already computed, skipping
+seed 1162169338: already computed, skipping
+seed 84716818: already computed, skipping
+seed 558574779: already computed, skipping
+seed 1740630570: already computed, skipping
+seed 48582056: already computed, skipping
+seed 38855009: already computed, skipping
+seed 1246227770: already computed, skipping
+seed 1179730076: already computed, skipping
+seed 1028331701: already computed, skipping
+{
+  "n_seeds": 30,
+  "seeds": [
+    26313,
+    990168646,
+    1751999641,
+    1943666721,
+    1163928797,
+    1818785127,
+    1146288088,
+    1245208653,
+    909865711,
+    307071397,
+    1394807488,
+    1961110120,
+    1495033390,
+    1818313340,
+    2040033577,
+    1657195301,
+    876379550,
+    1486713621,
+    1597659626,
+    778087005,
+    460520189,
+    1162169338,
+    84716818,
+    558574779,
+    1740630570,
+    48582056,
+    38855009,
+    1246227770,
+    1179730076,
+    1028331701
+  ],
+  "ch1_violations_total": 0,
+  "ch1_supported_seed_count": 30,
+  "ch2_divergent_decisions": {
+    "mean": 207.5,
+    "ci95_low": 201.29593008850392,
+    "ci95_high": 213.70406991149608,
+    "n": 30
+  },
+  "label_only_differences": {
+    "mean": 191.33333333333334,
+    "ci95_low": 186.5219986879975,
+    "ci95_high": 196.1446679786692,
+    "n": 30
+  },
+  "ch2_supported_seed_count": 30,
+  "ch3_false_hold": {
+    "mean": 0.0,
+    "ci95_low": 0.0,
+    "ci95_high": 0.0,
+    "n": 30
+  },
+  "ch3_supported_seed_count": 30,
+  "ch4_union_ok_seed_count": 30,
+  "ch5_max_violations": {
+    "mean": 13775.066666666668,
+    "ci95_low": 13753.536038197928,
+    "ci95_high": 13796.597295135407,
+    "n": 30
+  },
+  "ch5_supported_seed_count": 30,
+  "ch6": {
+    "W1": {
+      "plain": {
+        "poisoned_substitutions": {
+          "mean": 14.7,
+          "ci95_low": 13.20911412941271,
+          "ci95_high": 16.19088587058729,
+          "n": 30
+        },
+        "poisoned_mean_abs_value_delta": {
+          "mean": 2.2097786583382293,
+          "ci95_low": 2.024244402704433,
+          "ci95_high": 2.3953129139720257,
+          "n": 30
+        }
+      },
+      "quarantine": {
+        "poisoned_substitutions": {
+          "mean": 0.2,
+          "ci95_low": -0.0056950251794579965,
+          "ci95_high": 0.405695025179458,
+          "n": 30
+        },
+        "poisoned_mean_abs_value_delta": {
+          "mean": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0,
+          "n": 30
+        }
+      },
+      "median_of_3": {
+        "poisoned_substitutions": {
+          "mean": 1.8333333333333333,
+          "ci95_low": 1.3520999483809908,
+          "ci95_high": 2.3145667182856755,
+          "n": 30
+        },
+        "poisoned_mean_abs_value_delta": {
+          "mean": 2.018935,
+          "ci95_low": 1.2936302828006996,
+          "ci95_high": 2.7442397171993003,
+          "n": 30
+        }
+      },
+      "plain_has_poisoning_every_seed": true,
+      "quarantine_strictly_lower_every_seed": true,
+      "median_of_3_strictly_lower_every_seed": true
+    },
+    "W2": {
+      "plain": {
+        "poisoned_substitutions": {
+          "mean": 1.8333333333333333,
+          "ci95_low": 1.3422105577948806,
+          "ci95_high": 2.324456108871786,
+          "n": 30
+        },
+        "poisoned_mean_abs_value_delta": {
+          "mean": 1.687235,
+          "ci95_low": 1.3242704493848179,
+          "ci95_high": 2.050199550615182,
+          "n": 30
+        }
+      },
+      "quarantine": {
+        "poisoned_substitutions": {
+          "mean": 0.06666666666666667,
+          "ci95_low": -0.028069506656465043,
+          "ci95_high": 0.16140283998979837,
+          "n": 30
+        },
+        "poisoned_mean_abs_value_delta": {
+          "mean": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0,
+          "n": 30
+        }
+      },
+      "median_of_3": {
+        "poisoned_substitutions": {
+          "mean": 0.13333333333333333,
+          "ci95_low": 0.004229691154525317,
+          "ci95_high": 0.26243697551214135,
+          "n": 30
+        },
+        "poisoned_mean_abs_value_delta": {
+          "mean": 0.3129,
+          "ci95_low": -0.006455164774379796,
+          "ci95_high": 0.6322551647743798,
+          "n": 30
+        }
+      },
+      "plain_has_poisoning_every_seed": false,
+      "quarantine_strictly_lower_every_seed": false,
+      "median_of_3_strictly_lower_every_seed": false
+    }
+  },
+  "ch8_robustness": {
+    "ch1_robust": true,
+    "ch2_robust": true,
+    "ch3_robust": true,
+    "ch4_robust": true,
+    "ch5_robust": true,
+    "ch6_robust": false,
+    "all_robust": false
+  }
+}
+V2 gate: exhaustive checkers (lattice, compensation/CH5, remediator/CH7)...
+python3 -m checkers.lattice_check
+{
+  "max_k": 4,
+  "response_count": 5,
+  "laws": [
+    {
+      "law": "idempotence",
+      "holds": true,
+      "checked": 20
+    },
+    {
+      "law": "commutativity",
+      "holds": true,
+      "checked": 15800
+    },
+    {
+      "law": "associativity",
+      "holds": true,
+      "checked": 125
+    },
+    {
+      "law": "monotone_hardening",
+      "holds": true,
+      "checked": 775
+    },
+    {
+      "law": "duplication_invariance",
+      "holds": true,
+      "checked": 430
+    },
+    {
+      "law": "empty_join_is_admit",
+      "holds": true,
+      "checked": 1
+    }
+  ],
+  "all_hold": true,
+  "total_checks": 17151,
+  "generated_at_head_sha": "75e050ca9a2246849b5b82b06e0ba9201afeae80",
+  "inputs_hash": "ef17526509da3d0ff26ae9c34b50d213227cc480f69a90c976b83df7ef662f54"
+}
+python3 -m checkers.compensation_check
+{
+  "discrete_state_space_size": 125,
+  "held_profiles_count": 98,
+  "grid_cells_checked": 264,
+  "max_violations": 48,
+  "max_violation_cell": {
+    "weights": {
+      "dq": 0.0,
+      "sarc": 0.0,
+      "green": 1.0
+    },
+    "threshold": 0.5
+  },
+  "witness_profile": {
+    "dq": "admit",
+    "sarc": "escalate",
+    "green": "admit"
+  },
+  "proposition_1_holds_exhaustively": true,
+  "generated_at_head_sha": "75e050ca9a2246849b5b82b06e0ba9201afeae80",
+  "inputs_hash": "ae395aba5633365aee56a5b7003ad22631ec0eb013386c4c5dcf86840dc9a6ae",
+  "lemma_verification": {
+    "head_sha": "75e050ca9a2246849b5b82b06e0ba9201afeae80",
+    "vetoed_profiles_count": 61,
+    "n_random_probes": 200,
+    "declared_grid": {
+      "label": "declared_grid",
+      "checked": 264,
+      "mismatches": [],
+      "all_agree": true
+    },
+    "head_derived_random_probe": {
+      "label": "head_derived_random_probe",
+      "checked": 800,
+      "mismatches": [],
+      "all_agree": true
+    },
+    "total_checked": 1064,
+    "lemma_holds_on_all_checked_cases": true
+  }
+}
+python3 -m checkers.remediator_check
+{
+  "grid_points_checked": 243,
+  "confluent": false,
+  "counterexample_count": 86,
+  "ch7_registered_outcome": "non_confluent",
+  "sample_counterexample": {
+    "qty": 10.0,
+    "corrupted_unit_cost": 5.0,
+    "governed_unit_cost": 10.0,
+    "cost_budget": 60.0,
+    "carbon_budget": 10.0,
+    "order_a_substitute_then_downroute": {
+      "qty": 5.0,
+      "order_value": 50.0
+    },
+    "order_b_downroute_then_substitute": {
+      "qty": 10.0,
+      "order_value": 100.0
+    }
+  },
+  "generated_at_head_sha": "75e050ca9a2246849b5b82b06e0ba9201afeae80",
+  "inputs_hash": "1496570e6dbedb2446f9735cd8131dd15224ea0cdda2b414c954293eef4b0f5e",
+  "off_grid_probe": {
+    "seed": 26313,
+    "seed_source": "prereg/probe-seeds.json (fixed, commit-stable -- round-two review finding R2-N1)",
+    "n_probes": 200,
+    "non_confluent_count": 150,
+    "confluent_count": 50,
+    "sample_non_confluent": {
+      "qty": 51.49826720274343,
+      "corrupted_unit_cost": 18.56825345753959,
+      "governed_unit_cost": 17.69712860789935,
+      "cost_budget": 605.0589352856848,
+      "carbon_budget": 151.56992197533145,
+      "order_a_substitute_then_downroute": {
+        "qty": 28.491389229079445,
+        "order_value": 504.2157794047373
+      },
+      "order_b_downroute_then_substitute": {
+        "qty": 27.154723009233905,
+        "order_value": 480.5606254062961
+      }
+    },
+    "attribution": "Promoted per independent review, review/REVIEW.md Section 5 (\"144/200 HEAD-derived off-grid points were non-confluent\"); this artifact's own rerun uses a fixed declared seed (not HEAD-derived, since round two) and will not in general reproduce that exact count, but tests the same class of continuous off-grid points and is stable across commits."
+  },
+  "note": "non-confluent: at least one concrete instance exists where substitute-then-downroute and downroute-then-substitute reach different final actions. This is the formal justification for prereg/w2-workflow.md's fixed ordering (evidence gate first, then resource gate) rather than leaving the order unspecified. The off-grid probe (see off_grid_probe) strengthens this result beyond the pre-registered grid, per the independent review."
+}
+python3 -m checkers.proof_status_lint
+{
+  "files": [
+    {
+      "path": "appendix-a-proofs.md",
+      "tag_count": 11,
+      "tags": [
+        "pending-human-review",
+        "machine-checked",
+        "machine-checked",
+        "checked-scope-only",
+        "checked-scope-only",
+        "checked-scope-only",
+        "checked-scope-only",
+        "machine-checked",
+        "checked-scope-only",
+        "machine-checked",
+        "machine-checked"
+      ],
+      "forbidden_values_found": [],
+      "machine_checked_scope_violations": [],
+      "clean": true
+    }
+  ],
+  "total_tags": 11,
+  "all_clean": true
+}
+See appendix-a-proofs.md for the proofs these checkers verify.
+Generating v0.3 paper (CH1-CH8, 30-seed CIs, exhaustive proofs, V4 citations)...
+python3 paper_v3.py
+======================================================================
+SARC SUITE ONE-PASS DEMO: paper v0.3 generation (Phase 5)
+======================================================================
+
+[1] Re-running the V2-gate checkers...
+  lattice all_hold=True, compensation holds=True, remediator outcome=non_confluent, proof-status lint clean=True
+
+[2] Writing v0.3 draft verbatim...
+  wrote paper4-composition-draft-v0.3.md
+
+[3] Writing v0.3 tables...
+  wrote out/paper/slots_v3.json
+
+[4] Populating v0.3 draft...
+✓ Populated 42 slots
+✓ Zero unfilled slots
+✓ Diff shows only slot substitutions
+
+[5] V4 gate: citation verification...
+{
+  "paper_path": "paper4-composition-draft-v0.3-populated.md",
+  "found_arxiv_ids": [
+    "2505.03574",
+    "2601.08815",
+    "2605.07728",
+    "2606.15954",
+    "2607.26313"
+  ],
+  "found_dois": [
+    "10.1016/j.ejor.2003.06.008",
+    "10.1109/SP.1987.10001",
+    "10.1145/353323.353382"
+  ],
+  "found_urls": [
+    "https://www.usenix.org/legacy/event/usenix08/tech/full_papers/wendlandt/wendlandt.pdf"
+  ],
+  "unverified_arxiv_ids": [],
+  "unverified_dois": [],
+  "unverified_urls": [],
+  "cite_needed_placeholder_count": 0,
+  "clean": true
+}
+
+[6] PROOF-STATUS lint on the populated draft itself...
+  11 tags, all clean
+
+======================================================================
+HONESTY BANNER
+======================================================================
+Mechanism demonstration on open payload data with a declared synthetic metadata layer. Not a live GIGO-Bench release; live cells come only from the official harness. Not the proprietary Suite: no connectors, evidence vault, identity, or hosting. plausible_outlier and plausible_outlier_high are injected and not caught, by design: declared uncovered. S4 is a constructed counterexample scenario, declared as such. CH6 is reported as robust under W1 and NOT robust under W2 (smaller weekly-commitment population) -- not smoothed into a single number.
+
+======================================================================
+ARTIFACT PATHS
+======================================================================
+  paper4-composition-draft-v0.3.md
+  paper4-composition-draft-v0.3-populated.md
+  out/metrics.json
+  out/results/sweep_summary.json
+  out/paper/slots_v3.json
+
+[CITE-NEEDED] placeholders remaining (honest, not fabricated): 0
+make paper-v3: zero unfilled slots, citations verified, PROOF-STATUS lint clean.
+exit=0 wall_seconds=15
+AFTER
+out/checkers/compensation_check.json mtime=1786875691
+out/checkers/lattice_check.json mtime=1786875691
+out/checkers/remediator_check.json mtime=1786875691
+out/paper/slots_v3.json mtime=1786875691
+98ab53a42aca238f2c0eb253a305d78b91bd49aaee86082273c532606a5a5d31  out/checkers/compensation_check.json
+1b685cac429f9f3d15eeee7bc35c89b4ae66f1653b9e793d41737232d84bbe9e  out/checkers/lattice_check.json
+939fecd88a1d4cb9fd096360094cfaa9f99fb7b10fdc2b0567e8225ff23c86a8  out/checkers/remediator_check.json
+62858a3074e5c3f8c81a90e7a7ca23398dc562bd1314ab4e55021c010762c5f5  out/paper/slots_v3.json
+STATUS
+ M out/checkers/compensation_check.json
+ M out/checkers/lattice_check.json
+ M out/checkers/remediator_check.json
+ M paper-tex/main.pdf
+ M paper-tex/parity-report.json

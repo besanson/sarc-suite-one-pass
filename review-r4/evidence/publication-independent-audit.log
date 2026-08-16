@@ -1,0 +1,61 @@
+{
+  "normalizations": [
+    "rejoin lowercase continuation hyphen line breaks",
+    "remove standalone page-number lines",
+    "remove repeated short-title page furniture",
+    "remove formatted PDF reference list absent from Markdown",
+    "allow one superscript-flattening delta: source tokens 2 and 31 become PDF token 231"
+  ],
+  "number_multiset": {
+    "markdown_total": 689,
+    "pdf_total": 688,
+    "raw_missing": {
+      "2": 1,
+      "31": 1
+    },
+    "raw_added": {
+      "231": 1
+    },
+    "exceptions": {
+      "missing_from_pdf": {
+        "2": 1,
+        "31": 1
+      },
+      "added_in_pdf": {
+        "231": 1
+      }
+    },
+    "unexplained_missing": {},
+    "unexplained_added": {},
+    "pass": true
+  },
+  "tag_counts": {
+    "machine-checked": {
+      "expected": 21,
+      "markdown": 21,
+      "pdf": 21
+    },
+    "checked-scope-only": {
+      "expected": 26,
+      "markdown": 26,
+      "pdf": 26
+    },
+    "pending-human-review": {
+      "expected": 7,
+      "markdown": 7,
+      "pdf": 7
+    }
+  },
+  "disclosure": {
+    "markdown_exact": true,
+    "pdf_wrap_tolerant": true
+  },
+  "tarball": {
+    "contents": [
+      "main.tex",
+      "refs.bib"
+    ],
+    "appropriate": true,
+    "sha256": "b90a6b2b391fe9dd6c303400017a5aa87b694407f0cd179e0338065833bf20d0"
+  }
+}

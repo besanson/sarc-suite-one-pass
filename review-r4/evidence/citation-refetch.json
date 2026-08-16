@@ -1,0 +1,203 @@
+{
+  "registry_count": 10,
+  "direct_results": [
+    {
+      "id": "sarc",
+      "expected": {
+        "id": "sarc",
+        "arxiv_id": "2605.07728",
+        "url": "https://arxiv.org/abs/2605.07728",
+        "title": "SARC: A Governance-by-Architecture Framework for Agentic AI Systems",
+        "first_author": "Gaston Besanson",
+        "year": 2026,
+        "verified_via": "WebFetch of https://arxiv.org/abs/2605.07728, 2026-08-13"
+      },
+      "url": "https://arxiv.org/abs/2605.07728",
+      "title": "SARC: A Governance-by-Architecture Framework for Agentic AI Systems",
+      "content": "| Field | Extracted information |\n|---|---|\n| Work title | SARC: A Governance-by-Architecture Framework for Agentic AI Systems |\n| First listed author | Gaston Besanson |\n| Publication year | 2026 |\n| DOI | 10.48550/arXiv.2605.07728 |\n| arXiv identifier | arXiv:2605.07728 |",
+      "error": null,
+      "is_paywall": false
+    },
+    {
+      "id": "green-sarc",
+      "expected": {
+        "id": "green-sarc",
+        "arxiv_id": "2606.15954",
+        "url": "https://arxiv.org/abs/2606.15954",
+        "title": "Green SARC: Predictive Cost and Carbon Governance for Agentic AI Systems",
+        "first_author": "Gaston Besanson",
+        "year": 2026,
+        "verified_via": "WebFetch of https://arxiv.org/abs/2606.15954, 2026-08-13"
+      },
+      "url": "https://arxiv.org/abs/2606.15954",
+      "title": "Green SARC: Predictive Cost and Carbon Governance for Agentic AI Systems",
+      "content": "| Work title | First listed author | Publication year | DOI | arXiv identifier |\n|---|---|---:|---|---|\n| Green SARC: Predictive Cost and Carbon Governance for Agentic AI Systems | Gaston Besanson | 2026 | 10.48550/arXiv.2606.15954 | arXiv:2606.15954 |",
+      "error": null,
+      "is_paywall": false
+    },
+    {
+      "id": "sarc-dq",
+      "expected": {
+        "id": "sarc-dq",
+        "arxiv_id": "2607.26313",
+        "url": "https://arxiv.org/abs/2607.26313",
+        "title": "SARC-DQ: Runtime Data-Quality Gating for Agentic AI: Silent Evidence Defects, the Incompetence Shield, and Downstream-Only Remediation",
+        "first_author": "Gaston Besanson",
+        "year": 2026,
+        "verified_via": "WebFetch of https://arxiv.org/abs/2607.26313, 2026-08-13"
+      },
+      "url": "https://arxiv.org/abs/2607.26313",
+      "title": "SARC-DQ: Runtime Data-Quality Gating for Agentic AI: Silent Evidence Defects, the Incompetence Shield, and Downstream-Only Remediation",
+      "content": "| Field | Extracted information |\n|---|---|\n| Work title | SARC-DQ: Runtime Data-Quality Gating for Agentic AI: Silent Evidence Defects, the Incompetence Shield, and Downstream-Only Remediation |\n| First listed author | Gaston Besanson |\n| Publication year | 2026 |\n| arXiv identifier | arXiv:2607.26313 |\n| DOI | 10.48550/arXiv.2607.26313 |",
+      "error": null,
+      "is_paywall": false
+    },
+    {
+      "id": "uci-online-retail",
+      "expected": {
+        "id": "uci-online-retail",
+        "doi": "10.24432/C5BW33",
+        "url": "https://archive.ics.uci.edu/dataset/352/online+retail",
+        "title": "Online Retail",
+        "first_author": "Daqing Chen",
+        "year": 2015,
+        "verified_via": "WebFetch of https://archive.ics.uci.edu/dataset/352/online+retail, 2026-08-13"
+      },
+      "url": "https://archive.ics.uci.edu/dataset/352/online+retail",
+      "title": "Online Retail",
+      "content": "| Work title | First listed author | Publication year | DOI or arXiv identifier |\n|---|---|---:|---|\n| Online Retail | Daqing Chen | 2012 (Introductory Paper); 2015 (dataset citation) | DOI: `10.24432/C5BW33` |\n\nNo specific arXiv identifier is stated.",
+      "error": null,
+      "is_paywall": false
+    },
+    {
+      "id": "nowak-veto-thresholds",
+      "expected": {
+        "id": "nowak-veto-thresholds",
+        "doi": "10.1016/j.ejor.2003.06.008",
+        "url": "https://doi.org/10.1016/j.ejor.2003.06.008",
+        "title": "Preference and veto thresholds in multicriteria analysis based on stochastic dominance",
+        "first_author": "Maciej Nowak",
+        "year": 2004,
+        "topic": "non-compensatory and veto rules in multi-criteria decision analysis (Section 10, related work)",
+        "verified_via": "WebFetch of https://api.crossref.org/works/10.1016/j.ejor.2003.06.008, 2026-08-14"
+      },
+      "url": "https://doi.org/10.1016/j.ejor.2003.06.008",
+      "title": null,
+      "content": null,
+      "error": "broken_content_ip_block",
+      "is_paywall": false
+    },
+    {
+      "id": "schneider-enforceable-policies",
+      "expected": {
+        "id": "schneider-enforceable-policies",
+        "doi": "10.1145/353323.353382",
+        "url": "https://doi.org/10.1145/353323.353382",
+        "title": "Enforceable security policies",
+        "first_author": "Fred B. Schneider",
+        "year": 2000,
+        "topic": "runtime verification and enforcement monitors (Section 10, related work)",
+        "verified_via": "WebFetch of https://api.crossref.org/works/10.1145/353323.353382, 2026-08-14"
+      },
+      "url": "https://doi.org/10.1145/353323.353382",
+      "title": null,
+      "content": null,
+      "error": "http_code_client_error",
+      "is_paywall": false
+    },
+    {
+      "id": "llamafirewall",
+      "expected": {
+        "id": "llamafirewall",
+        "arxiv_id": "2505.03574",
+        "url": "https://arxiv.org/abs/2505.03574",
+        "title": "LlamaFirewall: An open source guardrail system for building secure AI agents",
+        "first_author": "Sahana Chennabasappa",
+        "year": 2025,
+        "topic": "guardrail and policy-engine frameworks for LLM agents; monitoring versus pre-action placement (Section 10, related work)",
+        "verified_via": "WebFetch of https://arxiv.org/abs/2505.03574, 2026-08-14"
+      },
+      "url": "https://arxiv.org/abs/2505.03574",
+      "title": "LlamaFirewall: An open source guardrail system for building secure AI agents",
+      "content": "| Field | Extracted information |\n|---|---|\n| Work title | LlamaFirewall: An open source guardrail system for building secure AI agents |\n| First listed author | Sahana Chennabasappa |\n| Publication year | 2025 |\n| DOI | 10.48550/arXiv.2505.03574 |\n| arXiv identifier | arXiv:2505.03574 |",
+      "error": null,
+      "is_paywall": false
+    },
+    {
+      "id": "clark-wilson-1987",
+      "expected": {
+        "id": "clark-wilson-1987",
+        "doi": "10.1109/SP.1987.10001",
+        "url": "https://doi.org/10.1109/SP.1987.10001",
+        "title": "A Comparison of Commercial and Military Computer Security Policies",
+        "first_author": "David D. Clark",
+        "year": 1987,
+        "topic": "separation of duties and multi-party authorisation (Section 10, related work)",
+        "verified_via": "WebFetch of https://api.crossref.org/works/10.1109/SP.1987.10001, 2026-08-14"
+      },
+      "url": "https://doi.org/10.1109/SP.1987.10001",
+      "title": null,
+      "content": null,
+      "error": "broken_content_js_required",
+      "is_paywall": false
+    },
+    {
+      "id": "agent-contracts",
+      "expected": {
+        "id": "agent-contracts",
+        "arxiv_id": "2601.08815",
+        "url": "https://arxiv.org/abs/2601.08815",
+        "title": "Agent Contracts: A Formal Framework for Resource-Bounded Autonomous AI Systems",
+        "first_author": "Qing Ye",
+        "year": 2026,
+        "topic": "budget governors for autonomous systems (Section 10, related work)",
+        "verified_via": "WebFetch of https://arxiv.org/abs/2601.08815, 2026-08-14"
+      },
+      "url": "https://arxiv.org/abs/2601.08815",
+      "title": "Agent Contracts: A Formal Framework for Resource-Bounded Autonomous AI Systems",
+      "content": "| Field | Information |\n|---|---|\n| Work title | Agent Contracts: A Formal Framework for Resource-Bounded Autonomous AI Systems |\n| First listed author | Qing Ye |\n| Publication year | 2026 |\n| DOI | 10.48550/arXiv.2601.08815 |\n| arXiv identifier | arXiv:2601.08815 |",
+      "error": null,
+      "is_paywall": false
+    },
+    {
+      "id": "perspectives-tofu",
+      "expected": {
+        "id": "perspectives-tofu",
+        "url": "https://www.usenix.org/legacy/event/usenix08/tech/full_papers/wendlandt/wendlandt.pdf",
+        "title": "Perspectives: Improving SSH-style Host Authentication with Multi-path Network Probing",
+        "first_author": "Dan Wendlandt",
+        "year": 2008,
+        "topic": "cache/buffer poisoning and trust-on-first-use vulnerabilities in adjacent systems (Section 10, related work); no DOI/arXiv id exists for this pre-2010 USENIX paper, verified by url only",
+        "verified_via": "WebFetch of https://ptolemy.berkeley.edu/projects/truststc/pubs/388.html, 2026-08-14 (usenix.org itself returned 403 to WebFetch)"
+      },
+      "url": "https://www.usenix.org/legacy/event/usenix08/tech/full_papers/wendlandt/wendlandt.pdf",
+      "title": "sec 1-48",
+      "content": "| Work title | First listed author | Publication year | DOI or arXiv identifier |\n|---|---|---:|---|\n| Perspectives: Improving SSH-style Host Authentication with Multi-Path Probing | Dan Wendlandt | 2008 | Not stated |",
+      "error": null,
+      "is_paywall": false
+    }
+  ],
+  "alternate_crossref": [
+    {
+      "doi": "10.1016/j.ejor.2003.06.008",
+      "url": "https://api.crossref.org/works/10.1016/j.ejor.2003.06.008",
+      "title": "j.ejor.2003.06.008",
+      "content": "| Work title | First listed author | Publication year | DOI |\n|---|---|---:|---|\n| Preference and veto thresholds in multicriteria analysis based on stochastic dominance | Maciej Nowak | 2004 | 10.1016/j.ejor.2003.06.008 |",
+      "error": null
+    },
+    {
+      "doi": "10.1145/353323.353382",
+      "url": "https://api.crossref.org/works/10.1145/353323.353382",
+      "title": "353323.353382",
+      "content": "| Work title | First listed author | Publication year | DOI |\n|---|---|---:|---|\n| Enforceable security policies | Fred B. Schneider | 2000 | 10.1145/353323.353382 |",
+      "error": null
+    },
+    {
+      "doi": "10.1109/SP.1987.10001",
+      "url": "https://api.crossref.org/works/10.1109/SP.1987.10001",
+      "title": "SP.1987.10001",
+      "content": "| Work title | First listed author | Publication year | DOI |\n|---|---|---:|---|\n| A Comparison of Commercial and Military Computer Security Policies | David D. Clark | 1987 | 10.1109/sp.1987.10001 |",
+      "error": null
+    }
+  ]
+}

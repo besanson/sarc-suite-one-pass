@@ -1,0 +1,8 @@
+arxiv-abstract.txt
+arxiv-metadata.txt
+arxiv.tar.gz
+generate_refs_bib.py
+main.pdf
+main.tex
+parity-report.json
+refs.bib

@@ -1,0 +1,633 @@
+
+⠋ Generating mutants
+⠙ Generating mutants
+⠹ Generating mutants
+⠸ Generating mutants
+⠼ Generating mutants
+⠴ Generating mutants
+⠦ Generating mutants
+⠧ Generating mutants
+⠇ Generating mutants
+⠏ Generating mutants
+⠋ Generating mutants
+⠙ Generating mutants
+⠹ Generating mutants
+⠸ Generating mutants
+⠼ Generating mutants
+⠴ Generating mutants
+⠦ Generating mutants
+⠧ Generating mutants
+⠇ Generating mutants
+⠏ Generating mutants
+⠋ Generating mutants
+⠙ Generating mutants
+⠹ Generating mutants
+⠸ Generating mutants
+⠼ Generating mutants
+⠴ Generating mutants
+⠦ Generating mutants
+⠧ Generating mutants
+⠇ Generating mutants
+⠏ Generating mutants
+⠋ Generating mutants
+⠙ Generating mutants
+⠹ Generating mutants
+⠸ Generating mutants
+⠼ Generating mutants
+⠴ Generating mutants
+⠦ Generating mutants
+⠧ Generating mutants
+⠇ Generating mutants
+⠏ Generating mutants
+⠋ Generating mutants
+⠙ Generating mutants
+⠹ Generating mutants
+⠸ Generating mutants
+⠼ Generating mutants
+⠴ Generating mutants
+⠦ Generating mutants
+⠧ Generating mutants
+⠇ Generating mutants
+⠏ Generating mutants
+⠋ Generating mutants
+⠙ Generating mutants
+⠹ Generating mutants
+⠸ Generating mutants
+⠼ Generating mutants
+⠴ Generating mutants
+⠦ Generating mutants
+⠧ Generating mutants
+⠇ Generating mutants
+⠏ Generating mutants
+⠋ Generating mutants
+⠙ Generating mutants
+⠹ Generating mutants
+⠸ Generating mutants
+⠼ Generating mutants
+⠴ Generating mutants
+⠦ Generating mutants
+⠧ Generating mutants
+⠇ Generating mutants
+⠏ Generating mutants
+⠋ Generating mutants
+⠙ Generating mutants
+⠹ Generating mutants
+⠸ Generating mutants
+⠼ Generating mutants
+⠴ Generating mutants
+⠦ Generating mutants
+⠧ Generating mutants
+⠇ Generating mutants
+⠏ Generating mutants
+⠋ Generating mutants
+⠙ Generating mutants
+⠹ Generating mutants
+⠸ Generating mutants
+⠼ Generating mutants
+⠴ Generating mutants
+⠦ Generating mutants
+⠧ Generating mutants
+⠇ Generating mutants
+⠏ Generating mutants
+⠋ Generating mutants
+⠙ Generating mutants
+⠹ Generating mutants
+⠸ Generating mutants
+⠼ Generating mutants
+⠴ Generating mutants
+⠦ Generating mutants
+⠧ Generating mutants
+⠇ Generating mutants
+⠏ Generating mutants
+⠋ Generating mutants
+⠙ Generating mutants
+⠹ Generating mutants
+⠸ Generating mutants
+⠼ Generating mutants
+⠴ Generating mutants
+⠦ Generating mutants
+⠧ Generating mutants
+⠇ Generating mutants
+⠏ Generating mutants
+⠋ Generating mutants
+⠙ Generating mutants
+⠹ Generating mutants
+⠸ Generating mutants
+⠸ Generating mutants
+⠼ Generating mutants
+⠼ Generating mutants
+    done in 29ms (0 files mutated, 0 ignored, 2 unmodified)
+    Warning: 5 non-Python file(s) changed since the last full run: out/checkers/compensation_check.json, out/checkers/lattice_check.json, out/checkers/remediator_check.json, paper-tex/main.pdf, paper-tex/parity-report.json
+    These cannot be tracked for behavioral changes, so cached results were kept.
+    If the changes affect your tests, delete the mutants/ directory or set on_dependency_change = "rerun".
+
+⠸ Listing all tests 
+⠼ Listing all tests
+⠴ Listing all tests
+⠦ Listing all tests
+⠧ Listing all tests
+⠇ Listing all tests
+⠏ Listing all tests
+⠋ Listing all tests
+⠙ Listing all tests
+⠹ Listing all tests
+⠸ Listing all tests
+⠼ Listing all tests
+⠴ Listing all tests
+⠦ Listing all tests
+⠧ Listing all tests
+⠇ Listing all tests
+⠏ Listing all tests
+⠋ Listing all tests
+⠙ Listing all tests
+⠹ Listing all tests
+⠸ Listing all tests
+⠼ Listing all tests
+⠴ Listing all tests
+⠦ Listing all tests
+⠧ Listing all tests
+⠇ Listing all tests
+⠏ Listing all tests
+⠋ Listing all tests
+⠙ Listing all tests
+⠹ Listing all tests
+⠸ Listing all tests
+⠼ Listing all tests
+⠴ Listing all tests
+⠦ Listing all tests
+⠧ Listing all tests
+⠇ Listing all tests
+⠏ Listing all tests
+⠋ Listing all tests
+⠙ Listing all tests
+⠹ Listing all tests
+⠸ Listing all tests
+⠼ Listing all tests
+⠴ Listing all tests
+⠦ Listing all tests
+⠧ Listing all tests
+⠇ Listing all tests
+⠏ Listing all tests
+⠋ Listing all tests
+⠙ Listing all tests
+⠹ Listing all tests
+⠸ Listing all tests
+⠼ Listing all tests
+⠴ Listing all tests
+⠦ Listing all tests
+⠧ Listing all tests
+⠇ Listing all tests
+⠏ Listing all tests
+⠋ Listing all tests
+⠙ Listing all tests
+⠹ Listing all tests
+⠸ Listing all tests
+⠼ Listing all tests
+⠴ Listing all tests
+⠦ Listing all tests
+⠧ Listing all tests
+⠇ Listing all tests
+⠏ Listing all tests
+⠋ Listing all tests
+⠙ Listing all tests
+⠹ Listing all tests
+⠸ Listing all tests
+⠼ Listing all tests
+⠴ Listing all tests
+⠦ Listing all tests
+⠧ Listing all tests
+⠇ Listing all tests
+⠏ Listing all tests
+⠋ Listing all tests
+⠙ Listing all tests
+⠹ Listing all tests
+⠸ Listing all tests
+⠼ Listing all tests
+⠴ Listing all tests
+⠦ Listing all tests
+⠧ Listing all tests
+⠇ Listing all tests
+⠏ Listing all tests
+⠋ Listing all tests
+⠙ Listing all tests
+⠹ Listing all tests
+⠸ Listing all tests
+⠼ Listing all tests
+⠴ Listing all tests
+⠦ Listing all tests
+⠧ Listing all tests
+⠇ Listing all tests
+⠏ Listing all tests
+⠋ Listing all tests
+⠙ Listing all tests
+⠹ Listing all tests
+⠸ Listing all tests
+⠼ Listing all tests
+⠴ Listing all tests
+⠦ Listing all tests
+⠧ Listing all tests
+⠇ Listing all tests
+⠏ Listing all tests
+⠋ Listing all tests
+⠙ Listing all tests
+⠹ Listing all tests
+⠸ Listing all tests
+⠼ Listing all tests
+⠴ Listing all tests
+⠦ Listing all tests
+⠧ Listing all tests
+⠇ Listing all tests
+⠏ Listing all tests
+⠋ Listing all tests
+⠙ Listing all tests
+⠹ Listing all tests
+⠸ Listing all tests
+⠼ Listing all tests
+⠴ Listing all tests
+⠦ Listing all tests
+⠧ Listing all tests
+⠇ Listing all tests
+
+⠏ Running clean tests
+⠋ Running clean tests
+⠙ Running clean tests
+⠹ Running clean tests
+⠸ Running clean tests
+⠼ Running clean tests
+⠴ Running clean tests
+⠦ Running clean tests
+⠧ Running clean tests
+⠇ Running clean tests
+⠏ Running clean tests
+⠋ Running clean tests
+⠙ Running clean tests
+⠹ Running clean tests
+⠸ Running clean tests
+⠼ Running clean tests
+⠴ Running clean tests
+⠦ Running clean tests
+⠧ Running clean tests
+⠇ Running clean tests
+⠏ Running clean tests
+⠋ Running clean tests
+⠙ Running clean tests
+⠹ Running clean tests
+⠸ Running clean tests
+⠼ Running clean tests
+⠴ Running clean tests
+⠦ Running clean tests
+⠧ Running clean tests
+⠇ Running clean tests
+⠏ Running clean tests
+⠋ Running clean tests
+⠙ Running clean tests
+⠹ Running clean tests
+⠸ Running clean tests
+⠼ Running clean tests
+⠴ Running clean tests
+⠦ Running clean tests
+⠧ Running clean tests
+⠇ Running clean tests
+⠏ Running clean tests
+⠋ Running clean tests
+⠙ Running clean tests
+⠹ Running clean tests
+⠸ Running clean tests
+⠼ Running clean tests
+⠴ Running clean tests
+⠦ Running clean tests
+⠧ Running clean tests
+⠇ Running clean tests
+⠏ Running clean tests
+⠋ Running clean tests
+⠙ Running clean tests
+⠹ Running clean tests
+⠸ Running clean tests
+⠼ Running clean tests
+    done
+
+⠴ Running forced fail test
+⠦ Running forced fail test
+⠧ Running forced fail test
+⠇ Running forced fail test
+⠏ Running forced fail test
+⠋ Running forced fail test
+⠙ Running forced fail test
+⠹ Running forced fail test
+⠸ Running forced fail test
+⠼ Running forced fail test
+⠴ Running forced fail test
+⠦ Running forced fail test
+⠧ Running forced fail test
+⠇ Running forced fail test
+⠏ Running forced fail test
+⠋ Running forced fail test
+    done
+Running mutation testing
+
+⠙ 0/1264  🎉 0 🫥 0  ⏰ 0  🤔 0  🙁 0  🔇 0  🧙 0
+⠹ 0/1264  🎉 0 🫥 0  ⏰ 0  🤔 0  🙁 0  🔇 0  🧙 0
+⠸ 1/1264  🎉 1 🫥 0  ⏰ 0  🤔 0  🙁 0  🔇 0  🧙 0
+⠼ 2/1264  🎉 2 🫥 0  ⏰ 0  🤔 0  🙁 0  🔇 0  🧙 0
+⠴ 3/1264  🎉 3 🫥 0  ⏰ 0  🤔 0  🙁 0  🔇 0  🧙 0
+⠦ 4/1264  🎉 4 🫥 0  ⏰ 0  🤔 0  🙁 0  🔇 0  🧙 0
+⠧ 5/1264  🎉 5 🫥 0  ⏰ 0  🤔 0  🙁 0  🔇 0  🧙 0
+⠇ 6/1264  🎉 6 🫥 0  ⏰ 0  🤔 0  🙁 0  🔇 0  🧙 0
+⠏ 7/1264  🎉 7 🫥 0  ⏰ 0  🤔 0  🙁 0  🔇 0  🧙 0
+⠋ 8/1264  🎉 8 🫥 0  ⏰ 0  🤔 0  🙁 0  🔇 0  🧙 0
+⠙ 9/1264  🎉 9 🫥 0  ⏰ 0  🤔 0  🙁 0  🔇 0  🧙 0
+⠹ 10/1264  🎉 10 🫥 0  ⏰ 0  🤔 0  🙁 0  🔇 0  🧙 0
+⠸ 11/1264  🎉 11 🫥 0  ⏰ 0  🤔 0  🙁 0  🔇 0  🧙 0
+⠼ 12/1264  🎉 12 🫥 0  ⏰ 0  🤔 0  🙁 0  🔇 0  🧙 0
+⠴ 13/1264  🎉 13 🫥 0  ⏰ 0  🤔 0  🙁 0  🔇 0  🧙 0
+⠦ 14/1264  🎉 13 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠧ 15/1264  🎉 14 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠇ 16/1264  🎉 15 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠏ 17/1264  🎉 16 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠋ 18/1264  🎉 17 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠙ 19/1264  🎉 18 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠹ 20/1264  🎉 19 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠸ 21/1264  🎉 20 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠼ 22/1264  🎉 21 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠴ 23/1264  🎉 22 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠦ 24/1264  🎉 23 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠧ 25/1264  🎉 24 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠇ 26/1264  🎉 25 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠏ 27/1264  🎉 26 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠋ 28/1264  🎉 27 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠙ 29/1264  🎉 28 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠹ 30/1264  🎉 29 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠸ 31/1264  🎉 30 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠼ 32/1264  🎉 31 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠴ 33/1264  🎉 32 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠦ 34/1264  🎉 33 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠧ 35/1264  🎉 34 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠇ 36/1264  🎉 35 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠏ 37/1264  🎉 36 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠋ 38/1264  🎉 37 🫥 0  ⏰ 0  🤔 0  🙁 1  🔇 0  🧙 0
+⠙ 39/1264  🎉 37 🫥 0  ⏰ 0  🤔 0  🙁 2  🔇 0  🧙 0
+⠹ 40/1264  🎉 37 🫥 0  ⏰ 0  🤔 0  🙁 3  🔇 0  🧙 0
+⠸ 41/1264  🎉 38 🫥 0  ⏰ 0  🤔 0  🙁 3  🔇 0  🧙 0
+⠼ 42/1264  🎉 39 🫥 0  ⏰ 0  🤔 0  🙁 3  🔇 0  🧙 0
+⠴ 43/1264  🎉 40 🫥 0  ⏰ 0  🤔 0  🙁 3  🔇 0  🧙 0
+⠦ 44/1264  🎉 41 🫥 0  ⏰ 0  🤔 0  🙁 3  🔇 0  🧙 0
+⠧ 45/1264  🎉 42 🫥 0  ⏰ 0  🤔 0  🙁 3  🔇 0  🧙 0
+⠇ 46/1264  🎉 42 🫥 0  ⏰ 0  🤔 0  🙁 4  🔇 0  🧙 0
+⠏ 47/1264  🎉 43 🫥 0  ⏰ 0  🤔 0  🙁 4  🔇 0  🧙 0
+⠋ 48/1264  🎉 44 🫥 0  ⏰ 0  🤔 0  🙁 4  🔇 0  🧙 0
+⠙ 49/1264  🎉 45 🫥 0  ⏰ 0  🤔 0  🙁 4  🔇 0  🧙 0
+⠹ 50/1264  🎉 46 🫥 0  ⏰ 0  🤔 0  🙁 4  🔇 0  🧙 0
+⠸ 51/1264  🎉 47 🫥 0  ⏰ 0  🤔 0  🙁 4  🔇 0  🧙 0
+⠼ 52/1264  🎉 48 🫥 0  ⏰ 0  🤔 0  🙁 4  🔇 0  🧙 0
+⠴ 53/1264  🎉 49 🫥 0  ⏰ 0  🤔 0  🙁 4  🔇 0  🧙 0
+⠦ 54/1264  🎉 49 🫥 0  ⏰ 0  🤔 0  🙁 5  🔇 0  🧙 0
+⠧ 55/1264  🎉 49 🫥 0  ⏰ 0  🤔 0  🙁 6  🔇 0  🧙 0
+⠇ 56/1264  🎉 50 🫥 0  ⏰ 0  🤔 0  🙁 6  🔇 0  🧙 0
+⠏ 57/1264  🎉 51 🫥 0  ⏰ 0  🤔 0  🙁 6  🔇 0  🧙 0
+⠋ 58/1264  🎉 52 🫥 0  ⏰ 0  🤔 0  🙁 6  🔇 0  🧙 0
+⠙ 59/1264  🎉 53 🫥 0  ⏰ 0  🤔 0  🙁 6  🔇 0  🧙 0
+⠹ 60/1264  🎉 54 🫥 0  ⏰ 0  🤔 0  🙁 6  🔇 0  🧙 0
+⠸ 61/1264  🎉 55 🫥 0  ⏰ 0  🤔 0  🙁 6  🔇 0  🧙 0
+⠼ 62/1264  🎉 56 🫥 0  ⏰ 0  🤔 0  🙁 6  🔇 0  🧙 0
+⠴ 63/1264  🎉 57 🫥 0  ⏰ 0  🤔 0  🙁 6  🔇 0  🧙 0
+⠦ 64/1264  🎉 57 🫥 0  ⏰ 0  🤔 0  🙁 7  🔇 0  🧙 0
+⠧ 65/1264  🎉 58 🫥 0  ⏰ 0  🤔 0  🙁 7  🔇 0  🧙 0
+⠇ 66/1264  🎉 59 🫥 0  ⏰ 0  🤔 0  🙁 7  🔇 0  🧙 0
+⠏ 67/1264  🎉 60 🫥 0  ⏰ 0  🤔 0  🙁 7  🔇 0  🧙 0
+⠋ 68/1264  🎉 61 🫥 0  ⏰ 0  🤔 0  🙁 7  🔇 0  🧙 0
+⠙ 69/1264  🎉 62 🫥 0  ⏰ 0  🤔 0  🙁 7  🔇 0  🧙 0
+⠹ 70/1264  🎉 63 🫥 0  ⏰ 0  🤔 0  🙁 7  🔇 0  🧙 0
+⠸ 71/1264  🎉 64 🫥 0  ⏰ 0  🤔 0  🙁 7  🔇 0  🧙 0
+⠼ 72/1264  🎉 65 🫥 0  ⏰ 0  🤔 0  🙁 7  🔇 0  🧙 0
+⠴ 73/1264  🎉 66 🫥 0  ⏰ 0  🤔 0  🙁 7  🔇 0  🧙 0
+⠦ 74/1264  🎉 66 🫥 0  ⏰ 0  🤔 0  🙁 8  🔇 0  🧙 0
+⠧ 75/1264  🎉 67 🫥 0  ⏰ 0  🤔 0  🙁 8  🔇 0  🧙 0
+⠇ 76/1264  🎉 68 🫥 0  ⏰ 0  🤔 0  🙁 8  🔇 0  🧙 0
+⠏ 77/1264  🎉 69 🫥 0  ⏰ 0  🤔 0  🙁 8  🔇 0  🧙 0
+⠋ 78/1264  🎉 70 🫥 0  ⏰ 0  🤔 0  🙁 8  🔇 0  🧙 0
+⠙ 79/1264  🎉 71 🫥 0  ⏰ 0  🤔 0  🙁 8  🔇 0  🧙 0
+⠹ 80/1264  🎉 72 🫥 0  ⏰ 0  🤔 0  🙁 8  🔇 0  🧙 0
+⠸ 81/1264  🎉 72 🫥 0  ⏰ 0  🤔 0  🙁 9  🔇 0  🧙 0
+⠼ 82/1264  🎉 72 🫥 0  ⏰ 0  🤔 0  🙁 10  🔇 0  🧙 0
+⠴ 83/1264  🎉 73 🫥 0  ⏰ 0  🤔 0  🙁 10  🔇 0  🧙 0
+⠦ 84/1264  🎉 73 🫥 0  ⏰ 0  🤔 0  🙁 11  🔇 0  🧙 0
+⠧ 85/1264  🎉 74 🫥 0  ⏰ 0  🤔 0  🙁 11  🔇 0  🧙 0
+⠇ 86/1264  🎉 75 🫥 0  ⏰ 0  🤔 0  🙁 11  🔇 0  🧙 0
+⠏ 87/1264  🎉 76 🫥 0  ⏰ 0  🤔 0  🙁 11  🔇 0  🧙 0
+⠋ 88/1264  🎉 76 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠙ 89/1264  🎉 77 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠹ 90/1264  🎉 78 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠸ 91/1264  🎉 79 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠼ 92/1264  🎉 80 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠴ 93/1264  🎉 81 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠦ 94/1264  🎉 82 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠧ 95/1264  🎉 83 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠇ 96/1264  🎉 84 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠏ 97/1264  🎉 85 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠋ 98/1264  🎉 86 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠙ 99/1264  🎉 87 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠹ 100/1264  🎉 88 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠸ 101/1264  🎉 89 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠼ 102/1264  🎉 90 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠴ 103/1264  🎉 91 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠦ 104/1264  🎉 92 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠧ 105/1264  🎉 93 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠇ 106/1264  🎉 94 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠏ 107/1264  🎉 95 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠋ 108/1264  🎉 96 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠙ 109/1264  🎉 97 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠹ 110/1264  🎉 98 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠸ 111/1264  🎉 99 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠼ 112/1264  🎉 100 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠴ 113/1264  🎉 101 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠦ 114/1264  🎉 102 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠧ 115/1264  🎉 103 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠇ 116/1264  🎉 104 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠏ 117/1264  🎉 105 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠋ 118/1264  🎉 106 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠙ 119/1264  🎉 107 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠹ 120/1264  🎉 108 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠸ 121/1264  🎉 109 🫥 0  ⏰ 0  🤔 0  🙁 12  🔇 0  🧙 0
+⠼ 122/1264  🎉 109 🫥 0  ⏰ 0  🤔 0  🙁 13  🔇 0  🧙 0
+⠴ 123/1264  🎉 109 🫥 0  ⏰ 0  🤔 0  🙁 14  🔇 0  🧙 0
+⠦ 124/1264  🎉 110 🫥 0  ⏰ 0  🤔 0  🙁 14  🔇 0  🧙 0
+⠧ 125/1264  🎉 111 🫥 0  ⏰ 0  🤔 0  🙁 14  🔇 0  🧙 0
+⠇ 126/1264  🎉 112 🫥 0  ⏰ 0  🤔 0  🙁 14  🔇 0  🧙 0
+⠏ 127/1264  🎉 113 🫥 0  ⏰ 0  🤔 0  🙁 14  🔇 0  🧙 0
+⠋ 128/1264  🎉 114 🫥 0  ⏰ 0  🤔 0  🙁 14  🔇 0  🧙 0
+⠙ 129/1264  🎉 115 🫥 0  ⏰ 0  🤔 0  🙁 14  🔇 0  🧙 0
+⠹ 130/1264  🎉 116 🫥 0  ⏰ 0  🤔 0  🙁 14  🔇 0  🧙 0
+⠸ 131/1264  🎉 117 🫥 0  ⏰ 0  🤔 0  🙁 14  🔇 0  🧙 0
+⠼ 132/1264  🎉 117 🫥 0  ⏰ 0  🤔 0  🙁 15  🔇 0  🧙 0
+⠴ 133/1264  🎉 118 🫥 0  ⏰ 0  🤔 0  🙁 15  🔇 0  🧙 0
+⠦ 134/1264  🎉 118 🫥 0  ⏰ 0  🤔 0  🙁 16  🔇 0  🧙 0
+⠧ 135/1264  🎉 119 🫥 0  ⏰ 0  🤔 0  🙁 16  🔇 0  🧙 0
+⠇ 136/1264  🎉 120 🫥 0  ⏰ 0  🤔 0  🙁 16  🔇 0  🧙 0
+⠏ 137/1264  🎉 121 🫥 0  ⏰ 0  🤔 0  🙁 16  🔇 0  🧙 0
+⠋ 138/1264  🎉 122 🫥 0  ⏰ 0  🤔 0  🙁 16  🔇 0  🧙 0
+⠙ 139/1264  🎉 123 🫥 0  ⏰ 0  🤔 0  🙁 16  🔇 0  🧙 0
+⠹ 140/1264  🎉 124 🫥 0  ⏰ 0  🤔 0  🙁 16  🔇 0  🧙 0
+⠸ 141/1264  🎉 125 🫥 0  ⏰ 0  🤔 0  🙁 16  🔇 0  🧙 0
+⠼ 142/1264  🎉 126 🫥 0  ⏰ 0  🤔 0  🙁 16  🔇 0  🧙 0
+⠴ 143/1264  🎉 126 🫥 0  ⏰ 0  🤔 0  🙁 17  🔇 0  🧙 0
+⠦ 144/1264  🎉 126 🫥 0  ⏰ 0  🤔 0  🙁 18  🔇 0  🧙 0
+⠧ 145/1264  🎉 127 🫥 0  ⏰ 0  🤔 0  🙁 18  🔇 0  🧙 0
+⠇ 146/1264  🎉 128 🫥 0  ⏰ 0  🤔 0  🙁 18  🔇 0  🧙 0
+⠏ 147/1264  🎉 129 🫥 0  ⏰ 0  🤔 0  🙁 18  🔇 0  🧙 0
+⠋ 148/1264  🎉 130 🫥 0  ⏰ 0  🤔 0  🙁 18  🔇 0  🧙 0
+⠙ 150/1264  🎉 131 🫥 0  ⏰ 0  🤔 0  🙁 19  🔇 0  🧙 0
+3.21 mutations/second
+
+Mutant results
+--------------
+🎉 composition.x__context_dict__mutmut_1
+🎉 composition.x__context_dict__mutmut_19
+🎉 composition.x__context_dict__mutmut_8
+🎉 composition.x__dq_buffer_key__mutmut_4
+🙁 composition.x__find_winner_gate__mutmut_12
+🎉 composition.x__find_winner_gate__mutmut_2
+🎉 composition.x__find_winner_gate__mutmut_4
+🎉 composition.x__maybe_downroute__mutmut_17
+🎉 composition.x__maybe_downroute__mutmut_22
+🎉 composition.x__maybe_downroute__mutmut_3
+🙁 composition.x__maybe_downroute__mutmut_35
+🎉 composition.x__maybe_downroute__mutmut_40
+🎉 composition.x__maybe_downroute__mutmut_42
+🎉 composition.x__maybe_downroute__mutmut_58
+🎉 composition.x__maybe_downroute__mutmut_8
+🙁 composition.x__order_value_over_cap__mutmut_10
+🎉 composition.x__order_value_over_cap__mutmut_20
+🎉 composition.x__order_value_over_cap__mutmut_7
+🎉 composition.x__record_buffer_write__mutmut_11
+🎉 composition.x__record_buffer_write__mutmut_13
+🙁 composition.x__remediated_evidence__mutmut_14
+🎉 composition.x__remediated_evidence__mutmut_22
+🙁 composition.x__remediated_evidence__mutmut_24
+🙁 composition.x__remediated_evidence__mutmut_31
+🎉 composition.x__resolve_buffer_write_event__mutmut_5
+🎉 composition.x__resolve_buffer_write_event__mutmut_8
+🎉 composition.x__role_unauthorised__mutmut_11
+🎉 composition.x__role_unauthorised__mutmut_17
+🎉 composition.x_build_green_engines__mutmut_12
+🙁 composition.x_build_green_engines__mutmut_13
+🎉 composition.x_build_green_engines__mutmut_5
+🎉 composition.x_evaluate_dq__mutmut_25
+🎉 composition.x_evaluate_dq__mutmut_6
+🙁 composition.x_evaluate_green__mutmut_10
+🎉 composition.x_evaluate_green__mutmut_29
+🎉 composition.x_evaluate_green__mutmut_30
+🙁 composition.x_evaluate_paa_lineage__mutmut_8
+🙁 composition.x_evaluate_paa_lineage__mutmut_9
+🎉 composition.x_evaluate_sarc_pag__mutmut_11
+🎉 composition.x_evaluate_sarc_pag__mutmut_15
+🎉 composition.x_evaluate_sarc_pag__mutmut_28
+🎉 composition.x_evaluate_sarc_pag__mutmut_34
+🙁 composition.x_evaluate_sarc_pag__mutmut_5
+🎉 composition.xǁCompositionEngineǁ__init____mutmut_2
+🙁 composition.xǁCompositionEngineǁaudit_executed__mutmut_20
+🎉 composition.xǁCompositionEngineǁaudit_executed__mutmut_29
+🎉 composition.xǁCompositionEngineǁaudit_executed__mutmut_31
+🎉 composition.xǁCompositionEngineǁaudit_executed__mutmut_5
+🎉 composition.xǁCompositionEngineǁaudit_executed__mutmut_8
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_1
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_121
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_124
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_125
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_141
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_142
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_151
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_155
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_160
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_162
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_170
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_172
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_178
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_19
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_190
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_198
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_20
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_200
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_207
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_210
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_217
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_225
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_227
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_230
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_232
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_31
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_41
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_45
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_56
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_69
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_88
+🎉 composition.xǁCompositionEngineǁremediate_regate__mutmut_89
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_1
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_103
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_13
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_145
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_153
+🙁 composition.xǁCompositionEngineǁsingle_pass__mutmut_162
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_170
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_180
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_181
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_196
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_20
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_200
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_204
+🙁 composition.xǁCompositionEngineǁsingle_pass__mutmut_211
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_23
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_37
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_48
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_49
+🙁 composition.xǁCompositionEngineǁsingle_pass__mutmut_53
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_60
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_61
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_62
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_66
+🙁 composition.xǁCompositionEngineǁsingle_pass__mutmut_7
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_70
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_79
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_96
+🎉 composition.xǁCompositionEngineǁsingle_pass__mutmut_97
+🎉 metrics.x__ch2__mutmut_20
+🎉 metrics.x__ch2__mutmut_38
+🎉 metrics.x__ch2__mutmut_42
+🎉 metrics.x__ch2__mutmut_49
+🎉 metrics.x__ch2__mutmut_63
+🎉 metrics.x__ch2__mutmut_70
+🙁 metrics.x__ch2__mutmut_73
+🙁 metrics.x__ch2__mutmut_82
+🎉 metrics.x__ch2__mutmut_91
+🎉 metrics.x__ch3_false_hold__mutmut_14
+🎉 metrics.x__ch3_false_hold__mutmut_15
+🎉 metrics.x__ch3_false_hold__mutmut_25
+🎉 metrics.x__ch3_false_hold__mutmut_26
+🎉 metrics.x__ch3_false_hold__mutmut_27
+🎉 metrics.x__ch3_false_hold__mutmut_55
+🎉 metrics.x__ch4_matrix__mutmut_1
+🎉 metrics.x__ch4_matrix__mutmut_101
+🎉 metrics.x__ch4_matrix__mutmut_112
+🎉 metrics.x__ch4_matrix__mutmut_118
+🎉 metrics.x__ch4_matrix__mutmut_124
+🎉 metrics.x__ch4_matrix__mutmut_137
+🎉 metrics.x__ch4_matrix__mutmut_138
+🎉 metrics.x__ch4_matrix__mutmut_16
+🎉 metrics.x__ch4_matrix__mutmut_25
+🎉 metrics.x__ch4_matrix__mutmut_29
+🎉 metrics.x__ch4_matrix__mutmut_39
+🎉 metrics.x__ch4_matrix__mutmut_57
+🎉 metrics.x__ch4_matrix__mutmut_70
+🎉 metrics.x__ch4_matrix__mutmut_71
+🙁 metrics.x__ch4_matrix__mutmut_86
+🎉 metrics.x__s4_divergent_decisions__mutmut_20
+🎉 metrics.x__s4_divergent_decisions__mutmut_40
+🎉 metrics.x__s4_divergent_decisions__mutmut_47
+🎉 metrics.x__s4_divergent_decisions__mutmut_58
+🎉 metrics.x__s4_divergent_decisions__mutmut_60
+🎉 metrics.x__s4_divergent_decisions__mutmut_68
+🎉 metrics.x_build_metrics__mutmut_10
+🎉 metrics.x_build_metrics__mutmut_14
+🎉 metrics.x_build_metrics__mutmut_22
+🎉 metrics.x_build_metrics__mutmut_26
+🎉 metrics.x_build_metrics__mutmut_8
+

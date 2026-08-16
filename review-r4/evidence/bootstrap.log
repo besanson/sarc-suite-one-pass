@@ -1,0 +1,16 @@
+[dqSarc] cloning https://github.com/besanson/dqSarc at db6c396128a4df7fe12d13be163b1e7d32087177...
+[dqSarc] pinned at db6c396128a4df7fe12d13be163b1e7d32087177
+[sarc-governance] cloning https://github.com/besanson/sarc-governance at 74df5de29a305a76bf3cc97a185ece2f11b1b833...
+[sarc-governance] pinned at 74df5de29a305a76bf3cc97a185ece2f11b1b833
+[Greensarc] cloning https://github.com/besanson/Greensarc at 8482226b461ccbf91971f90ea6de42cd7a931e5c...
+[Greensarc] pinned at 8482226b461ccbf91971f90ea6de42cd7a931e5c
+
+Installing engines (editable) + toolchain...
+[tectonic] downloading pinned 0.17.0 for x86_64-unknown-linux-gnu...
+[tectonic] installed: Tectonic 0.17.0
+
+Bootstrap complete.
+Engine commits:
+  dqSarc: db6c396128a4df7fe12d13be163b1e7d32087177
+  sarc-governance: 74df5de29a305a76bf3cc97a185ece2f11b1b833
+  Greensarc: 8482226b461ccbf91971f90ea6de42cd7a931e5c

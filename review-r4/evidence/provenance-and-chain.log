@@ -1,0 +1,63 @@
+HEAD 75e050ca9a2246849b5b82b06e0ba9201afeae80
+TAGS
+prereg-v1
+COMMITS
+a6c3f815d9b7bc0ac59cae0fa0f95b50f95fe0e2 Initial: SARC Suite One-Pass Demo
+d39af19e519bdbb9b93d6be9b29ad4346bf23857 repair: compose real engines, real audit, semantic tests
+950480975b4c43ce7af21d4d22e9553994e00d38 P0 baseline + pinning
+dd0d86c845e8884502fded544d9950c0f9c30020 V1 pre-registration: CH5-CH8, seeds, weights, W2, contamination, rename, schema, CH2 semantics
+31552b2ee6548787e766b0253498014eb0a5093c V1 prereg: untrack result artifacts so prereg-v1's tree is results-free
+a9a93fc1d6f463e0867f974ab43eb40a88d48355 P2 hardening: property tests, mutation testing, latency, remediate_regate rename
+1c73cbdcd46933a877603343f102343334cd431d P3 results: W2 downroute, contamination study, CH5 aggregator, 30-seed sweep
+bd6722b6344ff161ffec9e0d26482a503bc7f8bc P4 formal: exhaustive checkers, full proofs, PROOF-STATUS lint
+14dff54afc417b7fa4ea71ca6494eafcab7d8284 P5 paper v0.3: CH5-CH8 numbers, 30-seed CIs, exhaustive proofs, V4 citations
+ad11cb9e4bceada9dc6ff1adc02ad828081ee691 V4 fix: replace hand-written citation whitelist with fetched verified-citations.json
+ce00d99f6ccececf6377a7105c138b39b3f01a98 ADR-003: publication posture (publish for audience, no patent claims)
+2009890eded25c0dd30df2e4f541073c3cfd9ef5 ADR-003: remove employment-ownership confirmation section
+514f0160cdda2b67994586d2eb23b681824763b5 review: independent agent review v1 (unedited)
+af4a3f019128de569708ff5fe83c900701aa865e review response: F1 to F6 implemented
+cee2d7f40820c2248b4c32376e2490c84478cf1b review r2: independent agent review round 2 (unedited)
+77bf676a27d575f8cf1807b4cfec0efeda33632c review response r2: R2-F1 to R2-F6 implemented
+f0d2bdff3812215dd83b2480e35a97411ee6d947 sweep: regenerate all 30 per-seed artifacts under stable summation; guard against silent staleness
+5e5e00812acb1990535d1ede85195d9e5c03790b paper: arXiv LaTeX package, parity-gated
+4c887ad25b72cdf8640e6ca8866921753e7901b7 review r3: closure review (unedited)
+75e050ca9a2246849b5b82b06e0ba9201afeae80 review response r3 (closure): R3-F1, R3-F2 fixed; R3-F3 recorded
+PREREG_COMMIT 31552b2ee6548787e766b0253498014eb0a5093c
+PREREG_TREE
+.github/workflows/ci.yml
+.gitignore
+ADR-001-composition.md
+LICENSE
+Makefile
+README.md
+bootstrap.sh
+composition.py
+data/PROVENANCE.md
+data/open_retail_daily.csv
+engines.lock
+main.py
+manifest.py
+metrics.py
+paper4-composition-draft-v0.1.md
+paper_tables.py
+populate_draft.py
+prereg/ch2-semantics.md
+prereg/contamination.md
+prereg/generate_seeds.py
+prereg/generate_weights.py
+prereg/hypotheses.md
+prereg/renaming.md
+prereg/seeds.json
+prereg/w2-workflow.md
+prereg/weights.json
+process_data.py
+runner.py
+schemas/evidence_line.schema.json
+specs/authority.yaml
+suite_sim.py
+test_prereg.py
+test_suite_sim.py
+ROUND3_HASHES
+8a3da7bf580b6d3560065dd60089b7974b3dbad3c6a4a66cf8a0281e2acda927  review-r3/REVIEW-R3.md
+4d6dd5672cd5fdc653efe3837877c45c0b0fcc4f1e53e5dab12ab17be6857ddd  review-r3/review.json
+STATUS

@@ -1,0 +1,6 @@
+lattice files= ['checkers/_provenance.py', 'checkers/lattice_check.py', 'composition.py', 'engines.lock', 'prereg/probe-seeds.json']
+committed= ef17526509da3d0ff26ae9c34b50d213227cc480f69a90c976b83df7ef662f54 recomputed= ef17526509da3d0ff26ae9c34b50d213227cc480f69a90c976b83df7ef662f54 equal= True
+compensation files= ['checkers/_provenance.py', 'checkers/compensation_check.py', 'composition.py', 'engines.lock', 'prereg/probe-seeds.json', 'prereg/weights.json']
+committed= ae395aba5633365aee56a5b7003ad22631ec0eb013386c4c5dcf86840dc9a6ae recomputed= ae395aba5633365aee56a5b7003ad22631ec0eb013386c4c5dcf86840dc9a6ae equal= True
+remediator files= ['checkers/_provenance.py', 'checkers/remediator_check.py', 'composition.py', 'engines.lock', 'prereg/probe-seeds.json', 'suite_sim.py']
+committed= 1496570e6dbedb2446f9735cd8131dd15224ea0cdda2b414c954293eef4b0f5e recomputed= 1496570e6dbedb2446f9735cd8131dd15224ea0cdda2b414c954293eef4b0f5e equal= True

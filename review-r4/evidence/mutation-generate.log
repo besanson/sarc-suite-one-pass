@@ -1,0 +1,33 @@
+⠋ Generating mutants⠙ Generating mutants⠹ Generating mutants⠸ Generating mutants⠼ Generating mutants⠴ Generating mutants⠦ Generating mutants⠧ Generating mutants⠇ Generating mutants⠏ Generating mutants⠋ Generating mutants⠙ Generating mutants⠹ Generating mutants⠸ Generating mutants⠼ Generating mutants⠴ Generating mutants⠦ Generating mutants⠧ Generating mutants⠇ Generating mutants⠏ Generating mutants⠋ Generating mutants⠙ Generating mutants⠹ Generating mutants⠸ Generating mutants⠼ Generating mutants⠴ Generating mutants⠦ Generating mutants⠧ Generating mutants⠇ Generating mutants⠏ Generating mutants⠋ Generating mutants⠙ Generating mutants⠹ Generating mutants⠸ Generating mutants⠼ Generating mutants⠴ Generating mutants⠦ Generating mutants⠧ Generating mutants⠇ Generating mutants⠏ Generating mutants⠋ Generating mutants⠙ Generating mutants⠹ Generating mutants⠸ Generating mutants⠼ Generating mutants⠴ Generating mutants⠦ Generating mutants⠧ Generating mutants⠇ Generating mutants⠏ Generating mutants⠋ Generating mutants⠙ Generating mutants⠹ Generating mutants⠸ Generating mutants⠼ Generating mutants⠴ Generating mutants⠦ Generating mutants⠧ Generating mutants⠇ Generating mutants⠏ Generating mutants⠋ Generating mutants⠙ Generating mutants⠹ Generating mutants⠸ Generating mutants⠼ Generating mutants⠴ Generating mutants⠦ Generating mutants⠧ Generating mutants⠇ Generating mutants⠏ Generating mutants⠋ Generating mutants⠙ Generating mutants⠹ Generating mutants⠸ Generating mutants⠼ Generating mutants⠴ Generating mutants⠦ Generating mutants⠧ Generating mutants⠇ Generating mutants⠏ Generating mutants⠋ Generating mutants⠙ Generating mutants⠹ Generating mutants⠸ Generating mutants⠼ Generating mutants⠴ Generating mutants⠦ Generating mutants⠧ Generating mutants⠇ Generating mutants⠏ Generating mutants⠋ Generating mutants⠙ Generating mutants⠹ Generating mutants⠸ Generating mutants⠼ Generating mutants⠴ Generating mutants⠦ Generating mutants⠧ Generating mutants⠇ Generating mutants⠏ Generating mutants⠋ Generating mutants⠙ Generating mutants⠹ Generating mutants⠸ Generating mutants⠼ Generating mutants⠴ Generating mutants⠦ Generating mutants⠧ Generating mutants⠇ Generating mutants⠏ Generating mutants⠋ Generating mutants⠙ Generating mutants⠹ Generating mutants⠸ Generating mutants⠸ Generating mutants⠼ Generating mutants⠼ Generating mutants
+    done in 4452ms (2 files mutated, 0 ignored, 0 unmodified)
+⠸ Running stats     ⠼ Running stats⠴ Running stats⠦ Running stats⠧ Running stats⠇ Running stats⠏ Running stats⠋ Running stats⠙ Running stats⠹ Running stats⠸ Running stats⠼ Running stats⠴ Running stats⠦ Running stats⠧ Running stats⠇ Running stats⠏ Running stats⠋ Running stats⠙ Running stats⠹ Running stats⠸ Running stats⠼ Running stats⠴ Running stats⠦ Running stats⠧ Running stats⠇ Running stats⠏ Running stats⠋ Running stats⠙ Running stats⠹ Running stats⠸ Running stats⠼ Running stats⠴ Running stats⠦ Running stats⠧ Running stats⠇ Running stats⠏ Running stats⠋ Running stats⠙ Running stats⠹ Running stats⠸ Running stats⠼ Running stats⠴ Running stats⠦ Running stats⠧ Running stats⠇ Running stats⠏ Running stats⠋ Running stats⠙ Running stats⠹ Running stats⠸ Running stats⠼ Running stats⠴ Running stats⠦ Running stats⠧ Running stats⠇ Running stats⠏ Running stats⠋ Running stats⠙ Running stats⠹ Running stats⠸ Running stats⠼ Running stats⠴ Running stats⠦ Running stats⠧ Running stats⠇ Running stats
+    done
+Traceback (most recent call last):
+  File "/home/user/.local/bin/mutmut", line 6, in <module>
+    sys.exit(cli())
+             ~~~^^
+  File "/usr/local/lib/python3.14/site-packages/click/core.py", line 1569, in __call__
+    return self.main(*args, **kwargs)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.14/site-packages/click/core.py", line 1490, in main
+    rv = self.invoke(ctx)
+  File "/usr/local/lib/python3.14/site-packages/click/core.py", line 1970, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/usr/local/lib/python3.14/site-packages/click/core.py", line 1353, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.14/site-packages/click/core.py", line 907, in invoke
+    return callback(*args, **kwargs)
+  File "/home/user/.local/lib/python3.14/site-packages/mutmut/__main__.py", line 1364, in run
+    _run(mutant_names, max_children)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/.local/lib/python3.14/site-packages/mutmut/__main__.py", line 1409, in _run
+    mutants, source_file_mutation_data_by_path = collect_source_file_mutation_data(mutant_names=mutant_names)
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/.local/lib/python3.14/site-packages/mutmut/__main__.py", line 1247, in collect_source_file_mutation_data
+    assert filtered_mutants, f"Filtered for specific mutants, but nothing matches\n\nFilter: {mutant_names}"
+           ^^^^^^^^^^^^^^^^
+AssertionError: Filtered for specific mutants, but nothing matches
+
+Filter: ('__generate_only__',)

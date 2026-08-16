@@ -1,0 +1,19 @@
+{
+  "registry_count": 10,
+  "direct_success": 7,
+  "direct_failures": [
+    {
+      "id": "nowak-veto-thresholds",
+      "error": "broken_content_ip_block"
+    },
+    {
+      "id": "schneider-enforceable-policies",
+      "error": "http_code_client_error"
+    },
+    {
+      "id": "clark-wilson-1987",
+      "error": "broken_content_js_required"
+    }
+  ],
+  "alternate_success": 3
+}

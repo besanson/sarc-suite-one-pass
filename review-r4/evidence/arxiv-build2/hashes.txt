@@ -1,0 +1,3 @@
+09ee6c3f41b4898f1789adea9f04485b3e68f237624d8cb686b002c6b56c612e  paper-tex/main.pdf
+0fe9dfb738e12bd1a65e0de076aa2dc8612b044fa35c33120c73a1f6199bf65f  paper-tex/parity-report.json
+b90a6b2b391fe9dd6c303400017a5aa87b694407f0cd179e0338065833bf20d0  paper-tex/arxiv.tar.gz

@@ -1,0 +1,70 @@
+{
+  "head": "75e050ca9a2246849b5b82b06e0ba9201afeae80",
+  "statistics": {
+    "exact_equal": true,
+    "deltas_over_1e-6": []
+  },
+  "leakage_scan": {
+    "files": 8,
+    "lines": 81312,
+    "hits": []
+  },
+  "replays": {
+    "derivation": "int(sha256(HEAD + ':r4-replay-seed'),16) mod len(registered excluding fixed two)",
+    "selected": [
+      26313,
+      1028331701,
+      778087005
+    ],
+    "rows": [
+      {
+        "seed": 26313,
+        "selection": "first registered",
+        "wall_seconds": 9.804243491991656,
+        "byte_exact": true,
+        "fresh_sha256": "7c922b783c270fdbd0cbbfecb852cd4f6c706971063479709e5927dc2bdb5820",
+        "committed_sha256": "7c922b783c270fdbd0cbbfecb852cd4f6c706971063479709e5927dc2bdb5820",
+        "semantic_differences": []
+      },
+      {
+        "seed": 1028331701,
+        "selection": "explicit protocol seed",
+        "wall_seconds": 9.675234880007338,
+        "byte_exact": true,
+        "fresh_sha256": "5616122194edcd5e39b40977a6129684c5b1af466c19ec1049286b9f45a417c0",
+        "committed_sha256": "5616122194edcd5e39b40977a6129684c5b1af466c19ec1049286b9f45a417c0",
+        "semantic_differences": []
+      },
+      {
+        "seed": 778087005,
+        "selection": "HEAD-derived registered seed",
+        "wall_seconds": 9.633503285003826,
+        "byte_exact": true,
+        "fresh_sha256": "ea27f19974836c8cde004802dc8840818f9c5e8ceff33e954590656e2f272c0e",
+        "committed_sha256": "ea27f19974836c8cde004802dc8840818f9c5e8ceff33e954590656e2f272c0e",
+        "semantic_differences": []
+      }
+    ]
+  },
+  "proposition1_adversarial": {
+    "seed": 17855364338959654384,
+    "families": 300,
+    "checks": 1500,
+    "failures": []
+  },
+  "ch7_direct": {
+    "grid_points": 243,
+    "grid_nonconfluent": 86,
+    "counterexample_order_a": {
+      "qty": 5.0,
+      "order_value": 50.0
+    },
+    "counterexample_order_b": {
+      "qty": 10.0,
+      "order_value": 100.0
+    },
+    "fixed_seed": 26313,
+    "fixed_n": 200,
+    "fixed_nonconfluent": 150
+  }
+}

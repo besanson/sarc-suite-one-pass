@@ -1,0 +1,238 @@
+{
+  "review_identity": {
+    "artifact": "sarc-suite-one-pass",
+    "review_type": "independent automated review",
+    "round": 4,
+    "terminal": true,
+    "reviewer_model": "Perplexity Computer",
+    "date": "2026-08-16",
+    "head_sha": "75e050ca9a2246849b5b82b06e0ba9201afeae80",
+    "protocol": "sarc-suite-agent-review-r4.md"
+  },
+  "terminal_rule": "This is the terminal reviewer round. The released official scores stand except through this review's own conditional disposition verified by the external adjudicator. Only severity 1 blocks release. Severity 2 and below are recorded known issues and block nothing. There is no round five.",
+  "disposition": "RELEASE",
+  "severity_1_findings": [],
+  "new_findings": [],
+  "provenance": {
+    "fresh_clone": true,
+    "repository_source_edited_by_reviewer": false,
+    "head_sha": "75e050ca9a2246849b5b82b06e0ba9201afeae80",
+    "prereg_v1_commit": "31552b2ee6548787e766b0253498014eb0a5093c",
+    "prereg_tree_contains_results": false,
+    "round3_markdown_sha256": "8a3da7bf580b6d3560065dd60089b7974b3dbad3c6a4a66cf8a0281e2acda927",
+    "round3_markdown_integrity": true,
+    "round3_json_sha256": "4d6dd5672cd5fdc653efe3837877c45c0b0fcc4f1e53e5dab12ab17be6857ddd",
+    "round3_json_integrity": true,
+    "source_data_sha256": "4f637bc36ba5cffb56c31cd2b8273a135f89cc65448b28929ee71e73ded8f1d9",
+    "pinned_engines": {
+      "dqSarc": "db6c396128a4df7fe12d13be163b1e7d32087177",
+      "sarc-governance": "74df5de29a305a76bf3cc97a185ece2f11b1b833",
+      "Greensarc": "8482226b461ccbf91971f90ea6de42cd7a931e5c"
+    },
+    "canonical_latex_compiler": "Tectonic 0.17.0",
+    "latexmk_present": false
+  },
+  "closure_fix_audit": [
+    {
+      "id": "R3-F1",
+      "status": "RESOLVED",
+      "evidence": "The authoritative inputs_hash was independently recomputed from the current tree for all three checker artifacts and matched every committed value. Touching composition.py and running make paper regenerated all checker outputs and paper slots."
+    },
+    {
+      "id": "R3-F2",
+      "status": "RESOLVED",
+      "evidence": "make release-check completed all stages and exited 0. Two additional make arxiv runs under canonical Tectonic 0.17.0 each exited 0, produced identical file lists and 19-page counts, and passed G1-G6."
+    },
+    {
+      "id": "R3-F3",
+      "status": "RESOLVED",
+      "evidence": "The parity report now names the compiler and separately emits raw totals 689/688, the three matched superscript-flattening exception entries, post-exception totals 689/689, and empty post-exception differences."
+    },
+    {
+      "id": "KNOWN-ISSUES.md",
+      "status": "RESOLVED",
+      "evidence": "KNOWN-ISSUES.md is present and accurately records R3-F3 as a non-blocking issue fixed by the closure response."
+    },
+    {
+      "id": "informational-head-stamp",
+      "status": "RESOLVED",
+      "evidence": "The committed generated_at_head_sha value 847d97f8e60961b0145bcdbf2ffcc9bc6fc542a7 is an amended-away object and is informational only. All committed inputs_hash values match the current tree, and fresh runs stamp current HEAD 75e050c without changing scientific results."
+    }
+  ],
+  "release_check": {
+    "exit_code": 0,
+    "wall_seconds": 127,
+    "stages": [
+      {"stage": "full test suite", "result": "PASS", "passed": 180, "failed": 0, "skipped": 0, "wall_seconds": 120.20},
+      {"stage": "formal checker double-run", "result": "PASS", "byte_identical": true},
+      {"stage": "canonical arXiv build and G1-G6", "result": "PASS", "compiler": "tectonic"}
+    ]
+  },
+  "core_battery": {
+    "statistics": {
+      "all_means_and_intervals_recomputed": true,
+      "exact_equal": true,
+      "tolerance": 0.000001,
+      "deltas_over_tolerance": []
+    },
+    "formal": {
+      "lattice_checks": 17151,
+      "lattice_all_hold": true,
+      "ch5_state_space": 125,
+      "ch5_grid_cells": 264,
+      "ch5_max_violations": 48,
+      "ch7_grid_points": 243,
+      "ch7_nonconfluent_points": 86,
+      "fixed_probe_seed": 26313,
+      "fixed_probe_n": 200,
+      "fixed_probe_nonconfluent": 150,
+      "proof_status_tags": 11,
+      "proof_status_clean": true
+    },
+    "replays": {
+      "derivation": "int(sha256(HEAD + ':r4-replay-seed'),16) mod len(registered excluding 26313 and 1028331701)",
+      "rows": [
+        {
+          "seed": 26313,
+          "selection": "first registered",
+          "wall_seconds": 9.804243491991656,
+          "byte_exact_to_committed": true,
+          "sha256": "7c922b783c270fdbd0cbbfecb852cd4f6c706971063479709e5927dc2bdb5820"
+        },
+        {
+          "seed": 1028331701,
+          "selection": "explicit protocol seed",
+          "wall_seconds": 9.675234880007338,
+          "byte_exact_to_committed": true,
+          "sha256": "5616122194edcd5e39b40977a6129684c5b1af466c19ec1049286b9f45a417c0"
+        },
+        {
+          "seed": 778087005,
+          "selection": "HEAD-derived registered seed",
+          "wall_seconds": 9.633503285003826,
+          "byte_exact_to_committed": true,
+          "sha256": "ea27f19974836c8cde004802dc8840818f9c5e8ceff33e954590656e2f272c0e"
+        }
+      ]
+    },
+    "proposition1_adversarial": {
+      "seed": 17855364338959654384,
+      "families": 300,
+      "dimensions": "2 through 9",
+      "checks": 1500,
+      "failures": 0
+    },
+    "leakage_scan": {
+      "scenario_files": 8,
+      "scenario_lines": 81312,
+      "forbidden_hits": 0
+    },
+    "mutation": {
+      "derivation": "150 lowest sha256(HEAD + ':r4-mutation:' + mutant_name) values",
+      "population": 1264,
+      "sample": 150,
+      "killed": 131,
+      "survived": 19,
+      "kill_rate": 0.8733333333333333,
+      "wilson_95": [0.8106335124178631, 0.9173887051206396],
+      "committed_kill_score": 0.8804,
+      "committed_score_inside_interval": true,
+      "wall_seconds": 51.92088481699466
+    },
+    "citations": {
+      "registry_count": 10,
+      "direct_fetch_success": 7,
+      "crossref_fallback_success": 3,
+      "all_ten_metadata_records_revalidated": true
+    }
+  },
+  "latex_audit": {
+    "canonical_compiler": "Tectonic 0.17.0",
+    "additional_builds": [
+      {"exit_code": 0, "wall_seconds": 4, "page_count": 19},
+      {"exit_code": 0, "wall_seconds": 4, "page_count": 19}
+    ],
+    "same_file_list": true,
+    "same_page_count": true,
+    "all_gates_pass": true,
+    "parity_report_compiler_named": true,
+    "number_multiset": {
+      "markdown_raw_total": 689,
+      "pdf_raw_total": 688,
+      "exceptions": [
+        {"side": "missing_from_pdf", "token": "2", "count": 1, "matched": true},
+        {"side": "missing_from_pdf", "token": "31", "count": 1, "matched": true},
+        {"side": "added_in_pdf", "token": "231", "count": 1, "matched": true}
+      ],
+      "post_exception_totals": {"markdown": 689, "pdf": 689},
+      "unexplained_differences": 0,
+      "pass": true
+    },
+    "tag_counts": {
+      "machine-checked": {"expected": 21, "markdown": 21, "pdf": 21},
+      "checked-scope-only": {"expected": 26, "markdown": 26, "pdf": 26},
+      "pending-human-review": {"expected": 7, "markdown": 7, "pdf": 7}
+    },
+    "three_round_disclosure": {
+      "markdown_exact": true,
+      "pdf_wrap_tolerant": true
+    },
+    "tarball_contents": ["main.tex", "refs.bib"]
+  },
+  "verdicts": [
+    {"claim": "C1", "verdict": "CONFIRMED", "delta_from_round3": "UNCHANGED", "reason": "Corrected lemma, finite checker, and new 1,500-case rational-weight family all pass."},
+    {"claim": "C2", "verdict": "CONFIRMED", "delta_from_round3": "UNCHANGED", "reason": "Composition counterexample and tests reproduce."},
+    {"claim": "C3", "verdict": "CONFIRMED-WITH-CAVEAT", "delta_from_round3": "UNCHANGED", "reason": "Confirmed for the implemented construction and stated domain."},
+    {"claim": "C4", "verdict": "CONFIRMED-WITH-CAVEAT", "delta_from_round3": "UNCHANGED", "reason": "Termination depends on the stated one-remediation assumptions."},
+    {"claim": "C5", "verdict": "CONFIRMED-WITH-CAVEAT", "delta_from_round3": "UNCHANGED", "reason": "Lineage is complete; external original-byte reconstruction remains record-store conditional."},
+    {"claim": "C6", "verdict": "CONFIRMED-WITH-CAVEAT", "delta_from_round3": "UNCHANGED", "reason": "No-new-coverage is definitional under the declared union model."},
+    {"claim": "C7", "verdict": "CONFIRMED-WITH-CAVEAT", "delta_from_round3": "UNCHANGED", "reason": "Supported as a mechanism demonstration, not prevalence evidence."},
+    {"claim": "C8", "verdict": "CONFIRMED", "delta_from_round3": "UNCHANGED", "reason": "Unified Evidence Sets and lineage reproduce without leakage."},
+    {"claim": "C9", "verdict": "CONFIRMED", "delta_from_round3": "UPGRADED FROM REFUTED", "reason": "Authoritative input hashes match, release-check passes, and the canonical arXiv path passes twice."},
+    {"claim": "CH1", "verdict": "CONFIRMED", "delta_from_round3": "UNCHANGED", "reason": "Persisted-line audit remains valid."},
+    {"claim": "CH2", "verdict": "CONFIRMED", "delta_from_round3": "UNCHANGED", "reason": "Statistics recompute exactly."},
+    {"claim": "CH3", "verdict": "CONFIRMED-WITH-CAVEAT", "delta_from_round3": "UNCHANGED", "reason": "Supported for preregistered workflows and pinned engines."},
+    {"claim": "CH4", "verdict": "CONFIRMED-WITH-CAVEAT", "delta_from_round3": "UNCHANGED", "reason": "Mechanism demonstration scope remains binding."},
+    {"claim": "CH5", "verdict": "CONFIRMED", "delta_from_round3": "UNCHANGED", "reason": "The declared finite domain is exhaustively checked."},
+    {"claim": "CH6", "verdict": "CONFIRMED-WITH-CAVEAT", "delta_from_round3": "UNCHANGED", "reason": "Supported under W1 and not robust under W2, as disclosed."},
+    {"claim": "CH7", "verdict": "CONFIRMED", "delta_from_round3": "UNCHANGED", "reason": "Grid counterexample and fixed off-grid probe reproduce through composition code."},
+    {"claim": "CH8", "verdict": "CONFIRMED", "delta_from_round3": "UNCHANGED", "reason": "CH1-CH5 robustness and CH6 non-robustness reproduce."}
+  ],
+  "scores": {
+    "research_artifact": {
+      "official_score": 9.5,
+      "out_of": 10,
+      "withheld_points": 0.5,
+      "deductions": [
+        {
+          "amount": 0.5,
+          "type": "PERMANENT-BY-DESIGN",
+          "name": "mechanism-not-prevalence scope",
+          "reason": "The paper honestly demonstrates mechanisms on open payload data with a synthetic metadata layer; it does not claim live operational prevalence or external-domain generality."
+        }
+      ],
+      "closable_deductions": 0.0
+    },
+    "software_engineering": {
+      "official_score": 9.5,
+      "out_of": 10,
+      "withheld_points": 0.5,
+      "deductions": [
+        {
+          "amount": 0.5,
+          "type": "PERMANENT-BY-DESIGN",
+          "name": "research-demonstrator boundary",
+          "reason": "The artifact explicitly excludes production connectors, evidence-vault services, identity integration, and hosted operations; those are outside the claimed artifact."
+        }
+      ],
+      "closable_deductions": 0.0
+    }
+  },
+  "conditional_disposition": {
+    "research_artifact": "The released official research-artifact score is 9.5. It already exceeds 9.0; closable deductions total 0.0 and no adjudicator-verified required change applies.",
+    "software_engineering": "The released official software-engineering score is 9.5. It already exceeds 9.0; closable deductions total 0.0 and no adjudicator-verified required change applies.",
+    "further_reviewer_round": false
+  },
+  "author_reuse_disclosure": "This artifact was independently replicated and adversarially reviewed in four rounds by automated agents following the published protocols in sarc-suite-agent-review.md, sarc-suite-agent-review-r2.md, sarc-suite-agent-review-r3.md, and sarc-suite-agent-review-r4.md; the round-one report and evidence are at review/REVIEW.md and review/review.json, the round-two report and evidence are at review-out-r2/REVIEW-R2.md, review-out-r2/review.json, and review-out-r2/evidence/, the round-three report and evidence are at review-out-r3/REVIEW-R3.md, review-out-r3/review.json, and review-out-r3/evidence/, and the round-four report and evidence are at review-out-r4/REVIEW-R4.md, review-out-r4/review.json, and review-out-r4/evidence/. Automated review complements and does not replace human peer review.",
+  "evidence_directory": "review-out-r4/evidence/"
+}

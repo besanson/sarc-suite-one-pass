@@ -1,0 +1,310 @@
+{
+  "all_pass": true,
+  "gates": {
+    "G1_build": {
+      "builds": [
+        {
+          "errors": [],
+          "exit_code": 0,
+          "file_list": [
+            "main.pdf",
+            "main.tex"
+          ],
+          "overfull_hbox_above_10pt": [],
+          "page_count": 19,
+          "pdf_produced": true,
+          "undefined_citations": [],
+          "undefined_references": []
+        },
+        {
+          "errors": [],
+          "exit_code": 0,
+          "file_list": [
+            "main.pdf",
+            "main.tex"
+          ],
+          "overfull_hbox_above_10pt": [],
+          "page_count": 19,
+          "pdf_produced": true,
+          "undefined_citations": [],
+          "undefined_references": []
+        }
+      ],
+      "compiler": "tectonic",
+      "errors": [],
+      "exit_code_zero": true,
+      "file_list": [
+        "main.pdf",
+        "main.tex"
+      ],
+      "overfull_hbox_above_10pt": [],
+      "page_count": 19,
+      "pass": true,
+      "pdf_produced": true,
+      "two_build_identical": true,
+      "undefined_citations": [],
+      "undefined_references": []
+    },
+    "G2_token_purity": {
+      "forbidden_token_counts": {
+        "**": 0,
+        "[CITE": 0,
+        "[GENERATED": 0,
+        "```": 0
+      },
+      "pass": true
+    },
+    "G3_number_parity": {
+      "exceptions_applied": [
+        {
+          "count": 1,
+          "matched": true,
+          "side": "missing_from_pdf",
+          "token": "31"
+        },
+        {
+          "count": 1,
+          "matched": true,
+          "side": "missing_from_pdf",
+          "token": "2"
+        },
+        {
+          "count": 1,
+          "matched": true,
+          "side": "added_in_pdf",
+          "token": "231"
+        }
+      ],
+      "pass": true,
+      "post_exception_diff": {
+        "added_in_pdf": {},
+        "missing_from_pdf": {}
+      },
+      "post_exception_totals": {
+        "md_number_token_count": 689,
+        "pdf_number_token_count": 689
+      },
+      "raw_diff": {
+        "added_in_pdf": {
+          "231": 1
+        },
+        "missing_from_pdf": {
+          "2": 1,
+          "31": 1
+        }
+      },
+      "raw_totals": {
+        "md_number_token_count": 689,
+        "pdf_number_token_count": 688
+      },
+      "required_values_present": {
+        "150": true,
+        "200": true,
+        "243": true,
+        "86": true
+      },
+      "tag_counts": {
+        "checked-scope-only": {
+          "equal": true,
+          "pdf_count": 26,
+          "source_count": 26,
+          "task_stated_count": 26
+        },
+        "machine-checked": {
+          "equal": true,
+          "pdf_count": 21,
+          "source_count": 21,
+          "task_stated_count": 21
+        },
+        "pending-human-review": {
+          "equal": true,
+          "pdf_count": 7,
+          "source_count": 7,
+          "task_stated_count": 7
+        }
+      }
+    },
+    "G4_prose_parity": {
+      "pass": true,
+      "repo_head": "75e050ca9a2246849b5b82b06e0ba9201afeae80",
+      "sections": {
+        "1. Introduction": {
+          "md_words": 462,
+          "pct_diff": 0.0,
+          "pdf_words": 462,
+          "within_2pct": true
+        },
+        "10. Related work": {
+          "md_words": 400,
+          "pct_diff": 0.25,
+          "pdf_words": 401,
+          "within_2pct": true
+        },
+        "11. Limitations": {
+          "md_words": 150,
+          "pct_diff": 0.0,
+          "pdf_words": 150,
+          "within_2pct": true
+        },
+        "12. Validation note": {
+          "md_words": 134,
+          "pct_diff": 0.0,
+          "pdf_words": 134,
+          "within_2pct": true
+        },
+        "2. Setting and definitions": {
+          "md_words": 223,
+          "pct_diff": 1.345,
+          "pdf_words": 226,
+          "within_2pct": true
+        },
+        "3. Compensation admits vetoed actions": {
+          "md_words": 351,
+          "pct_diff": 0.57,
+          "pdf_words": 353,
+          "within_2pct": true
+        },
+        "4. Order invariance without remediation": {
+          "md_words": 50,
+          "pct_diff": 0.0,
+          "pdf_words": 50,
+          "within_2pct": true
+        },
+        "5. The remediation interaction: two operators, one order": {
+          "md_words": 729,
+          "pct_diff": 0.412,
+          "pdf_words": 732,
+          "within_2pct": true
+        },
+        "6. Buffer poisoning: a governed value is only as good as its last admit": {
+          "md_words": 320,
+          "pct_diff": 0.0,
+          "pdf_words": 320,
+          "within_2pct": true
+        },
+        "7. The unified Evidence Set": {
+          "md_words": 317,
+          "pct_diff": 0.0,
+          "pdf_words": 317,
+          "within_2pct": true
+        },
+        "8. Pre-registered empirical protocol": {
+          "md_words": 1007,
+          "pct_diff": 1.192,
+          "pdf_words": 995,
+          "within_2pct": true
+        },
+        "9. Claims to evidence": {
+          "md_words": 351,
+          "pct_diff": 0.57,
+          "pdf_words": 353,
+          "within_2pct": true
+        },
+        "Appendix A. Proofs": {
+          "md_words": 4989,
+          "pct_diff": 0.301,
+          "pdf_words": 5004,
+          "within_2pct": true
+        },
+        "Appendix B. Artifact manifest": {
+          "md_words": 43,
+          "pct_diff": 0.0,
+          "pdf_words": 43,
+          "within_2pct": true
+        },
+        "Appendix C. Statistical methodology (V3 gate)": {
+          "md_words": 174,
+          "pct_diff": 0.575,
+          "pdf_words": 175,
+          "within_2pct": true
+        }
+      },
+      "sentence_sample": [
+        {
+          "found": true,
+          "index": 1,
+          "sentence": "Gaston Besanson (sole author at draft time; co-author or credited independent reviewer slot open)"
+        },
+        {
+          "found": true,
+          "index": 2,
+          "sentence": "Companion artifact: suite-demo (open data, deterministic, Apache 2.0)."
+        },
+        {
+          "found": true,
+          "index": 6,
+          "sentence": "Deployed systems need all three simultaneously, yet the composition question is untreated: what verdict should the plane"
+        },
+        {
+          "found": true,
+          "index": 38,
+          "sentence": "Full proof (a structural tautology, machine-verified across every swept seed) in Appendix A."
+        },
+        {
+          "found": true,
+          "index": 40,
+          "sentence": "Every definition used below (hypotheses, seeds, weights, the W2 workflow, the contamination metric and mitigations, the "
+        },
+        {
+          "found": true,
+          "index": 49,
+          "sentence": "Budget governors for autonomous systems: the resource gate's predictive cost/carbon budgeting is one instance of the bro"
+        },
+        {
+          "found": true,
+          "index": 67,
+          "sentence": "Let the evidence gate substitute a corrupted unit cost v0 for the governed value v', v0 != v'."
+        },
+        {
+          "found": true,
+          "index": 68,
+          "sentence": "Single-pass evaluates the authority gate against the ORIGINAL order value qty * v0 (Definition 3's c(a), not c(rho(a))),"
+        },
+        {
+          "found": true,
+          "index": 72,
+          "sentence": "If the authority and resource gates are invariant under rho (the remediation map) on the executed-reachable action set, "
+        },
+        {
+          "found": true,
+          "index": 80,
+          "sentence": "The composed plane's detected class set equals the union of member gates' detected class sets; composition never detects"
+        }
+      ]
+    },
+    "G5_structure_parity": {
+      "counts": {
+        "footnotes": {
+          "equal": true,
+          "source": 0,
+          "tex": 0
+        },
+        "sections": {
+          "equal": true,
+          "source": 15,
+          "tex": 15
+        },
+        "tables": {
+          "equal": true,
+          "source": 8,
+          "tex": 8
+        },
+        "theorem_environments": {
+          "equal": true,
+          "source": 13,
+          "tex": 13
+        }
+      },
+      "pass": true
+    },
+    "G6_disclosure_and_banners": {
+      "disclosure_first_sentence_present": true,
+      "disclosure_last_sentence_present": true,
+      "honesty_banners_present": {
+        "Negative-results commitment. Any CH not supported ": true,
+        "Scope honesty. This paper claims composition seman": true
+      },
+      "pass": true
+    }
+  }
+}

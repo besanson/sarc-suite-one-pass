@@ -1,0 +1,19 @@
+{
+  "head": "75e050ca9a2246849b5b82b06e0ba9201afeae80",
+  "derivation": "lowest sha256(HEAD + ':r4-mutation:' + mutant_name)",
+  "population": 1264,
+  "sample_size": 150,
+  "mutmut_exit": 0,
+  "wall_seconds": 51.92088481699466,
+  "counts": {
+    "killed": 131,
+    "survived": 19
+  },
+  "kill_rate": 0.8733333333333333,
+  "wilson_95": [
+    0.8106335124178631,
+    0.9173887051206396
+  ],
+  "committed_kill_score": 0.8804,
+  "committed_inside_interval": true
+}
