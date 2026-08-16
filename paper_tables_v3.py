@@ -129,6 +129,14 @@ def generate_v3_slots(
     slots["sweep.ch3_false_hold_ci"] = _fmt_ci(sweep["ch3_false_hold"], 6)
     slots["sweep.ch4_union_ok_seed_count"] = f"{sweep['ch4_union_ok_seed_count']}/{sweep['n_seeds']}"
     slots["sweep.ch5_supported_seed_count"] = f"{sweep['ch5_supported_seed_count']}/{sweep['n_seeds']}"
+    # Round-two ("second"/positioning) response, recommendation R4: the
+    # formal (discrete-grid) and empirical (30-seed sweep, decision-
+    # instance) CH5 quantities use different denominators and must be
+    # labeled distinctly in prose, not just in Table 5 where this same
+    # value already appeared unlabeled as "ch5_max_violations". Sourced
+    # from the same already-committed sweep_summary.json field Table 5
+    # uses -- not a new measurement, not typed.
+    slots["sweep.ch5_empirical_compensated_ci"] = _fmt_ci(sweep["ch5_max_violations"], 1)
 
     ch6_w1_plain = sweep["ch6"]["W1"]["plain"]
     ch6_w2_plain = sweep["ch6"]["W2"]["plain"]

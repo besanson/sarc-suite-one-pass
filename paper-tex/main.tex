@@ -48,7 +48,7 @@
 % Extra justification slack (pure typesetting, no text change) so the
 % paragraph builder can find a fit for the handful of stubborn long
 % \path{}/\texttt{} spans without an overfull hbox (G1's 10pt threshold).
-\setlength{\emergencystretch}{5em}
+\setlength{\emergencystretch}{8em}
 
 % Theorem environments mirror the source's Proposition/Lemma/Theorem/
 % Corollary numbering exactly (arXiv conversion task, non-negotiable #4).
@@ -71,6 +71,7 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{corollary}{Corollary}
 \newtheorem{definition}{Definition}
+\newtheorem*{definitionstar}{Definition}
 \newtheorem*{remark}{Remark}
 \makeatletter
 \def\thmhead@plain#1#2#3{%
@@ -100,26 +101,82 @@
 \noindent Companion artifact: \texttt{suite-demo} (open data, deterministic, Apache 2.0).
 
 \bigskip
-\noindent Version 0.3: extends v0.1/v0.2 (CH1-CH4, single seed) with a second remediation operator and a weekly-commitment workflow (CH7), a buffer-poisoning study with two mitigations (CH6), an exhaustive discrete-grid check of the compensation claim (CH5), a 30-seed statistical sweep with 95\% CIs (CH8), and full machine-checked or human-reviewed proofs for every numbered claim. v0.1/v0.2 remain unmodified historical artifacts; this version does not retract them, it extends them.
+\noindent Version 0.4: reframes the manuscript's positioning, novelty statement, and related-work coverage following a commissioned second review (review-secondary/) -{}- see the Validation note for the exact provenance statement. All measured results, claim semantics, PROOF-STATUS tags, and the four-round review chain are unchanged from v0.3, which extended v0.1/v0.2 (CH1-CH4, single seed) with a second remediation operator and a weekly-commitment workflow (CH7), a buffer-poisoning study with two mitigations (CH6), an exhaustive discrete-grid check of the compensation claim (CH5), a 30-seed statistical sweep with 95\% CIs (CH8), and full machine-checked or human-reviewed proofs for every numbered claim. v0.1/v0.2/v0.3 remain unmodified historical artifacts; this version does not retract them, it reframes and extends them.
 
 \begin{abstract}
-Agentic AI systems take consequential actions governed by more than one concern at once: is the agent permitted to act, can the organisation afford the action, and is the evidence behind it valid. Prior work treats these as separate pre-action gates: SARC for obligations and permissions (arXiv 2605.07728), Green SARC for predictive cost and carbon budgets (arXiv 2606.15954), and SARC-DQ for metadata-borne evidence validity (arXiv 2607.26313). This paper studies what none of them answers: the semantics of all three judging the same action at the same instant, when more than one of them can rewrite the action. We show that (i) for positive-weight linear (additive-score) aggregation of gate outcomes, an action a member gate vetoed is admitted exactly when the admission threshold does not exceed the aggregator's largest leave-one-out weight sum -{}- a precise, provable condition, not the universal claim for any strictly increasing aggregator this paper's v0.1/v0.2/early-v0.3 drafts stated (an independent review refuted that universal form with a threshold-at-the-supremum counterexample; Appendix A) -{}- verified exhaustively over the full discrete verdict grid plus randomized probes, not just a sample; (ii) naive single-pass composition is unsound under remediation, and a remediate-and-regate protocol restores soundness and terminates after one remediation by idempotence; (iii) a second remediation operator (resource-budget downroute) does not commute with the first (evidence substitution) -{}- a finite-model checker finds concrete non-confluent instances, which is why a fixed operator order is pre-registered rather than left unspecified; (iv) a governed evidence buffer that trusts its own most recent admitted write is vulnerable to poisoning from declared-uncovered defect classes, and two buffer-side mitigations reduce (not eliminate) that exposure; (v) the composed plane can emit one unified Evidence Set per action preserving full lineage across gates; and (vi) composition adds no coverage: classes no member gate covers remain uncovered, reported as a feature. Empirically, on a deterministic open-data artifact composing the three published engines unmodified, over 30 pre-registered seeds and two workflows: CH1 supported; CH2 supported; CH3 supported; CH4 supported; CH5 supported (exhaustive over the discrete grid); CH6 supported on every seed under W1; NOT supported on every seed under W2 (smaller weekly-commitment population); CH7 non-confluent (two remediators do not commute, 86/243 grid points, plus 150/200 off-grid points per an independent-review-promoted probe); CH8 robustness across 30 seeds x 2 workflows holds for CH1-CH5, not for CH6.
+Agentic AI systems take consequential actions governed by more than one concern at once: is the agent permitted to act, can the organisation afford the action, and is the evidence behind it valid. Prior work treats these as separate pre-action gates: SARC for obligations and permissions (arXiv 2605.07728), Green SARC for predictive cost and carbon budgets (arXiv 2606.15954), and SARC-DQ for metadata-borne evidence validity (arXiv 2607.26313). Prior research studies the composition of enforcement monitors and policy decisions; this paper studies a narrower problem that research leaves underexplored: the composition of heterogeneous, stateful pre-action controls in which one control's remediation mutates the action, evidence, or derived context another control evaluates, invalidating earlier judgments and creating order-dependent behavior -{}- not the existence of composition itself, but this specific coupling. We show that (i) for positive-weight linear (additive-score) aggregation of gate outcomes, an action a member gate vetoed is admitted exactly when the admission threshold does not exceed the aggregator's largest leave-one-out weight sum -{}- a precise, provable condition, not the universal claim for any strictly increasing aggregator this paper's v0.1/v0.2/early-v0.3 drafts stated (an independent review refuted that universal form with a threshold-at-the-supremum counterexample; Appendix A) -{}- verified exhaustively over the full discrete verdict grid plus randomized probes, not just a sample; (ii) naive single-pass composition is unsound under remediation, and a remediate-and-regate protocol restores soundness and terminates after one remediation by idempotence; (iii) a second remediation operator (resource-budget downroute) does not commute with the first (evidence substitution) -{}- a finite-model checker finds concrete non-confluent instances, which is why a fixed operator order is pre-registered rather than left unspecified; (iv) a governed evidence buffer that trusts its own most recent admitted write is vulnerable to poisoning from declared-uncovered defect classes, and two buffer-side mitigations reduce (not eliminate) that exposure; (v) the composed plane can emit one unified Evidence Set per action preserving full lineage across gates; and (vi) composition adds no coverage: classes no member gate covers remain uncovered, reported as a feature. Empirically, on a deterministic open-data artifact composing the three published engines unmodified, over 30 pre-registered seeds and two workflows: CH1 supported; CH2 supported; CH3 supported; CH4 supported; CH5 supported (exhaustive over the discrete grid); CH6 supported on every seed under W1; NOT supported on every seed under W2 (smaller weekly-commitment population); CH7 non-confluent (two remediators do not commute, 86/243 grid points, plus 150/200 off-grid points per an independent-review-promoted probe); CH8 robustness across 30 seeds x 2 workflows holds for CH1-CH5, not for CH6.
 \end{abstract}
 
 \section{Introduction}
 
-A pre-action gate is a deterministic checkpoint between an agent's decision and its execution. Three families of pre-action concern are separately established: authority, resources, and evidence. Deployed systems need all three simultaneously, yet the composition question is untreated: what verdict should the plane return when gates disagree, in what order should gates run when more than one of them can rewrite the action, and what single audit artifact honestly describes the joint decision.
+A control that changes the action it governs can invalidate the decisions of controls that evaluated the pre-remediation action. A pre-action gate is a deterministic checkpoint between an agent's decision and its execution. Three families of pre-action concern are separately established: authority, resources, and evidence. Deployed systems need all three simultaneously.
+
+Prior research has studied the composition of enforcement monitors and policy decisions: serial and parallel monitor composition, policy-combining algorithms (deny-overrides and related patterns), non-compensatory veto rules in multi-criteria decision analysis, stateful runtime enforcement, and the confluence and termination theory of rewrite systems are all established literatures. This paper does not claim to invent the composition of pre-action controls, and does not claim that the composition question itself is untreated. What remains underexplored is the composition of heterogeneous, stateful pre-action controls in which one control's remediation mutates the action, evidence, or derived context evaluated by another control, thereby invalidating previously computed judgments and creating order-dependent behavior. That distinction -{}- heterogeneous control semantics, different control-local state, action mutation, evidence mutation, derived-context recomputation, budget state, governance-buffer state, remediation ordering, cross-control lineage, and execution-time re-evaluation, together -{}- is this paper's actual subject, narrower than a claim that composition per se is untreated, and more defensible.
 
 The question is not academic. The evidence gate's designed remediation, quarantine-and-substitute from a governed buffer, changes the acted-on value. A substituted unit cost changes the order quantity a replenishment agent proposes, which changes the order value the authority cap must judge and the predicted spend the resource gate must budget. A plane that evaluates all gates once, in parallel, on the original action is judging an action that will not be the one executed. Once a second remediator is introduced -{}- a resource gate that, rather than simply blocking an over-budget action, can scale its quantity down to the largest budget-feasible amount -{}- the same question recurs one level up: does it matter which remediator runs first.
 
-\noindent\textbf{Contributions.} (1) A compensation lemma for positive-weight linear aggregators, stated with the exact threshold condition under which a vetoed action is admitted (corrected, via independent review, from an earlier universal claim a counterexample refuted), verified exhaustively over the full discrete three-gate verdict grid plus randomized probes rather than argued only in the continuous case. (2) A second remediation operator (downroute, a weekly-commitment workflow's resource-budget quantity scaling) and a finite-model checker showing it does not commute with evidence substitution -{}- the formal justification for a pre-registered fixed remediation order. (3) A buffer-poisoning study: a declared-uncovered defect class can corrupt the evidence gate's own governed buffer, and two buffer-side mitigations (a consistency-based quarantine window, a rolling median) measurably reduce that exposure, reported with the honest limitation that this holds robustly under the higher-volume daily workflow but not, at this sample size, under the lower-volume weekly one. (4) Composition semantics: a restrictiveness lattice over gate responses, a join rule, and order invariance for remediation-free evaluation, machine-checked exhaustively. (5) The remediation interaction: single-pass unsoundness, a remediate-and-regate protocol, and a termination lemma from idempotent substitution. (6) A unified Evidence Set with cross-gate lineage preservation. (7) A no-manufactured-coverage property, verified by injecting two declared-uncovered classes and reporting that both survive all gates. (8) A deterministic open-data artifact composing the three published Apache 2.0 engines unmodified, with hypotheses CH1 to CH8 pre-registered before the corresponding code ran, and a 30-seed statistical sweep reporting means with 95\% confidence intervals.
+\noindent\textbf{Contributions.} This paper makes four primary contributions. First, it formalizes remediation-induced control coupling: a pre-action control that transforms an action can invalidate another control's earlier judgment (Section 2, Section 4, scenario S4). Second, it gives and evaluates a remediate-regate composition protocol for the current idempotent setting, under which every executing action is re-evaluated by all member controls after remediation (Section 4, Theorem 1, CH1). Third, it shows that heterogeneous remediation operators need not commute, making remediation order part of the control-plane semantics rather than an implementation detail (Section 5, CH7). Fourth, it demonstrates that governance state itself can become contaminated when admissible but uncovered defects are promoted into future remediation state, motivating explicit trust policies for state updates (Section 6, CH6). Non-compensatory join semantics (Section 3, machine-checked exhaustively over the finite response lattice), a unified Evidence Set with cross-gate lineage preservation (Section 7), and a no-manufactured-coverage property verified by injecting two declared-uncovered classes (Section 8, CH4) support these four primary contributions. The empirical artifact underneath all of them is a deterministic open-data composition of the three published Apache 2.0 engines unmodified, with hypotheses CH1 to CH8 pre-registered before the corresponding code ran, and a 30-seed statistical sweep reporting means with 95\% confidence intervals (Section 8).
 
 \noindent\textbf{Scope honesty.} This paper claims composition semantics and a mechanism demonstration. It does not claim production prevalence, uses no model calls, and its artifact is not a GIGO-Bench release.
 
-\section{Setting and definitions}
+\section{Model and terminology}
 
-An action $a$ is proposed in context $c(a) = (\mathrm{agent}, \mathrm{role}, \mathrm{parameters}, \mathrm{value}, \mathrm{predicted\ resource\ use})$. An evidence set $E(a)$ is the finite sequence of records $a$ relies on; each record is a payload plus metadata (source, as-of, retrieval time, version, lineage) with a content-addressed identifier $\mathrm{eid}(r)$. A gate $G_i$ maps $(a, c, E, s_i)$ to a response in $R = \{\mathrm{admit}, \mathrm{substitute}, \mathrm{degrade}, \mathrm{escalate}, \mathrm{block}\}$, where $s_i$ is gate-local state (for the resource gate, remaining budgets; for the evidence gate, the governed buffer). Partition $R$ into $\mathrm{Exec} = \{\mathrm{admit}, \mathrm{substitute}, \mathrm{degrade}\}$ and $\mathrm{Held} = \{\mathrm{escalate}, \mathrm{block}\}$.
+An action $a$ is proposed in context $c(a) = (\mathrm{agent}, \mathrm{role}, \mathrm{parameters}, \mathrm{value}, \mathrm{predicted\ resource\ use})$. An evidence set $E(a)$ is the finite sequence of records $a$ relies on; each record is a payload plus metadata (source, as-of, retrieval time, version, lineage) with a content-addressed identifier $\mathrm{eid}(r)$. A gate $G_i$ maps $(a, c, E, s_i)$ to a response in $R = \{\mathrm{admit}, \mathrm{substitute}, \mathrm{degrade}, \mathrm{escalate}, \mathrm{block}\}$, where $s_i$ is gate-local state (for the resource gate, remaining budgets; for the evidence gate, the governed buffer). Partition $R$ into $\mathrm{Exec} = \{\mathrm{admit}, \mathrm{substitute}, \mathrm{degrade}\}$ and $\mathrm{Held} = \{\mathrm{escalate}, \mathrm{block}\}$: this Exec/Held partition, not the five-level total order below, is the load-bearing distinction for execution safety, and is what a plane's soundness (Definition 3) is stated in terms of.
 
+\setcounter{definition}{2}
+\begin{definition}[(per-action soundness)]
+A plane is sound for $a$ if the executed action $a_{\mathrm{exec}}$ satisfies every gate at execution time, on the state in force when $a_{\mathrm{exec}}$ runs.
+\end{definition}
+
+\begin{remark}[(sequential coupling)]
+Resource-gate state decrements as actions execute; soundness here is per action given current state; stream-level ordering across actions is out of scope and flagged in Section 10.
+\end{remark}
+
+A remediation operator $\rho$ is a control's own transformation of an action on a violation it is designed to correct rather than merely block: it maps an action $a$ to a remediated action $\rho(a)$, typically also changing $c(\rho(a))$. Section 4 introduces the evidence gate's substitution operator $\rhosub$; Section 5 introduces the resource gate's downroute operator $\rhoroute$.
+
+\begin{definitionstar}[(remediation-induced control coupling)]
+Two controls $G_i$ and $G_j$ are remediation-coupled under remediation operator $\rho_i$ if there exists an executable-reachable action $a$ such that $G_j(a) \neq G_j(\rho_i(a))$.
+\end{definitionstar}
+
+\noindent This concept is reusable independently of SARC, Green SARC, or SARC-DQ: any pre-action control whose remediation changes a value another control reads exhibits it. Scenario S4 (Section 4) is this artifact's concrete witness.
+
+This paper distinguishes three progressively harder composition problems, in increasing order of difficulty.
+
+\noindent\textbf{Constraint composition.} Multiple controls judge the same action without any of them transforming it. When controls represent hard requirements, they behave as constraints rather than compensable preferences: an action is executable only if it remains inside the intersection of the relevant feasible regions, $F = F_{\mathrm{authority}} \cap F_{\mathrm{resource}} \cap F_{\mathrm{evidence}}$. This is the conceptual interpretation for the non-compensatory join semantics of Section 3.
+
+\noindent\textbf{Remediation-induced control coupling.} A remediation applied by one control can change variables another control consumes: the evidence gate substitutes unit cost; unit cost changes order value; order value changes the authority decision; unit cost also changes predicted spend; predicted spend changes the resource decision. Section 4 studies this problem for a single remediation operator.
+
+\noindent\textbf{Remediator interaction.} When more than one control can transform the action, remediation operators can interact non-commutatively, making remediation order part of governance semantics rather than an implementation detail. Section 5 studies this problem; it is one of this paper's strongest results.
+
+The dependency this creates is the paper's central intuitive argument: remediation changes inputs consumed by other controls.
+
+\begin{verbatim}
+Evidence
+   |
+   v
+Evidence Gate
+   |
+   | substitute unit cost
+   v
+Remediated Action
+   |
+   +------> recompute order value ------> Authority Gate
+   |
+   +------> recompute predicted spend --> Resource Gate
+   |
+   v
+Full Regate
+   |
+   v
+Non-compensatory Join
+   |
+   v
+Execute / Hold
+\end{verbatim}
+
+\section{Hard constraints versus compensatory aggregation}
+
+\setcounter{definition}{0}
 \begin{definition}[(restrictiveness order)]
 Order $R$ by permissiveness: $\mathrm{admit} \sqsubseteq \mathrm{substitute} \sqsubseteq \mathrm{degrade} \sqsubseteq \mathrm{escalate} \sqsubseteq \mathrm{block}$; $(R, \sqcup)$ is a join semilattice.
 \end{definition}
@@ -128,31 +185,19 @@ Order $R$ by permissiveness: $\mathrm{admit} \sqsubseteq \mathrm{substitute} \sq
 For responses $r_1..r_n$ on the same $(a, c, E)$, the composed response is the join $r^* = \sqcup_i r_i$, the composed admitted bit is $[r^*$ in $\mathrm{Exec}]$, and the winner gate is any argmax (ties recorded).
 \end{definition}
 
-\begin{definition}[(per-action soundness)]
-A plane is sound for $a$ if the executed action $a_{\mathrm{exec}}$ satisfies every gate at execution time, on the state in force when $a_{\mathrm{exec}}$ runs.
-\end{definition}
-
-\begin{remark}[(sequential coupling)]
-Resource-gate state decrements as actions execute; soundness here is per action given current state; stream-level ordering across actions is out of scope and flagged in Section 12.
-\end{remark}
-
-\section{Compensation admits vetoed actions}
-
-Represent each gate's outcome as a score $s_i$ in $[0,1]$ with $s_i = 0$ iff the gate holds the action, and let an aggregator $f$ admit $a$ iff $f(s) \geq \tau$ with $\tau > 0$. An earlier draft of this paper claimed that any strictly increasing $f$ with some admissible profile violates veto -{}- an independent review refuted this: for $f(s) = s1+s2+s3$ and $\tau = 2.5$, $f(1,1,1) = 3$ is admissible, yet no profile with a coordinate at 0 can reach 2.5 (its maximum there is 2), so veto is fully preserved despite $f$ being strictly increasing and having an admissible profile. The universal form was wrong to treat those two hypotheses as sufficient; whether compensation is possible depends on the relationship between $\tau$ and $f$'s own weight structure.
+Represent each gate's outcome as a score $s_i$ in $[0,1]$ with $s_i = 0$ iff the gate holds the action, and let an aggregator $f$ admit $a$ iff $f(s) \geq \tau$ with $\tau > 0$. An earlier draft of this paper claimed that any strictly increasing $f$ with some admissible profile violates veto -{}- an independent review refuted this: for $f(s) = s1+s2+s3$ and $\tau = 2.5$, $f(1,1,1) = 3$ is admissible, yet no profile with a coordinate at 0 can reach 2.5 (its maximum there is 2), so veto is fully preserved despite $f$ being strictly increasing and having an admissible profile. The universal form was wrong to treat those two hypotheses as sufficient; whether compensation is possible depends on the relationship between $\tau$ and $f$'s own weight structure. The deeper distinction this section formalizes is not merely min versus weighted sum: it is constraint satisfaction versus preference aggregation. Weighted, additive aggregation can be useful for selecting among already-feasible alternatives, but for hard governance requirements where member controls are meant to hold veto authority, additive preference aggregation is not a substitute for conjunctive feasibility semantics -{}- the linear-family lemma below gives the exact threshold condition for when a weighted-sum aggregator does or does not preserve that veto property, rather than assuming it either way.
 
 \noindent\textbf{Lemma (linear family; general arbitrary-$n$ statement retagged pending-human-review, finite $n=3$ encoding split into Corollary 2, per independent review round two finding R2-N2).} Let $f(s) = \sum_i w_i s_i$ with $w_i \geq 0$, not all zero, and let $L_j = \sum_{i \neq j} w_i$ (the largest score achievable with $s_j = 0$), $L^* = \max_j L_j$. A vetoed profile ($s_j = 0$ for some $j$) is admitted by $f$ if and only if $\tau \leq L^*$. Min never admits a vetoed profile, for any $\tau > 0$, regardless of weights. Full proof, the reviewer's counterexample worked through against this exact condition, and the discrete instantiation's exhaustive machine check (including 200 HEAD-derived random weight-vector probes), in Appendix A.
 
 Consequence: the composed verdict of Definition 2 is the ordinal form of min on admissibility, the cross-gate generalisation of ``any failed predicate blocks''.
 
-\noindent\textbf{CH5 (compensation is empirically unsafe, discrete grid).} Over the pre-registered weight/threshold grid (66 weight vectors x 4 thresholds, 264 cells), does any cell's weighted-score aggregator admit at least one of the 98 min-join-Held profiles out of the full 125-point three-gate verdict space, while the min join admits zero of them by construction. Result: \texttt{proposition\_1\_holds\_exhaustively = True}, with the maximum violation count 48 profiles at a single grid cell.
+\noindent\textbf{CH5 (compensation is empirically unsafe, discrete grid).} Over the pre-registered weight/threshold grid (66 weight vectors x 4 thresholds, 264 cells), does any cell's weighted-score aggregator admit at least one of the 98 min-join-Held profiles out of the full 125-point three-gate verdict space, while the min join admits zero of them by construction. Result: \texttt{proposition\_1\_holds\_exhaustively = True}. Two distinct quantities are reported here, with distinct labels and distinct denominators, since they are not the same measurement: the \textbf{formal result} is the maximum number of compensated response profiles at a single grid cell, 48 out of 98 Held response profiles, from the exhaustive discrete checker (\path{checkers/compensation_check.py}); the \textbf{empirical result} is the mean number of compensated held decision instances pooled across scenarios S1-S4, over the 30-seed sweep: 13775.1 (95\% CI [13753.5, 13796.6], n=30) (\texttt{ch5\_aggregator.py}, \path{out/results/sweep_summary.json}). The two are not comparable by denominator (one counts formal response profiles out of the full discrete grid's Held population; the other counts individual decision instances actually produced across four scenarios' worth of simulated traffic), and this paper does not conflate them under one name.
 
-\section{Order invariance without remediation}
+\section{Single-remediator composition}
 
 \noindent\textbf{Proposition 2.} If no gate rewrites $(a, c, E)$, the composed verdict is invariant to evaluation order and duplication, and adding a gate never increases permissiveness. Proof, and exhaustive machine check over the finite response lattice (17151 individual checks, all\_hold = True), in Appendix A.
 
-\section{The remediation interaction: two operators, one order}
-
-The evidence gate is not read-only: on a substitutable violation it returns substitute with a governed value $v'$, defining $\rhosub(a) = a[v \to v']$, and $c(\rhosub(a))$ may differ from $c(a)$: order quantity, order value, and predicted spend can all move. A second workflow (W2, weekly commitment) introduces a second remediation operator: $\rhoroute(a)$, which scales the committed quantity down to the largest quantity whose predicted cost and carbon both fit the remaining weekly budget, then recomputes context from the scaled quantity -{}- the same remediate-and-regate pattern Theorem 1 establishes for evidence substitution, applied to a different field of the action.
+The evidence gate is not read-only: on a substitutable violation it returns substitute with a governed value $v'$, defining $\rhosub(a) = a[v \to v']$, and $c(\rhosub(a))$ may differ from $c(a)$: order quantity, order value, and predicted spend can all move. This is remediation-induced control coupling (Section 2) in its simplest form: one remediation operator, applied once.
 
 \noindent\textbf{Proposition 3 (single-pass unsoundness, scoped to the implemented construction).} For the substituting-DQ-decision construction below, single-pass evaluation on $(a, c(a), E(a))$ yields a composed Exec verdict whose executed action $\rhosub(a)$ violates the authority or resource gate at execution time; and symmetrically, single-pass holds an action whose remediated form is compliant. Construction: place an authority cap $\kappa$ strictly between the order values induced by the corrupted read and by the governed substitute. The artifact instantiates this as scenario S4 across all 30 registered seeds; the claim is not made for arbitrary continuous economics or arbitrary gate implementations beyond this construction (independent review classification: checked-scope-only). Full proof in Appendix A.
 
@@ -162,15 +207,37 @@ The evidence gate is not read-only: on a substitutable violation it returns subs
 
 \noindent\textbf{Theorem 1 (soundness of remediate-regate composition; general statement retagged checked-scope-only per independent review round two, finite response-lattice encoding split into Corollary 3).} Under Lemma 1 and gates that are functions of (action, context, evidence, current state), the remediate-regate protocol satisfies Definition 3: Phase II evaluates every gate on $a_{\mathrm{exec}}$ itself, and the join preserves every Held verdict. \textbf{Corollary 1 (sufficiency only; retagged checked-scope-only per independent review round two):} if the authority and resource gates are invariant under the operators applied on the executed-reachable action set, single-pass is sound. The converse does not hold in general -{}- an independent review gave a counterexample (a gate that varies only on actions independently held, and so never executed) -{}- and this paper no longer claims it; an earlier draft's iff overstated what was proved. Full proof, and the counterexample worked through, in Appendix A.
 
-\noindent\textbf{CH7 (multi-remediator order dependence).} With both operators active, does a fixed order matter -{}- is $\rhoroute(\rhosub(a))$ always equal to $\rhosub(\rhoroute(a))$? A finite-model checker (\texttt{checkers/remediator\_check.py}) applies both orders over a grid of (243 points): quantity, corrupted unit cost, governed unit cost, cost budget, carbon budget, reusing the real remediation functions directly. Registered outcome: \texttt{non\_confluent}, with 86 disagreeing grid points out of 243. The independent review additionally probed continuous-valued points off this pre-registered grid and found non-confluence there too (\texttt{review/REVIEW.md} Section 5: 144/200 HEAD-derived off-grid points non-confluent); this artifact promotes that probe into the checker itself and reruns it on every checker run, seeded from a fixed declared constant in \texttt{prereg/probe-seeds.json} rather than the current git HEAD, so the published count is commit-stable rather than drifting with every commit (round-two independent review finding R2-N1): 150/200 off-grid points disagree, strengthening CH7 beyond the declared grid. Where the two orders disagree, the mechanism is structurally the same failure Proposition 3 identifies between composition protocols: a budget check run against a not-yet-corrected value never gets re-checked once the value is corrected. This is the formal justification for \texttt{prereg/w2-workflow.md}'s fixed ordering (evidence gate first, then resource gate) -{}- not an arbitrary implementation choice but a consequence of the operators' non-commutativity. Full result in Appendix A.
+\section{Multi-remediator composition}
 
-\section{Buffer poisoning: a governed value is only as good as its last admit}
+A second workflow (W2, weekly commitment) introduces a second remediation operator: $\rhoroute(a)$, which scales the committed quantity down to the largest quantity whose predicted cost and carbon both fit the remaining weekly budget, then recomputes context from the scaled quantity -{}- the same remediate-and-regate pattern Theorem 1 establishes for evidence substitution, applied to a different field of the action. With both operators active, does a fixed order matter -{}- does remediator interaction (Section 2) actually occur for this artifact's own two operators.
 
-The evidence gate's governed buffer (Section 5) trusts its own most recent admitted write when substituting for a later violation. This is sound against the covered defect classes (stale, superseded, contradictory, malformed evidence) because the gate's own predicates catch them before they can corrupt the buffer. It is not sound against a declared-uncovered class: a corrupted value that the gate's predicates never flag is admitted, and admitted values are exactly what the buffer trusts.
+\noindent\textbf{CH7 (multi-remediator order dependence).} Is $\rhoroute(\rhosub(a))$ always equal to $\rhosub(\rhoroute(a))$? A finite-model checker (\texttt{checkers/remediator\_check.py}) applies both orders over a grid of (243 points): quantity, corrupted unit cost, governed unit cost, cost budget, carbon budget, reusing the real remediation functions directly. Registered outcome: \texttt{non\_confluent}, with 86 disagreeing grid points out of 243. The independent review additionally probed continuous-valued points off this pre-registered grid and found non-confluence there too (\texttt{review/REVIEW.md} Section 5: 144/200 HEAD-derived off-grid points non-confluent); this artifact promotes that probe into the checker itself and reruns it on every checker run, seeded from a fixed declared constant in \texttt{prereg/probe-seeds.json} rather than the current git HEAD, so the published count is commit-stable rather than drifting with every commit (round-two independent review finding R2-N1): 150/200 off-grid points disagree, strengthening CH7 beyond the declared grid. Where the two orders disagree, the mechanism is structurally the same failure Proposition 3 identifies between composition protocols: a budget check run against a not-yet-corrected value never gets re-checked once the value is corrected. This is the formal justification for \texttt{prereg/w2-workflow.md}'s fixed ordering (evidence gate first, then resource gate) -{}- not an arbitrary implementation choice but a consequence of the operators' non-commutativity. Full result in Appendix A.
+
+\begin{verbatim}
+rho_sub
+  -> unit_cost
+      -> order_value
+          -> authority
+      -> predicted_cost
+          -> resource
+
+rho_route
+  -> quantity
+      -> order_value
+          -> authority
+      -> predicted_cost
+          -> resource
+\end{verbatim}
+
+Both remediators affect variables downstream controls consume, which is exactly why they can fail to commute. A fixed order is required for the two operators this artifact implements, and CH7 above is the formal justification for pre-registering it rather than leaving it unspecified. A fixed order is not, however, a general solution to arbitrary multi-remediator composition: with three or more operators, applying one can make an earlier one relevant again, and this artifact does not solve arbitrary non-idempotent remediators, cycles, global termination, unique fixed points, confluence across arbitrary operators, concurrent state updates, or serializability across multiple agents for that general case. This work establishes a sound one-shot composition protocol for the implemented idempotent setting and demonstrates why general multi-remediator systems require an explicit termination and confluence theory; see \texttt{docs/generalized-composition.md} for that theory's open properties, stated as future work rather than an additional claim of this paper.
+
+\section{Stateful governance and evidence-buffer contamination}
+
+Current admissibility does not imply future reference trustworthiness. The evidence gate's governed buffer (Section 4) trusts its own most recent admitted write when substituting for a later violation. This is sound against the covered defect classes (stale, superseded, contradictory, malformed evidence) because the gate's own predicates catch them before they can corrupt the buffer. It is not sound against a declared-uncovered class: a corrupted value that the gate's predicates never flag is admitted, and admitted values are exactly what the buffer trusts. The mechanism is: (1) the governance buffer accepts writes from admitted observations; (2) an uncovered defect can therefore enter trusted state; (3) future substitutions can reuse that contaminated state; (4) the vulnerability is created by the interaction between incomplete coverage and stateful remediation, not by either alone; (5) quarantine and median filtering, below, are example mitigation strategies against it, not a claim that the underlying vulnerability is eliminated.
 
 \noindent\textbf{CH6 (buffer contamination is real and mitigable).} A second uncovered defect class, \texttt{plausible\_outlier\_high}, is added at the same declared rate as \texttt{plausible\_outlier} (Appendix B's defect table), specifically to exercise this mechanism. A poisoned-substitution metric (\texttt{contamination.py}) determines, purely from ground-truth labels never consulted by the gate itself, whether the value a substitution actually used traces back to a prior admit from an uncovered class. Two buffer-side mitigations are implemented entirely outside the \texttt{sarc\_dq.gate} package, as this repo's own buffer-wrapping adapters: a quarantine window (a write becomes trusted only after three consecutive consistent admits) and a rolling median-of-3.
 
-Results, 30 seeds, both workflows: under W1 (daily), plain produces at least one poisoned substitution on every seed (14.70 (95\% CI [13.21, 16.19], n=30)), and both mitigations produce a strictly lower count than plain on every seed (mitigations hold: True). Under W2 (weekly commitment), the population of substitutions per seed is roughly an order of magnitude smaller (commitments happen every 7 days, not daily), and plain does not produce poisoning on every seed (False; mean 1.83 (95\% CI [1.34, 2.32], n=30)): on some seeds, by chance, zero poisoning events occur, which makes ``strictly lower than plain'' vacuously unsatisfiable on those seeds (mitigations hold on every seed: False). This is reported as a genuine small-sample limitation of the weekly workflow's lower event rate, not smoothed into a single across-workflow number -{}- see Table 6 and Section 12.
+Results, 30 seeds, both workflows: under W1 (daily), plain produces at least one poisoned substitution on every seed (14.70 (95\% CI [13.21, 16.19], n=30)), and both mitigations produce a strictly lower count than plain on every seed (mitigations hold: True). The preregistered seed-by-seed decision rule is not supported under W2 because the lower substitution population produces seeds with zero baseline poisoning events, making strict per-seed reduction impossible to satisfy on those seeds (False; mean 1.83 (95\% CI [1.34, 2.32], n=30); mitigations hold on every seed: False). This limits the robustness claim for W2; it does not establish that the mitigation mechanism is ineffective -{}- see Table 6 and Section 9.
 
 \section{The unified Evidence Set}
 
@@ -180,22 +247,24 @@ Each decision emits one record: action context; per-gate sections (authority con
 
 \noindent\textbf{Proposition 5 (no manufactured coverage).} The composed plane's detected class set equals the union of member gates' detected class sets; composition never detects a class no member covers. Corollary: declared uncovered classes remain uncovered, and an honest composed readout must say so. Full proof (a structural tautology, machine-verified across every swept seed) in Appendix A.
 
-\section{Pre-registered empirical protocol}
+\section{Empirical validation}
 
 Artifact: \texttt{suite-demo} composes the three published engines, installed unmodified (repositories verifiably untouched), over open payload data (UCI Online Retail, CC BY 4.0) with a declared synthetic metadata layer and a declared eight-class injector at declared rates; 30 pre-registered seeds (\texttt{prereg/seeds.json}, first seed 26313); zero model calls; zero source writes, hash-proven. Scenarios: S1 baseline, S2 tight budgets, S3 unauthorised burst with a low authority cap, S4 the Proposition 3 construction with the cap between pre- and post-substitution order values (all W1); W2-S1 baseline and W2-S2 tight weekly budgets (both W2); CONTAM-W1 and CONTAM-W2, one per buffer strategy (plain, quarantine, median\_of\_3), for the CH6 study.
 
 Every definition used below (hypotheses, seeds, weights, the W2 workflow, the contamination metric and mitigations, the CH2 semantics redefinition) was committed and tagged \texttt{prereg-v1} before any corresponding result entered this repository's history -{}- the gated-generation discipline this artifact follows throughout.
 
+This section brings CH1-CH8 together as evidence for the mechanisms Sections 2-7 introduce; it is the artifact's evidence base, not the paper's conceptual narrative.
+
 Hypotheses, stated before the corresponding code ran:
 
 \begin{itemize}
 \item \textbf{CH1 (veto soundness).} Post-hoc audit finds zero executed actions violating any gate at execution time under remediate-regate, re-evaluated against the exact Phase II evidence records the decision executed on (independent review finding F4 -{}- an earlier draft's audit re-derived a synthetic clean record from the executed action's own numbers instead; the audit now persists and loads the real records). Single-seed result: 0. 30-seed result: 30/30 seeds with zero violations.
-\item \textbf{CH2 (single-pass unsoundness is real, new semantics).} In S4, remediate-regate and single-pass verdicts differ in Exec/Held class, or agree in class with an audited violation, on at least one decision, in the predicted direction; response-string-only differences with a clean audit are reported separately as \texttt{label\_only\_differences}, not folded in (\texttt{prereg/ch2-semantics.md}). Single-seed result: 239 divergent decisions (200 additional label-only differences); directions 239 \texttt{single\_pass\_admits\_then\_violates}, 0 \texttt{single\_pass\_holds\_remediated\_compliant}. 30-seed result: 207.5 (95\% CI [201.3, 213.7], n=30) divergent, 191.3 (95\% CI [186.5, 196.1], n=30) label-only.
+\item \textbf{CH2 (single-pass unsoundness is real, new semantics).} Single-pass unsoundness \textit{can occur} after remediation, demonstrated for this artifact's own construction (Section 4); this does not establish how frequently production systems suffer this failure. In S4, remediate-regate and single-pass verdicts differ in Exec/Held class, or agree in class with an audited violation, on at least one decision, in the predicted direction; response-string-only differences with a clean audit are reported separately as \texttt{label\_only\_differences}, not folded in (\texttt{prereg/ch2-semantics.md}). Single-seed result: 239 divergent decisions (200 additional label-only differences); directions 239 \texttt{single\_pass\_admits\_then\_violates}, 0 \texttt{single\_pass\_holds\_remediated\_compliant}. 30-seed result: 207.5 (95\% CI [201.3, 213.7], n=30) divergent, 191.3 (95\% CI [186.5, 196.1], n=30) label-only.
 \item \textbf{CH3 (deterministic selectivity).} False-hold rate on clean, authorised, in-budget decisions is exactly zero. Single-seed result: 0.000000. 30-seed result: 0.000000 (95\% CI [0.000000, 0.000000], n=30).
 \item \textbf{CH4 (coverage honesty).} \texttt{plausible\_outlier} and \texttt{plausible\_outlier\_high} detection is zero at every gate and in composition; covered-class detection equals the union of member coverages. Single-seed result: union\_ok=True; \texttt{plausible\_outlier} detection dq=0.000 sarc=0.000 green=0.000 (declared uncovered); full matrix in Table 2. 30-seed result: union\_ok on 30/30 seeds.
 \item \textbf{CH5 (compensation is empirically unsafe).} Section 3.
-\item \textbf{CH6 (buffer contamination is real and mitigable).} Section 6.
-\item \textbf{CH7 (multi-remediator order dependence).} Section 5.
+\item \textbf{CH6 (buffer contamination is real and mitigable).} Buffer poisoning \textit{can propagate} through governed remediation state, demonstrated for the two implemented mitigations; this does not establish enterprise prevalence of such poisoning. Section 6.
+\item \textbf{CH7 (multi-remediator order dependence).} These two remediation operators \textit{do not commute}; this does not establish that arbitrary remediation operators are non-commutative. Section 5.
 \item \textbf{CH8 (robustness across 30 seeds x 2 workflows).} Table 7.
 \end{itemize}
 
@@ -346,7 +415,7 @@ CH6 (buffer contamination + mitigation) & False \\
 
 \noindent\textbf{Negative-results commitment.} Any CH not supported as written is reported as NOT SUPPORTED as written, following the practice of the prior papers -{}- CH6 under W2 is the concrete instance of this commitment in this version.
 
-\section{Claims to evidence}
+\subsection*{Claims to evidence}
 
 \small
 \begin{longtable}{>{\raggedright\arraybackslash}p{0.025\textwidth}>{\raggedright\arraybackslash}p{0.31\textwidth}>{\raggedright\arraybackslash}p{0.21\textwidth}>{\raggedright\arraybackslash}p{0.34\textwidth}}
@@ -374,28 +443,67 @@ C11 & Buffer contamination exists and both mitigations reduce it & CH6, \path{co
 C12 & The two remediators do not commute; fixed order is justified & CH7, \path{checkers/remediator_check.py} & machine-checked, exhaustive \\
 C13 & CH1-CH5 robust across all seeds/workflows; CH6 robust under W1 only & CH8, Table 7 & generated; 30-seed sweep \\
 \end{longtable}
+\normalsize
+
+\subsection*{Claims versus non-claims}
+
+\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.46\textwidth}>{\raggedright\arraybackslash}p{0.46\textwidth}}
+\toprule
+The paper claims & The paper does not claim \\
+\midrule
+\endfirsthead
+\toprule
+The paper claims & The paper does not claim \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+Single-pass can be unsound after remediation & All single-pass systems are unsound \\
+The implemented remediators are non-commutative & All remediation operators are non-commutative \\
+Remediate-regate is sound in the current one-shot setting & General convergence of arbitrary remediator systems \\
+Buffer poisoning exists in the demonstrated mechanism & Production prevalence \\
+Composition preserves only member-control coverage & Composition guarantees complete safety \\
+Evidence Sets preserve identity commitments & Hashes alone reconstruct source bytes \\
+Hard controls require non-compensatory feasibility semantics & Weighted scoring is never useful \\
+\end{longtable}
+\normalsize
 
 \section{Related work}
 
-Six citation gaps were resolved via the V4 pipeline (fetch, verify, record in verified-citations.json) for this response to the independent review's finding F5; none were invented, and any that could not have been verified would have stayed an honestly unresolved placeholder, counted rather than guessed.
+Six citation gaps were resolved via the V4 pipeline (fetch, verify, record in verified-citations.json) for this response to the independent review's finding F5; none were invented, and any that could not have been verified would have stayed an honestly unresolved placeholder, counted rather than guessed. This section's expansion, following a commissioned second (positioning) review, adds further gaps the same pipeline has not yet resolved; each is marked [CITE-NEEDED] rather than filled with an unverified reference, per this artifact's own citation-gate discipline, and is left for the founder's human literature pass.
 
-Non-compensatory and veto rules in multi-criteria decision analysis: veto thresholds, where one criterion can block an otherwise-acceptable alternative regardless of the others' scores, are an established mechanism in outranking-based MCDA (Nowak, doi 10.1016/j.ejor.2003.06.008); the linear-family lemma in Section 3 gives an exact threshold condition for when a weighted-sum aggregator does or does not have this property, rather than assuming it.
+\noindent\textbf{Compositional runtime enforcement.} Traditional runtime-enforcement work commonly reasons over event traces and enforcement policies, asking whether independently correct monitors remain correct under serial or parallel composition, and under what conditions enforcement interference is avoided [CITE-NEEDED: compositional runtime enforcement monitor correctness]. This paper studies a different object: heterogeneous pre-action controls where a remediation changes the semantic object another control subsequently evaluates, not merely whether two trace-level monitors compose.
 
-Runtime verification and enforcement monitors: the composed plane's gates are exactly the ``monitor that examines a sequence of actions and can transform or block them'' mechanism Schneider's security automata formalize (doi 10.1145/353323.353382); this paper's contribution is the composition semantics across several such monitors judging the same action, not the single-monitor enforcement question itself.
+\noindent\textbf{Runtime verification and enforcement monitors.} The composed plane's gates are exactly the ``monitor that examines a sequence of actions and can transform or block them'' mechanism Schneider's security automata formalize (doi 10.1145/353323.353382); this paper's contribution is the composition semantics across several such monitors judging the same action, not the single-monitor enforcement question itself.
 
-Guardrail and policy-engine frameworks for LLM agents: LlamaFirewall (arXiv 2505.03574) is a recent example of a unified guardrail/policy-engine system for LLM agents; it composes detectors into pipelines but does not treat the non-compensatory-join and remediation-reordering questions Sections 3 and 5 study, and (like most guardrail systems) is positioned as monitoring rather than pre-action placement specifically.
+\noindent\textbf{Policy-combining algorithms.} ``One veto dominates other permits'' is already a familiar policy-composition pattern, for example deny-overrides-style combining algorithms [CITE-NEEDED: policy-combining algorithms, deny-overrides]. This paper therefore does not present the join rule itself as its principal novelty; the difficult composition problem it studies begins when a control's response includes a transformation, not merely a decision label.
 
-Separation of duties and multi-party authorisation: the authority gate's role-allowlist mechanism is a narrow instance of the separation-of-duty concept Clark and Wilson introduced for commercial integrity policies (doi 10.1109/SP.1987.10001); this paper does not implement multi-party (dual-control) authorisation, only single-role admission checks.
+\noindent\textbf{Non-compensatory and veto rules in multi-criteria decision analysis:} veto thresholds, where one criterion can block an otherwise-acceptable alternative regardless of the others' scores, are an established mechanism in outranking-based MCDA (Nowak, doi 10.1016/j.ejor.2003.06.008); the linear-family lemma in Section 3 gives an exact threshold condition for when a weighted-sum aggregator does or does not have this property, rather than assuming it.
 
-Budget governors for autonomous systems: the resource gate's predictive cost/carbon budgeting is one instance of the broader resource-bounded-agent governance problem Agent Contracts formalizes with conservation laws across delegation hierarchies (arXiv 2601.08815); this paper's downroute operator is a single-agent, single-budget-window mechanism, not a multi-agent conservation guarantee.
+\noindent\textbf{Rewrite systems, confluence, and termination.} CH7 (Section 5) naturally touches confluence, non-commutativity, operator ordering, fixed points, termination, and normal forms -{}- the core vocabulary of term-rewriting theory [CITE-NEEDED: confluence and termination theory for rewrite systems]. This paper does not become a term-rewriting paper: it demonstrates non-commutativity for two concrete remediation operators and does not claim a general solution for arbitrary rewrite systems; see \texttt{docs/generalized-composition.md} for the open properties such a solution would require.
 
-Cache/buffer poisoning and trust-on-first-use vulnerabilities in adjacent systems: the governed buffer's vulnerability (Section 6, CH6) is structurally the same trust-on-first-use problem Wendlandt, Andersen, and Perrig named for SSH host-key caching (\url{https://www.usenix.org/legacy/event/usenix08/tech/full_papers/wendlandt/wendlandt.pdf}) -{}- a value admitted without independent corroboration is trusted for all future reads until it is overwritten; the quarantine-window mitigation (Section 6) is a direct application of their multi-observation-before-trust idea to a numeric buffer rather than a host key.
+\noindent\textbf{Stateful enforcement.} The resource budget and governed evidence buffer both introduce state consumed and updated across decisions, in the sense of a general stateful-enforcement formulation $G(a_t,c_t,E_t,S_t) \to (r_t,S_{t+1})$ [CITE-NEEDED: stateful runtime enforcement formalization]. Budget governors for autonomous systems: the resource gate's predictive cost/carbon budgeting is one instance of the broader resource-bounded-agent governance problem Agent Contracts formalizes with conservation laws across delegation hierarchies (arXiv 2601.08815); this paper's downroute operator is a single-agent, single-budget-window mechanism, not a multi-agent conservation guarantee.
+
+\noindent\textbf{Guardrail and policy-engine frameworks for LLM agents:} LlamaFirewall (arXiv 2505.03574) is a recent example of a unified guardrail/policy-engine system for LLM agents; it composes detectors into pipelines but does not treat the non-compensatory-join and remediation-reordering questions Sections 3 and 5 study, and (like most guardrail systems) is positioned as monitoring rather than pre-action placement specifically.
+
+\noindent\textbf{Separation of duties and multi-party authorisation:} the authority gate's role-allowlist mechanism is a narrow instance of the separation-of-duty concept Clark and Wilson introduced for commercial integrity policies (doi 10.1109/SP.1987.10001); this paper does not implement multi-party (dual-control) authorisation, only single-role admission checks.
+
+\noindent\textbf{Cache/buffer poisoning and trust-on-first-use vulnerabilities in adjacent systems:} the governed buffer's vulnerability (Section 6, CH6) is structurally the same trust-on-first-use problem Wendlandt, Andersen, and Perrig named for SSH host-key caching (\url{https://www.usenix.org/legacy/event/usenix08/tech/full_papers/wendlandt/wendlandt.pdf}) -{}- a value admitted without independent corroboration is trusted for all future reads until it is overwritten; the quarantine-window mitigation (Section 6) is a direct application of their multi-observation-before-trust idea to a numeric buffer rather than a host key.
 
 Nothing above is load-bearing for the propositions. Every citation this draft relies on is checked against a verified whitelist (verified-citations.json) by \texttt{citation\_check.py} (V4 gate) on every population run.
 
-\section{Limitations}
+\section{Limitations and open theory}
 
 Synthetic metadata layer over open payloads; declared injection rates; no prevalence claims. Resource-gate estimates are cold-start. Stream-level budget ordering effects are defined away per action. Single author at draft time; see the validation note. S4 is a constructed scenario, declared as such. CH6's mitigation-holds-on-every-seed claim is supported under W1 but not under W2, where the weekly-commitment workflow's much smaller per-seed substitution population sometimes produces zero poisoning events by chance, making ``strictly lower than plain'' impossible to satisfy on those seeds -{}- this is a sample-size limitation of the weekly workflow, not evidence against the mitigations' mechanism, and it is reported rather than resolved by re-weighting or dropping seeds. CH7's non-confluence result is a property of this artifact's two specific remediation operators (evidence substitution, resource downroute); it does not generalise to remediators with different structure without re-deriving the checker. The artifact is a mechanism demonstration, not a benchmark release.
+
+The five-level response order ($\mathrm{admit} \sqsubseteq \mathrm{substitute} \sqsubseteq \mathrm{degrade} \sqsubseteq \mathrm{escalate} \sqsubseteq \mathrm{block}$, Definition 1) is this composition plane's own operational policy for producing a single response from several gate verdicts, not a claimed universal semantic ordering; other systems could use a different or partially ordered response structure while preserving the same Exec/Held execution-safety requirement (Section 2). A fixed remediation order (Section 5) is required for the two operators this artifact implements and is not a general solution to arbitrary multi-remediator composition; general termination, confluence, and concurrency for arbitrary stateful remediation systems remain open, and \texttt{docs/generalized-composition.md} states precisely what establishing them would require: fixed-point semantics, termination, confluence, cycle detection, state consistency, serialization, and concurrent multi-agent coordination, none of it attempted here.
+
+Some symmetric t-intervals for low non-negative-count metrics (e.g., Table 6's quarantine and median\_of\_3 mitigation counts under W1/W2) extend slightly below zero; this is a property of a symmetric interval around a small non-negative sample mean, not evidence of a negative measurement, and is presented as computed, without truncation or bootstrap re-estimation (Appendix C).
+
+\section{Conclusion}
+
+Pre-action governance cannot be treated as a bag of independent checks once controls are permitted to transform the proposed action or update shared governance state. Correct composition must distinguish hard feasibility from preference aggregation, reevaluate dependent controls after remediation, define remediation order when operators do not commute, and preserve the provenance of the action and evidence actually executed. General termination, confluence, and concurrency for arbitrary stateful remediation systems remain open.
 
 \section{Validation note}
 
@@ -403,9 +511,11 @@ The round-four terminal review report states, verbatim: ``This artifact was inde
 
 Process provenance: the review protocols were authored by the author's AI assistant before each round and are committed in this repository; the reviews were commissioned by the author and executed by a separate vendor's automated agent in fresh sessions with access only to this public repository; adjudication between rounds was performed by the same assistant that authored the protocols and is not independent; every mechanical claim in the review reports is re-runnable from this repository.
 
+Version 0.4 revises framing, positioning, and related-work coverage following a commissioned second review (review-secondary/), with all measured results, claim semantics, PROOF-STATUS tags, and the four-round review chain unchanged.
+
 This draft is the artifact's response to that review: findings F1-F6 (\mbox{review/REVIEW.md} Section 4) are fixed or weakened per the review's own binding-unless-fixed policy, never argued with in this text; the proof-tag reclassifications in Appendix A (checked-scope-only for Proposition 3 and Lemma 1, sufficiency-only for Corollary 1) follow the review's Section 3 proof-tag policy exactly, and no tag here claims more than that review certified.
 
-\textbf{Acknowledgements.} Drafting, engineering, and review automation were AI-assisted (Claude and Perplexity systems); the author is solely responsible for all claims.
+\textbf{Acknowledgements.} Drafting, engineering, review automation, and a positioning review were AI-assisted (Claude, Perplexity, and OpenAI GPT systems); the author is solely responsible for all claims.
 
 \appendix
 \section{Proofs}
@@ -562,6 +672,7 @@ Both directions are constructible and both are registered outcomes of CH2 (\path
 \section{Artifact manifest.}
 \label{app:manifest}
 
+\small
 \begin{verbatim}
 {
   "artifact_license": "Apache-2.0",
@@ -587,11 +698,12 @@ Both directions are constructible and both are registered outcomes of CH2 (\path
   "seed": 26313
 }
 \end{verbatim}
+\normalsize
 
 \section{Statistical methodology (V3 gate)}
 \label{app:statistical-methodology}
 
-30 seeds (\texttt{prereg/seeds.json}, first seed 26313, generated by \texttt{random.Random(26313)} sampling without replacement from $[1, 2^{31}-1]$, frozen before any Phase 3 code ran). Confidence intervals are two-tailed 95\% t-intervals, mean +/- t\_crit(df=29, alpha=0.05) * (stdev / sqrt(30)), t\_crit = scipy.stats.t.ppf(0.975, 29), computed exactly at runtime (fixed per independent review finding F6: the prior rounded constant 2.045230 diverged from the exact value by up to 3.77e-6 in some CI endpoints -{}- see \texttt{review/REVIEW.md}); implementation in sweep.py's mean\_ci95, using math.fsum over explicitly sorted inputs for mean and variance (fixed per independent review round-two finding R2-N3: naive sum()/len() is order-dependent at the ULP level, unlike fsum) and scipy (pinned in bootstrap.sh) for the t-critical value. Scenario economics (budgets, caps) are calibrated once from the registered baseline seed and held fixed across the sweep; only each scenario's decision-stream seed varies -{}- the same ``treatment'', repeated draws, which is the design this kind of robustness claim requires. Per-seed summaries (no raw per-decision data) are checkpointed under out/results/sweep/ and are part of this artifact's committed history.
+30 seeds (\texttt{prereg/seeds.json}, first seed 26313, generated by \texttt{random.Random(26313)} sampling without replacement from $[1, 2^{31}-1]$, frozen before any Phase 3 code ran). Confidence intervals are two-tailed 95\% t-intervals, mean +/- t\_crit(df=29, alpha=0.05) * (stdev / sqrt(30)), t\_crit = scipy.stats.t.ppf(0.975, 29), computed exactly at runtime (fixed per independent review finding F6: the prior rounded constant 2.045230 diverged from the exact value by up to 3.77e-6 in some CI endpoints -{}- see \texttt{review/REVIEW.md}); implementation in sweep.py's mean\_ci95, using math.fsum over explicitly sorted inputs for mean and variance (fixed per independent review round-two finding R2-N3: naive sum()/len() is order-dependent at the ULP level, unlike fsum) and scipy (pinned in bootstrap.sh) for the t-critical value. Scenario economics (budgets, caps) are calibrated once from the registered baseline seed and held fixed across the sweep; only each scenario's decision-stream seed varies -{}- the same ``treatment'', repeated draws, which is the design this kind of robustness claim requires. Per-seed summaries (no raw per-decision data) are checkpointed under out/results/sweep/ and are part of this artifact's committed history. Some symmetric t-intervals for low non-negative-count metrics extend slightly below zero (Section 10); this is presented as computed, without truncation or bootstrap re-estimation.
 
 \nocite{*}
 \bibliographystyle{plain}

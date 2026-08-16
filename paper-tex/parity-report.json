@@ -11,7 +11,7 @@
             "main.tex"
           ],
           "overfull_hbox_above_10pt": [],
-          "page_count": 20,
+          "page_count": 25,
           "pdf_produced": true,
           "undefined_citations": [],
           "undefined_references": []
@@ -24,7 +24,7 @@
             "main.tex"
           ],
           "overfull_hbox_above_10pt": [],
-          "page_count": 20,
+          "page_count": 25,
           "pdf_produced": true,
           "undefined_citations": [],
           "undefined_references": []
@@ -38,7 +38,7 @@
         "main.tex"
       ],
       "overfull_hbox_above_10pt": [],
-      "page_count": 20,
+      "page_count": 25,
       "pass": true,
       "pdf_produced": true,
       "two_build_identical": true,
@@ -46,9 +46,9 @@
       "undefined_references": []
     },
     "G2_token_purity": {
+      "cite_needed_placeholder_count": 5,
       "forbidden_token_counts": {
         "**": 0,
-        "[CITE": 0,
         "[GENERATED": 0,
         "```": 0
       },
@@ -81,8 +81,8 @@
         "missing_from_pdf": {}
       },
       "post_exception_totals": {
-        "md_number_token_count": 689,
-        "pdf_number_token_count": 689
+        "md_number_token_count": 724,
+        "pdf_number_token_count": 724
       },
       "raw_diff": {
         "added_in_pdf": {
@@ -94,8 +94,8 @@
         }
       },
       "raw_totals": {
-        "md_number_token_count": 689,
-        "pdf_number_token_count": 688
+        "md_number_token_count": 724,
+        "pdf_number_token_count": 723
       },
       "required_values_present": {
         "150": true,
@@ -126,60 +126,60 @@
     },
     "G4_prose_parity": {
       "pass": true,
-      "repo_head": "c5c72fccefc4f20b6f16d2743d31bb0b4f8005e8",
+      "repo_head": "f16184954d5f89b88c7c3fd9a7884ff927857036",
       "sections": {
         "1. Introduction": {
-          "md_words": 462,
+          "md_words": 555,
           "pct_diff": 0.0,
-          "pdf_words": 462,
+          "pdf_words": 555,
           "within_2pct": true
         },
-        "10. Related work": {
-          "md_words": 400,
-          "pct_diff": 0.25,
-          "pdf_words": 401,
+        "10. Limitations and open theory": {
+          "md_words": 327,
+          "pct_diff": 0.0,
+          "pdf_words": 327,
           "within_2pct": true
         },
-        "11. Limitations": {
-          "md_words": 150,
+        "11. Conclusion": {
+          "md_words": 72,
           "pct_diff": 0.0,
-          "pdf_words": 150,
+          "pdf_words": 72,
           "within_2pct": true
         },
         "12. Validation note": {
-          "md_words": 251,
+          "md_words": 284,
           "pct_diff": 0.0,
-          "pdf_words": 251,
+          "pdf_words": 284,
           "within_2pct": true
         },
-        "2. Setting and definitions": {
-          "md_words": 223,
-          "pct_diff": 1.345,
-          "pdf_words": 226,
+        "2. Model and terminology": {
+          "md_words": 536,
+          "pct_diff": 1.306,
+          "pdf_words": 543,
           "within_2pct": true
         },
-        "3. Compensation admits vetoed actions": {
-          "md_words": 351,
-          "pct_diff": 0.57,
-          "pdf_words": 353,
+        "3. Hard constraints versus compensatory aggregation": {
+          "md_words": 609,
+          "pct_diff": 0.821,
+          "pdf_words": 614,
           "within_2pct": true
         },
-        "4. Order invariance without remediation": {
-          "md_words": 50,
+        "4. Single-remediator composition": {
+          "md_words": 517,
+          "pct_diff": 0.58,
+          "pdf_words": 520,
+          "within_2pct": true
+        },
+        "5. Multi-remediator composition": {
+          "md_words": 452,
           "pct_diff": 0.0,
-          "pdf_words": 50,
+          "pdf_words": 452,
           "within_2pct": true
         },
-        "5. The remediation interaction: two operators, one order": {
-          "md_words": 729,
-          "pct_diff": 0.412,
-          "pdf_words": 732,
-          "within_2pct": true
-        },
-        "6. Buffer poisoning: a governed value is only as good as its last admit": {
-          "md_words": 320,
+        "6. Stateful governance and evidence-buffer contamination": {
+          "md_words": 362,
           "pct_diff": 0.0,
-          "pdf_words": 320,
+          "pdf_words": 362,
           "within_2pct": true
         },
         "7. The unified Evidence Set": {
@@ -188,22 +188,22 @@
           "pdf_words": 317,
           "within_2pct": true
         },
-        "8. Pre-registered empirical protocol": {
-          "md_words": 1007,
-          "pct_diff": 1.192,
-          "pdf_words": 995,
+        "8. Empirical validation": {
+          "md_words": 1534,
+          "pct_diff": 0.391,
+          "pdf_words": 1528,
           "within_2pct": true
         },
-        "9. Claims to evidence": {
-          "md_words": 351,
-          "pct_diff": 0.57,
-          "pdf_words": 353,
+        "9. Related work": {
+          "md_words": 673,
+          "pct_diff": 1.783,
+          "pdf_words": 685,
           "within_2pct": true
         },
         "Appendix A. Proofs": {
           "md_words": 4989,
-          "pct_diff": 0.321,
-          "pdf_words": 5005,
+          "pct_diff": 0.16,
+          "pdf_words": 4997,
           "within_2pct": true
         },
         "Appendix B. Artifact manifest": {
@@ -213,62 +213,62 @@
           "within_2pct": true
         },
         "Appendix C. Statistical methodology (V3 gate)": {
-          "md_words": 174,
-          "pct_diff": 0.575,
-          "pdf_words": 175,
+          "md_words": 197,
+          "pct_diff": 1.015,
+          "pdf_words": 199,
           "within_2pct": true
         }
       },
       "sentence_sample": [
         {
           "found": true,
-          "index": 11,
-          "sentence": "Once a second remediator is introduced -- a resource gate that, rather than simply blocking an over-budget action, can s"
+          "index": 26,
+          "sentence": "It does not claim production prevalence, uses no model calls, and its artifact is not a GIGO-Bench release."
         },
         {
           "found": true,
-          "index": 22,
-          "sentence": "Setting and definitions"
+          "index": 41,
+          "sentence": "Both remediators affect variables downstream controls consume, which is exactly why they can fail to commute."
         },
         {
           "found": true,
-          "index": 23,
-          "sentence": "Remark (sequential coupling)."
+          "index": 42,
+          "sentence": "A fixed order is required for the two operators this artifact implements, and CH7 above is the formal justification for "
         },
         {
           "found": true,
-          "index": 38,
-          "sentence": "Full proof (a structural tautology, machine-verified across every swept seed) in Appendix A."
+          "index": 44,
+          "sentence": "This work establishes a sound one-shot composition protocol for the implemented idempotent setting and demonstrates why "
         },
         {
           "found": true,
-          "index": 46,
-          "sentence": "Negative-results commitment."
-        },
-        {
-          "found": true,
-          "index": 47,
-          "sentence": "Any CH not supported as written is reported as NOT SUPPORTED as written, following the practice of the prior papers -- C"
-        },
-        {
-          "found": true,
-          "index": 50,
-          "sentence": "Guardrail and policy-engine frameworks for LLM agents: LlamaFirewall (arXiv 2505.03574) is a recent example of a unified"
-        },
-        {
-          "found": true,
-          "index": 60,
-          "sentence": "The artifact is a mechanism demonstration, not a benchmark release."
+          "index": 53,
+          "sentence": "This limits the robustness claim for W2; it does not establish that the mitigation mechanism is ineffective -- see Table"
         },
         {
           "found": true,
           "index": 65,
-          "sentence": "Drafting, engineering, and review automation were AI-assisted (Claude and Perplexity systems); the author is solely resp"
+          "sentence": "Six citation gaps were resolved via the V4 pipeline (fetch, verify, record in verified-citations.json) for this response"
         },
         {
           "found": true,
-          "index": 75,
-          "sentence": "Single-pass evaluates the authority gate against the ORIGINAL order value qty * v0 (Definition 3's c(a), not c(rho(a))),"
+          "index": 93,
+          "sentence": "Automated review complements and does not replace human peer review.\" (review-r4/REVIEW-R4.md, Author-reuse disclosure.)"
+        },
+        {
+          "found": true,
+          "index": 96,
+          "sentence": "This draft is the artifact's response to that review: findings F1-F6 (review/REVIEW.md Section 4) are fixed or weakened "
+        },
+        {
+          "found": true,
+          "index": 110,
+          "sentence": "The converse (\"only if\") is dropped, not proved."
+        },
+        {
+          "found": true,
+          "index": 114,
+          "sentence": "Retagged per round-two independent review (review-r2/REVIEW-R2.md): largest scope certified is sufficiency on executed-r"
         }
       ]
     },
@@ -286,8 +286,8 @@
         },
         "tables": {
           "equal": true,
-          "source": 8,
-          "tex": 8
+          "source": 9,
+          "tex": 9
         },
         "theorem_environments": {
           "equal": true,

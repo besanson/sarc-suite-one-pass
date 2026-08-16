@@ -22,6 +22,7 @@
   "sweep.ch3_false_hold_ci": "0.000000 (95% CI [0.000000, 0.000000], n=30)",
   "sweep.ch4_union_ok_seed_count": "30/30",
   "sweep.ch5_supported_seed_count": "30/30",
+  "sweep.ch5_empirical_compensated_ci": "13775.1 (95% CI [13753.5, 13796.6], n=30)",
   "sweep.ch6_w1_plain_poisoned_ci": "14.70 (95% CI [13.21, 16.19], n=30)",
   "sweep.ch6_w2_plain_poisoned_ci": "1.83 (95% CI [1.34, 2.32], n=30)",
   "sweep.ch6_w1_mitigations_hold": "True",
