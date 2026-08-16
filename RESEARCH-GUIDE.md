@@ -1,5 +1,8 @@
 # Research Guide
 
+Companion guide for the paper *One Gate Is Not Enough: Composing
+Stateful Pre-Action Controls for Agentic AI*.
+
 The [README](README.md) is artifact-oriented: it gets a reproduction
 environment running. This file is reviewer-oriented: it answers the
 questions a research reviewer asks before running anything at all.

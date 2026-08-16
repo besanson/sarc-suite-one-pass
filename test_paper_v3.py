@@ -84,7 +84,7 @@ def test_verified_citations_file_has_url_title_author_year():
 
     result = verify_whitelist_schema()
     assert result["clean"] is True
-    assert result["total"] == 10  # 4 engine/data + 6 F5 related-work citations
+    assert result["total"] == 15  # 4 engine/data + 6 F5 + 5 v0.4-final-feedback related-work citations
 
 
 def test_url_only_citation_is_verified_by_exact_url_match(tmp_path):

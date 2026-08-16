@@ -22,7 +22,7 @@ a summary; exits non-zero if any gate fails, so `make arxiv` stops before
 packaging on a failed gate.
 
 Every gate compares paper-tex/main.tex / main.pdf against the source
-paper4-composition-draft-v0.3-populated.md -- the "zero content changes"
+paper4-composition-draft-v0.4-populated.md -- the "zero content changes"
 non-negotiable is not just asserted, it is checked.
 
 Round-three response (finding R3-F2): G1 was latexmk-log-dependent (it
@@ -53,10 +53,12 @@ GATES_DIR = Path(__file__).resolve().parent
 PAPER_TEX_DIR = GATES_DIR.parent
 REPO_ROOT = PAPER_TEX_DIR.parent
 
-SOURCE_MD = REPO_ROOT / "paper4-composition-draft-v0.3-populated.md"
+SOURCE_MD = REPO_ROOT / "paper4-composition-draft-v0.4-populated.md"
 MAIN_TEX = PAPER_TEX_DIR / "main.tex"
 MAIN_PDF = PAPER_TEX_DIR / "main.pdf"
 REPORT_PATH = PAPER_TEX_DIR / "parity-report.json"
+ARXIV_ABSTRACT = PAPER_TEX_DIR / "arxiv-abstract.txt"
+ARXIV_METADATA = PAPER_TEX_DIR / "arxiv-metadata.txt"
 
 # The 15 real sections (12 numbered body sections + Appendix A/B/C) --
 # Abstract is excluded (it is \begin{abstract}, not a \section, on both
@@ -1306,6 +1308,72 @@ def gate_g6_disclosure_and_banners() -> dict:
 
 
 # ---------------------------------------------------------------------------
+# G7: arXiv sidecar sync (v0.4 final-feedback item F7)
+# ---------------------------------------------------------------------------
+# The reviewer's second finding: paper-tex/arxiv-abstract.txt and
+# paper-tex/arxiv-metadata.txt are hand-maintained sidecars, not
+# generated from the manuscript, and had drifted -- the abstract sidecar
+# still carried v0.3's "This paper studies what none answer" framing
+# after the manuscript itself was rewritten around remediation-induced
+# control coupling, and the metadata sidecar still said "completeness"
+# with no completeness theorem anywhere in the paper. This gate makes
+# that drift a release-check failure instead of something only caught by
+# a second commissioned review.
+
+ARXIV_ABSTRACT_MAX_CHARS = 1900
+ARXIV_ABSTRACT_REQUIRED_PHRASE = "remediation-induced control coupling"
+ARXIV_ABSTRACT_LEGACY_PHRASE = "none answer"
+ARXIV_METADATA_FORBIDDEN_PHRASE = "completeness"
+
+
+def gate_g7_sidecar_sync() -> dict:
+    abstract_text = ARXIV_ABSTRACT.read_text()
+    metadata_text = ARXIV_METADATA.read_text()
+
+    abstract_len = len(abstract_text.rstrip("\n"))
+    has_required_phrase = ARXIV_ABSTRACT_REQUIRED_PHRASE in abstract_text
+    has_legacy_phrase = ARXIV_ABSTRACT_LEGACY_PHRASE in abstract_text
+    within_length = abstract_len <= ARXIV_ABSTRACT_MAX_CHARS
+    metadata_has_completeness = ARXIV_METADATA_FORBIDDEN_PHRASE in metadata_text.lower()
+
+    ok = has_required_phrase and not has_legacy_phrase and within_length and not metadata_has_completeness
+    return {
+        "pass": ok,
+        "abstract_char_count": abstract_len,
+        "abstract_within_max_chars": within_length,
+        "abstract_has_required_phrase": has_required_phrase,
+        "abstract_has_legacy_phrase": has_legacy_phrase,
+        "metadata_has_completeness": metadata_has_completeness,
+    }
+
+
+# ---------------------------------------------------------------------------
+# G8: citation completeness (v0.4 final-feedback item F7)
+# ---------------------------------------------------------------------------
+# The reviewer's recommendation: "Make unresolved [CITE-NEEDED]
+# placeholders a release-check failure for release candidates." Mirrors
+# citation_check.py's own CITE_PLACEHOLDER_PATTERN rather than importing
+# it, matching this script's existing self-contained-gate-script
+# convention (no cross-directory imports from repo root elsewhere in
+# this file). Both token forms count: [CITE-NEEDED: ...] (an unresolved
+# gap) and [CITE: ...] (this artifact's older placeholder spelling, from
+# v0.1/v0.2 -- neither should survive into a populated release candidate).
+
+CITE_PLACEHOLDER_PATTERN = re.compile(r"\[CITE[-:][^\]]*\]")
+
+
+def gate_g8_citation_completeness() -> dict:
+    text = SOURCE_MD.read_text()
+    matches = CITE_PLACEHOLDER_PATTERN.findall(text)
+    count = len(matches)
+    return {
+        "pass": count == 0,
+        "cite_placeholder_count": count,
+        "cite_placeholders": matches,
+    }
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -1317,6 +1385,8 @@ def main() -> int:
         "G4_prose_parity": gate_g4_prose_parity(),
         "G5_structure_parity": gate_g5_structure_parity(),
         "G6_disclosure_and_banners": gate_g6_disclosure_and_banners(),
+        "G7_sidecar_sync": gate_g7_sidecar_sync(),
+        "G8_citation_completeness": gate_g8_citation_completeness(),
     }
     all_pass = all(g["pass"] for g in results.values())
     report = {"all_pass": all_pass, "gates": results}

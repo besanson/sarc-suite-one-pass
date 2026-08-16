@@ -9,9 +9,9 @@ semantics, and no PROOF-STATUS tag anywhere else in the repository.
 
 ## What the current artifact certifies
 
-Paper v0.4 (`paper4-composition-draft-v0.3-populated.md`, filename kept
-by policy) is precise about the scope it has actually machine-checked
-or construction-verified:
+Paper v0.4 (`paper4-composition-draft-v0.4-populated.md`) is precise
+about the scope it has actually machine-checked or
+construction-verified:
 
 - a **finite response lattice** (`composition.Response`, five values,
   the `Exec`/`Held` partition and the total order over it), exhaustively

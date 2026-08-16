@@ -4,7 +4,7 @@ FOR FOUNDER APPROVAL -- not yet submitted.
 
 Title (verbatim from the paper)
 --------------------------------
-One Gate Is Not Enough: Non-Compensatory Composition of Pre-Action Controls for Agentic AI
+One Gate Is Not Enough: Composing Stateful Pre-Action Controls for Agentic AI
 
 Author line
 -----------
@@ -13,11 +13,22 @@ Gaston Besanson (sole author at draft time; co-author or credited independent re
 Category suggestion
 --------------------
 Primary: cs.AI (Artificial Intelligence)
-  Rationale: the paper's central contribution is the composition semantics of
-  multiple pre-action gates governing an agentic AI system's actions --
-  a join-semilattice model, a remediate-and-regate protocol, and their
-  soundness/completeness properties -- squarely an AI-systems and
-  formal-semantics contribution.
+  Rationale: the paper's four primary contributions are (1) formalizing
+  remediation-induced control coupling -- a remediation applied by one
+  pre-action control can change the action, evidence, or context another
+  control evaluates, invalidating that control's earlier judgment; (2) a
+  remediate-and-regate composition protocol that restores per-action
+  soundness after one remediation, in the scoped one-shot/idempotent
+  setting this artifact implements; (3) an empirical demonstration that two
+  implemented remediation operators do not commute, so remediation order
+  becomes governance semantics rather than an implementation detail; and
+  (4) governance-state contamination -- a governed evidence buffer whose
+  current admissibility does not imply future reference trustworthiness,
+  and two mitigations that reduce but do not eliminate that exposure. The
+  join-semilattice non-compensatory verdict semantics and the unified,
+  lineage-preserving Evidence Set are supporting results, not the paper's
+  central claim. This is squarely an AI-systems and formal-semantics
+  contribution.
 
 Cross-list: cs.SE (Software Engineering)
   Rationale: the artifact is a deterministic, open-data reference

@@ -36,13 +36,30 @@ def _fmt_ci(stat: Dict[str, float], decimals: int = 2) -> str:
     )
 
 
-def _format_table5_ch2_ch3_ci(sweep: Dict[str, Any]) -> str:
+def _format_table5_ch2_ch3_ci(sweep: Dict[str, Any], compensation_result: Dict[str, Any]) -> str:
+    # Round-two ("second"/positioning) response, final-feedback item 1: the
+    # row previously labeled the empirical (30-seed, pooled S1-S4 decision-
+    # instance) quantity "of 98 held profiles" -- the formal discrete-grid
+    # denominator -- producing a visibly inconsistent "13775.1 of 98"
+    # reading. Split into two rows with their own correct denominators and
+    # labels; both values are read from already-committed machine outputs
+    # (compensation_result["held_profiles_count"]/["max_violations"] from
+    # out/checkers/compensation_check.json, sweep["ch5_max_violations"]
+    # from out/results/sweep_summary.json), not retyped or recomputed.
     lines = ["| Metric | Mean (95% CI, n=30 seeds) |"]
     lines.append("|---|---|")
     lines.append(f"| ch2_divergent_decisions | {_fmt_ci(sweep['ch2_divergent_decisions'], 1)} |")
     lines.append(f"| label_only_differences | {_fmt_ci(sweep['label_only_differences'], 1)} |")
     lines.append(f"| ch3_false_hold | {_fmt_ci(sweep['ch3_false_hold'], 6)} |")
-    lines.append(f"| ch5_max_violations (of 98 held profiles) | {_fmt_ci(sweep['ch5_max_violations'], 1)} |")
+    lines.append(
+        f"| Formal max compensated response profiles: "
+        f"{compensation_result['max_violations']} / {compensation_result['held_profiles_count']} "
+        f"| exhaustive discrete grid, not seed-sampled |"
+    )
+    lines.append(
+        f"| Empirical max compensated held decision instances, pooled S1-S4 "
+        f"| {_fmt_ci(sweep['ch5_max_violations'], 1)} |"
+    )
     return "\n".join(lines)
 
 
@@ -116,7 +133,7 @@ def generate_v3_slots(
     slots = generate_tables_and_slots(metrics, manifest)
 
     slots["abstract_results_sentence_v3"] = _abstract_sentence_v3(sweep, compensation_result, remediator_result)
-    slots["table5_ci"] = _format_table5_ch2_ch3_ci(sweep)
+    slots["table5_ci"] = _format_table5_ch2_ch3_ci(sweep, compensation_result)
     slots["table6_ch6"] = _format_table6_ch6_contamination(sweep)
     slots["table7_ch8"] = _format_table7_ch8_robustness(sweep)
 

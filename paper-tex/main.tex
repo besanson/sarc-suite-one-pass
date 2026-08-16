@@ -91,7 +91,7 @@
 \newcommand{\rhosub}{\rho_{\mathrm{sub}}}
 \newcommand{\rhoroute}{\rho_{\mathrm{route}}}
 
-\title{One Gate Is Not Enough: Non-Compensatory Composition of Pre-Action Controls for Agentic AI}
+\title{One Gate Is Not Enough: Composing Stateful Pre-Action Controls for Agentic AI}
 \author{Gaston Besanson \\ \small (sole author at draft time; co-author or credited independent reviewer slot open)}
 \date{}
 
@@ -362,14 +362,15 @@ S4 & 9353 & 739224.74 & 811 & 60347.60 \\
 \begin{table}[H]
 \centering
 \caption{CH2/CH3/CH5 means with 95\% confidence intervals, 30 seeds.}
-\begin{tabular}{ll}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.58\textwidth}>{\raggedright\arraybackslash}p{0.34\textwidth}}
 \toprule
 Metric & Mean (95\% CI, n=30 seeds) \\
 \midrule
 ch2\_divergent\_decisions & 207.5 (95\% CI [201.3, 213.7], n=30) \\
 label\_only\_differences & 191.3 (95\% CI [186.5, 196.1], n=30) \\
 ch3\_false\_hold & 0.000000 (95\% CI [0.000000, 0.000000], n=30) \\
-ch5\_max\_violations (of 98 held profiles) & 13775.1 (95\% CI [13753.5, 13796.6], n=30) \\
+Formal max compensated response profiles: 48 / 98 & exhaustive discrete grid, not seed-sampled \\
+Empirical max compensated held decision instances, pooled S1-S4 & 13775.1 (95\% CI [13753.5, 13796.6], n=30) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -471,19 +472,19 @@ Hard controls require non-compensatory feasibility semantics & Weighted scoring 
 
 \section{Related work}
 
-Six citation gaps were resolved via the V4 pipeline (fetch, verify, record in verified-citations.json) for this response to the independent review's finding F5; none were invented, and any that could not have been verified would have stayed an honestly unresolved placeholder, counted rather than guessed. This section's expansion, following a commissioned second (positioning) review, adds further gaps the same pipeline has not yet resolved; each is marked [CITE-NEEDED] rather than filled with an unverified reference, per this artifact's own citation-gate discipline, and is left for the founder's human literature pass.
+Eleven citation gaps were resolved via the V4 pipeline (fetch, verify, record in verified-citations.json) across this response to the independent review's finding F5 and this section's subsequent expansion following a commissioned second (positioning) review; none were invented, and any that could not have been verified would have stayed an honestly unresolved citation gap, counted rather than guessed, per this artifact's own citation-gate discipline.
 
-\noindent\textbf{Compositional runtime enforcement.} Traditional runtime-enforcement work commonly reasons over event traces and enforcement policies, asking whether independently correct monitors remain correct under serial or parallel composition, and under what conditions enforcement interference is avoided [CITE-NEEDED: compositional runtime enforcement monitor correctness]. This paper studies a different object: heterogeneous pre-action controls where a remediation changes the semantic object another control subsequently evaluates, not merely whether two trace-level monitors compose.
+\noindent\textbf{Compositional runtime enforcement.} Traditional runtime-enforcement work commonly reasons over event traces and enforcement policies, asking whether independently correct monitors remain correct under serial or parallel composition, and under what conditions enforcement interference is avoided; edit automata (Ligatti, Bauer \& Walker, doi 10.1007/s10207-004-0046-8) are the canonical mechanism for enforcement that can suppress, insert, or substitute actions in a trace, the same suppress/insert/substitute vocabulary this paper's remediation operators instantiate at the level of a single pre-action decision rather than a trace. This paper studies a different object: heterogeneous pre-action controls where a remediation changes the semantic object another control subsequently evaluates, not merely whether two trace-level monitors compose.
 
 \noindent\textbf{Runtime verification and enforcement monitors.} The composed plane's gates are exactly the ``monitor that examines a sequence of actions and can transform or block them'' mechanism Schneider's security automata formalize (doi 10.1145/353323.353382); this paper's contribution is the composition semantics across several such monitors judging the same action, not the single-monitor enforcement question itself.
 
-\noindent\textbf{Policy-combining algorithms.} ``One veto dominates other permits'' is already a familiar policy-composition pattern, for example deny-overrides-style combining algorithms [CITE-NEEDED: policy-combining algorithms, deny-overrides]. This paper therefore does not present the join rule itself as its principal novelty; the difficult composition problem it studies begins when a control's response includes a transformation, not merely a decision label.
+\noindent\textbf{Policy-combining algorithms.} ``One veto dominates other permits'' is already a familiar policy-composition pattern: XACML's deny-overrides rule- and policy-combining algorithms make exactly this rule a named, standardized primitive (OASIS XACML 3.0, \url{https://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-os-en.html}), and Bonatti, di Vimercati \& Samarati give an algebra for composing access-control policies under such combinators more generally (doi 10.1145/504909.504910). This paper therefore does not present the join rule itself as its principal novelty; the difficult composition problem it studies begins when a control's response includes a transformation, not merely a decision label.
 
 \noindent\textbf{Non-compensatory and veto rules in multi-criteria decision analysis:} veto thresholds, where one criterion can block an otherwise-acceptable alternative regardless of the others' scores, are an established mechanism in outranking-based MCDA (Nowak, doi 10.1016/j.ejor.2003.06.008); the linear-family lemma in Section 3 gives an exact threshold condition for when a weighted-sum aggregator does or does not have this property, rather than assuming it.
 
-\noindent\textbf{Rewrite systems, confluence, and termination.} CH7 (Section 5) naturally touches confluence, non-commutativity, operator ordering, fixed points, termination, and normal forms -{}- the core vocabulary of term-rewriting theory [CITE-NEEDED: confluence and termination theory for rewrite systems]. This paper does not become a term-rewriting paper: it demonstrates non-commutativity for two concrete remediation operators and does not claim a general solution for arbitrary rewrite systems; see \texttt{docs/generalized-composition.md} for the open properties such a solution would require.
+\noindent\textbf{Rewrite systems, confluence, and termination.} CH7 (Section 5) naturally touches confluence, non-commutativity, operator ordering, fixed points, termination, and normal forms -{}- the core vocabulary of term-rewriting theory, whose confluence-plus-termination-implies-unique-normal-form result traces to Newman's original combinatorial argument (doi 10.2307/1968867). This paper does not become a term-rewriting paper: it demonstrates non-commutativity for two concrete remediation operators and does not claim a general solution for arbitrary rewrite systems; see \texttt{docs/generalized-composition.md} for the open properties such a solution would require.
 
-\noindent\textbf{Stateful enforcement.} The resource budget and governed evidence buffer both introduce state consumed and updated across decisions, in the sense of a general stateful-enforcement formulation $G(a_t,c_t,E_t,S_t) \to (r_t,S_{t+1})$ [CITE-NEEDED: stateful runtime enforcement formalization]. Budget governors for autonomous systems: the resource gate's predictive cost/carbon budgeting is one instance of the broader resource-bounded-agent governance problem Agent Contracts formalizes with conservation laws across delegation hierarchies (arXiv 2601.08815); this paper's downroute operator is a single-agent, single-budget-window mechanism, not a multi-agent conservation guarantee.
+\noindent\textbf{Stateful enforcement.} The resource budget and governed evidence buffer both introduce state consumed and updated across decisions, in the sense of a general stateful-enforcement formulation $G(a_t,c_t,E_t,S_t) \to (r_t,S_{t+1})$; Fong's shallow-execution-history model is the same kind of state-carrying enforcement decision, tracking a bounded summary of prior events rather than the full trace (doi 10.1109/secpri.2004.1301314). Budget governors for autonomous systems: the resource gate's predictive cost/carbon budgeting is one instance of the broader resource-bounded-agent governance problem Agent Contracts formalizes with conservation laws across delegation hierarchies (arXiv 2601.08815); this paper's downroute operator is a single-agent, single-budget-window mechanism, not a multi-agent conservation guarantee.
 
 \noindent\textbf{Guardrail and policy-engine frameworks for LLM agents:} LlamaFirewall (arXiv 2505.03574) is a recent example of a unified guardrail/policy-engine system for LLM agents; it composes detectors into pipelines but does not treat the non-compensatory-join and remediation-reordering questions Sections 3 and 5 study, and (like most guardrail systems) is positioned as monitoring rather than pre-action placement specifically.
 
@@ -511,7 +512,7 @@ The round-four terminal review report states, verbatim: ``This artifact was inde
 
 Process provenance: the review protocols were authored by the author's AI assistant before each round and are committed in this repository; the reviews were commissioned by the author and executed by a separate vendor's automated agent in fresh sessions with access only to this public repository; adjudication between rounds was performed by the same assistant that authored the protocols and is not independent; every mechanical claim in the review reports is re-runnable from this repository.
 
-Version 0.4 revises framing, positioning, and related-work coverage following a commissioned second review (review-secondary/), with all measured results, claim semantics, PROOF-STATUS tags, and the four-round review chain unchanged.
+Version 0.4 revises framing, positioning, and related-work coverage following a commissioned second review (review-secondary/), with all measured results, claim semantics, PROOF-STATUS tags, and the four-round review chain unchanged. Versions 0.1 to 0.3 remain recoverable as immutable historical revisions in repository history.
 
 This draft is the artifact's response to that review: findings F1-F6 (\mbox{review/REVIEW.md} Section 4) are fixed or weakened per the review's own binding-unless-fixed policy, never argued with in this text; the proof-tag reclassifications in Appendix A (checked-scope-only for Proposition 3 and Lemma 1, sufficiency-only for Corollary 1) follow the review's Section 3 proof-tag policy exactly, and no tag here claims more than that review certified.
 

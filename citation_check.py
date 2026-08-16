@@ -114,7 +114,7 @@ def check(paper_path: str, whitelist_path: str = CITATIONS_PATH) -> Dict[str, An
 if __name__ == "__main__":
     import sys
 
-    target = sys.argv[1] if len(sys.argv) > 1 else "paper4-composition-draft-v0.3.md"
+    target = sys.argv[1] if len(sys.argv) > 1 else "paper4-composition-draft-v0.4.md"
     result = check(target)
     print(json.dumps(result, indent=2))
     if not result["clean"]:

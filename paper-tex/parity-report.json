@@ -11,7 +11,7 @@
             "main.tex"
           ],
           "overfull_hbox_above_10pt": [],
-          "page_count": 25,
+          "page_count": 26,
           "pdf_produced": true,
           "undefined_citations": [],
           "undefined_references": []
@@ -24,7 +24,7 @@
             "main.tex"
           ],
           "overfull_hbox_above_10pt": [],
-          "page_count": 25,
+          "page_count": 26,
           "pdf_produced": true,
           "undefined_citations": [],
           "undefined_references": []
@@ -38,7 +38,7 @@
         "main.tex"
       ],
       "overfull_hbox_above_10pt": [],
-      "page_count": 25,
+      "page_count": 26,
       "pass": true,
       "pdf_produced": true,
       "two_build_identical": true,
@@ -46,7 +46,7 @@
       "undefined_references": []
     },
     "G2_token_purity": {
-      "cite_needed_placeholder_count": 5,
+      "cite_needed_placeholder_count": 0,
       "forbidden_token_counts": {
         "**": 0,
         "[GENERATED": 0,
@@ -81,8 +81,8 @@
         "missing_from_pdf": {}
       },
       "post_exception_totals": {
-        "md_number_token_count": 724,
-        "pdf_number_token_count": 724
+        "md_number_token_count": 740,
+        "pdf_number_token_count": 740
       },
       "raw_diff": {
         "added_in_pdf": {
@@ -94,8 +94,8 @@
         }
       },
       "raw_totals": {
-        "md_number_token_count": 724,
-        "pdf_number_token_count": 723
+        "md_number_token_count": 740,
+        "pdf_number_token_count": 739
       },
       "required_values_present": {
         "150": true,
@@ -126,7 +126,7 @@
     },
     "G4_prose_parity": {
       "pass": true,
-      "repo_head": "f16184954d5f89b88c7c3fd9a7884ff927857036",
+      "repo_head": "50c143189da02d860fb7bc049279156d359ee5ea",
       "sections": {
         "1. Introduction": {
           "md_words": 555,
@@ -147,9 +147,9 @@
           "within_2pct": true
         },
         "12. Validation note": {
-          "md_words": 284,
+          "md_words": 297,
           "pct_diff": 0.0,
-          "pdf_words": 284,
+          "pdf_words": 297,
           "within_2pct": true
         },
         "2. Model and terminology": {
@@ -189,15 +189,15 @@
           "within_2pct": true
         },
         "8. Empirical validation": {
-          "md_words": 1534,
-          "pct_diff": 0.391,
-          "pdf_words": 1528,
+          "md_words": 1550,
+          "pct_diff": 0.387,
+          "pdf_words": 1544,
           "within_2pct": true
         },
         "9. Related work": {
-          "md_words": 673,
-          "pct_diff": 1.783,
-          "pdf_words": 685,
+          "md_words": 737,
+          "pct_diff": 1.764,
+          "pdf_words": 750,
           "within_2pct": true
         },
         "Appendix A. Proofs": {
@@ -222,53 +222,53 @@
       "sentence_sample": [
         {
           "found": true,
-          "index": 26,
-          "sentence": "It does not claim production prevalence, uses no model calls, and its artifact is not a GIGO-Bench release."
+          "index": 0,
+          "sentence": "One Gate Is Not Enough: Composing Stateful Pre-Action Controls for Agentic AI"
         },
         {
           "found": true,
-          "index": 41,
-          "sentence": "Both remediators affect variables downstream controls consume, which is exactly why they can fail to commute."
+          "index": 32,
+          "sentence": "A remediation applied by one control can change variables another control consumes: the evidence gate substitutes unit c"
         },
         {
           "found": true,
-          "index": 42,
-          "sentence": "A fixed order is required for the two operators this artifact implements, and CH7 above is the formal justification for "
+          "index": 34,
+          "sentence": "Remediator interaction."
         },
         {
           "found": true,
-          "index": 44,
-          "sentence": "This work establishes a sound one-shot composition protocol for the implemented idempotent setting and demonstrates why "
+          "index": 35,
+          "sentence": "When more than one control can transform the action, remediation operators can interact non-commutatively, making remedi"
         },
         {
           "found": true,
-          "index": 53,
-          "sentence": "This limits the robustness claim for W2; it does not establish that the mitigation mechanism is ineffective -- see Table"
+          "index": 45,
+          "sentence": "Stateful governance and evidence-buffer contamination"
         },
         {
           "found": true,
-          "index": 65,
-          "sentence": "Six citation gaps were resolved via the V4 pipeline (fetch, verify, record in verified-citations.json) for this response"
+          "index": 61,
+          "sentence": "(419 further divergent decisions omitted for brevity)"
         },
         {
           "found": true,
-          "index": 93,
+          "index": 64,
+          "sentence": "Claims versus non-claims"
+        },
+        {
+          "found": true,
+          "index": 67,
+          "sentence": "Traditional runtime-enforcement work commonly reasons over event traces and enforcement policies, asking whether indepen"
+        },
+        {
+          "found": true,
+          "index": 92,
           "sentence": "Automated review complements and does not replace human peer review.\" (review-r4/REVIEW-R4.md, Author-reuse disclosure.)"
         },
         {
           "found": true,
-          "index": 96,
-          "sentence": "This draft is the artifact's response to that review: findings F1-F6 (review/REVIEW.md Section 4) are fixed or weakened "
-        },
-        {
-          "found": true,
-          "index": 110,
-          "sentence": "The converse (\"only if\") is dropped, not proved."
-        },
-        {
-          "found": true,
-          "index": 114,
-          "sentence": "Retagged per round-two independent review (review-r2/REVIEW-R2.md): largest scope certified is sufficiency on executed-r"
+          "index": 94,
+          "sentence": "Version 0.4 revises framing, positioning, and related-work coverage following a commissioned second review (review-secon"
         }
       ]
     },
@@ -307,6 +307,19 @@
       },
       "pass": true,
       "process_provenance_sentence_present": true
+    },
+    "G7_sidecar_sync": {
+      "abstract_char_count": 1883,
+      "abstract_has_legacy_phrase": false,
+      "abstract_has_required_phrase": true,
+      "abstract_within_max_chars": true,
+      "metadata_has_completeness": false,
+      "pass": true
+    },
+    "G8_citation_completeness": {
+      "cite_placeholder_count": 0,
+      "cite_placeholders": [],
+      "pass": true
     }
   }
 }

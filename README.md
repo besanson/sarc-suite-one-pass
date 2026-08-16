@@ -1,5 +1,8 @@
 # SARC Suite One-Pass Demo
 
+Companion artifact for the paper *One Gate Is Not Enough: Composing
+Stateful Pre-Action Controls for Agentic AI* (`paper4-composition-draft-v0.4-populated.md`, `paper-tex/main.tex`).
+
 Once a pre-action governance control is permitted to transform the
 action it governs, governance stops being a set of independent checks
 and becomes a composition problem over constraints, transformations,
@@ -211,7 +214,7 @@ pip install pytest
 
 ```text
 Paper
-  paper4-composition-draft-v0.3-populated.md   (filename kept; content is v0.4)
+  paper4-composition-draft-v0.4-populated.md   (v0.1-v0.3 frozen historical, recoverable in repo history)
   paper-tex/
 
 Research guide

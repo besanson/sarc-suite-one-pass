@@ -17,10 +17,10 @@
     "green": "admit"
   },
   "proposition_1_holds_exhaustively": true,
-  "generated_at_head_sha": "f16184954d5f89b88c7c3fd9a7884ff927857036",
+  "generated_at_head_sha": "50c143189da02d860fb7bc049279156d359ee5ea",
   "inputs_hash": "ae395aba5633365aee56a5b7003ad22631ec0eb013386c4c5dcf86840dc9a6ae",
   "lemma_verification": {
-    "head_sha": "f16184954d5f89b88c7c3fd9a7884ff927857036",
+    "head_sha": "50c143189da02d860fb7bc049279156d359ee5ea",
     "vetoed_profiles_count": 61,
     "n_random_probes": 200,
     "declared_grid": {
