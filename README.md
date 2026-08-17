@@ -1,7 +1,7 @@
 # SARC Suite One-Pass Demo
 
 Companion artifact for the paper *One Gate Is Not Enough: Composing
-Stateful Pre-Action Controls for Agentic AI* (`paper4-composition-draft-v0.4-populated.md`, `paper-tex/main.tex`).
+Stateful Pre-Action Controls for Agentic AI* (`paper4-composition-draft-v0.5-populated.md`, `paper-tex/main.tex`).
 
 Once a pre-action governance control is permitted to transform the
 action it governs, governance stops being a set of independent checks
@@ -16,7 +16,7 @@ action can invalidate another control's earlier judgment on it, formal
 witness Proposition 3 / scenario S4), **non-commutative remediators**
 (the two implemented remediation operators, evidence substitution and
 resource downroute, do not commute — a finite-model checker finds 86
-non-confluent grid points among 243, `checkers/remediator_check.py`,
+order-divergent grid points among 243, `checkers/remediator_check.py`,
 which is the formal justification for a fixed, pre-registered
 remediation order rather than an arbitrary implementation choice), and
 **governance-state contamination** (an admissible but uncovered defect
@@ -214,7 +214,7 @@ pip install pytest
 
 ```text
 Paper
-  paper4-composition-draft-v0.4-populated.md   (v0.1-v0.3 frozen historical, recoverable in repo history)
+  paper4-composition-draft-v0.5-populated.md   (v0.1-v0.4 frozen historical, recoverable in repo history)
   paper-tex/
 
 Research guide

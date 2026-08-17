@@ -94,28 +94,42 @@ def _format_table7_ch8_robustness(sweep: Dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def _abstract_sentence_v3(sweep: Dict[str, Any], compensation_result: Dict[str, Any], remediator_result: Dict[str, Any]) -> str:
-    ch1 = "supported" if sweep["ch1_supported_seed_count"] == sweep["n_seeds"] else "NOT SUPPORTED as written"
-    ch2 = "supported" if sweep["ch2_supported_seed_count"] == sweep["n_seeds"] else "NOT SUPPORTED as written"
-    ch3 = "supported" if sweep["ch3_supported_seed_count"] == sweep["n_seeds"] else "NOT SUPPORTED as written"
-    ch4 = "supported" if sweep["ch4_union_ok_seed_count"] == sweep["n_seeds"] else "NOT SUPPORTED as written"
-    ch5 = "supported" if compensation_result["proposition_1_holds_exhaustively"] else "NOT SUPPORTED as written"
-    w1_ok = sweep["ch6"]["W1"]["plain_has_poisoning_every_seed"] and sweep["ch6"]["W1"]["quarantine_strictly_lower_every_seed"] and sweep["ch6"]["W1"]["median_of_3_strictly_lower_every_seed"]
-    w2_ok = sweep["ch6"]["W2"]["plain_has_poisoning_every_seed"] and sweep["ch6"]["W2"]["quarantine_strictly_lower_every_seed"] and sweep["ch6"]["W2"]["median_of_3_strictly_lower_every_seed"]
-    if w1_ok and w2_ok:
-        ch6 = "supported on every seed in both workflows"
-    elif w1_ok:
-        ch6 = "supported on every seed under W1; NOT supported on every seed under W2 (smaller weekly-commitment population)"
-    else:
-        ch6 = "NOT SUPPORTED as written"
-    ch7 = remediator_result["ch7_registered_outcome"].replace("_", "-")
-    off_grid = remediator_result["off_grid_probe"]
+def _abstract_hypothesis_sentence(sweep: Dict[str, Any], compensation_result: Dict[str, Any]) -> str:
+    """Third-review (Perplexity follow-up) response, item S3: the
+    manuscript abstract's own closing hypothesis-support sentence, in the
+    reviewer-proposed concise template rather than the older CH1-CH8
+    enumerate-every-hypothesis form. Still generated from the same
+    measured per-seed booleans the CH1-CH8 form read (sweep_summary.json,
+    compensation_check.json), not hand-typed: this function only chooses
+    which sentence to emit based on those booleans, mirroring the pattern
+    the retired enumerate-every-hypothesis version used."""
+    ch1_5_all_supported = (
+        sweep["ch1_supported_seed_count"] == sweep["n_seeds"]
+        and sweep["ch2_supported_seed_count"] == sweep["n_seeds"]
+        and sweep["ch3_supported_seed_count"] == sweep["n_seeds"]
+        and sweep["ch4_union_ok_seed_count"] == sweep["n_seeds"]
+        and sweep["ch5_supported_seed_count"] == sweep["n_seeds"]
+        and compensation_result["proposition_1_holds_exhaustively"]
+    )
+    w1 = sweep["ch6"]["W1"]
+    w2 = sweep["ch6"]["W2"]
+    ch6_w1_ok = w1["plain_has_poisoning_every_seed"] and w1["quarantine_strictly_lower_every_seed"] and w1["median_of_3_strictly_lower_every_seed"]
+    ch6_w2_ok = w2["plain_has_poisoning_every_seed"] and w2["quarantine_strictly_lower_every_seed"] and w2["median_of_3_strictly_lower_every_seed"]
+    if ch1_5_all_supported and ch6_w1_ok and not ch6_w2_ok:
+        return (
+            "CH1-CH5 meet their registered decision rules across all 30 "
+            "pre-registered seeds; CH6 does so under W1 but not under the "
+            "smaller W2 workflow, reported as such."
+        )
+    if ch1_5_all_supported and ch6_w1_ok and ch6_w2_ok:
+        return (
+            "CH1-CH6 meet their registered decision rules across all 30 "
+            "pre-registered seeds and both workflows."
+        )
     return (
-        f"CH1 {ch1}; CH2 {ch2}; CH3 {ch3}; CH4 {ch4}; CH5 {ch5} (exhaustive over the discrete grid); "
-        f"CH6 {ch6}; CH7 {ch7} (two remediators do not commute, "
-        f"{remediator_result['counterexample_count']}/{remediator_result['grid_points_checked']} grid points, "
-        f"plus {off_grid['non_confluent_count']}/{off_grid['n_probes']} off-grid points per an independent-review-promoted probe); "
-        f"CH8 robustness across 30 seeds x 2 workflows holds for CH1-CH5, not for CH6."
+        "Not every registered hypothesis meets its decision rule across "
+        "all 30 pre-registered seeds; see Table 7 for the per-hypothesis "
+        "breakdown."
     )
 
 
@@ -132,7 +146,7 @@ def generate_v3_slots(
     additionally needs."""
     slots = generate_tables_and_slots(metrics, manifest)
 
-    slots["abstract_results_sentence_v3"] = _abstract_sentence_v3(sweep, compensation_result, remediator_result)
+    slots["abstract_results_sentence_v3"] = _abstract_hypothesis_sentence(sweep, compensation_result)
     slots["table5_ci"] = _format_table5_ch2_ch3_ci(sweep, compensation_result)
     slots["table6_ch6"] = _format_table6_ch6_contamination(sweep)
     slots["table7_ch8"] = _format_table7_ch8_robustness(sweep)

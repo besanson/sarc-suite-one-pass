@@ -202,6 +202,6 @@ def test_populated_paper_off_grid_metric_is_not_the_stale_140_200_value():
     changed" note on the off-grid probe) legitimately names 140/200 as
     a fact about what happened, not a current measurement -- that
     narrative is accurate and is not what this test guards against."""
-    populated_path = _require("paper4-composition-draft-v0.4-populated.md")
+    populated_path = _require("paper4-composition-draft-v0.5-populated.md")
     text = Path(populated_path).read_text()
     assert "140/200 off-grid points" not in text

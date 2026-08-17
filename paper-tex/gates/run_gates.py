@@ -22,7 +22,7 @@ a summary; exits non-zero if any gate fails, so `make arxiv` stops before
 packaging on a failed gate.
 
 Every gate compares paper-tex/main.tex / main.pdf against the source
-paper4-composition-draft-v0.4-populated.md -- the "zero content changes"
+paper4-composition-draft-v0.5-populated.md -- the "zero content changes"
 non-negotiable is not just asserted, it is checked.
 
 Round-three response (finding R3-F2): G1 was latexmk-log-dependent (it
@@ -53,7 +53,7 @@ GATES_DIR = Path(__file__).resolve().parent
 PAPER_TEX_DIR = GATES_DIR.parent
 REPO_ROOT = PAPER_TEX_DIR.parent
 
-SOURCE_MD = REPO_ROOT / "paper4-composition-draft-v0.4-populated.md"
+SOURCE_MD = REPO_ROOT / "paper4-composition-draft-v0.5-populated.md"
 MAIN_TEX = PAPER_TEX_DIR / "main.tex"
 MAIN_PDF = PAPER_TEX_DIR / "main.pdf"
 REPORT_PATH = PAPER_TEX_DIR / "parity-report.json"
@@ -79,10 +79,10 @@ SECTION_TITLES = [
     "9. Related work",
     "10. Limitations and open theory",
     "11. Conclusion",
-    "12. Validation note",
     "Appendix A. Proofs",
     "Appendix B. Artifact manifest",
     "Appendix C. Statistical methodology (V3 gate)",
+    "Validation note",
 ]
 
 
@@ -130,6 +130,34 @@ GENERATED_FILE_GLOBS = ["main.pdf", "main.log", "main.aux", "main.bbl", "main.bl
                          "main.toc", "texput.log"]
 
 
+FALLBACK_SOURCE_DATE_EPOCH = "1786838400"
+
+
+def _source_date_epoch() -> str:
+    # Round-three response (Perplexity follow-up, byte-reproducible build
+    # gate upgrade): derive the embedded PDF timestamp from the current
+    # HEAD commit rather than wall-clock build time, so two builds run at
+    # different real times still embed the same epoch and can be compared
+    # byte-for-byte. Falls back to a fixed epoch outside a git checkout
+    # (e.g. a source tarball) so the build is still reproducible there too.
+    r = run(["git", "show", "-s", "--format=%ct", "HEAD"], cwd=str(REPO_ROOT))
+    epoch = r.stdout.strip()
+    return epoch if r.returncode == 0 and epoch.isdigit() else FALLBACK_SOURCE_DATE_EPOCH
+
+
+def _reproducible_build_env() -> dict:
+    env = dict(os.environ)
+    env["SOURCE_DATE_EPOCH"] = _source_date_epoch()
+    env["TZ"] = "UTC"
+    return env
+
+
+def _sha256_file(path: Path) -> str | None:
+    if not path.exists():
+        return None
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
 def _detect_compiler() -> str:
     forced = os.environ.get(COMPILER_ENV_VAR, "").strip().lower()
     if forced:
@@ -157,14 +185,15 @@ def _pdf_page_count(pdf_path: Path) -> int | None:
 
 
 def _run_compiler_once(compiler: str) -> tuple[int, str]:
+    env = _reproducible_build_env()
     if compiler == "tectonic":
         # --print surfaces undefined-ref/citation/overfull-hbox warnings
         # that Tectonic otherwise suppresses entirely (verified directly:
         # a plain `tectonic main.tex` build with a deliberately broken
         # \ref/\cite produced no warning output at all).
-        r = run(["tectonic", "--print", "main.tex"], cwd=str(PAPER_TEX_DIR))
+        r = run(["tectonic", "--print", "main.tex"], cwd=str(PAPER_TEX_DIR), env=env)
     elif compiler == "latexmk":
-        r = run(["latexmk", "-pdf", "-interaction=nonstopmode", "main.tex"], cwd=str(PAPER_TEX_DIR))
+        r = run(["latexmk", "-pdf", "-interaction=nonstopmode", "main.tex"], cwd=str(PAPER_TEX_DIR), env=env)
     else:
         raise RuntimeError(f"unsupported compiler {compiler!r}")
     return r.returncode, f"{r.stdout or ''}\n{r.stderr or ''}"
@@ -205,6 +234,7 @@ def _do_one_build(compiler: str) -> dict:
         "pdf_produced": MAIN_PDF.exists(),
         "page_count": _pdf_page_count(MAIN_PDF),
         "file_list": sorted(p.name for p in PAPER_TEX_DIR.glob("main.*")),
+        "pdf_sha256": _sha256_file(MAIN_PDF),
         **diagnostics,
     }
 
@@ -232,6 +262,12 @@ def gate_g1_build() -> dict:
         builds[0]["page_count"] is not None
         and builds[0]["page_count"] == builds[1]["page_count"]
         and builds[0]["file_list"] == builds[1]["file_list"]
+        # Round-three response: byte-reproducible build gate upgrade --
+        # SOURCE_DATE_EPOCH pinning (see _reproducible_build_env) makes a
+        # byte-identical PDF the achievable bar, so two_build_identical
+        # now requires it rather than stopping at page count/file list.
+        and builds[0]["pdf_sha256"] is not None
+        and builds[0]["pdf_sha256"] == builds[1]["pdf_sha256"]
     )
     no_diagnostics = (
         not latest["errors"]
@@ -244,9 +280,11 @@ def gate_g1_build() -> dict:
     return {
         "pass": ok,
         "compiler": compiler,
+        "source_date_epoch": _source_date_epoch(),
         "exit_code_zero": exit_code_zero,
         "pdf_produced": pdf_produced,
         "two_build_identical": two_build_identical,
+        "pdf_sha256": latest["pdf_sha256"],
         "page_count": latest["page_count"],
         "file_list": latest["file_list"],
         "builds": builds,
@@ -713,6 +751,16 @@ def normalize_ws(text: str) -> str:
     # begin with a bare "s"/"w"/"L"/"r"/"G"/"a"/"W" immediately followed
     # by "_".
     text = re.sub(r"\b(s|w|L|r|G|a|W)_([A-Za-z0-9]+)\b", r"\1\2", text)
+    # The same subscript's own math-mode kerning also leaves a stray
+    # space before a closing paren directly following it -- e.g. "gate
+    # $G_i$ maps $(a, c, E, s_i)$" extracts as "...E, si )" instead of
+    # "...E, si)" -- verified directly against Section 2's gate
+    # definition, the one place in this document a subscripted symbol
+    # sits immediately before a closing paren. English prose never puts
+    # a space directly before a closing paren, so collapsing it
+    # generally is unambiguous rather than one more scoped phrase (same
+    # policy already applied to "s1+s2+s3"/"f(1,1,1)"/"n=3" above).
+    text = re.sub(r"\s+\)", ")", text)
     # "tau becomes \tau" (non-negotiable #4, this paper's admission
     # threshold symbol) is the same class of unconditional rewrite as
     # "rho becomes \rho" below -- verified the same way: every bare
@@ -760,10 +808,10 @@ MD_SECTION_ANCHORS = {
     "9. Related work": "9. Related work",
     "10. Limitations and open theory": "10. Limitations and open theory",
     "11. Conclusion": "11. Conclusion",
-    "12. Validation note": "12. Validation note",
     "Appendix A. Proofs": "Appendix A. Proofs",
     "Appendix B. Artifact manifest": "Appendix B. Artifact manifest",
     "Appendix C. Statistical methodology (V3 gate)": "Appendix C. Statistical methodology (V3 gate)",
+    "Validation note": "Validation note",
 }
 
 
@@ -773,14 +821,30 @@ def md_section_slices() -> dict:
     the PDF") -- markdown table pipes/dashes/heading hashes are not
     prose and have no equivalent in the typeset PDF, so raw-markdown
     line slicing (this function's earlier implementation) inflated the
-    source's word counts with syntax that was never content."""
+    source's word counts with syntax that was never content.
+
+    Searches sequentially (search_from advances past each match), the
+    same way pdf_section_slices() already does -- otherwise an anchor
+    that also appears as an earlier cross-reference in running prose
+    (e.g. "Validation note" mentioned in the front-matter version note,
+    well before its own heading further down) matches that earlier
+    occurrence instead of the section's real heading, corrupting every
+    boundary that depends on it (v0.5 third-review response, item S8:
+    exposed by moving Validation note to back matter, after Appendix C,
+    while a front-matter sentence still references it by name)."""
     r = run(["pandoc", "-f", "markdown", "-t", "plain", str(SOURCE_MD)])
     text = normalize_ws(r.stdout)
 
     positions = {}
+    search_from = 0
     for title in SECTION_TITLES:
         anchor = MD_SECTION_ANCHORS[title]
-        positions[title] = text.find(anchor)
+        idx = text.find(anchor, search_from)
+        if idx == -1:
+            idx = text.find(anchor)
+        positions[title] = idx
+        if idx != -1:
+            search_from = idx + len(anchor)
 
     order = SECTION_TITLES
     slices = {}
@@ -807,10 +871,10 @@ PDF_SECTION_ANCHORS = {
     "9. Related work": "9 Related work",
     "10. Limitations and open theory": "10 Limitations and open theory",
     "11. Conclusion": "11 Conclusion",
-    "12. Validation note": "12 Validation note",
     "Appendix A. Proofs": "A Proofs",
     "Appendix B. Artifact manifest": "B Artifact manifest",
     "Appendix C. Statistical methodology (V3 gate)": "C Statistical methodology (V3 gate)",
+    "Validation note": "Validation note",
     "__END__": "References",
 }
 
@@ -1182,7 +1246,13 @@ def gate_g5_structure_parity() -> dict:
     tex_text = MAIN_TEX.read_text()
 
     md_section_count = len(SECTION_TITLES)  # by construction (see SECTION_TITLES)
-    tex_section_count = len(re.findall(r"^\\section\{", tex_text, re.MULTILINE))
+    # Also counts the one starred \section*{Validation note} (v0.5 third-
+    # review response, item S8): moved to back matter as an unnumbered
+    # section -- like the appendices' lettering, it should not carry a
+    # body section NUMBER, but it is still one of the document's real
+    # SECTION_TITLES entries and must count as a section here the same
+    # way the lettered \section{Proofs} etc. already do.
+    tex_section_count = len(re.findall(r"^\\section\*?\{", tex_text, re.MULTILINE))
 
     md_table_count = len(re.findall(r"^\|[\s:|-]+\|\s*$", md_text, re.MULTILINE))
     tex_table_count = len(re.findall(r"^\\begin\{table\}", tex_text, re.MULTILINE)) + \

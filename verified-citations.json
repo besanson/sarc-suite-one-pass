@@ -144,6 +144,26 @@
       "year": 2004,
       "topic": "stateful runtime enforcement formalization (Section 9, related work)",
       "verified_via": "WebFetch of https://api.crossref.org/works/10.1109/secpri.2004.1301314, 2026-08-16"
+    },
+    {
+      "id": "pinisetty-tripakis-compositional-enforcement",
+      "doi": "10.1007/978-3-319-40648-0_7",
+      "url": "https://doi.org/10.1007/978-3-319-40648-0_7",
+      "title": "Compositional Runtime Enforcement",
+      "first_author": "Srinivas Pinisetty",
+      "year": 2016,
+      "topic": "compositional runtime enforcement, the closest direct prior art (Section 9, related work; v0.5 third-review response, item 1)",
+      "verified_via": "WebFetch of https://api.crossref.org/works/10.1007/978-3-319-40648-0_7, 2026-08-17"
+    },
+    {
+      "id": "pinisetty-compositional-enforcement-revisited",
+      "doi": "10.1007/s10703-022-00401-y",
+      "url": "https://doi.org/10.1007/s10703-022-00401-y",
+      "title": "Compositional runtime enforcement revisited",
+      "first_author": "Srinivas Pinisetty",
+      "year": 2021,
+      "topic": "compositional runtime enforcement, the extended follow-up to the closest direct prior art (Section 9, related work; v0.5 third-review response, item 1)",
+      "verified_via": "WebFetch of https://api.crossref.org/works/10.1007/s10703-022-00401-y, 2026-08-17"
     }
   ]
 }

@@ -84,7 +84,7 @@ def test_verified_citations_file_has_url_title_author_year():
 
     result = verify_whitelist_schema()
     assert result["clean"] is True
-    assert result["total"] == 15  # 4 engine/data + 6 F5 + 5 v0.4-final-feedback related-work citations
+    assert result["total"] == 17  # 4 engine/data + 6 F5 + 5 v0.4-final-feedback + 2 v0.5 compositional-enforcement related-work citations
 
 
 def test_url_only_citation_is_verified_by_exact_url_match(tmp_path):
@@ -156,8 +156,8 @@ def test_generate_v3_slots_end_to_end():
     slots = generate_v3_slots(metrics, manifest, sweep, lattice_result, compensation_result, remediator_result)
 
     assert "abstract_results_sentence_v3" in slots
-    assert "CH1" in slots["abstract_results_sentence_v3"]
-    assert "CH8" in slots["abstract_results_sentence_v3"]
+    assert "CH1-CH5" in slots["abstract_results_sentence_v3"]
+    assert "CH6" in slots["abstract_results_sentence_v3"]
     assert slots["checkers.lattice_all_hold"] == "True"
     assert slots["checkers.compensation_holds"] == "True"
     assert slots["checkers.remediator_outcome"] in ("confluent", "non_confluent")

@@ -628,3 +628,13 @@ report, in `test_checkers.py::test_remediator_check_non_confluent_counterexample
 the off-grid probe above is a supplementary, non-exhaustive finite
 sample and does not itself extend the machine-checked scope beyond the
 243-point grid).
+
+**Terminology note (third-review response, v0.5).** The "non-confluent"
+wording above is the checker's own literal `registered_outcome` value and
+the review-report quotation it responds to, both preserved verbatim.
+Because both remediation orderings terminate at protocol-terminal
+outcomes in the bounded transition model, the divergent outcomes are
+non-joinable within that model. Outside this appendix, the manuscript
+therefore describes this result as the two operators being
+non-commuting or order-divergent, reserving "non-confluent" for this
+appendix's own exhaustively-verified statement above.

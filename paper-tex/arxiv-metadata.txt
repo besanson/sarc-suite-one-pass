@@ -8,7 +8,7 @@ One Gate Is Not Enough: Composing Stateful Pre-Action Controls for Agentic AI
 
 Author line
 -----------
-Gaston Besanson (sole author at draft time; co-author or credited independent reviewer slot open)
+Gaston Besanson (Universidad Torcuato Di Tella)
 
 Category suggestion
 --------------------
@@ -50,6 +50,6 @@ CC BY 4.0 (per ADR-003)
 
 Linked artifacts
 -----------------
-GitHub repository: [TODO -- fill in public repository URL once published]
-Zenodo DOI: [TODO -- mint on release, per the paper's own Appendix B
-  data/artifact provenance fields; not yet minted]
+GitHub repository: https://github.com/besanson/sarc-suite-one-pass
+Zenodo DOI: not yet assigned; the archival identifier will be added when
+  the release snapshot is deposited.

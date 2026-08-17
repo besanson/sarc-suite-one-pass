@@ -29,6 +29,23 @@ creating order-dependent behavior. Monitor composition itself is not
 claimed as an invention; see the paper's Related Work section and the
 claims-versus-non-claims table below for the precise boundary.
 
+## Novelty comparison
+
+What existed and what this paper adds, summarized across the paper's
+Related Work section:
+
+| Existing concept | Established literature | What this paper adds |
+|---|---|---|
+| Runtime enforcement | Security/edit automata | Heterogeneous enterprise pre-action controls |
+| Enforcement composition | Compositional runtime enforcement | Cross-control invalidation caused by action/evidence remediation |
+| Deny-overrides / veto | XACML / policy algebra / MCDA | Not claimed as novelty; used as hard-feasibility semantics |
+| Rewrite ordering | Rewriting / confluence theory | Concrete order-sensitive governance remediators |
+| Stateful enforcement | History/state-based policy | Promotion of uncovered-but-admitted evidence into future remediation state |
+| Audit provenance | Existing provenance mechanisms | One cross-control Evidence Set binding pre/post-remediation decisions |
+
+The contribution is not that each ingredient above is new; it is the
+specific composition problem created by their interaction.
+
 ## What is not claimed
 
 - Production prevalence of any mechanism this artifact demonstrates.

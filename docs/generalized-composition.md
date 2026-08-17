@@ -9,7 +9,7 @@ semantics, and no PROOF-STATUS tag anywhere else in the repository.
 
 ## What the current artifact certifies
 
-Paper v0.4 (`paper4-composition-draft-v0.4-populated.md`) is precise
+Paper v0.5 (`paper4-composition-draft-v0.5-populated.md`) is precise
 about the scope it has actually machine-checked or
 construction-verified:
 

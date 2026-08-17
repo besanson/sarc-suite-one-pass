@@ -11,8 +11,9 @@
             "main.tex"
           ],
           "overfull_hbox_above_10pt": [],
-          "page_count": 26,
+          "page_count": 28,
           "pdf_produced": true,
+          "pdf_sha256": "a6940bfe0e809a804fc93bb223590d67e3080c53bc90e3031eac071d7ee4a384",
           "undefined_citations": [],
           "undefined_references": []
         },
@@ -24,8 +25,9 @@
             "main.tex"
           ],
           "overfull_hbox_above_10pt": [],
-          "page_count": 26,
+          "page_count": 28,
           "pdf_produced": true,
+          "pdf_sha256": "a6940bfe0e809a804fc93bb223590d67e3080c53bc90e3031eac071d7ee4a384",
           "undefined_citations": [],
           "undefined_references": []
         }
@@ -38,9 +40,11 @@
         "main.tex"
       ],
       "overfull_hbox_above_10pt": [],
-      "page_count": 26,
+      "page_count": 28,
       "pass": true,
       "pdf_produced": true,
+      "pdf_sha256": "a6940bfe0e809a804fc93bb223590d67e3080c53bc90e3031eac071d7ee4a384",
+      "source_date_epoch": "1786981955",
       "two_build_identical": true,
       "undefined_citations": [],
       "undefined_references": []
@@ -81,8 +85,8 @@
         "missing_from_pdf": {}
       },
       "post_exception_totals": {
-        "md_number_token_count": 740,
-        "pdf_number_token_count": 740
+        "md_number_token_count": 746,
+        "pdf_number_token_count": 746
       },
       "raw_diff": {
         "added_in_pdf": {
@@ -94,8 +98,8 @@
         }
       },
       "raw_totals": {
-        "md_number_token_count": 740,
-        "pdf_number_token_count": 739
+        "md_number_token_count": 746,
+        "pdf_number_token_count": 745
       },
       "required_values_present": {
         "150": true,
@@ -126,7 +130,7 @@
     },
     "G4_prose_parity": {
       "pass": true,
-      "repo_head": "50c143189da02d860fb7bc049279156d359ee5ea",
+      "repo_head": "41abcfceb4f306ea839f42238a849ced51b14e6e",
       "sections": {
         "1. Introduction": {
           "md_words": 555,
@@ -141,69 +145,63 @@
           "within_2pct": true
         },
         "11. Conclusion": {
-          "md_words": 72,
+          "md_words": 129,
           "pct_diff": 0.0,
-          "pdf_words": 72,
-          "within_2pct": true
-        },
-        "12. Validation note": {
-          "md_words": 297,
-          "pct_diff": 0.0,
-          "pdf_words": 297,
+          "pdf_words": 129,
           "within_2pct": true
         },
         "2. Model and terminology": {
-          "md_words": 536,
-          "pct_diff": 1.306,
-          "pdf_words": 543,
+          "md_words": 642,
+          "pct_diff": 1.558,
+          "pdf_words": 652,
           "within_2pct": true
         },
         "3. Hard constraints versus compensatory aggregation": {
-          "md_words": 609,
-          "pct_diff": 0.821,
-          "pdf_words": 614,
+          "md_words": 670,
+          "pct_diff": 0.746,
+          "pdf_words": 675,
           "within_2pct": true
         },
         "4. Single-remediator composition": {
-          "md_words": 517,
-          "pct_diff": 0.58,
-          "pdf_words": 520,
+          "md_words": 684,
+          "pct_diff": 0.292,
+          "pdf_words": 686,
           "within_2pct": true
         },
         "5. Multi-remediator composition": {
-          "md_words": 452,
+          "md_words": 483,
           "pct_diff": 0.0,
-          "pdf_words": 452,
+          "pdf_words": 483,
           "within_2pct": true
         },
         "6. Stateful governance and evidence-buffer contamination": {
-          "md_words": 362,
+          "md_words": 441,
           "pct_diff": 0.0,
-          "pdf_words": 362,
+          "pdf_words": 441,
           "within_2pct": true
         },
         "7. The unified Evidence Set": {
-          "md_words": 317,
+          "md_words": 374,
           "pct_diff": 0.0,
-          "pdf_words": 317,
+          "pdf_words": 374,
           "within_2pct": true
         },
         "8. Empirical validation": {
-          "md_words": 1550,
-          "pct_diff": 0.387,
-          "pdf_words": 1544,
+          "md_words": 1562,
+          "pct_diff": 0.896,
+          "pdf_words": 1548,
           "within_2pct": true
         },
         "9. Related work": {
-          "md_words": 737,
-          "pct_diff": 1.764,
-          "pdf_words": 750,
+          "md_words": 938,
+          "pct_diff": 1.386,
+          "pdf_words": 951,
           "within_2pct": true
         },
         "Appendix A. Proofs": {
-          "md_words": 4989,
-          "pct_diff": 0.16,
-          "pdf_words": 4997,
+          "md_words": 5062,
+          "pct_diff": 0.138,
+          "pdf_words": 5069,
           "within_2pct": true
         },
         "Appendix B. Artifact manifest": {
@@ -213,62 +211,68 @@
           "within_2pct": true
         },
         "Appendix C. Statistical methodology (V3 gate)": {
-          "md_words": 197,
-          "pct_diff": 1.015,
-          "pdf_words": 199,
+          "md_words": 234,
+          "pct_diff": 0.855,
+          "pdf_words": 236,
+          "within_2pct": true
+        },
+        "Validation note": {
+          "md_words": 418,
+          "pct_diff": 0.0,
+          "pdf_words": 418,
           "within_2pct": true
         }
       },
       "sentence_sample": [
         {
           "found": true,
-          "index": 0,
-          "sentence": "One Gate Is Not Enough: Composing Stateful Pre-Action Controls for Agentic AI"
+          "index": 29,
+          "sentence": "Resource-gate state decrements as actions execute; soundness here is per action given current state; stream-level orderi"
         },
         {
           "found": true,
-          "index": 32,
-          "sentence": "A remediation applied by one control can change variables another control consumes: the evidence gate substitutes unit c"
+          "index": 38,
+          "sentence": "Hard constraints versus compensatory aggregation"
         },
         {
           "found": true,
-          "index": 34,
-          "sentence": "Remediator interaction."
-        },
-        {
-          "found": true,
-          "index": 35,
-          "sentence": "When more than one control can transform the action, remediation operators can interact non-commutatively, making remedi"
-        },
-        {
-          "found": true,
-          "index": 45,
+          "index": 58,
           "sentence": "Stateful governance and evidence-buffer contamination"
         },
         {
           "found": true,
-          "index": 61,
-          "sentence": "(419 further divergent decisions omitted for brevity)"
+          "index": 60,
+          "sentence": "Admission determines whether a record may participate in the current action."
         },
         {
           "found": true,
-          "index": 64,
-          "sentence": "Claims versus non-claims"
+          "index": 75,
+          "sentence": "The composed plane's detected class set equals the union of member gates' detected class sets; composition never detects"
         },
         {
           "found": true,
-          "index": 67,
-          "sentence": "Traditional runtime-enforcement work commonly reasons over event traces and enforcement policies, asking whether indepen"
+          "index": 89,
+          "sentence": "This paper therefore does not present the join rule itself as its principal novelty; the difficult composition problem i"
         },
         {
           "found": true,
-          "index": 92,
-          "sentence": "Automated review complements and does not replace human peer review.\" (review-r4/REVIEW-R4.md, Author-reuse disclosure.)"
+          "index": 124,
+          "sentence": "This is not claimed to hold for every possible governed record or for any DQ predicate contract beyond what this artifac"
         },
         {
           "found": true,
-          "index": 94,
-          "sentence": "Version 0.4 revises framing, positioning, and related-work coverage following a commissioned second review (review-secon"
+          "index": 129,
+          "sentence": "PROOF-STATUS: checked-scope-only (REVIEW.md)."
+        },
+        {
+          "found": true,
+          "index": 146,
+          "sentence": "Process provenance: the review protocols were authored by the author's AI assistant before each round and are committed "
+        },
+        {
+          "found": true,
+          "index": 150,
+          "sentence": "This draft is the artifact's response to that review: findings F1-F6 (review/REVIEW.md Section 4) are fixed or weakened "
         }
       ]
     },
@@ -286,8 +290,8 @@
         },
         "tables": {
           "equal": true,
-          "source": 9,
-          "tex": 9
+          "source": 10,
+          "tex": 10
         },
         "theorem_environments": {
           "equal": true,
@@ -309,7 +313,7 @@
       "process_provenance_sentence_present": true
     },
     "G7_sidecar_sync": {
-      "abstract_char_count": 1883,
+      "abstract_char_count": 1891,
       "abstract_has_legacy_phrase": false,
       "abstract_has_required_phrase": true,
       "abstract_within_max_chars": true,
