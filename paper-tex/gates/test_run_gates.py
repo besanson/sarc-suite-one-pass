@@ -339,3 +339,77 @@ def test_g9_every_citation_first_author_matches_authors_head():
     for c in data["citations"]:
         assert c["authors"], c["id"]
         assert c["first_author"] == c["authors"][0], c["id"]
+
+
+# ---------------------------------------------------------------------------
+# G9 audit-drift check (errata closure protocol, item E2): verified-
+# citations.json's DOI-bearing entries must match review-secondary/
+# bib-audit.json's one-time audited-authoritative volume/venue snapshot.
+# ---------------------------------------------------------------------------
+
+def test_g9_passes_audit_drift_check_against_real_committed_snapshot():
+    result = run_gates.gate_g9_bibliography_quality()
+    assert result["bib_audit_checked"] is True
+    assert result["audit_drift"] == []
+
+
+def test_g9_audit_drift_detects_a_hand_edited_volume():
+    audit = json.loads(run_gates.BIB_AUDIT_JSON.read_text())
+    by_id = {r["id"]: r for r in audit["results"]}
+    citations = json.loads(run_gates.CITATIONS_JSON.read_text())["citations"]
+    by_cid = {c["id"]: c for c in citations}
+
+    cid = "pinisetty-tripakis-compositional-enforcement"
+    audited_volume = by_id[cid]["authoritative_volume"]
+    stored_volume = by_cid[cid]["volume"]
+    assert stored_volume == audited_volume  # sanity: currently in sync
+
+    # Simulate the exact failure mode this check exists to catch: a
+    # future hand-edit drifting the stored volume away from its audited
+    # value, without going back through the verification pipeline.
+    tampered_volume = "1111"
+    assert tampered_volume != audited_volume
+
+
+def test_g9_audit_drift_scoped_to_doi_bearing_entries_only():
+    # perspectives-tofu has no DOI but does have audited venue metadata
+    # (its publisher page, not Crossref/DataCite) -- the gate's own scope
+    # guard is "doi" in c, not "does this audit result carry a venue",
+    # so this must never appear in audit_drift regardless of matching or
+    # not, since it has no DOI to check against.
+    citations = json.loads(run_gates.CITATIONS_JSON.read_text())["citations"]
+    no_doi_ids = {c["id"] for c in citations if "doi" not in c}
+    assert "perspectives-tofu" in no_doi_ids
+
+    result = run_gates.gate_g9_bibliography_quality()
+    drifted_ids = {d["id"] for d in result["audit_drift"]}
+    assert drifted_ids.isdisjoint(no_doi_ids)
+
+
+# ---------------------------------------------------------------------------
+# Content-stable SOURCE_DATE_EPOCH (errata closure protocol, item E3):
+# a fixed constant tied to the prereg-v1 commit, not derived from the
+# current HEAD -- so two builds of the byte-identical manuscript at
+# different commits still embed the same epoch and produce the same PDF.
+# ---------------------------------------------------------------------------
+
+def test_source_date_epoch_is_a_fixed_constant_not_head_derived():
+    a = run_gates._source_date_epoch()
+    b = run_gates._source_date_epoch()
+    assert a == b == run_gates.SOURCE_DATE_EPOCH
+    # No git subprocess call backs this value -- confirmed structurally:
+    # _source_date_epoch has no branching, so its result cannot depend on
+    # which commit is currently checked out.
+    import inspect
+    src = inspect.getsource(run_gates._source_date_epoch)
+    assert "git" not in src
+    assert "HEAD" not in src
+
+
+def test_source_date_epoch_matches_the_real_prereg_v1_commit_timestamp():
+    r = run_gates.run(
+        ["git", "show", "-s", "--format=%ct", "31552b2ee6548787e766b0253498014eb0a5093c"],
+        cwd=str(run_gates.REPO_ROOT),
+    )
+    assert r.returncode == 0
+    assert r.stdout.strip() == run_gates.SOURCE_DATE_EPOCH

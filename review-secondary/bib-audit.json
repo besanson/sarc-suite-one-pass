@@ -1,0 +1,223 @@
+{
+  "_schema_note": "Errata closure protocol, item E2: one-time bibliography audit. Every entry in verified-citations.json was re-fetched from its authoritative source (Crossref by DOI where a DOI exists; DataCite for the one DOI Crossref does not carry; the arXiv abstract page or publisher/venue page otherwise) and diffed field-by-field (authors, year, venue, volume, pages) against the stored record. Discrepancies were corrected through the normal verification pipeline directly in verified-citations.json (never hand-typed past the fetch), with each fix's rationale recorded in that entry's own verified_via field; refs.bib was then regenerated from the corrected verified-citations.json via paper-tex/generate_refs_bib.py, never hand-edited. No scientific content (results, claims, tags, proofs, seeds) was touched. Every DOI-bearing entry's 'venue' (its journal or booktitle field, whichever applies) and 'volume' are recorded here even when they matched, specifically so run_gates.py's G9 gate can check current verified-citations.json values against this audited-authoritative snapshot on every run without re-fetching the network itself (gates in this repo are deterministic and offline-capable by convention) -- a hand-edit that silently drifts a DOI-bearing entry's volume or venue away from its audited value becomes a G9 failure.",
+  "audit_date": "2026-08-19",
+  "total_citations": 17,
+  "entries_with_discrepancies": 5,
+  "entries_matched_exactly": 12,
+  "results": [
+    {
+      "id": "pinisetty-tripakis-compositional-enforcement",
+      "doi": "10.1007/978-3-319-40648-0_7",
+      "authoritative_source": "Crossref (DOI 10.1007/978-3-319-40648-0_7); cross-checked against the book-level DOI (10.1007/978-3-319-40648-0) and DBLP's NFM 2016 proceedings page via matching ISBN",
+      "fields_checked": ["authors", "year", "venue", "volume", "pages"],
+      "authoritative_venue_field": "booktitle",
+      "authoritative_venue": "NASA Formal Methods",
+      "authoritative_volume": "9690",
+      "diff": {
+        "volume": {"stored": "9035", "authoritative": "9690", "status": "fixed"}
+      },
+      "status": "fixed",
+      "note": "Crossref's own per-chapter record carries an incorrect 'volume' field for this chapter (9035); the book-level DOI record and DBLP's proceedings page (matching this book's own ISBN, 9783319406473/9783319406480) both give 9690, the correct NFM 2016 LNCS volume. Fixed in item E1, prior to this audit; re-confirmed here."
+    },
+    {
+      "id": "clark-wilson-1987",
+      "doi": "10.1109/SP.1987.10001",
+      "authoritative_source": "Crossref (DOI 10.1109/SP.1987.10001)",
+      "fields_checked": ["authors", "year", "venue", "volume", "pages"],
+      "authoritative_venue_field": "booktitle",
+      "authoritative_venue": "1987 IEEE Symposium on Security and Privacy",
+      "authoritative_volume": null,
+      "diff": {
+        "pages": {"stored": "184", "authoritative": "184-184", "status": "fixed"}
+      },
+      "status": "fixed",
+      "note": "Single-page work; Crossref's own stored page field is the redundant range \"184-184\", not the bare \"184\" previously stored. Corrected to match the registrant's exact value. Crossref records no volume for this proceedings entry (conference proceedings entries commonly carry none); consistent with the stored record, which also has no volume field."
+    },
+    {
+      "id": "newman-1942-confluence",
+      "doi": "10.2307/1968867",
+      "authoritative_source": "Crossref (DOI 10.2307/1968867)",
+      "fields_checked": ["authors", "year", "venue", "volume", "pages"],
+      "authoritative_venue_field": "journal",
+      "authoritative_venue": "The Annals of Mathematics",
+      "authoritative_volume": "43",
+      "diff": {
+        "journal": {"stored": "Annals of Mathematics", "authoritative": "The Annals of Mathematics", "status": "fixed"}
+      },
+      "status": "fixed",
+      "note": "Crossref's container-title field includes the definite article; corrected."
+    },
+    {
+      "id": "fong-shallow-execution-history",
+      "doi": "10.1109/secpri.2004.1301314",
+      "authoritative_source": "Crossref (DOI 10.1109/secpri.2004.1301314)",
+      "fields_checked": ["authors", "year", "venue", "volume", "pages"],
+      "authoritative_venue_field": "booktitle",
+      "authoritative_venue": "IEEE Symposium on Security and Privacy, 2004. Proceedings. 2004",
+      "authoritative_volume": null,
+      "diff": {
+        "authors[0]": {"stored": "P. W. L. Fong", "authoritative": "P.W.L. Fong", "status": "fixed"}
+      },
+      "status": "fixed",
+      "note": "Crossref's stored given-name has no internal spaces between initials; corrected authors[0] and first_author to match exactly. Venue and (absent) volume already matched."
+    },
+    {
+      "id": "perspectives-tofu",
+      "doi": null,
+      "authoritative_source": "Publisher page (https://ptolemy.berkeley.edu/projects/truststc/pubs/388.html) -- no DOI exists for this pre-2010 USENIX paper",
+      "fields_checked": ["authors", "year", "venue"],
+      "authoritative_venue_field": "booktitle",
+      "authoritative_venue": "USENIX Annual Technical Conference (USENIX ATC 08)",
+      "authoritative_volume": null,
+      "diff": {
+        "authors[1]": {"stored": "David G. Andersen", "authoritative": "Dave Andersen", "status": "fixed"}
+      },
+      "status": "fixed",
+      "note": "The authoritative source page's own byline spells the second author \"Dave Andersen\", not the expanded \"David G. Andersen\"; re-confirmed with a second, byline-verbatim fetch of the same page. Corrected to match the printed byline exactly. No DOI, so excluded from G9's DOI-scoped volume/venue consistency check."
+    },
+    {
+      "id": "uci-online-retail",
+      "doi": "10.24432/C5BW33",
+      "authoritative_source": "DataCite (DOI 10.24432/C5BW33, Crossref does not carry this DOI) and the dataset's own publisher page (UCI Machine Learning Repository)",
+      "fields_checked": ["authors", "year", "venue"],
+      "authoritative_venue_field": "publisher",
+      "authoritative_venue": "UCI Machine Learning Repository",
+      "authoritative_volume": null,
+      "diff": {},
+      "status": "matched",
+      "note": "DataCite's own registrant creator field is the literal placeholder \"Unknown\", not a real name -- a degraded DOI-registry record, not an authoritative disagreement. The dataset's own publisher page (already this entry's original verification basis) names \"Daqing Chen\" as creator; no change made. DataCite's publisher field (UCI Machine Learning Repository) matches the stored publisher field exactly."
+    },
+    {
+      "id": "sarc",
+      "doi": null,
+      "authoritative_source": "arXiv abstract page (2605.07728)",
+      "fields_checked": ["authors", "year"],
+      "authoritative_venue_field": null,
+      "authoritative_venue": null,
+      "authoritative_volume": null,
+      "diff": {},
+      "status": "matched",
+      "note": "Self-authored SARC paper; single author, year confirmed. No DOI/venue applicable (arXiv preprint)."
+    },
+    {
+      "id": "green-sarc",
+      "doi": null,
+      "authoritative_source": "arXiv abstract page (2606.15954)",
+      "fields_checked": ["authors", "year"],
+      "authoritative_venue_field": null,
+      "authoritative_venue": null,
+      "authoritative_volume": null,
+      "diff": {},
+      "status": "matched",
+      "note": "Self-authored Green SARC paper; single author, year confirmed. No DOI/venue applicable (arXiv preprint)."
+    },
+    {
+      "id": "sarc-dq",
+      "doi": null,
+      "authoritative_source": "arXiv abstract page (2607.26313)",
+      "fields_checked": ["authors", "year"],
+      "authoritative_venue_field": null,
+      "authoritative_venue": null,
+      "authoritative_volume": null,
+      "diff": {},
+      "status": "matched",
+      "note": "Self-authored SARC-DQ paper; single author, year confirmed. No DOI/venue applicable (arXiv preprint)."
+    },
+    {
+      "id": "nowak-veto-thresholds",
+      "doi": "10.1016/j.ejor.2003.06.008",
+      "authoritative_source": "Crossref (DOI 10.1016/j.ejor.2003.06.008)",
+      "fields_checked": ["authors", "year", "venue", "volume", "pages"],
+      "authoritative_venue_field": "journal",
+      "authoritative_venue": "European Journal of Operational Research",
+      "authoritative_volume": "158",
+      "diff": {},
+      "status": "matched",
+      "note": "All fields (author, year, journal, volume 158, number 2, pages 339-350) match exactly."
+    },
+    {
+      "id": "schneider-enforceable-policies",
+      "doi": "10.1145/353323.353382",
+      "authoritative_source": "Crossref (DOI 10.1145/353323.353382)",
+      "fields_checked": ["authors", "year", "venue", "volume", "pages"],
+      "authoritative_venue_field": "journal",
+      "authoritative_venue": "ACM Transactions on Information and System Security",
+      "authoritative_volume": "3",
+      "diff": {},
+      "status": "matched",
+      "note": "All fields (author, year, journal, volume 3, number 1, pages 30-50) match exactly."
+    },
+    {
+      "id": "llamafirewall",
+      "doi": null,
+      "authoritative_source": "arXiv abstract page (2505.03574)",
+      "fields_checked": ["authors", "year"],
+      "authoritative_venue_field": null,
+      "authoritative_venue": null,
+      "authoritative_volume": null,
+      "diff": {},
+      "status": "matched",
+      "note": "Full 19-author list and year re-confirmed against the abstract page, in order. No DOI/venue applicable (arXiv preprint)."
+    },
+    {
+      "id": "agent-contracts",
+      "doi": null,
+      "authoritative_source": "arXiv abstract page (2601.08815)",
+      "fields_checked": ["authors", "year"],
+      "authoritative_venue_field": null,
+      "authoritative_venue": null,
+      "authoritative_volume": null,
+      "diff": {},
+      "status": "matched",
+      "note": "Both authors and year re-confirmed. No DOI/venue applicable (arXiv preprint)."
+    },
+    {
+      "id": "ligatti-edit-automata",
+      "doi": "10.1007/s10207-004-0046-8",
+      "authoritative_source": "Crossref (DOI 10.1007/s10207-004-0046-8)",
+      "fields_checked": ["authors", "year", "venue", "volume", "pages"],
+      "authoritative_venue_field": "journal",
+      "authoritative_venue": "International Journal of Information Security",
+      "authoritative_volume": "4",
+      "diff": {},
+      "status": "matched",
+      "note": "All fields (3 authors, year, journal, volume 4, number 1-2, pages 2-16) match exactly."
+    },
+    {
+      "id": "oasis-xacml-3.0",
+      "doi": null,
+      "authoritative_source": "Publisher page (docs.oasis-open.org) -- standards document, no DOI",
+      "fields_checked": ["publisher", "year"],
+      "authoritative_venue_field": null,
+      "authoritative_venue": null,
+      "authoritative_volume": null,
+      "diff": {},
+      "status": "matched",
+      "note": "Publishing organization and approval date (22 January 2013) re-confirmed. No DOI, so excluded from G9's DOI-scoped volume/venue consistency check."
+    },
+    {
+      "id": "bonatti-policy-algebra",
+      "doi": "10.1145/504909.504910",
+      "authoritative_source": "Crossref (DOI 10.1145/504909.504910)",
+      "fields_checked": ["authors", "year", "venue", "volume", "pages"],
+      "authoritative_venue_field": "journal",
+      "authoritative_venue": "ACM Transactions on Information and System Security",
+      "authoritative_volume": "5",
+      "diff": {},
+      "status": "matched",
+      "note": "All fields (3 authors, year, journal, volume 5, number 1, pages 1-35) match exactly."
+    },
+    {
+      "id": "pinisetty-compositional-enforcement-revisited",
+      "doi": "10.1007/s10703-022-00401-y",
+      "authoritative_source": "Crossref (DOI 10.1007/s10703-022-00401-y)",
+      "fields_checked": ["authors", "year", "venue", "volume", "pages"],
+      "authoritative_venue_field": "journal",
+      "authoritative_venue": "Formal Methods in System Design",
+      "authoritative_volume": "59",
+      "diff": {},
+      "status": "matched",
+      "note": "All fields (4 authors, year, journal, volume 59, number 1-3, pages 205-252) match exactly."
+    }
+  ]
+}

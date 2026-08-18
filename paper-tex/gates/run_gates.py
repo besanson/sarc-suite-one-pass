@@ -62,6 +62,7 @@ ARXIV_ABSTRACT = PAPER_TEX_DIR / "arxiv-abstract.txt"
 ARXIV_METADATA = PAPER_TEX_DIR / "arxiv-metadata.txt"
 REFS_BIB = PAPER_TEX_DIR / "refs.bib"
 CITATIONS_JSON = REPO_ROOT / "verified-citations.json"
+BIB_AUDIT_JSON = REPO_ROOT / "review-secondary" / "bib-audit.json"
 
 # The 15 real sections (12 numbered body sections + Appendix A/B/C) --
 # Abstract is excluded (it is \begin{abstract}, not a \section, on both
@@ -133,19 +134,33 @@ GENERATED_FILE_GLOBS = ["main.pdf", "main.log", "main.aux", "main.bbl", "main.bl
                          "main.toc", "texput.log"]
 
 
-FALLBACK_SOURCE_DATE_EPOCH = "1786838400"
+# Errata closure protocol, item E3 ("content-stable PDF reproducibility"):
+# a fixed constant, not derived from the current HEAD commit. The prior
+# HEAD-derived scheme (round-three response, byte-reproducible build
+# gate upgrade) embedded the CURRENT commit's own timestamp into the
+# PDF, so the byte-identical same manuscript built at two different
+# commits (e.g. across a documentation-only commit after the last
+# content change) produced two DIFFERENT PDF byte streams -- defeating
+# "identical sources yield identical bytes" as a cross-commit property,
+# leaving it true only within a single commit's own two-build G1 check.
+#
+# The value below is the git commit timestamp of the prereg-v1 commit
+# (31552b2ee6548787e766b0253498014eb0a5093c, "V1 prereg: untrack result
+# artifacts so prereg-v1's tree is results-free", 2026-08-13T08:32:43Z
+# -- reproducible via `git show -s --format=%ct
+# 31552b2ee6548787e766b0253498014eb0a5093c`). This is not an arbitrary
+# choice: prereg-v1 is already this artifact's own established fixed
+# point of reference for "before any result existed" (prereg/hypotheses.md,
+# README.md's Preregistration tag section, and every populated paper's
+# own appendixB_manifest.prereg_v1_sha all cite the same sha) -- reused
+# here rather than inventing a second reference commit. A literal
+# constant, not a live `git show` of that sha, so the build stays
+# reproducible even from a source tarball with no git history at all.
+SOURCE_DATE_EPOCH = "1786609963"
 
 
 def _source_date_epoch() -> str:
-    # Round-three response (Perplexity follow-up, byte-reproducible build
-    # gate upgrade): derive the embedded PDF timestamp from the current
-    # HEAD commit rather than wall-clock build time, so two builds run at
-    # different real times still embed the same epoch and can be compared
-    # byte-for-byte. Falls back to a fixed epoch outside a git checkout
-    # (e.g. a source tarball) so the build is still reproducible there too.
-    r = run(["git", "show", "-s", "--format=%ct", "HEAD"], cwd=str(REPO_ROOT))
-    epoch = r.stdout.strip()
-    return epoch if r.returncode == 0 and epoch.isdigit() else FALLBACK_SOURCE_DATE_EPOCH
+    return SOURCE_DATE_EPOCH
 
 
 def _reproducible_build_env() -> dict:
@@ -1582,8 +1597,27 @@ def gate_g9_bibliography_quality() -> dict:
     missing_venue_fields = []
     doi_mismatches = []
     misc_with_venue_info = []
+    audit_drift = []
 
     refs_bib_text = REFS_BIB.read_text() if REFS_BIB.exists() else ""
+
+    # Errata closure protocol, item E2: "Extend G9 to check volume and
+    # venue consistency against stored authoritative metadata where a
+    # DOI exists." This gate never calls Crossref/DataCite itself --
+    # gates in this repo stay deterministic and offline-capable by
+    # convention (compare G1's own artifact-based, non-log-dependent
+    # design) -- so instead it re-checks the CURRENT verified-
+    # citations.json values against review-secondary/bib-audit.json's
+    # one-time audited-authoritative snapshot (every DOI-bearing entry's
+    # own venue/volume, recorded whether or not the audit found a
+    # mismatch). A future hand-edit that silently drifts a DOI-bearing
+    # entry's volume or venue away from its audited value becomes a
+    # failure here. Skipped (not failed) if the audit file is absent,
+    # since it is a one-time supplementary artifact, not a required
+    # input the pipeline itself generates on every run.
+    audit_by_id = {}
+    if BIB_AUDIT_JSON.exists():
+        audit_by_id = {r["id"]: r for r in json.loads(BIB_AUDIT_JSON.read_text()).get("results", [])}
 
     for c in citations:
         cid = c.get("id", "<no id>")
@@ -1631,6 +1665,27 @@ def gate_g9_bibliography_quality() -> dict:
         if entry_type == "misc" and (c.get("journal") or c.get("booktitle")):
             misc_with_venue_info.append({"id": cid, "journal": c.get("journal"), "booktitle": c.get("booktitle")})
 
+        # Volume/venue consistency against the audited snapshot (see
+        # above): DOI-bearing entries only, matching the audit's own
+        # scope (a citation with no DOI has no Crossref/DataCite record
+        # to audit venue/volume against in the first place).
+        if "doi" in c:
+            audit_entry = audit_by_id.get(cid)
+            if audit_entry is not None:
+                venue_field = audit_entry.get("authoritative_venue_field")
+                authoritative_venue = audit_entry.get("authoritative_venue")
+                if venue_field and authoritative_venue is not None and c.get(venue_field) != authoritative_venue:
+                    audit_drift.append({
+                        "id": cid, "field": venue_field,
+                        "current": c.get(venue_field), "audited": authoritative_venue,
+                    })
+                authoritative_volume = audit_entry.get("authoritative_volume")
+                if authoritative_volume is not None and c.get("volume") != authoritative_volume:
+                    audit_drift.append({
+                        "id": cid, "field": "volume",
+                        "current": c.get("volume"), "audited": authoritative_volume,
+                    })
+
     # "generated refs.bib matches verified-citations.json": regenerate
     # in memory (never writes to disk) and compare byte-for-byte against
     # the committed file -- the same drift check G7 already applies to
@@ -1645,6 +1700,7 @@ def gate_g9_bibliography_quality() -> dict:
         and not missing_venue_fields
         and not doi_mismatches
         and not misc_with_venue_info
+        and not audit_drift
         and refs_bib_matches
     )
     return {
@@ -1655,6 +1711,8 @@ def gate_g9_bibliography_quality() -> dict:
         "missing_venue_fields": missing_venue_fields,
         "doi_mismatches": doi_mismatches,
         "misc_with_venue_info": misc_with_venue_info,
+        "audit_drift": audit_drift,
+        "bib_audit_checked": bool(audit_by_id),
         "refs_bib_matches_generator": refs_bib_matches,
     }
 

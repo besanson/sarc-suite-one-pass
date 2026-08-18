@@ -13,7 +13,7 @@
           "overfull_hbox_above_10pt": [],
           "page_count": 29,
           "pdf_produced": true,
-          "pdf_sha256": "d103a70a8901f34eb72f2c67cea546af76a1588eae5011f0cbd9325f77963d36",
+          "pdf_sha256": "c74bf586ca0380a235ac7d2870616ddd23e3a77a42ffbe039b168015d165e819",
           "undefined_citations": [],
           "undefined_references": []
         },
@@ -27,7 +27,7 @@
           "overfull_hbox_above_10pt": [],
           "page_count": 29,
           "pdf_produced": true,
-          "pdf_sha256": "d103a70a8901f34eb72f2c67cea546af76a1588eae5011f0cbd9325f77963d36",
+          "pdf_sha256": "c74bf586ca0380a235ac7d2870616ddd23e3a77a42ffbe039b168015d165e819",
           "undefined_citations": [],
           "undefined_references": []
         }
@@ -43,8 +43,8 @@
       "page_count": 29,
       "pass": true,
       "pdf_produced": true,
-      "pdf_sha256": "d103a70a8901f34eb72f2c67cea546af76a1588eae5011f0cbd9325f77963d36",
-      "source_date_epoch": "1787066850",
+      "pdf_sha256": "c74bf586ca0380a235ac7d2870616ddd23e3a77a42ffbe039b168015d165e819",
+      "source_date_epoch": "1786609963",
       "two_build_identical": true,
       "undefined_citations": [],
       "undefined_references": []
@@ -147,7 +147,7 @@
           "tex": "One Gate Is Not Enough: Composing Stateful Pre-Action Controls for Agentic AI"
         }
       },
-      "generated_at_head_sha": "6d6e8067645f2fbf5d7737833d939368e358fcea",
+      "generated_at_head_sha": "5c7e8e568fbbd84091e8f54bd6624a9c678c19c8",
       "pass": true,
       "sections": {
         "1. Introduction": {
@@ -345,6 +345,8 @@
       "pass": true
     },
     "G9_bibliography_quality": {
+      "audit_drift": [],
+      "bib_audit_checked": true,
       "doi_mismatches": [],
       "invalid_entry_type": [],
       "misc_with_venue_info": [],
