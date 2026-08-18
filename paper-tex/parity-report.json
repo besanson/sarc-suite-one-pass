@@ -13,7 +13,7 @@
           "overfull_hbox_above_10pt": [],
           "page_count": 29,
           "pdf_produced": true,
-          "pdf_sha256": "8100399c359ada4875079d40709040c425050cad21388bdd807da0147167cfb1",
+          "pdf_sha256": "1add5a9a3111c119c9df372704e6f663e677dbcef762f369223ddce1bb2d4d7e",
           "undefined_citations": [],
           "undefined_references": []
         },
@@ -27,7 +27,7 @@
           "overfull_hbox_above_10pt": [],
           "page_count": 29,
           "pdf_produced": true,
-          "pdf_sha256": "8100399c359ada4875079d40709040c425050cad21388bdd807da0147167cfb1",
+          "pdf_sha256": "1add5a9a3111c119c9df372704e6f663e677dbcef762f369223ddce1bb2d4d7e",
           "undefined_citations": [],
           "undefined_references": []
         }
@@ -43,7 +43,7 @@
       "page_count": 29,
       "pass": true,
       "pdf_produced": true,
-      "pdf_sha256": "8100399c359ada4875079d40709040c425050cad21388bdd807da0147167cfb1",
+      "pdf_sha256": "1add5a9a3111c119c9df372704e6f663e677dbcef762f369223ddce1bb2d4d7e",
       "source_date_epoch": "1786609963",
       "two_build_identical": true,
       "undefined_citations": [],
@@ -85,8 +85,8 @@
         "missing_from_pdf": {}
       },
       "post_exception_totals": {
-        "md_number_token_count": 735,
-        "pdf_number_token_count": 735
+        "md_number_token_count": 737,
+        "pdf_number_token_count": 737
       },
       "raw_diff": {
         "added_in_pdf": {
@@ -98,8 +98,8 @@
         }
       },
       "raw_totals": {
-        "md_number_token_count": 735,
-        "pdf_number_token_count": 734
+        "md_number_token_count": 737,
+        "pdf_number_token_count": 736
       },
       "required_values_present": {
         "150": true,
@@ -147,7 +147,7 @@
           "tex": "One Gate Is Not Enough: Composing Stateful Pre-Action Controls for Agentic AI"
         }
       },
-      "generated_at_head_sha": "76e605ab53dd719aeace733d3c5995e7f520171c",
+      "generated_at_head_sha": "1ee5fe093387fd1a0a3902078285092ad67c018e",
       "pass": true,
       "sections": {
         "1. Introduction": {
@@ -205,15 +205,15 @@
           "within_2pct": true
         },
         "8. Empirical validation": {
-          "md_words": 1562,
-          "pct_diff": 0.896,
-          "pdf_words": 1548,
+          "md_words": 1563,
+          "pct_diff": 0.832,
+          "pdf_words": 1550,
           "within_2pct": true
         },
         "9. Related work": {
           "md_words": 938,
-          "pct_diff": 1.386,
-          "pdf_words": 951,
+          "pct_diff": 1.279,
+          "pdf_words": 950,
           "within_2pct": true
         },
         "Appendix A. Proofs": {
@@ -244,56 +244,56 @@
       "sentence_sample": [
         {
           "found": true,
-          "index": 14,
-          "sentence": "This paper makes four primary contributions."
+          "index": 20,
+          "sentence": "The empirical artifact underneath all of them is a deterministic open-data composition of the three published Apache 2.0"
         },
         {
           "found": true,
-          "index": 35,
-          "sentence": "Single-remediator composition"
+          "index": 42,
+          "sentence": "The governed substitute satisfies the evidence-predicate contract exercised by the artifact."
         },
         {
           "found": true,
-          "index": 39,
-          "sentence": "The remediation branch exercised by the artifact is one-shot or otherwise bounded."
+          "index": 46,
+          "sentence": "Read together: A1 and A2 and A3 and A4 and A5 and A6 and A7 imply per-action soundness (Definition 3)."
         },
         {
           "found": true,
-          "index": 53,
-          "sentence": "This work establishes a sound one-shot composition protocol for the implemented idempotent setting and demonstrates why "
+          "index": 71,
+          "sentence": "The composed plane's detected class set equals the union of member gates' detected class sets; composition never detects"
         },
         {
           "found": true,
-          "index": 56,
-          "sentence": "Admission determines whether a record may participate in the current action."
+          "index": 74,
+          "sentence": "Every definition used below (hypotheses, seeds, weights, the W2 workflow, the contamination metric and mitigations, the "
         },
         {
           "found": true,
-          "index": 75,
-          "sentence": "This section brings CH1-CH8 together as evidence for the mechanisms Sections 2-7 introduce; it is the artifact's evidenc"
+          "index": 104,
+          "sentence": "The central result of this work is not that multiple governance gates should simply be aggregated conservatively."
         },
         {
           "found": true,
-          "index": 88,
-          "sentence": "Guardrail and policy-engine frameworks for LLM agents: LlamaFirewall (arXiv 2505.03574) is a recent example of a unified"
+          "index": 110,
+          "sentence": "Every proposition below carries a PROOF-STATUS tag."
         },
         {
           "found": true,
-          "index": 108,
-          "sentence": "When admitted information is promoted into persistent governance state, admission and future trust must likewise be dist"
+          "index": 117,
+          "sentence": "Single-pass evaluates the authority gate against the ORIGINAL order value qty * v0 (Definition 3's c(a), not c(rho(a))),"
         },
         {
           "found": true,
-          "index": 125,
-          "sentence": "PROOF-STATUS: checked-scope-only (REVIEW.md)."
+          "index": 135,
+          "sentence": "The artifact underwent four commissioned adversarial automated review rounds under published protocols."
         },
         {
           "found": true,
-          "index": 142,
-          "sentence": "Process provenance: the review protocols were authored by the author's AI assistant before each round and are committed "
+          "index": 141,
+          "sentence": "In this release repository, the imported round-two, round-three, and round-four reports and JSON mirrors are packaged un"
         }
       ],
-      "source_sha256": "bb66ebc34ff6296cbac30c73b3bd8df7eff877029f1b12bd0f9a09c94333e78f"
+      "source_sha256": "e18d9405ec3c6e51678c8d599961849b2a0573421d78508a158b506db5ca5990"
     },
     "G5_structure_parity": {
       "counts": {

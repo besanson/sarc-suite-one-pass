@@ -741,6 +741,15 @@ def normalize_ws(text: str) -> str:
     # every "/" in the document: "(stdev / sqrt(30))" genuinely has
     # spaces around its slash in the source itself.
     text = text.replace("reachability/ executability", "reachability/executability")
+    # Same class of artifact again: the OASIS XACML citation URL
+    # (Section 9/10 related work) happens to line-wrap in -layout mode
+    # at its own "." between "docs" and "oasis-open.org", with no
+    # hyphen to rejoin (a straight break, not a hyphenated compound) --
+    # "https://docs.\noasis-open.org/..." collapses to "docs.
+    # oasis-open.org" once \s+ above merges the newline to a space.
+    # Not generalized to every URL in the document: this is the only
+    # URL long enough to wrap mid-domain at all.
+    text = text.replace("https://docs. oasis-open.org", "https://docs.oasis-open.org")
     # Math mode's default comma spacing: $[0,1]$ (non-negotiable #4's
     # required math-mode interval notation) typesets with a small space
     # after the comma by convention, which pdftotext extracts as a real

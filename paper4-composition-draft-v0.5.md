@@ -201,7 +201,7 @@ Negative-results commitment. Any CH not supported as written is reported as NOT 
 | C6 | No manufactured coverage | Proposition 5 + CH4, Appendix A | machine-checked (tautology) + generated |
 | C7 | Zero false holds on clean, authorised, in-budget | CH3 | generated; 30-seed CI |
 | C8 | Engines compose unmodified | editable installs; git-clean test | artifact test |
-| C9 | Full reproducibility | seed list, hashes, provenance; public repository; archival identifier when assigned | artifact; public repository URL included |
+| C9 | Full reproducibility | seed list, hashes, provenance; public repository; Zenodo 10.5281/zenodo.22003399 | artifact; public repository URL and archival identifier included |
 | C10 | Compensation admits vetoed actions over the full discrete grid | CH5, checkers/compensation_check.py | machine-checked, exhaustive |
 | C11 | Buffer contamination exists and both mitigations reduce it | CH6, contamination.py | generated; 30-seed CI; W2 exception reported honestly |
 | C12 | The two remediators do not commute; fixed order is justified | CH7, checkers/remediator_check.py | machine-checked, exhaustive |

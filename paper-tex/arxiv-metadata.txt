@@ -51,5 +51,4 @@ CC BY 4.0 (per ADR-003)
 Linked artifacts
 -----------------
 GitHub repository: https://github.com/besanson/sarc-suite-one-pass
-Zenodo DOI: not yet assigned; the archival identifier will be added when
-  the release snapshot is deposited.
+Zenodo DOI: 10.5281/zenodo.22003399

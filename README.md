@@ -3,6 +3,8 @@
 Companion artifact for the paper *One Gate Is Not Enough: Composing
 Stateful Pre-Action Controls for Agentic AI* (`paper4-composition-draft-v0.5-populated.md`, `paper-tex/main.tex`).
 
+DOI: [10.5281/zenodo.22003399](https://doi.org/10.5281/zenodo.22003399)
+
 Once a pre-action governance control is permitted to transform the
 action it governs, governance stops being a set of independent checks
 and becomes a composition problem over constraints, transformations,
