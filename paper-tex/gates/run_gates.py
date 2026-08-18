@@ -514,8 +514,22 @@ REQUIRED_VALUES = ["150", "200", "86", "243"]
 # SOURCE's own counts (computed, not hardcoded) so the gate stays valid
 # if the source ever changes, with the task's stated values asserted as
 # a sanity check on top.
+#
+# "machine-checked": 21 -> 20 (front-matter cleanup task): the removed
+# front-matter version-history paragraph ("...full machine-checked or
+# human-reviewed proofs for every numbered claim.") contained one
+# incidental PROSE use of the word "machine-checked", not a
+# PROOF-STATUS tag -- appendix-a-proofs.md's own tag population (the
+# authoritative source every real tag is drawn from) is completely
+# unchanged by this edit (still 13 machine-checked/10 checked-scope-
+# only/4 pending-human-review there), and checked-scope-only/pending-
+# human-review's whole-document counts (26/7) are likewise untouched,
+# since that paragraph never mentioned either phrase. Verified directly:
+# `grep -c 'PROOF-STATUS: machine-checked'
+# paper4-composition-draft-v0.5-populated.md` is unchanged at 5 (every
+# formal tag line still present) before and after this removal.
 TAG_PHRASES = ["machine-checked", "checked-scope-only", "pending-human-review"]
-TASK_STATED_TAG_COUNTS = {"machine-checked": 21, "checked-scope-only": 26, "pending-human-review": 7}
+TASK_STATED_TAG_COUNTS = {"machine-checked": 20, "checked-scope-only": 26, "pending-human-review": 7}
 
 # Round-three response (R3-F2/closes R3-F3): the round-three review's own
 # reproduction of this gate found the SAME single explainable delta this
@@ -1201,6 +1215,17 @@ _SANCTIONED_NOTATION = {
     "iff f(s) >= tau for tau > 0.": "iff f(s) ≥τ for τ > 0.",
     "weights w_i >= 0,": "weights wi ≥ 0,",
     "authority cap kappa strictly between the order values": "authority cap κ strictly between the order values",
+    # The A1-A7 assumptions block's closing line (Section 4, v0.5 item
+    # S5) is plain English prose in the source ("A1 and A2 and ... imply
+    # per-action soundness") but non-negotiable #4's math-mode mandate
+    # renders it as a logical formula in main.tex ($A_1 \land A_2 \land
+    # ... \Rightarrow \mathit{PerActionSoundness}$) -- verified directly
+    # against the typeset PDF: "A1 ∧ A2 ∧ A3 ∧ A4 ∧ A5 ∧ A6 ∧ A7 ⇒
+    # PerActionSoundness (Definition 3)." A hash-selected sentence
+    # landing on this one line can never match byte-for-byte without
+    # this translation, the same rationale as every other entry above.
+    "Read together: A1 and A2 and A3 and A4 and A5 and A6 and A7 imply per-action soundness (Definition 3).":
+        "Read together: A1 ∧ A2 ∧ A3 ∧ A4 ∧ A5 ∧ A6 ∧ A7 ⇒ PerActionSoundness (Definition 3).",
 }
 
 

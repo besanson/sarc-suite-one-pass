@@ -13,7 +13,7 @@
           "overfull_hbox_above_10pt": [],
           "page_count": 29,
           "pdf_produced": true,
-          "pdf_sha256": "c74bf586ca0380a235ac7d2870616ddd23e3a77a42ffbe039b168015d165e819",
+          "pdf_sha256": "8100399c359ada4875079d40709040c425050cad21388bdd807da0147167cfb1",
           "undefined_citations": [],
           "undefined_references": []
         },
@@ -27,7 +27,7 @@
           "overfull_hbox_above_10pt": [],
           "page_count": 29,
           "pdf_produced": true,
-          "pdf_sha256": "c74bf586ca0380a235ac7d2870616ddd23e3a77a42ffbe039b168015d165e819",
+          "pdf_sha256": "8100399c359ada4875079d40709040c425050cad21388bdd807da0147167cfb1",
           "undefined_citations": [],
           "undefined_references": []
         }
@@ -43,7 +43,7 @@
       "page_count": 29,
       "pass": true,
       "pdf_produced": true,
-      "pdf_sha256": "c74bf586ca0380a235ac7d2870616ddd23e3a77a42ffbe039b168015d165e819",
+      "pdf_sha256": "8100399c359ada4875079d40709040c425050cad21388bdd807da0147167cfb1",
       "source_date_epoch": "1786609963",
       "two_build_identical": true,
       "undefined_citations": [],
@@ -85,8 +85,8 @@
         "missing_from_pdf": {}
       },
       "post_exception_totals": {
-        "md_number_token_count": 746,
-        "pdf_number_token_count": 746
+        "md_number_token_count": 735,
+        "pdf_number_token_count": 735
       },
       "raw_diff": {
         "added_in_pdf": {
@@ -98,8 +98,8 @@
         }
       },
       "raw_totals": {
-        "md_number_token_count": 746,
-        "pdf_number_token_count": 745
+        "md_number_token_count": 735,
+        "pdf_number_token_count": 734
       },
       "required_values_present": {
         "150": true,
@@ -116,9 +116,9 @@
         },
         "machine-checked": {
           "equal": true,
-          "pdf_count": 21,
-          "source_count": 21,
-          "task_stated_count": 21
+          "pdf_count": 20,
+          "source_count": 20,
+          "task_stated_count": 20
         },
         "pending-human-review": {
           "equal": true,
@@ -147,13 +147,13 @@
           "tex": "One Gate Is Not Enough: Composing Stateful Pre-Action Controls for Agentic AI"
         }
       },
-      "generated_at_head_sha": "5c7e8e568fbbd84091e8f54bd6624a9c678c19c8",
+      "generated_at_head_sha": "76e605ab53dd719aeace733d3c5995e7f520171c",
       "pass": true,
       "sections": {
         "1. Introduction": {
           "md_words": 555,
-          "pct_diff": 0.0,
-          "pdf_words": 555,
+          "pct_diff": 0.901,
+          "pdf_words": 560,
           "within_2pct": true
         },
         "10. Limitations and open theory": {
@@ -244,56 +244,56 @@
       "sentence_sample": [
         {
           "found": true,
-          "index": 20,
-          "sentence": "Fourth, it demonstrates that governance state itself can become contaminated when admissible but uncovered defects are p"
+          "index": 14,
+          "sentence": "This paper makes four primary contributions."
         },
         {
           "found": true,
-          "index": 27,
-          "sentence": "Resource-gate state decrements as actions execute; soundness here is per action given current state; stream-level orderi"
+          "index": 35,
+          "sentence": "Single-remediator composition"
         },
         {
           "found": true,
-          "index": 31,
-          "sentence": "Section 4 studies this problem for a single remediation operator."
+          "index": 39,
+          "sentence": "The remediation branch exercised by the artifact is one-shot or otherwise bounded."
         },
         {
           "found": true,
-          "index": 33,
-          "sentence": "When more than one control can transform the action, remediation operators can interact non-commutatively, making remedi"
+          "index": 53,
+          "sentence": "This work establishes a sound one-shot composition protocol for the implemented idempotent setting and demonstrates why "
         },
         {
           "found": true,
-          "index": 50,
-          "sentence": "Design rule (remediation order)."
-        },
-        {
-          "found": true,
-          "index": 60,
-          "sentence": "Therefore, current admissibility does not imply future reference trustworthiness."
-        },
-        {
-          "found": true,
-          "index": 64,
-          "sentence": "The mechanism is: (1) the governance buffer accepts writes from admitted observations; (2) an uncovered defect can there"
+          "index": 56,
+          "sentence": "Admission determines whether a record may participate in the current action."
         },
         {
           "found": true,
           "index": 75,
-          "sentence": "Full proof (a structural tautology, machine-verified across every swept seed) in Appendix A."
+          "sentence": "This section brings CH1-CH8 together as evidence for the mechanisms Sections 2-7 introduce; it is the artifact's evidenc"
         },
         {
           "found": true,
-          "index": 113,
-          "sentence": "Three values are available to this artifact's automated pipeline:"
+          "index": 88,
+          "sentence": "Guardrail and policy-engine frameworks for LLM agents: LlamaFirewall (arXiv 2505.03574) is a recent example of a unified"
         },
         {
           "found": true,
-          "index": 129,
-          "sentence": "The necessity direction is properly retracted above, not weakly supported under any tag."
+          "index": 108,
+          "sentence": "When admitted information is promoted into persistent governance state, admission and future trust must likewise be dist"
+        },
+        {
+          "found": true,
+          "index": 125,
+          "sentence": "PROOF-STATUS: checked-scope-only (REVIEW.md)."
+        },
+        {
+          "found": true,
+          "index": 142,
+          "sentence": "Process provenance: the review protocols were authored by the author's AI assistant before each round and are committed "
         }
       ],
-      "source_sha256": "01094bc77343e9d544275a0298fab4688b44834aabcb8c60687be33ea3ad4a69"
+      "source_sha256": "bb66ebc34ff6296cbac30c73b3bd8df7eff877029f1b12bd0f9a09c94333e78f"
     },
     "G5_structure_parity": {
       "counts": {
