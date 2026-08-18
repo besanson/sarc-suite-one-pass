@@ -1,6 +1,5 @@
 arXiv submission metadata
 ==========================
-FOR FOUNDER APPROVAL -- not yet submitted.
 
 Title (verbatim from the paper)
 --------------------------------
