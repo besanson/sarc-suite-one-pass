@@ -20,23 +20,38 @@ If a reference lacks a BibTeX-required field, derive it only from the
 verified record's stored fields."
 
 This script is that generator: it reads exactly verified-citations.json
-(../verified-citations.json relative to this file) and writes exactly
-one @misc entry per citation record. @misc is used uniformly -- not
-@article or @inproceedings -- because those types conventionally expect
-a journal/booktitle field this repo's verified records never fetched or
-stored; inventing one (even a "standard" arXiv-preprint convention like
-journal={arXiv preprint arXiv:...}) would be a field not derived from
-the stored record, which the non-negotiable forbids. Every BibTeX field
-below maps 1:1 to a verified-citations.json key:
+(../verified-citations.json relative to this file) and writes one BibTeX
+entry per citation record. Every BibTeX field below maps 1:1 to a
+verified-citations.json key:
 
   id           -> citation key (BibTeX entry key)
-  first_author -> author
+  entry_type   -> @article / @inproceedings / @incollection / @misc
+  authors      -> author (full " and "-joined list; falls back to
+                  first_author only for a record with no authors array)
   title        -> title
   year         -> year
-  doi          -> doi         (only if present in the record)
+  journal      -> journal      (article only, if present)
+  booktitle    -> booktitle    (inproceedings/incollection only, if present)
+  volume       -> volume       (only if present)
+  number       -> number       (only if present)
+  pages        -> pages        (only if present)
+  publisher    -> publisher    (only if present)
+  doi          -> doi          (only if present in the record)
   arxiv_id     -> eprint + archivePrefix={arXiv}  (only if present)
   url          -> url
   verified_via -> note (audit trail: how/when this repo verified it)
+
+Release-gate repair (v0.5 P0, bibliography quality): entry_type used to
+be hardcoded to @misc uniformly because verified-citations.json never
+stored a journal/booktitle field, so every reference -- including
+multi-author journal articles and conference papers -- rendered with
+only its first author and no venue. entry_type/authors/venue fields are
+now fetched and stored per record (see verified-citations.json's own
+_schema_note); this generator only maps what is already there, deriving
+nothing new and never guessing a field the stored record lacks. A
+record with no entry_type (should not occur post-repair, but handled
+defensively) still renders as @misc as before, so this stays backward-
+compatible with rendering an unaudited record.
 
 Deterministic and idempotent: re-running with an unchanged
 verified-citations.json produces a byte-identical refs.bib. Run this
@@ -62,17 +77,45 @@ _BIB_ESCAPES = {
     "}": r"\}",
 }
 
+_ENTRY_TYPE_TO_BIBTEX = {
+    "article": "article",
+    "inproceedings": "inproceedings",
+    "incollection": "incollection",
+    "misc": "misc",
+}
+
+# entry_type -> which stored field is this type's venue field, if any.
+_VENUE_FIELD_BY_TYPE = {
+    "article": "journal",
+    "inproceedings": "booktitle",
+    "incollection": "booktitle",
+}
+
 
 def _escape(value: str) -> str:
     return "".join(_BIB_ESCAPES.get(ch, ch) for ch in value)
 
 
+def _author_field(citation: dict) -> str:
+    authors = citation.get("authors")
+    if authors:
+        return " and ".join(_escape(a) for a in authors)
+    return _escape(citation["first_author"])
+
+
 def _entry(citation: dict) -> str:
     key = citation["id"]
-    lines = [f"@misc{{{key},"]
-    lines.append(f"  author = {{{_escape(citation['first_author'])}}},")
+    bib_type = _ENTRY_TYPE_TO_BIBTEX.get(citation.get("entry_type"), "misc")
+    lines = [f"@{bib_type}{{{key},"]
+    lines.append(f"  author = {{{_author_field(citation)}}},")
     lines.append(f"  title = {{{{{_escape(citation['title'])}}}}},")
     lines.append(f"  year = {{{citation['year']}}},")
+    venue_field = _VENUE_FIELD_BY_TYPE.get(citation.get("entry_type"))
+    if venue_field and venue_field in citation:
+        lines.append(f"  {venue_field} = {{{_escape(citation[venue_field])}}},")
+    for field in ("volume", "number", "pages", "publisher"):
+        if field in citation:
+            lines.append(f"  {field} = {{{_escape(str(citation[field]))}}},")
     if "doi" in citation:
         lines.append(f"  doi = {{{citation['doi']}}},")
     if "arxiv_id" in citation:
@@ -98,6 +141,7 @@ def generate() -> str:
 
 
 if __name__ == "__main__":
+    data = json.loads(CITATIONS_PATH.read_text())
     text = generate()
     OUT_PATH.write_text(text)
-    print(f"wrote {OUT_PATH} ({text.count('@misc')} entries)")
+    print(f"wrote {OUT_PATH} ({len(data['citations'])} entries)")

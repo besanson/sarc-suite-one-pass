@@ -142,6 +142,6 @@ make release-check       # the mandatory composite gate -- run this last
 this guide claims is checkable: the full test suite (including
 inputs-hash freshness and seed replay against committed artifacts), a
 formal-checker double-run byte-identity check, and the arXiv build gate
-(compiler-aware publication parity, G1-G6). See the paper's own
-Publication Integrity discussion in the README for what each of those
-gates actually verifies.
+(compiler-aware publication parity and bibliography quality, G1-G9). See
+the paper's own Publication Integrity discussion in the README for what
+each of those gates actually verifies.

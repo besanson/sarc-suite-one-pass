@@ -11,9 +11,9 @@
             "main.tex"
           ],
           "overfull_hbox_above_10pt": [],
-          "page_count": 28,
+          "page_count": 29,
           "pdf_produced": true,
-          "pdf_sha256": "a6940bfe0e809a804fc93bb223590d67e3080c53bc90e3031eac071d7ee4a384",
+          "pdf_sha256": "d103a70a8901f34eb72f2c67cea546af76a1588eae5011f0cbd9325f77963d36",
           "undefined_citations": [],
           "undefined_references": []
         },
@@ -25,9 +25,9 @@
             "main.tex"
           ],
           "overfull_hbox_above_10pt": [],
-          "page_count": 28,
+          "page_count": 29,
           "pdf_produced": true,
-          "pdf_sha256": "a6940bfe0e809a804fc93bb223590d67e3080c53bc90e3031eac071d7ee4a384",
+          "pdf_sha256": "d103a70a8901f34eb72f2c67cea546af76a1588eae5011f0cbd9325f77963d36",
           "undefined_citations": [],
           "undefined_references": []
         }
@@ -40,11 +40,11 @@
         "main.tex"
       ],
       "overfull_hbox_above_10pt": [],
-      "page_count": 28,
+      "page_count": 29,
       "pass": true,
       "pdf_produced": true,
-      "pdf_sha256": "a6940bfe0e809a804fc93bb223590d67e3080c53bc90e3031eac071d7ee4a384",
-      "source_date_epoch": "1786981955",
+      "pdf_sha256": "d103a70a8901f34eb72f2c67cea546af76a1588eae5011f0cbd9325f77963d36",
+      "source_date_epoch": "1787066850",
       "two_build_identical": true,
       "undefined_citations": [],
       "undefined_references": []
@@ -129,8 +129,26 @@
       }
     },
     "G4_prose_parity": {
+      "front_matter_metadata_check": {
+        "affiliation": {
+          "match": true,
+          "md": "Universidad Torcuato Di Tella",
+          "tex": "Universidad Torcuato Di Tella"
+        },
+        "author_name": {
+          "match": true,
+          "md": "Gaston Besanson",
+          "tex": "Gaston Besanson"
+        },
+        "pass": true,
+        "title": {
+          "match": true,
+          "md": "One Gate Is Not Enough: Composing Stateful Pre-Action Controls for Agentic AI",
+          "tex": "One Gate Is Not Enough: Composing Stateful Pre-Action Controls for Agentic AI"
+        }
+      },
+      "generated_at_head_sha": "6d6e8067645f2fbf5d7737833d939368e358fcea",
       "pass": true,
-      "repo_head": "41abcfceb4f306ea839f42238a849ced51b14e6e",
       "sections": {
         "1. Introduction": {
           "md_words": 555,
@@ -226,55 +244,56 @@
       "sentence_sample": [
         {
           "found": true,
-          "index": 29,
+          "index": 20,
+          "sentence": "Fourth, it demonstrates that governance state itself can become contaminated when admissible but uncovered defects are p"
+        },
+        {
+          "found": true,
+          "index": 27,
           "sentence": "Resource-gate state decrements as actions execute; soundness here is per action given current state; stream-level orderi"
         },
         {
           "found": true,
-          "index": 38,
-          "sentence": "Hard constraints versus compensatory aggregation"
+          "index": 31,
+          "sentence": "Section 4 studies this problem for a single remediation operator."
         },
         {
           "found": true,
-          "index": 58,
-          "sentence": "Stateful governance and evidence-buffer contamination"
+          "index": 33,
+          "sentence": "When more than one control can transform the action, remediation operators can interact non-commutatively, making remedi"
+        },
+        {
+          "found": true,
+          "index": 50,
+          "sentence": "Design rule (remediation order)."
         },
         {
           "found": true,
           "index": 60,
-          "sentence": "Admission determines whether a record may participate in the current action."
+          "sentence": "Therefore, current admissibility does not imply future reference trustworthiness."
+        },
+        {
+          "found": true,
+          "index": 64,
+          "sentence": "The mechanism is: (1) the governance buffer accepts writes from admitted observations; (2) an uncovered defect can there"
         },
         {
           "found": true,
           "index": 75,
-          "sentence": "The composed plane's detected class set equals the union of member gates' detected class sets; composition never detects"
+          "sentence": "Full proof (a structural tautology, machine-verified across every swept seed) in Appendix A."
         },
         {
           "found": true,
-          "index": 89,
-          "sentence": "This paper therefore does not present the join rule itself as its principal novelty; the difficult composition problem i"
-        },
-        {
-          "found": true,
-          "index": 124,
-          "sentence": "This is not claimed to hold for every possible governed record or for any DQ predicate contract beyond what this artifac"
+          "index": 113,
+          "sentence": "Three values are available to this artifact's automated pipeline:"
         },
         {
           "found": true,
           "index": 129,
-          "sentence": "PROOF-STATUS: checked-scope-only (REVIEW.md)."
-        },
-        {
-          "found": true,
-          "index": 146,
-          "sentence": "Process provenance: the review protocols were authored by the author's AI assistant before each round and are committed "
-        },
-        {
-          "found": true,
-          "index": 150,
-          "sentence": "This draft is the artifact's response to that review: findings F1-F6 (review/REVIEW.md Section 4) are fixed or weakened "
+          "sentence": "The necessity direction is properly retracted above, not weakly supported under any tag."
         }
-      ]
+      ],
+      "source_sha256": "01094bc77343e9d544275a0298fab4688b44834aabcb8c60687be33ea3ad4a69"
     },
     "G5_structure_parity": {
       "counts": {
@@ -324,6 +343,16 @@
       "cite_placeholder_count": 0,
       "cite_placeholders": [],
       "pass": true
+    },
+    "G9_bibliography_quality": {
+      "doi_mismatches": [],
+      "invalid_entry_type": [],
+      "misc_with_venue_info": [],
+      "missing_authors": [],
+      "missing_venue_fields": [],
+      "pass": true,
+      "refs_bib_matches_generator": true,
+      "total_citations": 17
     }
   }
 }

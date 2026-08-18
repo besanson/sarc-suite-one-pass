@@ -48,9 +48,9 @@ paper-legacy: suite
 
 # arXiv LaTeX conversion (paper-tex/): regenerates refs.bib from
 # verified-citations.json (never hand-edited, so it can never drift --
-# see paper-tex/generate_refs_bib.py), then runs the six parity gates
-# (paper-tex/gates/run_gates.py), which drive their own build (G1) and
-# stop the whole target on any gate failure.
+# see paper-tex/generate_refs_bib.py), then runs the nine parity/quality
+# gates (paper-tex/gates/run_gates.py), which drive their own build (G1)
+# and stop the whole target on any gate failure.
 #
 # Round-three response (finding R3-F2): pinned Tectonic 0.17.0 (see
 # bootstrap.sh) is the CANONICAL release toolchain -- bootstrap-
@@ -77,7 +77,7 @@ arxiv:
 	else \
 		echo "latexmk not found -- skipping the supported-alternative toolchain check (Tectonic, canonical, is checked next regardless)." ; \
 	fi
-	@echo "Building main.tex + running parity gates G1-G6 under Tectonic (canonical toolchain)..."
+	@echo "Building main.tex + running parity/quality gates G1-G9 under Tectonic (canonical toolchain)..."
 	cd paper-tex && SARC_LATEX_COMPILER=tectonic python3 gates/run_gates.py
 	@echo "Packaging arxiv.tar.gz (main.tex, refs.bib)..."
 	cd paper-tex && rm -f arxiv.tar.gz && tar --sort=name --mtime='UTC 2026-01-01' \
@@ -161,7 +161,7 @@ help:
 	@echo "  make paper     Phase 5: v0.3 paper (depends on suite, sweep, formal, in order)"
 	@echo "  make paper-v3  Alias for make paper"
 	@echo "  make paper-legacy  Superseded v0.1/v0.2 paper pipeline (main.py)"
-	@echo "  make arxiv     Build paper-tex/main.tex (Tectonic canonical, latexmk alternative), run parity gates G1-G6, package arxiv.tar.gz"
+	@echo "  make arxiv     Build paper-tex/main.tex (Tectonic canonical, latexmk alternative), run parity/quality gates G1-G9, package arxiv.tar.gz"
 	@echo "  make release-check  MANDATORY before any release: full tests + formal double-run identity + arXiv build gate"
 	@echo "  make test      Run the test suite"
 	@echo "  make clean     Remove all outputs"

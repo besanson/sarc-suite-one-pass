@@ -176,7 +176,7 @@ make sweep     # V3 gate: 30-seed statistical sweep, CH1-CH6 means + 95% CIs
 make formal    # V2 gate: exhaustive checkers (lattice, CH5, CH7) + proof lint
 make paper     # Generate the v0.4 paper (depends on suite, sweep, formal, in that order)
 make paper-legacy  # Superseded v0.1/v0.2 paper pipeline (main.py), kept for its own tests only
-make arxiv     # Build paper-tex/main.tex (Tectonic canonical, latexmk alternative), run parity gates G1-G6, package arxiv.tar.gz
+make arxiv     # Build paper-tex/main.tex (Tectonic canonical, latexmk alternative), run parity/quality gates G1-G9, package arxiv.tar.gz
 make release-check  # MANDATORY before any release: full tests + formal double-run identity + arXiv build gate
 make mutate    # Mutation testing on composition.py + metrics.py (V5 gate, target >=0.85; see ADR-002)
 make latency   # Per-gate + composed latency microbenchmark, stored in out/quality.json
@@ -268,7 +268,7 @@ Review protocols (published, referenced by the paper's disclosure)
 - **populate_draft.py**: fills the paper draft template, verifying only slot spans changed
 - **specs/authority.yaml**: sarc-governance constraint spec (real YAML schema: id/class/verif/response/predicate)
 - **prereg/**: pre-registered (tagged `prereg-v1`) hypotheses, seeds, weights, and workflow/contamination/semantics definitions — Phase 3 experiments implement these verbatim
-- **checkers/**: Phase 4 (V2 gate) exhaustive finite-model checkers — `lattice_check.py` (join-semilattice laws), `compensation_check.py` (Proposition 1 / CH5 over the full discrete verdict grid), `remediator_check.py` (CH7's order-dependence decision rule), `proof_status_lint.py` (enforces every `PROOF-STATUS` tag is `machine-checked` or `pending-human-review` — never `proven`, which is human-only)
+- **checkers/**: Phase 4 (V2 gate) exhaustive finite-model checkers — `lattice_check.py` (join-semilattice laws), `compensation_check.py` (Proposition 1 / CH5 over the full discrete verdict grid), `remediator_check.py` (CH7's order-dependence decision rule), `proof_status_lint.py` (enforces every `PROOF-STATUS` tag is `machine-checked`, `pending-human-review`, or `checked-scope-only` — never `proven`, which is human-only)
 - **appendix-a-proofs.md**: full proofs for every numbered claim, each tagged `PROOF-STATUS`
 - **paper_v3.py** / **paper_tables_v3.py**: Phase 5 — writes and populates the paper draft, extending `paper_tables.py`'s CH1-CH4 slots with CH5-CH8 numbers from the sweep and the checkers
 - **citation_check.py** / **verified-citations.json**: V4 gate — every arXiv ID/DOI in a paper draft must match an entry fetched live (url, title, first author, year) via WebFetch; `[CITE: ...]`/`[CITE-NEEDED: ...]` gaps are counted, never fabricated
@@ -327,9 +327,15 @@ mechanism for each:
   human-verified whitelist (`verified-citations.json`); anything
   unverifiable becomes an honest `[CITE-NEEDED]` placeholder, counted
   rather than guessed.
-- **Markdown/LaTeX parity.** `paper-tex/main.tex` is checked
-  word-for-word and number-for-number against the markdown source by
-  six parity gates (`paper-tex/gates/run_gates.py`, G1-G6; results in
+- **Markdown/LaTeX parity and publication quality.** `paper-tex/main.tex`
+  is checked word-for-word and number-for-number against the markdown
+  source, and the arXiv sidecar files and bibliography are checked
+  against the manuscript and `verified-citations.json`, by nine gates
+  (`paper-tex/gates/run_gates.py`, G1-G9: build/two-build identity,
+  token purity, number-multiset parity, prose parity, structure parity,
+  disclosure/banner presence, arXiv sidecar sync, citation completeness,
+  and bibliography quality -- full author lists, valid BibTeX entry
+  types, and `refs.bib` generated, never hand-edited; results in
   `paper-tex/parity-report.json`) under the canonical, bootstrap-pinned
   Tectonic 0.17.0 compiler.
 - **Automated external review disclosure.** The paper's Validation note

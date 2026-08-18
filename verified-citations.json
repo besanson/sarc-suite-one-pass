@@ -1,169 +1,243 @@
 {
-  "_schema_note": "V4 gate (task spec): a citation may enter the paper only after it is verified by fetching its source page and recording url, title, first_author, year here. arxiv_id/doi are the machine-checkable tokens citation_check.py matches against paper text; verified_via records how/when the fetch was done.",
+  "_schema_note": "V4 gate (task spec): a citation may enter the paper only after it is verified by fetching its source page and recording url, title, first author, year into verified-citations.json. arxiv_id/doi are the machine-checkable tokens citation_check.py matches against paper text; verified_via records how/when the fetch was done. Release-gate repair (v0.5 P0, bibliography quality): entry_type/authors/venue fields (journal, volume, number, pages, booktitle) were added by re-fetching each source's own record (DOI via Crossref/DataCite, or the arXiv/publisher page for entries with no DOI) -- never typed by hand -- and are enforced by run_gates.py's G9 gate; first_author is kept in sync with authors[0] for backward compatibility with citation_check.py's schema check. entry_type is one of article/inproceedings/incollection/misc; misc is used for arXiv preprints (no formal venue yet), datasets, and standards/webpages where no DOI-backed venue exists, per G9's own \"@misc only when unverifiable\" rule.",
   "citations": [
     {
       "id": "sarc",
       "arxiv_id": "2605.07728",
       "url": "https://arxiv.org/abs/2605.07728",
       "title": "SARC: A Governance-by-Architecture Framework for Agentic AI Systems",
+      "entry_type": "misc",
+      "authors": ["Gaston Besanson"],
       "first_author": "Gaston Besanson",
       "year": 2026,
-      "verified_via": "WebFetch of https://arxiv.org/abs/2605.07728, 2026-08-13"
+      "verified_via": "WebFetch of https://arxiv.org/abs/2605.07728, 2026-08-13; author list re-verified via WebFetch of https://arxiv.org/abs/2605.07728, 2026-08-18"
     },
     {
       "id": "green-sarc",
       "arxiv_id": "2606.15954",
       "url": "https://arxiv.org/abs/2606.15954",
       "title": "Green SARC: Predictive Cost and Carbon Governance for Agentic AI Systems",
+      "entry_type": "misc",
+      "authors": ["Gaston Besanson"],
       "first_author": "Gaston Besanson",
       "year": 2026,
-      "verified_via": "WebFetch of https://arxiv.org/abs/2606.15954, 2026-08-13"
+      "verified_via": "WebFetch of https://arxiv.org/abs/2606.15954, 2026-08-13; author list re-verified via WebFetch of https://arxiv.org/abs/2606.15954, 2026-08-18"
     },
     {
       "id": "sarc-dq",
       "arxiv_id": "2607.26313",
       "url": "https://arxiv.org/abs/2607.26313",
       "title": "SARC-DQ: Runtime Data-Quality Gating for Agentic AI: Silent Evidence Defects, the Incompetence Shield, and Downstream-Only Remediation",
+      "entry_type": "misc",
+      "authors": ["Gaston Besanson"],
       "first_author": "Gaston Besanson",
       "year": 2026,
-      "verified_via": "WebFetch of https://arxiv.org/abs/2607.26313, 2026-08-13"
+      "verified_via": "WebFetch of https://arxiv.org/abs/2607.26313, 2026-08-13; author list re-verified via WebFetch of https://arxiv.org/abs/2607.26313, 2026-08-18"
     },
     {
       "id": "uci-online-retail",
       "doi": "10.24432/C5BW33",
       "url": "https://archive.ics.uci.edu/dataset/352/online+retail",
       "title": "Online Retail",
+      "entry_type": "misc",
+      "authors": ["Daqing Chen"],
       "first_author": "Daqing Chen",
       "year": 2015,
-      "verified_via": "WebFetch of https://archive.ics.uci.edu/dataset/352/online+retail, 2026-08-13"
+      "publisher": "UCI Machine Learning Repository",
+      "verified_via": "WebFetch of https://archive.ics.uci.edu/dataset/352/online+retail, 2026-08-13; entry_type re-verified via WebFetch of https://api.datacite.org/dois/10.24432/c5bw33, 2026-08-18 (DataCite resourceTypeGeneral: Dataset, no formal venue -- kept as misc, not typed as a journal/conference publication)"
     },
     {
       "id": "nowak-veto-thresholds",
       "doi": "10.1016/j.ejor.2003.06.008",
       "url": "https://doi.org/10.1016/j.ejor.2003.06.008",
       "title": "Preference and veto thresholds in multicriteria analysis based on stochastic dominance",
+      "entry_type": "article",
+      "authors": ["Maciej Nowak"],
       "first_author": "Maciej Nowak",
       "year": 2004,
+      "journal": "European Journal of Operational Research",
+      "volume": "158",
+      "number": "2",
+      "pages": "339-350",
       "topic": "non-compensatory and veto rules in multi-criteria decision analysis (Section 10, related work)",
-      "verified_via": "WebFetch of https://api.crossref.org/works/10.1016/j.ejor.2003.06.008, 2026-08-14"
+      "verified_via": "WebFetch of https://api.crossref.org/works/10.1016/j.ejor.2003.06.008, 2026-08-14; full venue metadata re-verified via WebFetch of https://api.crossref.org/works/10.1016/j.ejor.2003.06.008, 2026-08-18"
     },
     {
       "id": "schneider-enforceable-policies",
       "doi": "10.1145/353323.353382",
       "url": "https://doi.org/10.1145/353323.353382",
       "title": "Enforceable security policies",
+      "entry_type": "article",
+      "authors": ["Fred B. Schneider"],
       "first_author": "Fred B. Schneider",
       "year": 2000,
+      "journal": "ACM Transactions on Information and System Security",
+      "volume": "3",
+      "number": "1",
+      "pages": "30-50",
       "topic": "runtime verification and enforcement monitors (Section 10, related work)",
-      "verified_via": "WebFetch of https://api.crossref.org/works/10.1145/353323.353382, 2026-08-14"
+      "verified_via": "WebFetch of https://api.crossref.org/works/10.1145/353323.353382, 2026-08-14; full venue metadata re-verified via WebFetch of https://api.crossref.org/works/10.1145/353323.353382, 2026-08-18"
     },
     {
       "id": "llamafirewall",
       "arxiv_id": "2505.03574",
       "url": "https://arxiv.org/abs/2505.03574",
       "title": "LlamaFirewall: An open source guardrail system for building secure AI agents",
+      "entry_type": "misc",
+      "authors": [
+        "Sahana Chennabasappa", "Cyrus Nikolaidis", "Daniel Song", "David Molnar",
+        "Stephanie Ding", "Shengye Wan", "Spencer Whitman", "Lauren Deason",
+        "Nicholas Doucette", "Abraham Montilla", "Alekhya Gampa", "Beto de Paola",
+        "Dominik Gabi", "James Crnkovich", "Jean-Christophe Testud", "Kat He",
+        "Rashnil Chaturvedi", "Wu Zhou", "Joshua Saxe"
+      ],
       "first_author": "Sahana Chennabasappa",
       "year": 2025,
       "topic": "guardrail and policy-engine frameworks for LLM agents; monitoring versus pre-action placement (Section 10, related work)",
-      "verified_via": "WebFetch of https://arxiv.org/abs/2505.03574, 2026-08-14"
+      "verified_via": "WebFetch of https://arxiv.org/abs/2505.03574, 2026-08-14; full author list re-verified via WebFetch of https://arxiv.org/abs/2505.03574, 2026-08-18"
     },
     {
       "id": "clark-wilson-1987",
       "doi": "10.1109/SP.1987.10001",
       "url": "https://doi.org/10.1109/SP.1987.10001",
       "title": "A Comparison of Commercial and Military Computer Security Policies",
+      "entry_type": "inproceedings",
+      "authors": ["David D. Clark", "David R. Wilson"],
       "first_author": "David D. Clark",
       "year": 1987,
+      "booktitle": "1987 IEEE Symposium on Security and Privacy",
+      "pages": "184",
       "topic": "separation of duties and multi-party authorisation (Section 10, related work)",
-      "verified_via": "WebFetch of https://api.crossref.org/works/10.1109/SP.1987.10001, 2026-08-14"
+      "verified_via": "WebFetch of https://api.crossref.org/works/10.1109/SP.1987.10001, 2026-08-14; full venue metadata re-verified via WebFetch of https://api.crossref.org/works/10.1109/SP.1987.10001, 2026-08-18"
     },
     {
       "id": "agent-contracts",
       "arxiv_id": "2601.08815",
       "url": "https://arxiv.org/abs/2601.08815",
       "title": "Agent Contracts: A Formal Framework for Resource-Bounded Autonomous AI Systems",
+      "entry_type": "misc",
+      "authors": ["Qing Ye", "Jing Tan"],
       "first_author": "Qing Ye",
       "year": 2026,
       "topic": "budget governors for autonomous systems (Section 10, related work)",
-      "verified_via": "WebFetch of https://arxiv.org/abs/2601.08815, 2026-08-14"
+      "verified_via": "WebFetch of https://arxiv.org/abs/2601.08815, 2026-08-14; full author list re-verified via WebFetch of https://arxiv.org/abs/2601.08815, 2026-08-18"
     },
     {
       "id": "perspectives-tofu",
       "url": "https://www.usenix.org/legacy/event/usenix08/tech/full_papers/wendlandt/wendlandt.pdf",
       "title": "Perspectives: Improving SSH-style Host Authentication with Multi-path Network Probing",
+      "entry_type": "inproceedings",
+      "authors": ["Dan Wendlandt", "David G. Andersen", "Adrian Perrig"],
       "first_author": "Dan Wendlandt",
       "year": 2008,
+      "booktitle": "USENIX Annual Technical Conference (USENIX ATC 08)",
       "topic": "cache/buffer poisoning and trust-on-first-use vulnerabilities in adjacent systems (Section 10, related work); no DOI/arXiv id exists for this pre-2010 USENIX paper, verified by url only",
-      "verified_via": "WebFetch of https://ptolemy.berkeley.edu/projects/truststc/pubs/388.html, 2026-08-14 (usenix.org itself returned 403 to WebFetch)"
+      "verified_via": "WebFetch of https://ptolemy.berkeley.edu/projects/truststc/pubs/388.html, 2026-08-14 (usenix.org itself returned 403 to WebFetch); full author list and venue re-verified via WebFetch of https://ptolemy.berkeley.edu/projects/truststc/pubs/388.html, 2026-08-18"
     },
     {
       "id": "ligatti-edit-automata",
       "doi": "10.1007/s10207-004-0046-8",
       "url": "https://doi.org/10.1007/s10207-004-0046-8",
       "title": "Edit automata: enforcement mechanisms for run-time security policies",
+      "entry_type": "article",
+      "authors": ["Jay Ligatti", "Lujo Bauer", "David Walker"],
       "first_author": "Jay Ligatti",
       "year": 2005,
+      "journal": "International Journal of Information Security",
+      "volume": "4",
+      "number": "1-2",
+      "pages": "2-16",
       "topic": "compositional runtime enforcement, monitor composition, and edit automata (Section 9, related work)",
-      "verified_via": "WebFetch of https://api.crossref.org/works/10.1007/s10207-004-0046-8, 2026-08-16"
+      "verified_via": "WebFetch of https://api.crossref.org/works/10.1007/s10207-004-0046-8, 2026-08-16; full venue metadata re-verified via WebFetch of https://api.crossref.org/works/10.1007/s10207-004-0046-8, 2026-08-18"
     },
     {
       "id": "oasis-xacml-3.0",
       "url": "https://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-os-en.html",
       "title": "eXtensible Access Control Markup Language (XACML) Version 3.0",
+      "entry_type": "misc",
+      "authors": ["OASIS (Organization for the Advancement of Structured Information Standards)"],
       "first_author": "OASIS (Organization for the Advancement of Structured Information Standards)",
       "year": 2013,
+      "publisher": "OASIS Standard, approved 22 January 2013",
       "topic": "XACML deny-overrides policy-combining algorithms (Section 9, related work); a standards document, no DOI/arXiv id, verified by url only",
-      "verified_via": "WebFetch of https://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-os-en.html, 2026-08-16"
+      "verified_via": "WebFetch of https://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-os-en.html, 2026-08-16; publisher/date re-verified via WebFetch of https://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-os-en.html, 2026-08-18"
     },
     {
       "id": "bonatti-policy-algebra",
       "doi": "10.1145/504909.504910",
       "url": "https://doi.org/10.1145/504909.504910",
       "title": "An algebra for composing access control policies",
+      "entry_type": "article",
+      "authors": ["Piero Bonatti", "Sabrina De Capitani di Vimercati", "Pierangela Samarati"],
       "first_author": "Piero Bonatti",
       "year": 2002,
+      "journal": "ACM Transactions on Information and System Security",
+      "volume": "5",
+      "number": "1",
+      "pages": "1-35",
       "topic": "policy-combining algorithms (Section 9, related work)",
-      "verified_via": "WebFetch of https://api.crossref.org/works/10.1145/504909.504910, 2026-08-16"
+      "verified_via": "WebFetch of https://api.crossref.org/works/10.1145/504909.504910, 2026-08-16; full author list and venue metadata re-verified via WebFetch of https://api.crossref.org/works/10.1145/504909.504910, 2026-08-18"
     },
     {
       "id": "newman-1942-confluence",
       "doi": "10.2307/1968867",
       "url": "https://doi.org/10.2307/1968867",
       "title": "On Theories with a Combinatorial Definition of \"Equivalence\"",
+      "entry_type": "article",
+      "authors": ["M. H. A. Newman"],
       "first_author": "M. H. A. Newman",
       "year": 1942,
+      "journal": "Annals of Mathematics",
+      "volume": "43",
+      "number": "2",
+      "pages": "223",
       "topic": "confluence and termination theory for rewrite systems (Section 9, related work)",
-      "verified_via": "WebFetch of https://api.crossref.org/works/10.2307/1968867, 2026-08-16"
+      "verified_via": "WebFetch of https://api.crossref.org/works/10.2307/1968867, 2026-08-16; full venue metadata re-verified via WebFetch of https://api.crossref.org/works/10.2307/1968867, 2026-08-18"
     },
     {
       "id": "fong-shallow-execution-history",
       "doi": "10.1109/secpri.2004.1301314",
       "url": "https://doi.org/10.1109/secpri.2004.1301314",
       "title": "Access control by tracking shallow execution history",
+      "entry_type": "inproceedings",
+      "authors": ["P. W. L. Fong"],
       "first_author": "P. W. L. Fong",
       "year": 2004,
+      "booktitle": "IEEE Symposium on Security and Privacy, 2004. Proceedings. 2004",
+      "pages": "43-55",
       "topic": "stateful runtime enforcement formalization (Section 9, related work)",
-      "verified_via": "WebFetch of https://api.crossref.org/works/10.1109/secpri.2004.1301314, 2026-08-16"
+      "verified_via": "WebFetch of https://api.crossref.org/works/10.1109/secpri.2004.1301314, 2026-08-16; full venue metadata re-verified via WebFetch of https://api.crossref.org/works/10.1109/secpri.2004.1301314, 2026-08-18"
     },
     {
       "id": "pinisetty-tripakis-compositional-enforcement",
       "doi": "10.1007/978-3-319-40648-0_7",
       "url": "https://doi.org/10.1007/978-3-319-40648-0_7",
       "title": "Compositional Runtime Enforcement",
+      "entry_type": "incollection",
+      "authors": ["Srinivas Pinisetty", "Stavros Tripakis"],
       "first_author": "Srinivas Pinisetty",
       "year": 2016,
+      "booktitle": "NASA Formal Methods",
+      "volume": "9035",
+      "pages": "82-99",
       "topic": "compositional runtime enforcement, the closest direct prior art (Section 9, related work; v0.5 third-review response, item 1)",
-      "verified_via": "WebFetch of https://api.crossref.org/works/10.1007/978-3-319-40648-0_7, 2026-08-17"
+      "verified_via": "WebFetch of https://api.crossref.org/works/10.1007/978-3-319-40648-0_7, 2026-08-17; full venue metadata re-verified via WebFetch of https://api.crossref.org/works/10.1007/978-3-319-40648-0_7, 2026-08-18 (Crossref type: book-chapter -> entry_type incollection)"
     },
     {
       "id": "pinisetty-compositional-enforcement-revisited",
       "doi": "10.1007/s10703-022-00401-y",
       "url": "https://doi.org/10.1007/s10703-022-00401-y",
       "title": "Compositional runtime enforcement revisited",
+      "entry_type": "article",
+      "authors": ["Srinivas Pinisetty", "Ankit Pradhan", "Partha Roop", "Stavros Tripakis"],
       "first_author": "Srinivas Pinisetty",
       "year": 2021,
+      "journal": "Formal Methods in System Design",
+      "volume": "59",
+      "number": "1-3",
+      "pages": "205-252",
       "topic": "compositional runtime enforcement, the extended follow-up to the closest direct prior art (Section 9, related work; v0.5 third-review response, item 1)",
-      "verified_via": "WebFetch of https://api.crossref.org/works/10.1007/s10703-022-00401-y, 2026-08-17"
+      "verified_via": "WebFetch of https://api.crossref.org/works/10.1007/s10703-022-00401-y, 2026-08-17; full author list and venue metadata re-verified via WebFetch of https://api.crossref.org/works/10.1007/s10703-022-00401-y, 2026-08-18"
     }
   ]
 }

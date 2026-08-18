@@ -14,12 +14,12 @@
 # limitations under the License.
 
 """
-arXiv LaTeX conversion task: parity gates G1-G6. G1 drives its own build
-(see gate_g1_build) -- it does not require a prior latexmk/tectonic
-invocation -- so this script is the single entry point `make arxiv` /
-`make release-check` need. Writes paper-tex/parity-report.json and prints
-a summary; exits non-zero if any gate fails, so `make arxiv` stops before
-packaging on a failed gate.
+arXiv LaTeX conversion task: parity/quality gates G1-G9. G1 drives its
+own build (see gate_g1_build) -- it does not require a prior
+latexmk/tectonic invocation -- so this script is the single entry point
+`make arxiv` / `make release-check` need. Writes paper-tex/parity-report.json
+and prints a summary; exits non-zero if any gate fails, so `make arxiv`
+stops before packaging on a failed gate.
 
 Every gate compares paper-tex/main.tex / main.pdf against the source
 paper4-composition-draft-v0.5-populated.md -- the "zero content changes"
@@ -40,6 +40,7 @@ differs between the two and is looked up per compiler below).
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import json
 import os
 import re
@@ -59,6 +60,8 @@ MAIN_PDF = PAPER_TEX_DIR / "main.pdf"
 REPORT_PATH = PAPER_TEX_DIR / "parity-report.json"
 ARXIV_ABSTRACT = PAPER_TEX_DIR / "arxiv-abstract.txt"
 ARXIV_METADATA = PAPER_TEX_DIR / "arxiv-metadata.txt"
+REFS_BIB = PAPER_TEX_DIR / "refs.bib"
+CITATIONS_JSON = REPO_ROOT / "verified-citations.json"
 
 # The 15 real sections (12 numbered body sections + Appendix A/B/C) --
 # Abstract is excluded (it is \begin{abstract}, not a \section, on both
@@ -939,14 +942,31 @@ def split_sentences(text: str) -> list[str]:
     # last sentence once normalize_ws collapses all whitespace to single
     # spaces, since nothing then marks where one paragraph ended and the
     # next (a bare number followed by a title) began.
-    # Also split before a pandoc bullet-list marker ("\n-   "): pandoc
-    # does not put a blank line between consecutive list items (only
-    # between the list and surrounding prose), so without this a list
-    # item's text glues onto the end of the PRECEDING item once
-    # normalize_ws below collapses all whitespace to single spaces --
-    # e.g. "...label-only. - CH3 (deterministic selectivity)." reading
-    # as one bogus "sentence" instead of two real ones.
-    text = re.sub(r"\n-   ", "\n\n", text)
+    # Also split before a pandoc bullet-list marker: pandoc does not put
+    # a blank line between consecutive list items (only between the list
+    # and surrounding prose), so without this a list item's text glues
+    # onto the end of the PRECEDING item once normalize_ws below
+    # collapses all whitespace to single spaces -- e.g. "...label-only.
+    # - CH3 (deterministic selectivity)." reading as one bogus "sentence"
+    # instead of two real ones.
+    #
+    # G4 repair (Perplexity brief, "Make Pandoc list splitting robust"):
+    # the installed Pandoc version emits some lists with a single space
+    # after the marker ("- A1. Determinism. ...") and others with three
+    # ("-   CH3 (...)"), and mixes both within one document -- the old
+    # three-space-only pattern let a single-space marker glue onto the
+    # PRECEDING item's last sentence (verified: "...control-local state.
+    # - A2." read as one bogus sentence). Anchored to the line start
+    # (re.MULTILINE "^" only matches right after a newline, never
+    # mid-line) and requiring one-or-more spaces after a single "-"
+    # subsumes both marker widths in one general rule without ever
+    # matching a mid-line prose hyphen or compound word (e.g.
+    # "cross-control", "pre-action") or a dashed table/rule line (those
+    # have a second "-" or non-space character immediately after the
+    # first, never whitespace). Leading [ \t]* tolerates an indented
+    # (nested) list marker the same way. Not special-cased to the A1/A2
+    # text itself -- see test_run_gates.py for the regression coverage.
+    text = re.sub(r"(?m)^[ \t]*-[ \t]+", "\n\n", text)
     paragraphs = re.split(r"\n\s*\n", text)
     out = []
     for para in paragraphs:
@@ -1075,8 +1095,128 @@ def split_sentences(text: str) -> list[str]:
     return out
 
 
+def _md_paragraphs(text: str) -> list[str]:
+    return [p.strip() for p in re.split(r"\n\s*\n", text.strip()) if p.strip()]
+
+
+def front_matter_metadata() -> dict:
+    """G4 repair (Perplexity brief, "Handle front-matter metadata
+    semantically", preferred option 1): structural front matter, not
+    prose. By this artifact's own fixed convention (see PAPER_DRAFT_TEXT's
+    opening in paper_v3.py), the source markdown's first blank-line-
+    separated paragraph is the H1 title and its second is the
+    "Name (Affiliation)" author byline -- title and author identity, not
+    a sentence a random prose sample should ever land on (verified
+    failure mode: "Gaston Besanson (Universidad Torcuato Di Tella)" has
+    no sentence-ending punctuation, so the naive splitter kept it whole
+    and a hash-selected sample landed on it, where LaTeX intentionally
+    renders the affiliation as a \\thanks{} footnote rather than inline
+    markdown-author-line syntax). Position-based (paragraph 1, paragraph
+    2), not a literal match on any one author's name, so this keeps
+    working under a future title/author change without editing this
+    function -- the general, structured solution the brief asks for
+    instead of a one-off substitution."""
+    paragraphs = _md_paragraphs(SOURCE_MD.read_text())
+    title = paragraphs[0].lstrip("#").strip() if paragraphs else ""
+    author_line = paragraphs[1].strip() if len(paragraphs) > 1 else ""
+    # The established "Name (Affiliation)" convention (paper_v3.py's own
+    # front matter, unchanged by this repair) -- splitting on the last
+    # top-level parenthetical is a structural parse of that convention,
+    # not a hardcoded name.
+    m = re.match(r"^(.*?)\s*\(([^()]*)\)\s*$", author_line)
+    author_name = m.group(1).strip() if m else author_line
+    affiliation = m.group(2).strip() if m else ""
+    body_md = "\n\n".join(paragraphs[2:])
+    return {
+        "title": title,
+        "author_name": author_name,
+        "affiliation": affiliation,
+        "body_md": body_md,
+    }
+
+
+def front_matter_check(fm: dict) -> dict:
+    """The deterministic check the brief requires in place of sampling
+    front matter as prose: title, author name, and affiliation must each
+    be present in both the populated Markdown source and main.tex, and
+    this fails if any of them is removed or materially changed --
+    exactly the "structured metadata, verified separately" half of the
+    chosen repair."""
+    tex = MAIN_TEX.read_text()
+
+    title_m = re.search(r"\\title\{([^\n]*)\}", tex)
+    author_m = re.search(r"\\author\{([^\n]*)\}", tex)
+    tex_title = title_m.group(1).strip() if title_m else ""
+    tex_author_raw = author_m.group(1).strip() if author_m else ""
+
+    # \thanks{...} is this document's chosen footnote-affiliation macro
+    # (non-inline, per v0.5 item S11) -- its argument is the affiliation,
+    # and everything in \author{...} before it is the author's name.
+    thanks_m = re.search(r"\\thanks\{([^\n}]*)\}", tex_author_raw)
+    tex_affiliation = thanks_m.group(1).strip() if thanks_m else ""
+    tex_author_name = (tex_author_raw[:thanks_m.start()] if thanks_m else tex_author_raw).strip()
+    # \\ (a manual LaTeX line break, used by some author-block styles)
+    # is not part of the name itself.
+    tex_author_name = re.sub(r"\\\\\s*$", "", tex_author_name).strip()
+
+    title_ok = bool(fm["title"]) and fm["title"] == tex_title
+    author_ok = bool(fm["author_name"]) and fm["author_name"] == tex_author_name
+    affiliation_ok = bool(fm["affiliation"]) and fm["affiliation"] == tex_affiliation
+
+    return {
+        "pass": title_ok and author_ok and affiliation_ok,
+        "title": {"md": fm["title"], "tex": tex_title, "match": title_ok},
+        "author_name": {"md": fm["author_name"], "tex": tex_author_name, "match": author_ok},
+        "affiliation": {"md": fm["affiliation"], "tex": tex_affiliation, "match": affiliation_ok},
+    }
+
+
+# The literal substitutions non-negotiable #4 mandates for a hash-
+# selected sentence to ever be able to match byte-for-byte against the
+# typeset PDF (math-mode symbols, the \proofstatus bracket convention,
+# subscript-underscore loss, ...) -- hoisted to module level (out of
+# gate_g4_prose_parity's body) so both the gate and its own regression/
+# robustness tests in test_run_gates.py apply the exact same transform,
+# not a re-implementation that could silently diverge from it.
+_SANCTIONED_NOTATION = {
+    "admit < substitute < degrade < escalate < block": "admit ⊑ substitute ⊑ degrade ⊑ escalate ⊑ block",
+    "(R, max) is a join semilattice.": "(R, ⊔) is a join semilattice.",
+    "r* = max_i r_i": "r* = ⊔i ri",
+    "sum_i w_i s_i": "i wi si",
+    "iff f(s) >= tau for tau > 0.": "iff f(s) ≥τ for τ > 0.",
+    "weights w_i >= 0,": "weights wi ≥ 0,",
+    "authority cap kappa strictly between the order values": "authority cap κ strictly between the order values",
+}
+
+
+def _normalize_sentence_for_pdf_match(sentence: str) -> str:
+    """The exact transform a sampled source sentence undergoes before
+    G4's substring-containment check against the typeset PDF -- see each
+    _SANCTIONED_NOTATION entry and the inline rho/PROOF-STATUS/subscript
+    rewrites below for what each one is for and why it is safe."""
+    plain = sentence
+    for src, tgt in _SANCTIONED_NOTATION.items():
+        plain = plain.replace(src, tgt)
+    plain = re.sub(r"\brho_sub\b", "ρsub", plain)
+    plain = re.sub(r"\brho_route\b", "ρroute", plain)
+    plain = re.sub(r"\brho\b", "ρ", plain)
+    plain = re.sub(
+        r"PROOF-STATUS: (pending-human-review|machine-checked|checked-scope-only \(REVIEW\.md\))",
+        r"[PROOF-STATUS: \1]",
+        plain,
+    )
+    plain = re.sub(r"\b([A-Za-z]+)_([a-z])\b", r"\1\2", plain)
+    return normalize_ws(plain)
+
+
 def gate_g4_prose_parity() -> dict:
-    head = run(["git", "rev-parse", "HEAD"], cwd=str(REPO_ROOT)).stdout.strip()
+    # Informational only -- NOT the sampling seed (see source_sha256
+    # below). checkers/_provenance.py already establishes
+    # generated_at_head_sha as an informational-only field elsewhere in
+    # this repo (round-two response, finding R2-F1(b)); G4 now follows
+    # the same convention instead of inventing a second one, per the
+    # Perplexity brief's Provenance rule.
+    generated_at_head_sha = run(["git", "rev-parse", "HEAD"], cwd=str(REPO_ROOT)).stdout.strip()
 
     md_slices = md_section_slices()
     pdf_slices = pdf_section_slices()
@@ -1125,15 +1265,39 @@ def gate_g4_prose_parity() -> dict:
             "within_2pct": within,
         }
 
+    # G4 repair (Perplexity brief, "Handle front-matter metadata
+    # semantically", preferred option 1): title/author are structured
+    # identity, checked separately by front_matter_check() below, and
+    # excluded here from the population the random prose sample is drawn
+    # from -- body_md is the source markdown with its first two
+    # paragraphs (title, author byline) stripped, everything else
+    # (companion-artifact line, version history, Abstract, all numbered
+    # sections) unchanged and still sampled.
+    fm = front_matter_metadata()
+    metadata_check = front_matter_check(fm)
+
     # pandoc's plain rendering, not raw markdown: raw markdown's table
     # pipes/bullet hyphens/**bold**/*italic*/`code` markup have no
     # equivalent in the typeset PDF and would either leak into the
     # sampled sentence text or (for bullet markers) let the naive
     # sentence splitter glue two adjacent list items into one bogus
-    # "sentence" that can never match anything.
-    md_plain = run(["pandoc", "-f", "markdown", "-t", "plain", str(SOURCE_MD)]).stdout
+    # "sentence" that can never match anything. Piped via stdin (not a
+    # temp file) since the population being sampled is body_md, not the
+    # whole of SOURCE_MD.
+    md_plain = run(["pandoc", "-f", "markdown", "-t", "plain"], input=fm["body_md"]).stdout
     md_sentences = split_sentences(md_plain)
-    idxs = deterministic_sentence_indices(md_sentences, head, k=10)
+
+    # G4 repair (GPT doc's P1, "Make G4 deterministic from manuscript
+    # content, not Git HEAD"): same principle already applied to CH7's
+    # off-grid probe (prereg/probe-seeds.json, round-two response
+    # R2-F1(b)) for the identical class of issue -- the sampling seed is
+    # now a hash of the manuscript's own bytes, so the same manuscript
+    # content always selects the same ten sentences regardless of commit
+    # SHA, branch, or packaging/README-only commits. generated_at_head_sha
+    # above remains informational provenance only, per
+    # checkers/_provenance.py's documented design.
+    source_sha256 = hashlib.sha256(SOURCE_MD.read_bytes()).hexdigest()
+    idxs = deterministic_sentence_indices(md_sentences, source_sha256, k=10)
     sample_sentences = [md_sentences[i] for i in idxs]
 
     # -layout mode, not reflow: reflow's own internal line-joining drops
@@ -1144,95 +1308,21 @@ def gate_g4_prose_parity() -> dict:
     # breaks are rejoined by this module's own dehyphenate().
     pdf_text_norm = normalize_ws(extract_pdf_text_layout_full())
 
-    # The exact, sole substitutions non-negotiable #4 mandates ("the
-    # restrictiveness order and join use \sqsubseteq and \sqcup") --
-    # applied narrowly to these two literal phrases only, not to every
-    # "max" in the source (Section 3's L* = max_j L_j and Proposition
-    # 2's own proof both use a DIFFERENT, unrelated max and are
-    # deliberately left as \max, matching source). A hash-selected
-    # sentence landing on one of these two mandated rewrites can never
-    # match byte-for-byte without abandoning the non-negotiable, so the
-    # rewrite is normalized here the same way quote/asterisk font
-    # substitution already is above.
-    _SANCTIONED_NOTATION = {
-        "admit < substitute < degrade < escalate < block": "admit ⊑ substitute ⊑ degrade ⊑ escalate ⊑ block",
-        "(R, max) is a join semilattice.": "(R, ⊔) is a join semilattice.",
-        "r* = max_i r_i": "r* = ⊔i ri",
-        # \sum's base symbol is dropped entirely by pdftotext (see the
-        # "P" note in normalize_ws above), not merged with its
-        # subscript like \max_j/\min_i are -- "sum_i w_i s_i" extracts
-        # as "i wi si", the bare index letter with nothing before it.
-        "sum_i w_i s_i": "i wi si",
-        # "tau"/">="/"<=" are this same leave-one-out-weight-sum
-        # formula's own \tau/\geq/\leq (non-negotiable #4's math-mode
-        # mandate) -- scoped to this literal formula fragment rather
-        # than a blanket rewrite, since elsewhere in the document (e.g.
-        # Proposition 3's case-enumeration \texttt spans) "<=" is
-        # deliberately left as literal ASCII inside \texttt, matching
-        # the source's own backtick-code formatting there.
-        "iff f(s) >= tau for tau > 0.": "iff f(s) ≥τ for τ > 0.",
-        "weights w_i >= 0,": "weights wi ≥ 0,",
-        # "kappa" is this paper's authority-cap symbol -- but unlike
-        # tau/rho it is NOT safe to rewrite unconditionally: every
-        # occurrence inside Appendix A's Proposition 3 material (its
-        # "Why this changed" note, "Statement (scoped)", and "Proof
-        # (construction)" paragraphs -- 9 of its 10 occurrences in the
-        # source) is backtick-code and stays literal \texttt{kappa} in
-        # main.tex, while this ONE occurrence, in Section 4's own
-        # main-body statement of Proposition 3 (not backticked in the
-        # source), renders as math $\kappa$ -- verified directly against
-        # main.tex. Scoped to this one literal sentence fragment, the
-        # same policy already applied to tau's own mixed rendering
-        # above, rather than a blanket rewrite that would break the
-        # other 9 occurrences.
-        "authority cap kappa strictly between the order values": "authority cap κ strictly between the order values",
-    }
-
     sentence_report = []
     for i, s in zip(idxs, sample_sentences):
-        plain = s
-        for src, tgt in _SANCTIONED_NOTATION.items():
-            plain = plain.replace(src, tgt)
-        # "rho becomes \rho" (non-negotiable #4) applies to every plain
-        # "rho"/"rho_sub"/"rho_route" occurrence, not just a scoped few
-        # like the restrictiveness-order pair above -- safe to rewrite
-        # unconditionally since "rho" never appears in this source in
-        # any other sense (verified: 18 bare + 10 rho_sub + 4 rho_route,
-        # all the same remediation-map symbol).
-        plain = re.sub(r"\brho_sub\b", "ρsub", plain)
-        plain = re.sub(r"\brho_route\b", "ρroute", plain)
-        plain = re.sub(r"\brho\b", "ρ", plain)
-        # Non-negotiable #1's own mandate ("the three PROOF-STATUS tag
-        # classes ... typeset as small-caps bracketed annotations") adds
-        # a "[" "]" pair the source markdown's "**PROOF-STATUS: tag**"
-        # never had -- a required transformation, not an accidental one,
-        # so the source sentence is bracketed here to match \proofstatus.
-        plain = re.sub(
-            r"PROOF-STATUS: (pending-human-review|machine-checked|checked-scope-only \(REVIEW\.md\))",
-            r"[PROOF-STATUS: \1]",
-            plain,
-        )
-        # Every math-mode subscript in this document (L_j, w_i, s_i,
-        # max_j, min_i, ...) loses its underscore separator on PDF
-        # extraction the same way \sum's glyph is lost above -- verified
-        # directly for "max_j"/"min_i" (Corollary 3's L* = max_j L_j =
-        # W - min_i w_i extracts as "maxj Lj ... mini wi"). Scoped to a
-        # single trailing lowercase letter, which is this paper's actual
-        # subscript-variable style and not the shape of its multi-word
-        # \texttt/\path code identifiers (score_encoding, ch1_supported_
-        # seed_count, ...), so it cannot misfire on those.
-        plain = re.sub(r"\b([A-Za-z]+)_([a-z])\b", r"\1\2", plain)
-        plain = normalize_ws(plain)
+        plain = _normalize_sentence_for_pdf_match(s)
         found = plain in pdf_text_norm
         sentence_report.append({"index": i, "sentence": s[:120], "found": found})
 
     all_sentences_found = all(r["found"] for r in sentence_report)
 
-    ok = all_within and all_sentences_found
+    ok = all_within and all_sentences_found and metadata_check["pass"]
     return {
         "pass": ok,
-        "repo_head": head,
+        "source_sha256": source_sha256,
+        "generated_at_head_sha": generated_at_head_sha,
         "sections": section_report,
+        "front_matter_metadata_check": metadata_check,
         "sentence_sample": sentence_report,
     }
 
@@ -1444,6 +1534,132 @@ def gate_g8_citation_completeness() -> dict:
 
 
 # ---------------------------------------------------------------------------
+# G9: Bibliography quality (v0.5 release-gate repair, GPT recommendations
+# doc's P0: "Add a bibliography-quality gate")
+# ---------------------------------------------------------------------------
+# Before this repair, verified-citations.json stored only citation
+# identity (url, title, first_author, year, doi/arxiv_id); a multi-author
+# paper rendered in refs.bib with only its first author, and every
+# reference emitted as @misc regardless of whether it was actually a
+# journal article or conference paper. This gate makes that a release-
+# check failure instead of a hand-noticed publication-quality gap,
+# enforcing exactly the checks the recommendations doc lists.
+
+VALID_ENTRY_TYPES = {"article", "inproceedings", "incollection", "misc"}
+# entry_type -> the venue field(s) required for that type, per the GPT
+# doc's explicit rules ("article -> journal + year required",
+# "inproceedings -> booktitle + year required"); incollection is the
+# same "chapter within a larger work" shape as inproceedings (a book
+# instead of a proceedings volume) and is held to the same booktitle
+# requirement for consistency, since the doc's own suggested schema
+# gives incollection entries a booktitle field too.
+REQUIRED_VENUE_FIELDS_BY_TYPE = {
+    "article": ("journal",),
+    "inproceedings": ("booktitle",),
+    "incollection": ("booktitle",),
+}
+
+
+def _load_generate_refs_bib_module():
+    # Cross-directory import (paper-tex/generate_refs_bib.py from
+    # paper-tex/gates/run_gates.py) via importlib rather than a sys.path
+    # hack -- loaded purely to call its generate() function in memory
+    # (no file write), so this check never mutates refs.bib itself.
+    spec = importlib.util.spec_from_file_location(
+        "generate_refs_bib", str(PAPER_TEX_DIR / "generate_refs_bib.py")
+    )
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def gate_g9_bibliography_quality() -> dict:
+    data = json.loads(CITATIONS_JSON.read_text())
+    citations = data["citations"]
+
+    invalid_entry_type = []
+    missing_authors = []
+    missing_venue_fields = []
+    doi_mismatches = []
+    misc_with_venue_info = []
+
+    refs_bib_text = REFS_BIB.read_text() if REFS_BIB.exists() else ""
+
+    for c in citations:
+        cid = c.get("id", "<no id>")
+        entry_type = c.get("entry_type")
+
+        if entry_type not in VALID_ENTRY_TYPES:
+            invalid_entry_type.append({"id": cid, "entry_type": entry_type})
+            continue
+
+        # "all scholarly citations have full author lists": every entry
+        # must carry a non-empty authors array, and first_author (kept
+        # for citation_check.py's schema check) must agree with its
+        # first element -- catches the pre-repair failure mode directly
+        # (a stored first_author with no authors array at all, silently
+        # dropping every co-author).
+        authors = c.get("authors")
+        if not authors or c.get("first_author") != authors[0]:
+            missing_authors.append({"id": cid, "authors": authors, "first_author": c.get("first_author")})
+
+        # "article -> journal + year required" / "inproceedings ->
+        # booktitle + year required": year is already a REQUIRED_FIELD
+        # citation_check.py's own schema check enforces on every entry,
+        # so only the type-specific venue field is checked here.
+        for field in REQUIRED_VENUE_FIELDS_BY_TYPE.get(entry_type, ()):
+            if not c.get(field):
+                missing_venue_fields.append({"id": cid, "entry_type": entry_type, "missing_field": field})
+
+        # "all DOI-bearing references preserve DOI exactly": the DOI
+        # string generate_refs_bib.py writes into refs.bib must be
+        # byte-identical to the DOI stored here, not merely present.
+        if "doi" in c:
+            expected_doi_line = f"doi = {{{c['doi']}}},"
+            if expected_doi_line not in refs_bib_text and not refs_bib_text.rstrip().endswith(expected_doi_line.rstrip(",") + "}"):
+                # doi is virtually never the last field written (url/note
+                # always follow it in _entry()), so the comma-terminated
+                # form is the expected one; the endswith fallback only
+                # guards against a future field-order change.
+                doi_mismatches.append({"id": cid, "doi": c["doi"]})
+
+        # GPT doc's "@misc only when unverifiable" rule, in its concrete
+        # automatable form: an entry cannot simultaneously be tagged
+        # misc (no formal venue) and carry a journal/booktitle field --
+        # that combination is itself a contradiction this gate can catch
+        # without a human judgment call about what "unverifiable" means.
+        if entry_type == "misc" and (c.get("journal") or c.get("booktitle")):
+            misc_with_venue_info.append({"id": cid, "journal": c.get("journal"), "booktitle": c.get("booktitle")})
+
+    # "generated refs.bib matches verified-citations.json": regenerate
+    # in memory (never writes to disk) and compare byte-for-byte against
+    # the committed file -- the same drift check G7 already applies to
+    # the arXiv sidecar files, applied here to the bibliography.
+    grb = _load_generate_refs_bib_module()
+    expected_refs_bib = grb.generate()
+    refs_bib_matches = refs_bib_text == expected_refs_bib
+
+    ok = (
+        not invalid_entry_type
+        and not missing_authors
+        and not missing_venue_fields
+        and not doi_mismatches
+        and not misc_with_venue_info
+        and refs_bib_matches
+    )
+    return {
+        "pass": ok,
+        "total_citations": len(citations),
+        "invalid_entry_type": invalid_entry_type,
+        "missing_authors": missing_authors,
+        "missing_venue_fields": missing_venue_fields,
+        "doi_mismatches": doi_mismatches,
+        "misc_with_venue_info": misc_with_venue_info,
+        "refs_bib_matches_generator": refs_bib_matches,
+    }
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -1457,6 +1673,7 @@ def main() -> int:
         "G6_disclosure_and_banners": gate_g6_disclosure_and_banners(),
         "G7_sidecar_sync": gate_g7_sidecar_sync(),
         "G8_citation_completeness": gate_g8_citation_completeness(),
+        "G9_bibliography_quality": gate_g9_bibliography_quality(),
     }
     all_pass = all(g["pass"] for g in results.values())
     report = {"all_pass": all_pass, "gates": results}
