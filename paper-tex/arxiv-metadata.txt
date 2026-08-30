@@ -49,5 +49,6 @@ CC BY 4.0 (per ADR-003)
 
 Linked artifacts
 -----------------
+arXiv: 2608.18360
 GitHub repository: https://github.com/besanson/sarc-suite-one-pass
 Zenodo DOI: 10.5281/zenodo.22003399

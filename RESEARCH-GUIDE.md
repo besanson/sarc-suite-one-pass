@@ -1,7 +1,8 @@
 # Research Guide
 
 Companion guide for the paper *One Gate Is Not Enough: Composing
-Stateful Pre-Action Controls for Agentic AI*.
+Stateful Pre-Action Controls for Agentic AI*
+(arXiv [2608.18360](https://arxiv.org/abs/2608.18360)).
 
 The [README](README.md) is artifact-oriented: it gets a reproduction
 environment running. This file is reviewer-oriented: it answers the
@@ -124,6 +125,15 @@ every build.
   GIGO-Bench release, not the proprietary Suite.
 - See `docs/generalized-composition.md` for the generalized model this
   scope stops short of, and why.
+
+## Roadmap
+
+- **Authority-completeness and execution-grant binding.**
+  Authority-completeness: deriving which properties must be
+  authority-bearing from a consequence model, rather than declaring
+  them. Execution-grant binding: a consumable per-execution
+  authorization. Motivated by an independent replication's coverage-
+  boundary findings; see `REPLICATIONS.md`.
 
 ## Reproduction entry points
 

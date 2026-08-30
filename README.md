@@ -3,7 +3,7 @@
 Companion artifact for the paper *One Gate Is Not Enough: Composing
 Stateful Pre-Action Controls for Agentic AI* (`paper4-composition-draft-v0.5-populated.md`, `paper-tex/main.tex`).
 
-DOI: [10.5281/zenodo.22003399](https://doi.org/10.5281/zenodo.22003399)
+DOI: [10.5281/zenodo.22003399](https://doi.org/10.5281/zenodo.22003399) | arXiv: [2608.18360](https://arxiv.org/abs/2608.18360)
 
 Once a pre-action governance control is permitted to transform the
 action it governs, governance stops being a set of independent checks
@@ -408,6 +408,10 @@ author's own AI assistant; only the review *execution* against each
 committed protocol was performed independently.
 
 Automated review complements and does not replace human peer review.
+
+Independent third-party replications of this artifact (post-release,
+by outside parties, distinct from the commissioned review rounds
+above) are tracked in [`REPLICATIONS.md`](REPLICATIONS.md).
 
 ## License
 
